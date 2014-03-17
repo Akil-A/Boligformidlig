@@ -66,6 +66,46 @@ public class Boligsoker extends Person {
 
 	public String getUtleiepris() {
 		return utleiepris;
+	}
+
+	public void setAntallPersoner(int antallPersoner) {
+		this.antallPersoner = antallPersoner;
+	}
+
+	public void setSivilstatus(String sivilstatus) {
+		this.sivilstatus = sivilstatus;
+	}
+
+	public void setYrke(String yrke) {
+		this.yrke = yrke;
+	}
+
+	public void setArbeidsforhold(String arbeidsforhold) {
+		this.arbeidsforhold = arbeidsforhold;
+	}
+
+	public void setRoyker(boolean royker) {
+		this.royker = royker;
+	}
+
+	public void setHusdyr(boolean husdyr) {
+		this.husdyr = husdyr;
+	}
+
+	public void setBoareal(int boareal) {
+		this.boareal = boareal;
+	}
+
+	public void setAntallRom(int antallRom) {
+		this.antallRom = antallRom;
+	}
+
+	public void setByggeaar(String byggeaar) {
+		this.byggeaar = byggeaar;
+	}
+
+	public void setUtleiepris(String utleiepris) {
+		this.utleiepris = utleiepris;
 	}	
 }
 
