@@ -5,7 +5,7 @@ public class Leilighet extends Bolig
  private boolean balkong;
  private String leilighetsnr;
  
- public Leilighet(int etasje, boolean heis, boolean balkong, String leilighetsnr, String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, String utleiepris, int aar, int maaned, int dag)
+ public Leilighet(int etasje, boolean heis, boolean balkong, String leilighetsnr, String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, int utleiepris, int aar, int maaned, int dag)
  {
     super(adresse,boareal,antrom,byggeaar,beskrivelse,utleiepris,aar,maaned,dag);
     
