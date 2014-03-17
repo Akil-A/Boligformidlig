@@ -12,16 +12,29 @@ public class Rekkehus extends Bolig
 	this.kjeller = kjeller;
 	this.tomtestr = tomtestr;
 	}
-public int getAntetasjer()
-{
-	return antetasjer;
-}
-public boolean getKjeller()
-{
-	return kjeller;
-}
-public int getTomtestr()
-{
-	return tomtestr;
-}
+
+	public int getAntetasjer() {
+		return antetasjer;
+	}
+
+	public void setAntetasjer(int antetasjer) {
+		this.antetasjer = antetasjer;
+	}
+
+	public boolean isKjeller() {
+		return kjeller;
+	}
+
+	public void setKjeller(boolean kjeller) {
+		this.kjeller = kjeller;
+	}
+
+	public int getTomtestr() {
+		return tomtestr;
+	}
+
+	public void setTomtestr(int tomtestr) {
+		this.tomtestr = tomtestr;
+	}
+
 }
