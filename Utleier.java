@@ -1,4 +1,3 @@
-
 public class Utleier extends Person {
 	
 	private String firma;
@@ -8,19 +7,17 @@ public class Utleier extends Person {
 	{
 		super(navn, adresse, email, telefon);
 	}
-	
-	public String getFirma()
-	{
+
+	public String getFirma() {
 		return firma;
-	}
-	
-	public Boligliste getBoligliste()
-	{
-		return boligliste;
 	}
 
 	public void setFirma(String firma) {
 		this.firma = firma;
+	}
+
+	public Boligliste getBoligliste() {
+		return boligliste;
 	}
 
 	public void setBoligliste(Boligliste boligliste) {
