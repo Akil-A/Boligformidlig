@@ -18,4 +18,12 @@ public class Utleier extends Person {
 	{
 		return boligliste;
 	}
+
+	public void setFirma(String firma) {
+		this.firma = firma;
+	}
+
+	public void setBoligliste(Boligliste boligliste) {
+		this.boligliste = boligliste;
+	}
 }
