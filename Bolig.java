@@ -1,7 +1,6 @@
 public class Bolig 
 {
 private String adresse;
-private String boligtype;
 private int boareal;
 private int antrom;
 private String byggeaar;
@@ -11,10 +10,9 @@ private int aar;
 private int maaned;
 private int dag;
 
-public Bolig(String adresse,String boligtype, int boareal, int antrom,String byggeaar,String beskrivelse, String utleiepris, int aar, int maaned, int dag)
+public Bolig(String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, String utleiepris, int aar, int maaned, int dag)
 {
 	this.adresse = adresse;
-	this.boligtype = boligtype;
 	this.boareal = boareal;
 	this.antrom = antrom;
 	this.byggeaar = byggeaar;
@@ -29,10 +27,7 @@ public String getAdresse()
 {
 	return adresse;
 }
-public String getBoligtype()
-{
-	return boligtype;
-}
+
 public int getBoareal()
 {
 	return boareal;
