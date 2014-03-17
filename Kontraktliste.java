@@ -4,7 +4,7 @@ public class Kontraktliste
 	
 		List<Kontrakt> kontrakter = new ArrayList<>();
 		
-		public void setInnKontrakt(Kontrakt k)
+		public void settInnKontrakt(Kontrakt k)
 		{
 			kontrakter.add(k);
 		}
@@ -14,15 +14,29 @@ public class Kontraktliste
 			kontrakter.remove(indeks);
 		}
 		
-		public Kontraktliste finnKontrakt(String navn, String adresse)
+		public Kontrakt finnKontrakt(String navn, String adresse)
 		{
-			List<Kontrakt> kl = new ArrayList<>();
-			Iterator<Kontrakt> iter = kontrakter.iterator();
+			ListIterator<Kontrakt> iter = kontrakter.listIterator();
 		
 			while(iter.hasNext())
 			{
-				if (iter.getNavn().equals(navn) || iter.getAdresse().equals(adresse) )
+				if (iter.next().getNavn().equals(navn) || iter.next().getAdresse().equals(adresse) )
+				{
+					iter.add(iter.next());
+				}
+				else 
+					iter.next();
 			}
+			return iter.next();
+		}
 		
+		public String visKontrakt()
+		{
+			ListIterator<Kontrakt> iter = kontrakter.listIterator();
+			
+			String s = "";
+			
+			
 		}
 }
+
