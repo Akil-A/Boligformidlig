@@ -1,6 +1,7 @@
 public class Bolig 
 {
 private String adresse;
+
 private int boareal;
 private int antrom;
 private String byggeaar;
@@ -10,7 +11,7 @@ private int aar;
 private int maaned;
 private int dag;
 
-public Bolig(String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, String utleiepris, int aar, int maaned, int dag)
+public Bolig(String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, int utleiepris, int aar, int maaned, int dag)
 {
 	this.adresse = adresse;
 	this.boareal = boareal;
@@ -23,39 +24,89 @@ public Bolig(String adresse, int boareal, int antrom,String byggeaar,String besk
 	this.dag = dag;
 }
 
+public void setAdresse(String adresse) 
+{
+	this.adresse = adresse;
+}
+
 public String getAdresse()
 {
 	return adresse;
+}
+
+public void setAntrom(int antrom) 
+{
+	this.antrom = antrom;
+}
+
+public int getAntrom()
+{
+	return antrom;
+}
+
+public void setBoareal(int boareal) 
+{
+	this.boareal = boareal;
 }
 
 public int getBoareal()
 {
 	return boareal;
 }
-public int getAntrom()
+
+public void setByggeaar(String byggeaar) 
 {
-	return antrom;
+	this.byggeaar = byggeaar;
 }
 public String getByggeaar()
 {
 	return byggeaar;
 }
+
+public void setBeskrivelse(String beskrivelse) 
+{
+	this.beskrivelse = beskrivelse;
+}
+
 public String getBeskrivelse()
 {
 	return beskrivelse;
+}
+
+public void setUtleiepris(int utleiepris) 
+{
+	this.utleiepris = utleiepris;
 }
 public int getUtleiepris()
 {
 	return utleiepris;
 }
+
+public void setAar(int aar) 
+{
+	this.aar = aar;
+}
+
 public int getAar()
 {
 	return aar;
 }
+
+public void setMaaned(int maaned) 
+{
+	this.maaned = maaned;
+}
+
 public int getMaaned()
 {
 	return maaned;
 }
+
+public void setDag(int dag)
+{
+	this.dag = dag;
+}
+
 public int getDag()
 {
 	return dag;
