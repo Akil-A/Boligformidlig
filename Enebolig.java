@@ -12,16 +12,35 @@ public class Enebolig extends Bolig
 	this.kjeller = kjeller;
 	this.tomtestr = tomtestr;
 	}
-public int getAntetasjer()
+	
+public void setAntetasjer(int antetasjer) 
+{
+		this.antetasjer = antetasjer;
+}
+public int getAntetasjer() 
 {
 	return antetasjer;
 }
-public boolean getKjeller()
+
+public void setKjeller(boolean kjeller) 
 {
+	this.kjeller = kjeller;
+}
+
+public boolean getKjeller() {
 	return kjeller;
 }
-public int getTomtestr()
+
+public void setTomtestr(int tomtestr)
 {
+	this.tomtestr = tomtestr;
+}
+public int getTomtestr() {
 	return tomtestr;
 }
+
+
+
+
+
 }
