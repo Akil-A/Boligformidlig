@@ -47,4 +47,13 @@ public void setLeilighetsnr(String leilighetsnr) {
 	this.leilighetsnr = leilighetsnr;
 }
 
+public String toString()
+{
+	return super.toString() +
+		"\nEtasje: " + etasje +
+		"\nHeis: " + (heis ? "ja" : "nei") +
+		"\nBalkong: " + (balkong? "ja" : "nei") +
+		"\nLeilighet nr." + leilighetsnr;
+}
+
 }
