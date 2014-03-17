@@ -14,20 +14,37 @@ public class Leilighet extends Bolig
     this.balkong = balkong;
     this.leilighetsnr = leilighetsnr;
  }
- public int getEtasje()
- {
-	 return etasje;
- }
- public boolean getHeis()
- {
-	 return heis;
- }
- public boolean getBalkong()
- {
-	 return balkong;
- }
- public String getLeilighetsnr()
- {
-	 return leilighetsnr;
- }
+
+public int getEtasje() {
+	return etasje;
+}
+
+public void setEtasje(int etasje) {
+	this.etasje = etasje;
+}
+
+public boolean isHeis() {
+	return heis;
+}
+
+public void setHeis(boolean heis) {
+	this.heis = heis;
+}
+
+public boolean isBalkong() {
+	return balkong;
+}
+
+public void setBalkong(boolean balkong) {
+	this.balkong = balkong;
+}
+
+public String getLeilighetsnr() {
+	return leilighetsnr;
+}
+
+public void setLeilighetsnr(String leilighetsnr) {
+	this.leilighetsnr = leilighetsnr;
+}
+
 }
