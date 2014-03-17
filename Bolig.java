@@ -5,7 +5,7 @@ private int boareal;
 private int antrom;
 private String byggeaar;
 private String beskrivelse;
-private String utleiepris;
+private int utleiepris;
 private int aar;
 private int maaned;
 private int dag;
@@ -44,7 +44,7 @@ public String getBeskrivelse()
 {
 	return beskrivelse;
 }
-public String getUtleiepris()
+public int getUtleiepris()
 {
 	return utleiepris;
 }
