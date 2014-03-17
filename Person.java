@@ -33,5 +33,20 @@ public class Person {
 	{
 		return telefon;
 	}
-	
+
+	public void setNavn(String navn) {
+		this.navn = navn;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setTelefon(String telefon) {
+		this.telefon = telefon;
+	}
 }
