@@ -4,9 +4,9 @@ public class Rekkehus extends Bolig
 	private boolean kjeller;
 	private int tomtestr;
 	
-	public Rekkehus(int antetasjer, boolean kjeller, int tomtestr,String adresse,String boligtype, int boareal, int antrom,String byggeaar,String beskrivelse, String utleiepris, int aar, int maaned, int dag)
+	public Rekkehus(int antetasjer, boolean kjeller, int tomtestr,String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, String utleiepris, int aar, int maaned, int dag)
 	{
-	super(adresse,boligtype,boareal,antrom,byggeaar,beskrivelse,utleiepris,aar,maaned,dag);	
+	super(adresse,boareal,antrom,byggeaar,beskrivelse,utleiepris,aar,maaned,dag);	
 	
 	this.antetasjer = antetasjer;
 	this.kjeller = kjeller;
