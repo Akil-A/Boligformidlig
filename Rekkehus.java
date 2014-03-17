@@ -36,5 +36,14 @@ public class Rekkehus extends Bolig
 	public void setTomtestr(int tomtestr) {
 		this.tomtestr = tomtestr;
 	}
+	
+	
+	public String toString()
+	{
+		return super.toString() +
+		"\nAntall etasjer: " + antetasjer +
+		"\nKjeller: " + (kjeller ? "ja" : "nei") +
+		"\nTomtestr.: " + tomtestr + " kvm";
+	}
 
 }
