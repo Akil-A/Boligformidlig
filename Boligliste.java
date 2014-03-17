@@ -1,5 +1,3 @@
-/** IKKE FERDIG **/
-
 import java.util.*;
 
 public class Boligliste
@@ -16,11 +14,11 @@ public class Boligliste
 		boliger.remove(indeks);
 	}
 	
-	public List<Bolig> finnBolig(String adresse, int boareal, int antrom, String byggeaar, int utleiepris)
+	public Boligliste finnBolig(String adresse, int boareal, int antrom, String byggeaar, int utleiepris)
 	{
 		List<Bolig> bl = new ArrayList<>();
 		
-		Iterator<Bolig> iter = bl.iterator();
+		Iterator<Bolig> iter = boliger.iterator();
 		
 		while (iter.hasNext())
 		{
