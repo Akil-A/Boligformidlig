@@ -32,80 +32,80 @@ public class Boligsoker extends Person {
 		return antallPersoner;
 	}
 
-	public String getSivilstatus() {
-		return sivilstatus;
-	}
-
-	public String getYrke() {
-		return yrke;
-	}
-
-	public String getArbeidsforhold() {
-		return arbeidsforhold;
-	}
-
-	public boolean isRoyker() {
-		return royker;
-	}
-
-	public boolean isHusdyr() {
-		return husdyr;
-	}
-
-	public int getBoareal() {
-		return boareal;
-	}
-
-	public int getAntallRom() {
-		return antallRom;
-	}
-
-	public String getByggeaar() {
-		return byggeaar;
-	}
-
-	public String getUtleiepris() {
-		return utleiepris;
-	}
-
 	public void setAntallPersoner(int antallPersoner) {
 		this.antallPersoner = antallPersoner;
+	}
+
+	public String getSivilstatus() {
+		return sivilstatus;
 	}
 
 	public void setSivilstatus(String sivilstatus) {
 		this.sivilstatus = sivilstatus;
 	}
 
+	public String getYrke() {
+		return yrke;
+	}
+
 	public void setYrke(String yrke) {
 		this.yrke = yrke;
+	}
+
+	public String getArbeidsforhold() {
+		return arbeidsforhold;
 	}
 
 	public void setArbeidsforhold(String arbeidsforhold) {
 		this.arbeidsforhold = arbeidsforhold;
 	}
 
+	public boolean isRoyker() {
+		return royker;
+	}
+
 	public void setRoyker(boolean royker) {
 		this.royker = royker;
+	}
+
+	public boolean isHusdyr() {
+		return husdyr;
 	}
 
 	public void setHusdyr(boolean husdyr) {
 		this.husdyr = husdyr;
 	}
 
+	public int getBoareal() {
+		return boareal;
+	}
+
 	public void setBoareal(int boareal) {
 		this.boareal = boareal;
+	}
+
+	public int getAntallRom() {
+		return antallRom;
 	}
 
 	public void setAntallRom(int antallRom) {
 		this.antallRom = antallRom;
 	}
 
+	public String getByggeaar() {
+		return byggeaar;
+	}
+
 	public void setByggeaar(String byggeaar) {
 		this.byggeaar = byggeaar;
 	}
 
+	public String getUtleiepris() {
+		return utleiepris;
+	}
+
 	public void setUtleiepris(String utleiepris) {
 		this.utleiepris = utleiepris;
-	}	
+	}
 }
 
