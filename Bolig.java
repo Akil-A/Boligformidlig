@@ -51,7 +51,7 @@ public String getBeskrivelse()
 }
 public String getUtleiepris()
 {
-	return beskrivelse;
+	return utleiepris;
 }
 public int getAar()
 {
