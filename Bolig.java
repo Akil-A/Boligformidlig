@@ -111,4 +111,18 @@ public int getDag()
 {
 	return dag;
 }
+
+public String toString()
+{
+	String s  "Boareal: " + boareal + "/n"
+			+ "Antall rom: " + antrom + "/n"
+			+ "Byggaar: " + byggeaar + "/n"
+			+ "Beskrivelse: " + beskrivelse + "/n"
+			+ "Utleiepris: " + utleiepris + "/n"
+			+ "AAr: " + aar + "."
+			+ "maaned: " + "." 
+			+ "Dag: " + dag;
+	return s;
+}
+}
 }
