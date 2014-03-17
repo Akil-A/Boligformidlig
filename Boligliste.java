@@ -18,17 +18,17 @@ public class Boligliste
 			int antetasjer, boolean kjeller, int tomtestr,
 			int etasje, boolean heis, boolean balkong)
 	{
-		List<Bolig> bl = new ArrayList<>();
+		Boligliste bl = new Boligliste();
 		
-		Iterator<Bolig> iter = boliger.iterator();
+		ListIterator<Bolig> iter = boliger.listIterator();
 		
 		while (iter.hasNext())
 		{
-			if (iter.getAdresse().equals(adresse) || iter.getBoareal() == boareal || iter.getAntrom() == antrom ||
-					iter.getByggeaar().equals(byggeaar) || iter.getUtleiepris() == utleiepris ||
-					((iter instanceof Enebolig || iter instanceof Rekkehus) && (iter.getAntetasjer() == antetasjer || iter.getKjeller() == kjeller || iter.getTomtestr() == tomtestr)) ||
-					(iter instanceof Leilighet && (iter.getEtasje() == etasje || iter.isHeis() == heis || iter.isBalkong() == balkong)))
-				bl.add(iter.next());
+			if (iter.next().getAdresse().equals(adresse) || iter.next().getBoareal() == boareal || iter.next().getAntrom() == antrom ||
+					iter.next().getByggeaar().equals(byggeaar) || iter.next().getUtleiepris() == utleiepris ||
+					((iter instanceof Enebolig || iter instanceof Rekkehus) && (((Enebolig)iter.next()).getAntetasjer() == antetasjer || ((Enebolig)iter.next()).getKjeller() == kjeller || ((Enebolig)iter.next()).getTomtestr() == tomtestr)) ||
+					(iter instanceof Leilighet && (((Leilighet)iter.next()).getEtasje() == etasje || ((Leilighet)iter.next()).isHeis() == heis || ((Leilighet)iter.next()).isBalkong() == balkong)))
+				bl.settInnBolig(iter.next());
 			else
 				iter.next();
 		}
