@@ -1,4 +1,3 @@
-
 public class Boligsystem
 {
 	private Personliste personer;
