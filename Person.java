@@ -1,4 +1,3 @@
-
 public class Person {
 
 private String fornavn;
@@ -9,7 +8,7 @@ private String telefon;
 private String poststed;
 private int postnr;
 
-public Person(String fornavn, String etternavn, String adresse, String email, String telefon, String poststed, int postnr)
+public Person(String fornavn, String etternavn, String adresse, String poststed, int postnr, String email, String telefon)
 {
 this.fornavn = fornavn;
 this.etternavn = etternavn;
