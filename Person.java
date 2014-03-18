@@ -1,6 +1,8 @@
 public class Person
 {
 	private int personNr;
+	private static int personTeller = 0;
+	
 	private String fornavn;
 	private String etternavn;
 	private String adresse;
@@ -9,10 +11,10 @@ public class Person
 	private String poststed;
 	private int postnr;
 	
-	private static int personTeller = 0;
-	
 	public Person(String fornavn, String etternavn, String adresse, String poststed, int postnr, String email, String telefon)
 	{
+		personNr = personTeller++;
+		
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
 		this.adresse = adresse;
@@ -20,8 +22,6 @@ public class Person
 		this.telefon = telefon;
 		this.poststed = poststed;
 		this.postnr = postnr;
-		
-		personNr = personTeller++;
 	}
 	
 	public int getPersonNr()
