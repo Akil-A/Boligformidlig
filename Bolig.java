@@ -1,7 +1,8 @@
 public class Bolig 
 {
 private String adresse;
-
+private int postnr;
+private String poststed;
 private int boareal;
 private int antrom;
 private String byggeaar;
@@ -11,9 +12,11 @@ private int aar;
 private int maaned;
 private int dag;
 
-public Bolig(String adresse, int boareal, int antrom,String byggeaar,String beskrivelse, int utleiepris, int aar, int maaned, int dag)
+public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom,String byggeaar,String beskrivelse, int utleiepris, int aar, int maaned, int dag)
 {
 	this.adresse = adresse;
+	this.postnr = postnr;
+	this.poststed = poststed;
 	this.boareal = boareal;
 	this.antrom = antrom;
 	this.byggeaar = byggeaar;
@@ -32,6 +35,24 @@ public void setAdresse(String adresse)
 public String getAdresse()
 {
 	return adresse;
+}
+
+public void setPostnr(int postnr) 
+{
+	this.postnr = postnr;
+}
+
+public int getPostnr() 
+{
+	return postnr;
+}
+
+public String getPoststed() {
+	return poststed;
+}
+
+public void setPoststed(String poststed) {
+	this.poststed = poststed;
 }
 
 public void setAntrom(int antrom) 
@@ -111,10 +132,9 @@ public int getDag()
 {
 	return dag;
 }
-
 public String toString()
 {
-	String s  "Boareal: " + boareal + "/n"
+	String s = "Boareal: " + boareal + "/n"
 			+ "Antall rom: " + antrom + "/n"
 			+ "Byggaar: " + byggeaar + "/n"
 			+ "Beskrivelse: " + beskrivelse + "/n"
@@ -123,6 +143,5 @@ public String toString()
 			+ "maaned: " + "." 
 			+ "Dag: " + dag;
 	return s;
-}
 }
 }
