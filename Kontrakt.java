@@ -1,14 +1,21 @@
+import java.util.Date;
+
 
 public class Kontrakt 
 {
-	private Utleier utleier;
-	private Boligsoker leietaker;
-	private Bolig bolig;
-	private String startdato;
-	private String sluttdato;
+	private int kontraktNr;
+	private static int kontraktTeller = 0;
+	
+	private int utleierNr;
+	private int leietakerNr; // leietaker er det samme som boligsøker
+	private int boligNr;
+	private Date startdato;
+	private Date sluttdato;	
 	
 	public Kontrakt(Utleier utleier, Boligsoker leietaker, Bolig bolig, String startdato, String sluttdato)
 	{
+		kontraktNr = kontraktTeller++;
+		
 		this.utleier = utleier;
 		this.leietaker = leietaker;
 		this.bolig = bolig;
