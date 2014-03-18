@@ -1,26 +1,32 @@
-public class Utleier extends Person {
-	
-	private String firma;
-	private Boligliste boligliste;
-	
-	public Utleier (String navn, String adresse, String email, String telefon, String firma, Boligliste boligliste)
-	{
-		super(navn, adresse, email, telefon);
-	}
+public class Utleier extends Person 
+{
 
-	public String getFirma() {
-		return firma;
-	}
+private String firma;
+private Boligliste boligliste;
 
-	public void setFirma(String firma) {
-		this.firma = firma;
-	}
+public Utleier (String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon, String firma)
+{
+	super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+	boligliste = new Boligliste();
+}
 
-	public Boligliste getBoligliste() {
-		return boligliste;
-	}
+public String getFirma() 
+{
+	return firma;
+}
 
-	public void setBoligliste(Boligliste boligliste) {
-		this.boligliste = boligliste;
-	}
+public void setFirma(String firma) 
+{
+	this.firma = firma;
+}
+
+public Boligliste getBoligliste() 
+{
+	return boligliste;
+}
+
+public void setBoligliste(Boligliste boligliste) 
+{
+	this.boligliste = boligliste;
+}
 }
