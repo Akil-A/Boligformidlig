@@ -7,7 +7,7 @@ public class Hovedvindu extends JFrame
 {
 	private JButton personer, nyperson, boliger, nybolig, kontrakter;
 	private Lytter lytter;
-	public Boligsystem bs;
+	public Boligregister br;
 	
 	public Hovedvindu()
 	{
@@ -15,7 +15,7 @@ public class Hovedvindu extends JFrame
 		setSize(400, 250);
 		
 		// må hentes fra fil
-		bs = new Boligsystem(new ArrayList<Person>(), new ArrayList<Kontrakt>());
+		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>());
 		
 		personer = new JButton("Personer");
 		personer.addActionListener(lytter);
@@ -81,15 +81,15 @@ public class Hovedvindu extends JFrame
 		{
 			/*
 			if (e.getSource() == personer)
-				Personvindu p = new Personvindu(bs);
+				Personvindu p = new Personvindu(br);
 			else if (e.getSource() == nyperson)
-				Nypersonvindu np = new Nypersonvindu(bs);
+				Nypersonvindu np = new Nypersonvindu(br);
 			else if (e.getSource() == boliger)
-				Boligvindu b = new Boligvindu(bs);
+				Boligvindu b = new Boligvindu(br);
 			else if (e.getSource() == nybolig)
-				Nyboligvindu nb = new Nyboligvindu(bs);
+				Nyboligvindu nb = new Nyboligvindu(br);
 			else if (e.getSource() == kontrakter)
-				Kontraktvindu k = new Kontraktvindu(bs);
+				Kontraktvindu k = new Kontraktvindu(br);
 			*/
 		}
 	}
