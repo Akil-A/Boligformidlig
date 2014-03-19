@@ -1,80 +1,36 @@
-import java.util.Date;
+import java.util.*;
 
+public class Kontraktliste
 
-public class Kontrakt 
 {
-	private int kontraktNr;
-	private static int kontraktTeller = 0;
+	List<Kontrakt> kontrakter = new ArrayList<>();
 	
-	private int utleierNr;
-	private int leietakerNr; // leietaker er det samme som boligsøker
-	private int boligNr;
-	private Date startdato;
-	private Date sluttdato;	
-	
-	public Kontrakt(int utleierNr, int leietakerNr, int boligNr, Date startdato, Date sluttdato)
+	public void settInnKontrakt(Kontrakt k)
 	{
-		kontraktNr = kontraktTeller++;
+		kontrakter.add(k);
+	}
+	
+	public void slettKontrakt(int indeks)
+	{
+		kontrakter.remove(indeks);
+	}
+	
+	public Kontrakt finnKontrakt(int kontraktNr)
+	{
+		ListIterator<Kontrakt> iter = kontrakter.listIterator();
 		
-		this.utleierNr = utleierNr;
-		this.leietakerNr = leietakerNr;
-		this.boligNr = boligNr;
-		this.startdato = startdato;
-		this.sluttdato = sluttdato;
+		while(iter.hasNext())
+			if(iter.next().getKontraktNr() == kontraktNr)
+				return iter.next();
+		
+		return null;
 	}
-
-	public int getKontraktNr()
+	
+	public String visKontrakt()
 	{
-		return kontraktNr;
-	}
-
-	public int getUtleierNr()
-	{
-		return utleierNr;
-	}
-
-	public void setUtleier(int utleierNr)
-	{
-		this.utleierNr = utleierNr;
-	}
-
-	public int getLeietakerNr()
-	{
-		return leietakerNr;
-	}
-
-	public void setLeietakerNr(int leietakerNr)
-	{
-		this.leietakerNr = leietakerNr;
-	}
-
-	public int getBoligNr()
-	{
-		return boligNr;
-	}
-
-	public void setBoligNr(int boligNr)
-	{
-		this.boligNr = boligNr;
-	}
-
-	public Date getStartdato()
-	{
-		return startdato;
-	}
-
-	public void setStartdato(Date startdato)
-	{
-		this.startdato = startdato;
-	}
-
-	public Date getSluttdato()
-	{
-		return sluttdato;
-	}
-
-	public void setSluttdato(Date sluttdato)
-	{
-		this.sluttdato = sluttdato;
+		ListIterator<Kontrakt> iter = kontrakter.listIterator();
+		String s = "";
+		s += iter.next().toString();
+		return s;
 	}
 }
