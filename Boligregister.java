@@ -55,13 +55,13 @@ public class Boligregister
 		return personer;
 	}
 	
-	public ArrayList<Person> getBoligsokere()
+	public ArrayList<Boligsoker> getBoligsokere()
 	{
-		ArrayList<Person> pl = new ArrayList<>();
+		ArrayList<Boligsoker> pl = new ArrayList<>();
 		
 		for (Person p : personer)
 			if (p instanceof Boligsoker)
-				pl.add(p);
+				pl.add((Boligsoker) p);
 		
 		return pl;
 	}
