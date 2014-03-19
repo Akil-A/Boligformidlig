@@ -3,41 +3,58 @@ import java.util.*;
 public class Personliste
 
 {
-	List<Person> personer = new ArrayList<>();
-
+	List<Person> personer;
+	
+	public Personliste()
+	{
+		personer = new ArrayList<>();
+	}
+	
+	public Bolig finnBolig(int boligNr)
+	{
+		// loop gjennom alle Utleiere, ta Utleier.Boligliste.finnBolig(boligNr)
+		
+		return null;
+	}
+	
+	public Boligliste sokBoliger(String kriterier)
+	{
+		// loop gjennom Utleiere, søk gjennom boliglistene deres etter boliger som matcher kriteriene
+		
+		return null;
+	}
 
 	public void settInnPerson(Person p)
 	{
 		personer.add(p);
 	}
 	
-	public void fjernPerson(int indeks)
+	// indeks-parametern må gjøres om til personNr. loop gjennom, ta iterator.remove()
+	public void slettPerson(int indeks)
 	{
 		personer.remove(indeks);
 	}
 	
-	public Person finnPerson(String fornavn, String etternavn, String telefon)
+	public Person finnPerson(int personNr)
 	{
 		ListIterator<Person> iter = personer.listIterator();
 		
-	while(iter.hasNext())
-		{
-			if(iter.next().getFornavn().equals(fornavn) && iter.next().getEtternavn().equals(etternavn) && iter.next().getTelefon().equals(telefon))
-			{
-				iter.add(iter.next());
-			}
-			else
-				iter.next();
-		}
-		return iter.next();
+		while(iter.hasNext())
+			if(iter.next().getPersonNr() == personNr)
+				return iter.next();
+		
+		return null;
 	}
 	
-	public String visPerson()
+	public String visListe()
 	{
-		ListIterator<Person> iter = personer.listIterator();
+		Iterator<Person> iter = personer.iterator();
+		
 		String s = "";
-		s += iter.next().toString();
+		
+		while (iter.hasNext())
+			s += iter.next().toString() + "\n";
+		
 		return s;
 	}
-
 }
