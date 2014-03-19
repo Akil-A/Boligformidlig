@@ -3,42 +3,46 @@ public class Boligsystem
 	private Personliste personer;
 	private Kontraktliste kontrakter;
 	
-	public Boligsystem(p, k)
+	public Boligsystem(Personliste p, Kontraktliste k)
 	{
 		personer = p;
 		kontrakter = k;
 	}
 	
-	public Person finnPerson( personNr )
+	public Person finnPerson( int personNr )
 	{
 		return personer.finnPerson( personNr );
 	}
 	
-	public Bolig finnBolig( ... )
+	public Bolig finnBolig( int boligNr )
 	{
-		return personer.finnBolig( ... );
+		return personer.finnBolig( boligNr );
 	}
 	
-	public Boligliste sokBoliger( ... )
+	public Boligliste sokBoliger( String kriterier )
 	{
-		return personliste.sokBoliger( ... );
+		return personer.sokBoliger( kriterier );
 	}
 	
-	public Kontrakt finnKontrakt( ... )
+	public Kontrakt finnKontrakt( int kontraktNr )
 	{
-		return kontrakter.finnKontrakt( ... );
+		return kontrakter.finnKontrakt( kontraktNr );
 	}
 	
-	public void nyPerson(Person p)
+	public void settInnPerson(Person p)
 	{
-		personer.nyPerson(p);
+		personer.settInnPerson(p);
+	}
+
+	// indeks-parametern må gjøres om til personNr i Personliste-klassen
+	public void slettPerson(int indeks)
+	{
+		personer.slettPerson(indeks);
 	}
 	
-	public void slettPerson(int personNr)
-	{
-		personer.slettPerson(personNr);
-	}
 	
+	/* Metodene nedenfor, trengs de? Når man lagrer til og henter fra fil?
+	 ===================================== */
 	public Personliste getPersoner()
 	{
 		return personer;
@@ -54,7 +58,7 @@ public class Boligsystem
 		return kontrakter;
 	}
 	
-	public void setPersoner(Kontraktliste k)
+	public void setKontrakter(Kontraktliste k)
 	{
 		kontrakter = k;
 	}
