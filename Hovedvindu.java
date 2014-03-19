@@ -14,7 +14,7 @@ public class Hovedvindu extends JFrame
 		super("Boligformidling");
 		
 		// må hentes fra fil
-		bs = new Boligsystem();
+		bs = new Boligsystem(new Personliste(), new Kontraktliste());
 		
 		personer = new JButton("Personer");
 		personer.addActionListener(lytter);
@@ -30,13 +30,13 @@ public class Hovedvindu extends JFrame
 		
 		kontrakter = new JButton("Kontrakter");
 		kontrakter.addActionListener(lytter);
-		
 	}
 	
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
 		{
+			/*
 			if (e.getSource() == personer)
 				Personvindu p = new Personvindu(bs);
 			else if (e.getSource() == nyperson)
@@ -47,6 +47,7 @@ public class Hovedvindu extends JFrame
 				Nyboligvindu nb = new Nyboligvindu(bs);
 			else if (e.getSource() == kontrakter)
 				Kontraktvindu k = new Kontraktvindu(bs);
+			*/
 		}
 	}
 }
