@@ -11,7 +11,7 @@ public class Personvindu extends JFrame
 	private JButton knapp;
 
 
-	public Personvindu(Boligsystem bs)
+	public Personvindu()//Boligsystem bs sette inn i her
 	{	
 		super("Personvindu");
 		
