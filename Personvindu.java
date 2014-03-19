@@ -19,10 +19,10 @@ public class Personvindu extends JFrame
 	{	
 		super("Personvindu");
 		
-	    	tekstomraade = new JTextArea();
+	    tekstomraade = new JTextArea();
+
 		felttekst1 = new JLabel("Utleiere");
 		felttekst2 = new JLabel("Boligsokere");
-		knapp = new JButton("Bekreft")
 		
 		Container c = getContentPane();
 		c.setLayout( new FlowLayout() );
@@ -36,12 +36,21 @@ public class Personvindu extends JFrame
 		setVisible( true );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);   
 		
-		ArrayList<Person> personliste = br.getPersoner();
+		ArrayList<Person> boligsokerliste = br.getBoligsokere();
+		ArrayList<Person> utleierliste = br.getUtleiere();
 
-		JList<Person> list = new JList<>(  );
-		list.setVisibleRowCount(10);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		add(new JScrollPane(list));
+
+		JList<Person> list1 = new JList<>( boligsokerliste );
+		JList<Person> list2 = new JList<>( utleierliste );
+
+		list1.setVisibleRowCount(10);
+		list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(new JScrollPane(list1));
+		
+		list2.setVisibleRowCount(10);
+		list2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(new JScrollPane(list2));
+		
 		
 		list.addListSelectionListener( new ListSelectionListener(){
 			public void valueChanged( ListSelectionEvent e)
