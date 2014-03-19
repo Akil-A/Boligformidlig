@@ -24,5 +24,11 @@ public class Personvindu extends JFrame
 		setSize( 420, 800 );
 		setVisible( true );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);   
+		
+		list = new JList(//arraylist.toArray());
+		list.setVisibleRowcount(10);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		add(new JScrollPane(list));
+		list.addListSelectionListener( new ListSelectionListener()
 	 }
 }
