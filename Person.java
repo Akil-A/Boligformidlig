@@ -1,4 +1,4 @@
-public class Person
+abstract public class Person
 {
 	private int personNr;
 	private static int personTeller = 0;
