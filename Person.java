@@ -11,7 +11,7 @@ public class Person
 	private String poststed;
 	private int postnr;
 	
-	public Person(String fornavn, String etternavn, String adresse, String poststed, int postnr, String email, String telefon)
+	public Person(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
 	{
 		personNr = personTeller++;
 		
