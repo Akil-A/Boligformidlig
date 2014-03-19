@@ -1,53 +1,80 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.io.*;
+import java.util.Date;
 
-public class Hovedvindu extends JFrame
+
+public class Kontrakt 
 {
-	private JButton personer, nyperson, boliger, nybolig, kontrakter;
-	private Lytter lytter;
-	public Boligsystem bs;
+	private int kontraktNr;
+	private static int kontraktTeller = 0;
 	
-	public Hovedvindu()
+	private int utleierNr;
+	private int leietakerNr; // leietaker er det samme som boligsøker
+	private int boligNr;
+	private Date startdato;
+	private Date sluttdato;	
+	
+	public Kontrakt(int utleierNr, int leietakerNr, int boligNr, Date startdato, Date sluttdato)
 	{
-		super("Boligformidling");
+		kontraktNr = kontraktTeller++;
 		
-		// må hentes fra fil
-		bs = new Boligsystem(new Personliste(), new Kontraktliste());
-		
-		personer = new JButton("Personer");
-		personer.addActionListener(lytter);
-		
-		nyperson = new JButton("Ny");
-		nyperson.addActionListener(lytter);
-		
-		boliger = new JButton("Boliger");
-		boliger.addActionListener(lytter);
-		
-		nybolig = new JButton("Ny");
-		nybolig.addActionListener(lytter);
-		
-		kontrakter = new JButton("Kontrakter");
-		kontrakter.addActionListener(lytter);
+		this.utleierNr = utleierNr;
+		this.leietakerNr = leietakerNr;
+		this.boligNr = boligNr;
+		this.startdato = startdato;
+		this.sluttdato = sluttdato;
 	}
-	
-	private class Lytter implements ActionListener
+
+	public int getKontraktNr()
 	{
-		public void actionPerformed( ActionEvent e )
-		{
-			/*
-			if (e.getSource() == personer)
-				Personvindu p = new Personvindu(bs);
-			else if (e.getSource() == nyperson)
-				Nypersonvindu np = new Nypersonvindu(bs);
-			else if (e.getSource() == boliger)
-				Boligvindu b = new Boligvindu(bs);
-			else if (e.getSource() == nybolig)
-				Nyboligvindu nb = new Nyboligvindu(bs);
-			else if (e.getSource() == kontrakter)
-				Kontraktvindu k = new Kontraktvindu(bs);
-			*/
-		}
+		return kontraktNr;
+	}
+
+	public int getUtleierNr()
+	{
+		return utleierNr;
+	}
+
+	public void setUtleier(int utleierNr)
+	{
+		this.utleierNr = utleierNr;
+	}
+
+	public int getLeietakerNr()
+	{
+		return leietakerNr;
+	}
+
+	public void setLeietakerNr(int leietakerNr)
+	{
+		this.leietakerNr = leietakerNr;
+	}
+
+	public int getBoligNr()
+	{
+		return boligNr;
+	}
+
+	public void setBoligNr(int boligNr)
+	{
+		this.boligNr = boligNr;
+	}
+
+	public Date getStartdato()
+	{
+		return startdato;
+	}
+
+	public void setStartdato(Date startdato)
+	{
+		this.startdato = startdato;
+	}
+
+	public Date getSluttdato()
+	{
+		return sluttdato;
+	}
+
+	public void setSluttdato(Date sluttdato)
+	{
+		this.sluttdato = sluttdato;
 	}
 }
