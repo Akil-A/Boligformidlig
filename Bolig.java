@@ -1,70 +1,131 @@
-import java.util.*;
+import java.util.Date;
 
-public class Boligliste
+public class Bolig 
 {
-	List<Bolig> boliger;
+	private int boligNr;
+	private static int boligTeller = 0;
+	private Date annonsedato;
 	
-	public Boligliste()
+	private String adresse;
+	private int postnr;
+	private String poststed;
+	private int boareal;
+	private int antrom;
+	private String byggeaar;
+	private String beskrivelse;
+	private int utleiepris;
+	
+	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, String byggeaar, String beskrivelse, int utleiepris)
 	{
-		boliger = new ArrayList<>();
+		boligNr = boligTeller++;
+		annonsedato = new Date();
+		
+		this.adresse = adresse;
+		this.postnr = postnr;
+		this.poststed = poststed;
+		this.boareal = boareal;
+		this.antrom = antrom;
+		this.byggeaar = byggeaar;
+		this.beskrivelse = beskrivelse;
+		this.utleiepris = utleiepris;
 	}
 	
-	public void settInnBolig(Bolig b)
+	public int getBoligNr()
 	{
-		boliger.add(b);
+		return boligNr;
 	}
 	
-	public void slettBolig(int indeks)
+	public Date getAnnonsedato()
 	{
-		boliger.remove(indeks);
+		return annonsedato;
 	}
 	
-	public Bolig finnBolig(int boligNr)
+	public void setAdresse(String adresse) 
 	{
-		ListIterator<Bolig> iter = boliger.listIterator();
-		
-		while(iter.hasNext())
-			if(iter.next().getBoligNr() == boligNr)
-				return iter.next();
-		
-		return null;
+		this.adresse = adresse;
 	}
 	
-	/* SØKEFUNKSJON -- denne er lang og kronglete, hva kan vi gjøre?
-	 =============================================================================================================== */
-	public Boligliste sokBolig(String adresse, int boareal, int antrom, String byggeaar, int utleiepris,
-			int antetasjer, boolean kjeller, int tomtestr,
-			int etasje, boolean heis, boolean balkong)
+	public String getAdresse()
 	{
-		Boligliste bl = new Boligliste();
-		
-		ListIterator<Bolig> iter = boliger.listIterator();
-		
-		while (iter.hasNext())
-		{
-			if (iter.next().getAdresse().equals(adresse) || iter.next().getBoareal() == boareal || iter.next().getAntrom() == antrom ||
-					iter.next().getByggeaar().equals(byggeaar) || iter.next().getUtleiepris() == utleiepris ||
-					((iter instanceof Enebolig || iter instanceof Rekkehus) && (((Enebolig)iter.next()).getAntetasjer() == antetasjer || ((Enebolig)iter.next()).isKjeller() == kjeller || ((Enebolig)iter.next()).getTomtestr() == tomtestr)) ||
-					(iter instanceof Leilighet && (((Leilighet)iter.next()).getEtasje() == etasje || ((Leilighet)iter.next()).isHeis() == heis || ((Leilighet)iter.next()).isBalkong() == balkong)))
-				bl.settInnBolig(iter.next());
-			else
-				iter.next();
-		}
-		
-		return bl;
+		return adresse;
 	}
 	
-	
-	
-	public String visListe()
+	public void setPostnr(int postnr) 
 	{
-		Iterator<Bolig> iter = boliger.iterator();
-		
-		String s = "";
-		
-		while (iter.hasNext())
-			s += iter.next().toString() + "\n";
-		
+		this.postnr = postnr;
+	}
+	
+	public int getPostnr() 
+	{
+		return postnr;
+	}
+	
+	public String getPoststed() {
+		return poststed;
+	}
+	
+	public void setPoststed(String poststed) {
+		this.poststed = poststed;
+	}
+	
+	public void setAntrom(int antrom) 
+	{
+		this.antrom = antrom;
+	}
+	
+	public int getAntrom()
+	{
+		return antrom;
+	}
+	
+	public void setBoareal(int boareal) 
+	{
+		this.boareal = boareal;
+	}
+	
+	public int getBoareal()
+	{
+		return boareal;
+	}
+	
+	public void setByggeaar(String byggeaar) 
+	{
+		this.byggeaar = byggeaar;
+	}
+	
+	public String getByggeaar()
+	{
+		return byggeaar;
+	}
+	
+	public void setBeskrivelse(String beskrivelse) 
+	{
+		this.beskrivelse = beskrivelse;
+	}
+	
+	public String getBeskrivelse()
+	{
+		return beskrivelse;
+	}
+	
+	public void setUtleiepris(int utleiepris) 
+	{
+		this.utleiepris = utleiepris;
+	}
+	
+	public int getUtleiepris()
+	{
+		return utleiepris;
+	}
+	
+	public String toString()
+	{
+		String s = "Boareal: " + boareal +
+					"\nAntall rom: " + antrom +
+					"\nByggeår: " + byggeaar +
+					"\nBeskrivelse: " + beskrivelse +
+					"\nUtleiepris: " + utleiepris +
+					"\nAnnonsen lagt ut: " + annonsedato;
 		return s;
 	}
 }
