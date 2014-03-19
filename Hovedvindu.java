@@ -15,7 +15,7 @@ public class Hovedvindu extends JFrame
 		setSize(400, 250);
 		
 		// må hentes fra fil
-		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>());
+		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
 		
 		personer = new JButton("Personer");
 		personer.addActionListener(lytter);
