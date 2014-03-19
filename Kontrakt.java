@@ -1,6 +1,5 @@
 import java.util.Date;
 
-
 public class Kontrakt 
 {
 	private int kontraktNr;
