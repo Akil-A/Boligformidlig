@@ -9,11 +9,13 @@ public class Boligregister
 {
 	private ArrayList<Person> personer;
 	private ArrayList<Kontrakt> kontrakter;
+	private ArrayList<Interesse> interesser;
 	
-	public Boligregister(ArrayList<Person> p, ArrayList<Kontrakt> k)
+	public Boligregister(ArrayList<Person> p, ArrayList<Kontrakt> k, ArrayList<Interesse> i)
 	{
 		personer = p;
 		kontrakter = k;
+		interesser = i;
 	}
 	
 	
@@ -149,5 +151,40 @@ public class Boligregister
 			}
 		
 		return kontr;
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	// ###############################################################################################
+	// INTERESSE-METODER
+	// ###############################################################################################
+		
+	public void settInnInteresse(Interesse i)
+	{
+		interesser.add(i);
+	}	
+	
+	public ArrayList<Interesse> getInteresser()
+	{
+		return interesser;
+	}
+	
+	public Interesse slettInteresse(int interesseNr)
+	{
+		Interesse inter = null;
+		
+		for (Interesse i : interesser)
+			if (i.getInteresseNr() == interesseNr)
+			{
+				inter = i;
+				interesser.remove(i);
+			}
+		
+		return inter;
 	}
 }
