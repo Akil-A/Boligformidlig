@@ -19,10 +19,10 @@ public class Personvindu extends JFrame
 	{	
 		super("Personvindu");
 		
-	    tekstomraade = new JTextArea();
-
+	    	tekstomraade = new JTextArea();
 		felttekst1 = new JLabel("Utleiere");
 		felttekst2 = new JLabel("Boligsokere");
+		knapp = new JButton("Bekreft")
 		
 		Container c = getContentPane();
 		c.setLayout( new FlowLayout() );
