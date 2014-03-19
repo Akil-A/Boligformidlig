@@ -1,36 +1,53 @@
-import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
 
-public class Kontraktliste
-
+public class Hovedvindu extends JFrame
 {
-	List<Kontrakt> kontrakter = new ArrayList<>();
+	private JButton personer, nyperson, boliger, nybolig, kontrakter;
+	private Lytter lytter;
+	public Boligsystem bs;
 	
-	public void settInnKontrakt(Kontrakt k)
+	public Hovedvindu()
 	{
-		kontrakter.add(k);
-	}
-	
-	public void slettKontrakt(int indeks)
-	{
-		kontrakter.remove(indeks);
-	}
-	
-	public Kontrakt finnKontrakt(int kontraktNr)
-	{
-		ListIterator<Kontrakt> iter = kontrakter.listIterator();
+		super("Boligformidling");
 		
-		while(iter.hasNext())
-			if(iter.next().getKontraktNr() == kontraktNr)
-				return iter.next();
+		// må hentes fra fil
+		bs = new Boligsystem(new Personliste(), new Kontraktliste());
 		
-		return null;
+		personer = new JButton("Personer");
+		personer.addActionListener(lytter);
+		
+		nyperson = new JButton("Ny");
+		nyperson.addActionListener(lytter);
+		
+		boliger = new JButton("Boliger");
+		boliger.addActionListener(lytter);
+		
+		nybolig = new JButton("Ny");
+		nybolig.addActionListener(lytter);
+		
+		kontrakter = new JButton("Kontrakter");
+		kontrakter.addActionListener(lytter);
 	}
 	
-	public String visKontrakt()
+	private class Lytter implements ActionListener
 	{
-		ListIterator<Kontrakt> iter = kontrakter.listIterator();
-		String s = "";
-		s += iter.next().toString();
-		return s;
+		public void actionPerformed( ActionEvent e )
+		{
+			/*
+			if (e.getSource() == personer)
+				Personvindu p = new Personvindu(bs);
+			else if (e.getSource() == nyperson)
+				Nypersonvindu np = new Nypersonvindu(bs);
+			else if (e.getSource() == boliger)
+				Boligvindu b = new Boligvindu(bs);
+			else if (e.getSource() == nybolig)
+				Nyboligvindu nb = new Nyboligvindu(bs);
+			else if (e.getSource() == kontrakter)
+				Kontraktvindu k = new Kontraktvindu(bs);
+			*/
+		}
 	}
 }
