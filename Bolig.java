@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Bolig 
+abstract public class Bolig 
 {
 	private int boligNr;
 	private static int boligTeller = 0;
