@@ -12,54 +12,69 @@ public class Kontrakt
 	private Date startdato;
 	private Date sluttdato;	
 	
-	public Kontrakt(Utleier utleier, Boligsoker leietaker, Bolig bolig, String startdato, String sluttdato)
+	public Kontrakt(int utleierNr, int leietakerNr, int boligNr, Date startdato, Date sluttdato)
 	{
 		kontraktNr = kontraktTeller++;
 		
-		this.utleier = utleier;
-		this.leietaker = leietaker;
-		this.bolig = bolig;
+		this.utleierNr = utleierNr;
+		this.leietakerNr = leietakerNr;
+		this.boligNr = boligNr;
 		this.startdato = startdato;
 		this.sluttdato = sluttdato;
 	}
 
-	public Utleier getUtleier() {
-		return utleier;
+	public int getKontraktNr()
+	{
+		return kontraktNr;
 	}
 
-	public void setUtleier(Utleier utleier) {
-		this.utleier = utleier;
+	public int getUtleierNr()
+	{
+		return utleierNr;
 	}
 
-	public Boligsoker getLeietaker() {
-		return leietaker;
+	public void setUtleier(int utleierNr)
+	{
+		this.utleierNr = utleierNr;
 	}
 
-	public void setLeietaker(Boligsoker leietaker) {
-		this.leietaker = leietaker;
+	public int getLeietakerNr()
+	{
+		return leietakerNr;
 	}
 
-	public Bolig getBolig() {
-		return bolig;
+	public void setLeietakerNr(int leietakerNr)
+	{
+		this.leietakerNr = leietakerNr;
 	}
 
-	public void setBolig(Bolig bolig) {
-		this.bolig = bolig;
+	public int getBoligNr()
+	{
+		return boligNr;
 	}
 
-	public String getStartdato() {
+	public void setBoligNr(int boligNr)
+	{
+		this.boligNr = boligNr;
+	}
+
+	public Date getStartdato()
+	{
 		return startdato;
 	}
 
-	public void setStartdato(String startdato) {
+	public void setStartdato(Date startdato)
+	{
 		this.startdato = startdato;
 	}
 
-	public String getSluttdato() {
+	public Date getSluttdato()
+	{
 		return sluttdato;
 	}
 
-	public void setSluttdato(String sluttdato) {
+	public void setSluttdato(Date sluttdato)
+	{
 		this.sluttdato = sluttdato;
 	}
 }
