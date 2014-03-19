@@ -5,12 +5,12 @@
 
 import java.util.ArrayList;
 
-public class Boligsystem
+public class Boligregister
 {
 	private ArrayList<Person> personer;
 	private ArrayList<Kontrakt> kontrakter;
 	
-	public Boligsystem(ArrayList<Person> p, ArrayList<Kontrakt> k)
+	public Boligregister(ArrayList<Person> p, ArrayList<Kontrakt> k)
 	{
 		personer = p;
 		kontrakter = k;
