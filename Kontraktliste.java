@@ -5,43 +5,33 @@ public class Kontraktliste
 {
 	List<Kontrakt> kontrakter = new ArrayList<>();
 	
-public void settInnKontrakt(Kontrakt k)
-
-{
-	kontrakter.add(k);
-}
-
-public void slettKontrakt(int indeks)
-
-{
-	kontrakter.remove(indeks);
-}
-
-public Kontrakt finnKontrakt(Utleier utleier, Boligsoker leietaker, String adresse, String telefon)
-
-{
-	ListIterator<Kontrakt> iter = kontrakter.listIterator();
-
-	while(iter.hasNext())
+	public void settInnKontrakt(Kontrakt k)
 	{
-		if(iter.next().getUtleier().equals(utleier) && iter.next().getLeietaker().equals(leietaker))
-		{
-			iter.add(iter.next());
-		}
-		else
-			iter.next();
+		kontrakter.add(k);
 	}
-	return iter.next();
-}
-
-public String visKontrakt()
-
-{
-	ListIterator<Kontrakt> iter = kontrakter.listIterator();
-	String s = "";
-	s += iter.next().toString();
-	return s;
-}
-
 	
+	// parametren må byttes til kontraktNr
+	public void slettKontrakt(int indeks)
+	{
+		kontrakter.remove(indeks);
+	}
+	
+	public Kontrakt finnKontrakt(int kontraktNr)
+	{
+		ListIterator<Kontrakt> iter = kontrakter.listIterator();
+		
+		while(iter.hasNext())
+			if(iter.next().getKontraktNr() == kontraktNr)
+				return iter.next();
+		
+		return null;
+	}
+	
+	public String visKontrakt()
+	{
+		ListIterator<Kontrakt> iter = kontrakter.listIterator();
+		String s = "";
+		s += iter.next().toString();
+		return s;
+	}
 }
