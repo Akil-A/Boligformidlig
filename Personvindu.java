@@ -1,6 +1,11 @@
+package prosjekttest;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+
 import javax.swing.*;
+import javax.swing.event.*;
 	
 public class Personvindu extends JFrame
 {
@@ -10,8 +15,7 @@ public class Personvindu extends JFrame
 	private JTextArea tekstomraade;
 	private JButton knapp;
 
-
-	public Personvindu()//Boligsystem bs sette inn i her
+	public Personvindu(Boligsystem bs)
 	{	
 		super("Personvindu");
 		
@@ -32,37 +36,37 @@ public class Personvindu extends JFrame
 		setVisible( true );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);   
 		
-		Personliste personer = bs.getPersoner();
+		Personliste personliste = bs.getPersoner();
 
-		list = new JList(personer.toArray());
-		list.setVisibleRowcount(10);
+		JList<Person> list = new JList<>( personliste );
+		list.setVisibleRowCount(10);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(list));
-		list.addListSelectionListener( new ListSelectionListener()
+		list.addListSelectionListener( new ListSelectionListener(){
 		
 				
 		public void valueChanged( ListSelectionEvent e)
 		{
 	         if ( !e.getValueIsAdjusting() )
 	         {
-	        	 JList<Person> liste = (JList) e.getSource();
+	        	 ArrayList<Person> liste = (ArrayList<Person>) e.getSource();
 	        	 Person person = liste.getSelectedValue();
 	        	 String info = person.toString();
 	        	 tekstomraade.append(info);
 	         }
 		}
 		
-		   private class lytter implements ActionListener
+		   private class Lytter implements ActionListener
 		   {
 		        public void actionPerformed( ActionEvent e )
 		        {
-		        	if(e.getsource() == knapp)
+		        	if(e.getSource() == knapp)
 		        	{
-		        		Personskjemavindu pv = new Personskjemavindu(liste.getSelectedValue().getPersonNr());
+		        		Personskjemavindu pv = new Personskjemavindu(list.getSelectedValue().getPersonNr());
 		        	}
 		        }
 		        
 		   }
-				 
+		});		 
 	 }
 }
