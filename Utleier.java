@@ -1,16 +1,18 @@
+import java.util.ArrayList;
+import java.util.ListIterator;
+
 public class Utleier extends Person 
 {
-
 	private String firma;
-	private Boligliste boligliste;
+	private ArrayList<Bolig> boliger;
 	
 	public Utleier (String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
 	{
 		super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
-		boligliste = new Boligliste();
+		boliger = new ArrayList<>();
 	}
 	
-	public String getFirma() 
+	public String getFirma()
 	{
 		return firma;
 	}
@@ -20,13 +22,33 @@ public class Utleier extends Person
 		this.firma = firma;
 	}
 	
-	public Boligliste getBoligliste() 
+	// ###############################################################################################
+	// OPERASJONER PÅ BOLIGLISTEN
+	// ###############################################################################################
+	
+	public void settInnBolig(Bolig b)
 	{
-		return boligliste;
+		boliger.add(b);
 	}
 	
-	public void setBoligliste(Boligliste boligliste) 
+	public void slettBolig(int indeks)
 	{
-		this.boligliste = boligliste;
+		boliger.remove(indeks);
+	}
+	
+	public ArrayList<Bolig> getBoliger() 
+	{
+		return boliger;
+	}
+	
+	public Bolig finnBolig(int boligNr)
+	{
+		ListIterator<Bolig> iter = boliger.listIterator();
+		
+		while(iter.hasNext())
+			if(iter.next().getBoligNr() == boligNr)
+				return iter.next();
+		
+		return null;
 	}
 }
