@@ -15,7 +15,7 @@ public class Personvindu extends JFrame
 	private JTextArea tekstomraade;
 	private JButton knapp;
 
-	public Personvindu(Boligsystem bs)
+	public Personvindu(Boligregister br)
 	{	
 		super("Personvindu");
 		
@@ -36,37 +36,35 @@ public class Personvindu extends JFrame
 		setVisible( true );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);   
 		
-		Personliste personliste = bs.getPersoner();
+		ArrayList<Person> personliste = br.getPersoner();
 
-		JList<Person> list = new JList<>( personliste );
+		JList<Person> list = new JList<>(  );
 		list.setVisibleRowCount(10);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(list));
+		
 		list.addListSelectionListener( new ListSelectionListener(){
-		
-				
-		public void valueChanged( ListSelectionEvent e)
-		{
-	         if ( !e.getValueIsAdjusting() )
-	         {
-	        	 ArrayList<Person> liste = (ArrayList<Person>) e.getSource();
-	        	 Person person = liste.getSelectedValue();
-	        	 String info = person.toString();
-	        	 tekstomraade.append(info);
-	         }
-		}
-		
-		   private class Lytter implements ActionListener
-		   {
-		        public void actionPerformed( ActionEvent e )
-		        {
-		        	if(e.getSource() == knapp)
-		        	{
-		        		Personskjemavindu pv = new Personskjemavindu(list.getSelectedValue().getPersonNr());
-		        	}
-		        }
-		        
-		   }
-		});		 
+			public void valueChanged( ListSelectionEvent e)
+			{
+		         if ( !e.getValueIsAdjusting() )
+		         {
+		        	 JList<Person> liste = (JList<Person>) e.getSource();
+		        	 Person person = (Person) liste.getSelectedValue();
+		        	 String info = person.toString();
+		        	 tekstomraade.append(info);
+		         }
+			}
+		});
 	 }
+	
+	private class Lytter implements ActionListener
+	{
+        public void actionPerformed( ActionEvent e )
+        {
+        	if(e.getSource() == knapp)
+        	{
+        		Personskjemavindu pv = new Personskjemavindu(list.getSelectedValue().getPersonNr());
+        	}
+        }
+	}	
 }
