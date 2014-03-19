@@ -1,5 +1,9 @@
+/*
+ * Underliggende klasse som holder rede på lister av Personer, Boliger og Kontrakter. 
+ * Objektet av denne klassen skal være med i alle programmets vindusklasser.
+ */
+
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 public class Boligsystem
 {
@@ -20,11 +24,9 @@ public class Boligsystem
 	
 	public Person finnPerson( int personNr )
 	{
-		ListIterator<Person> iter = personer.listIterator();
-		
-		while(iter.hasNext())
-			if(iter.next().getPersonNr() == personNr)
-				return iter.next();
+		for (Person p : personer)
+			if (p.getPersonNr() == personNr)
+				return p;
 		
 		return null;
 	}
@@ -123,11 +125,9 @@ public class Boligsystem
 	
 	public Kontrakt finnKontrakt( int kontraktNr )
 	{
-		ListIterator<Kontrakt> iter = kontrakter.listIterator();
-		
-		while(iter.hasNext())
-			if(iter.next().getKontraktNr() == kontraktNr)
-				return iter.next();
+		for (Kontrakt k : kontrakter)
+			if (k.getKontraktNr() == kontraktNr)
+				return k;
 		
 		return null;
 	}	
@@ -137,9 +137,17 @@ public class Boligsystem
 		return kontrakter;
 	}
 	
-	// parametren må byttes til kontraktNr
-	public void slettKontrakt(int indeks)
+	public Kontrakt slettKontrakt(int kontraktNr)
 	{
-		kontrakter.remove(indeks);
+		Kontrakt kontr = null;
+		
+		for (Kontrakt k : kontrakter)
+			if (k.getKontraktNr() == kontraktNr)
+			{
+				kontr = k;
+				kontrakter.remove(k);
+			}
+		
+		return kontr;
 	}
 }
