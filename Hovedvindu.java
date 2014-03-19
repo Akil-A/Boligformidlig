@@ -1,9 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
-import java.io.*;
+import java.util.ArrayList;
 
 public class Hovedvindu extends JFrame
 {
@@ -17,7 +15,7 @@ public class Hovedvindu extends JFrame
 		setSize(400, 250);
 		
 		// må hentes fra fil
-		bs = new Boligsystem(new Personliste(), new Kontraktliste());
+		bs = new Boligsystem(new ArrayList<Person>(), new ArrayList<Kontrakt>());
 		
 		personer = new JButton("Personer");
 		personer.addActionListener(lytter);
