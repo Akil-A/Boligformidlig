@@ -1,7 +1,10 @@
+import java.util.Date;
+
 public class Bolig 
 {
 	private int boligNr;
 	private static int boligTeller = 0;
+	private Date annonsedato;
 	
 	private String adresse;
 	private int postnr;
@@ -11,13 +14,11 @@ public class Bolig
 	private String byggeaar;
 	private String beskrivelse;
 	private int utleiepris;
-	private int aar;
-	private int maaned;
-	private int dag;
 	
-	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom,String byggeaar,String beskrivelse, int utleiepris, int aar, int maaned, int dag)
+	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, String byggeaar, String beskrivelse, int utleiepris)
 	{
 		boligNr = boligTeller++;
+		annonsedato = new Date();
 		
 		this.adresse = adresse;
 		this.postnr = postnr;
@@ -27,9 +28,16 @@ public class Bolig
 		this.byggeaar = byggeaar;
 		this.beskrivelse = beskrivelse;
 		this.utleiepris = utleiepris;
-		this.aar = aar;
-		this.maaned = maaned;
-		this.dag = dag;
+	}
+	
+	public int getBoligNr()
+	{
+		return boligNr;
+	}
+	
+	public Date getAnnonsedato()
+	{
+		return annonsedato;
 	}
 	
 	public void setAdresse(String adresse) 
@@ -84,6 +92,7 @@ public class Bolig
 	{
 		this.byggeaar = byggeaar;
 	}
+	
 	public String getByggeaar()
 	{
 		return byggeaar;
@@ -103,50 +112,20 @@ public class Bolig
 	{
 		this.utleiepris = utleiepris;
 	}
+	
 	public int getUtleiepris()
 	{
 		return utleiepris;
 	}
 	
-	public void setAar(int aar) 
-	{
-		this.aar = aar;
-	}
-	
-	public int getAar()
-	{
-		return aar;
-	}
-	
-	public void setMaaned(int maaned) 
-	{
-		this.maaned = maaned;
-	}
-	
-	public int getMaaned()
-	{
-		return maaned;
-	}
-	
-	public void setDag(int dag)
-	{
-		this.dag = dag;
-	}
-	
-	public int getDag()
-	{
-		return dag;
-	}
 	public String toString()
 	{
-		String s = "Boareal: " + boareal + "/n"
-				+ "Antall rom: " + antrom + "/n"
-				+ "Byggaar: " + byggeaar + "/n"
-				+ "Beskrivelse: " + beskrivelse + "/n"
-				+ "Utleiepris: " + utleiepris + "/n"
-				+ "AAr: " + aar + "."
-				+ "maaned: " + "." 
-				+ "Dag: " + dag;
+		String s = "Boareal: " + boareal +
+					"\nAntall rom: " + antrom +
+					"\nByggeår: " + byggeaar +
+					"\nBeskrivelse: " + beskrivelse +
+					"\nUtleiepris: " + utleiepris +
+					"\nAnnonsen lagt ut: " + annonsedato;
 		return s;
 	}
 }
