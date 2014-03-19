@@ -37,11 +37,10 @@ public class Personvindu extends JFrame
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);   
 		
 		ArrayList<Person> boligsokerliste = br.getBoligsokere();
-		ArrayList<Person> utleierliste = br.getUtleiere();
+		ArrayList<Utleier> utleierliste = br.getUtleiere();
 
-
-		JList<Person> list1 = new JList<>( boligsokerliste );
-		JList<Person> list2 = new JList<>( utleierliste );
+		JList<Object> list1 = (JList<Object>) new JList<>( boligsokerliste.toArray() );
+		JList<Object> list2 = (JList<Object>) new JList<>( utleierliste.toArray() );
 
 		list1.setVisibleRowCount(10);
 		list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -52,7 +51,7 @@ public class Personvindu extends JFrame
 		add(new JScrollPane(list2));
 		
 		
-		list.addListSelectionListener( new ListSelectionListener(){
+		list1.addListSelectionListener( new ListSelectionListener(){
 			public void valueChanged( ListSelectionEvent e)
 			{
 		         if ( !e.getValueIsAdjusting() )
