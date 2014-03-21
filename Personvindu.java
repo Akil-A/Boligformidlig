@@ -10,21 +10,33 @@ public class Personvindu extends JFrame
 
     private JLabel felttekst1;
     private JLabel felttekst2;
+    private JList<Object> list1;
+    private JList<Object> list2;
     private JTextArea tekstomraade;
     private JButton knapp;
+    private Lytter lytter;
+    private Listelytter listelytter;
+    private int valgtPersonNr;
 
     public Personvindu(Boligregister br)
     {
         super("Personvindu");
+        
+        valgtPersonNr = -1;
 
         tekstomraade = new JTextArea();
 
         felttekst1 = new JLabel("Utleiere");
         felttekst2 = new JLabel("Boligsokere");
+        
+        lytter = new Lytter();
+        listelytter = new Listelytter();
+        
+        knapp.addActionListener(lytter);
 
         Container c = getContentPane();
         c.setLayout( new FlowLayout() );
-
+        
         c.add( felttekst1);
         c.add( felttekst2);
         c.add(tekstomraade);
@@ -37,8 +49,10 @@ public class Personvindu extends JFrame
         ArrayList<Boligsoker> boligsokerliste = br.getBoligsokere();
         ArrayList<Utleier> utleierliste = br.getUtleiere();
 
-        JList<Object> list1 = (JList<Object>) new JList<>( boligsokerliste.toArray() );
-        JList<Object> list2 = (JList<Object>) new JList<>( utleierliste.toArray() );
+        list1 = new JList<>( boligsokerliste.toArray() );
+        list1.addListSelectionListener(listelytter);
+        list2 = new JList<>( utleierliste.toArray() );
+        list2.addListSelectionListener(listelytter);
 
         list1.setVisibleRowCount(10);
         list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -48,19 +62,6 @@ public class Personvindu extends JFrame
         list2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         add(new JScrollPane(list2));
 
-
-        list1.addListSelectionListener( new ListSelectionListener(){
-            public void valueChanged( ListSelectionEvent e)
-            {
-                if ( !e.getValueIsAdjusting() )
-                {
-                    JList<Person> liste = (JList<Person>) e.getSource();
-                    Person person = (Person) liste.getSelectedValue();
-                    String info = person.toString();
-                    tekstomraade.append(info);
-                }
-            }
-        });
     }
 
     private class Lytter implements ActionListener
@@ -69,8 +70,26 @@ public class Personvindu extends JFrame
         {
             if(e.getSource() == knapp)
             {
-                Personskjemavindu pv = new Personskjemavindu(list.getSelectedValue().getPersonNr());
+            	if(valgtPersonNr != .1)
+                //Personskjemavindu pv = new Personskjemavindu(valgtPersonNr);
             }
         }
+    }
+    
+    private class Listelytter implements ListSelectionListener
+    {
+    	public void valueChanged( ListSelectionEvent e)
+    	{
+    		if (e.getSource() == list1)
+    		{
+    			list2.clearSelection();
+    			valgtPersonNr = ((Utleier)list1.getSelectedValue()).getPersonNr();
+    		}
+    		else if (e.getSource() == list2)
+    		{
+    			list1.clearSelection();
+    			valgtPersonNr = ((Boligsoker)list2.getSelectedValue()).getPersonNr();
+    		}
+    	}
     }
 }
