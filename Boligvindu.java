@@ -9,7 +9,7 @@ public class Boligvindu extends JFrame
 	private JTextField adr;
 	private JButton sok;
 	private JButton vis;
-	public Boligsystem bs;
+	public Boligregister br;
 	private JLabel label;
 	private JLabel label2;
 	private JCheckBox Enebolig;
@@ -27,7 +27,7 @@ public class Boligvindu extends JFrame
 			adr = new JTextField(15);
 			adr.setPreferredSize(new Dimension(200, adr.getPreferredSize().height));
 			label2 = new JLabel("Type: ");
-			sok = new JButton("Søk bolig");
+			sok = new JButton("SÃ¸k bolig");
 			sok.addActionListener(lytter);
 			sok.setPreferredSize(new Dimension(200, sok.getPreferredSize().height));
 			vis = new JButton("Vis alle");
@@ -97,7 +97,7 @@ public class Boligvindu extends JFrame
 					}
 					else
 					{
-						JOptionPane.showMessageDialog(null,"Du må velge minst en checkbox for å søke, eller trykk på vis alle");
+						JOptionPane.showMessageDialog(null,"Du ma velge minst en checkbox for a soke, eller trykk pa vis alle");
 					}
 				}   
 			else if(e.getSource() == vis)
