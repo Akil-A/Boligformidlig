@@ -70,8 +70,10 @@ public class Personvindu extends JFrame
         {
             if(e.getSource() == knapp)
             {
-            	if(valgtPersonNr != .1)
-                //Personskjemavindu pv = new Personskjemavindu(valgtPersonNr);
+            	if(valgtPersonNr != -1)
+            	{
+                    //Personskjemavindu pv = new Personskjemavindu(valgtPersonNr);
+            	}
             }
         }
     }
