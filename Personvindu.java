@@ -17,30 +17,24 @@ public class Personvindu extends JFrame
     private Lytter lytter;
     private Listelytter listelytter;
     private int valgtPersonNr;
+    private BorderLayout layout;
+    private Container c;
 
     public Personvindu(Boligregister br)
     {
         super("Personvindu");
-        
+
         valgtPersonNr = -1;
 
-        tekstomraade = new JTextArea();
+        tekstomraade = new JTextArea("dette er tekstomraade");
 
         felttekst1 = new JLabel("Utleiere");
         felttekst2 = new JLabel("Boligsokere");
-        
+
         lytter = new Lytter();
         listelytter = new Listelytter();
-        
-        knapp.addActionListener(lytter);
 
-        Container c = getContentPane();
-        c.setLayout( new FlowLayout() );
-        
-        c.add( felttekst1);
-        c.add( felttekst2);
-        c.add(tekstomraade);
-        c.add(knapp);
+        //knapp.addActionListener(lytter);
 
         setSize( 420, 800 );
         setVisible( true );
@@ -62,6 +56,24 @@ public class Personvindu extends JFrame
         list2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         add(new JScrollPane(list2));
 
+        JPanel p1 = new JPanel();
+        JPanel p2 = new JPanel();
+        JPanel p3 = new JPanel();
+
+        p1.add(felttekst1);
+        p1.add(list1);
+        p2.add(felttekst2);
+        p2.add(list2);
+        p3.add(tekstomraade);
+        //p3.add(knapp);
+
+        //layout = new BorderLayout(10,10);
+        //c = getContentPane();
+        //c.setLayout( layout);
+
+        add(p1, BorderLayout.WEST);
+        add(p2, BorderLayout.SOUTH);
+        add(p3, BorderLayout.EAST);
     }
 
     private class Lytter implements ActionListener
@@ -70,28 +82,29 @@ public class Personvindu extends JFrame
         {
             if(e.getSource() == knapp)
             {
-            	if(valgtPersonNr != -1)
-            	{
+                if(valgtPersonNr != -1)
+                {
                     //Personskjemavindu pv = new Personskjemavindu(valgtPersonNr);
-            	}
+                }
             }
         }
     }
-    
+
     private class Listelytter implements ListSelectionListener
     {
-    	public void valueChanged( ListSelectionEvent e)
-    	{
-    		if (e.getSource() == list1)
-    		{
-    			list2.clearSelection();
-    			valgtPersonNr = ((Utleier)list1.getSelectedValue()).getPersonNr();
-    		}
-    		else if (e.getSource() == list2)
-    		{
-    			list1.clearSelection();
-    			valgtPersonNr = ((Boligsoker)list2.getSelectedValue()).getPersonNr();
-    		}
-    	}
+        public void valueChanged( ListSelectionEvent e)
+        {
+            if (e.getSource() == list1)
+            {
+                list2.clearSelection();
+                valgtPersonNr = ((Utleier)list1.getSelectedValue()).getPersonNr();
+            }
+            else if (e.getSource() == list2)
+            {
+                list1.clearSelection();
+                valgtPersonNr = ((Boligsoker)list2.getSelectedValue()).getPersonNr();
+            }
+        }
     }
 }
+
