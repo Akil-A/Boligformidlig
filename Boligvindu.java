@@ -1,3 +1,5 @@
+//Denne klassen tar seg av registrering og soking av bolig.
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -6,72 +8,117 @@ import java.io.*;
 public class Boligvindu extends JFrame
 {
 
-	private JTextField adr;
+	private JTextField adr,pris,boareal,antrom,byggeaar,utleiepris,dato;
 	private JButton sok;
 	private JButton vis;
+	private ButtonGroup bg;
 	public Boligregister br;
-	private JLabel label;
-	private JLabel label2;
-	private JCheckBox Enebolig;
-	private JCheckBox Rekkehus;
-	private JLabel enebolig;
-	private JLabel rekkehus;
+	private JLabel ladr,lpris,lboareal,lantrom,lbyggeaar,lutleiepris,ldato,ltype;
+	private JCheckBox Enebolig,Rekkehus,Leilighet;
 	public Boligvindu()
 		{
 			super("Bolig");
-			setSize(500,120);
+			setSize(700,300);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			Lytter lytter = new Lytter();
-			label = new JLabel("Adresse: ");
-			adr = new JTextField(15);
+			ladr = new JLabel("Adresse: ");
+			adr = new JTextField(20);
+			lpris = new JLabel("Pris: ");
+			pris = new JTextField(20);
+			lboareal = new JLabel("Boareal: ");
+			boareal = new JTextField(20);
+			lantrom = new JLabel("Antall rom: ");
+			antrom = new JTextField(20);
+			lbyggeaar = new JLabel("Byggeår: ");
+			byggeaar = new JTextField(20);
+			lutleiepris = new JLabel("Utleierpris: ");
+			utleiepris = new JTextField(20);
+			ldato = new JLabel("Dato: ");
+			dato = new JTextField(20);
 			adr.setPreferredSize(new Dimension(200, adr.getPreferredSize().height));
-			label2 = new JLabel("Type: ");
-			sok = new JButton("SÃ¸k bolig");
+			ltype = new JLabel("Type: ");
+			sok = new JButton("Sok bolig");
 			sok.addActionListener(lytter);
 			sok.setPreferredSize(new Dimension(200, sok.getPreferredSize().height));
 			vis = new JButton("Vis alle");
 			vis.addActionListener(lytter);
 			Enebolig = new JCheckBox("Enebolig");
 			Rekkehus = new JCheckBox("Rekkehus");
-			JPanel p = new JPanel( new GridBagLayout() );
+			Leilighet = new JCheckBox("Leilighet");
+			JPanel sokefelt = new JPanel( new GridBagLayout() );
+			JPanel utforfelt = new JPanel();
+			JPanel Sjekkboks = new JPanel();
+			bg = new ButtonGroup();
+			bg.add(Enebolig);
+			bg.add(Rekkehus);
+			bg.add(Leilighet);
 			
 			GridBagConstraints gc = new GridBagConstraints();
 			
-			gc.insets.left = 5;
-			gc.insets.top = 5;
+			gc.insets.left = 10;
+			gc.insets.top = 10;
 			
 			gc.gridx = 0;
 			gc.gridy = 0;
-			p.add(label, gc);
+			sokefelt.add(ladr, gc);
 			
 			gc.gridx = 1;
 			gc.gridy = 0;
-			p.add(adr, gc);
+			sokefelt.add(adr, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 1;
-			p.add(label2, gc);
+			sokefelt.add(lpris, gc);
 			
 			gc.gridx = 1;
 			gc.gridy = 1;
-			p.add(Enebolig, gc);
-			
-			gc.gridx = 2;
-			gc.gridy = 1;
-			p.add(Rekkehus,gc);
+			sokefelt.add(pris, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 2;
-			p.add(sok,gc);
+			sokefelt.add(lboareal, gc);
 			
 			gc.gridx = 1;
 			gc.gridy = 2;
-			p.add(vis,gc);
+			sokefelt.add(boareal, gc);
+			
+			gc.gridx = 0;
+			gc.gridy = 3;
+			sokefelt.add(lpris, gc);
+			
+			gc.gridx = 1;
+			gc.gridy = 3;
+			sokefelt.add(pris, gc);
+			
+			gc.gridx = 0;
+			gc.gridy = 4;
+			sokefelt.add(lpris, gc);
+			
+			gc.gridx = 1;
+			gc.gridy = 4;
+			sokefelt.add(pris, gc);
+			
+			gc.gridx = 1;
+			gc.gridy = 5;
+			sokefelt.add(ltype, gc);
+			
+			Sjekkboks.add(Rekkehus);
+			Sjekkboks.add(Enebolig);
+			Sjekkboks.add(Leilighet);
+			
+			gc.gridx = 1;
+			gc.gridy = 2;
+			sokefelt.add(Sjekkboks,gc);
+			
+			
+			utforfelt.add(sok);
+			utforfelt.add(vis);
 			
 			Container c = getContentPane();
-			c.setLayout(new BorderLayout());
-			c.add(p, BorderLayout.NORTH);
+			c.setLayout(new GridLayout(2,1));
+			c.add(sokefelt, BorderLayout.NORTH);
+			c.add(utforfelt);
 			setVisible( true );
 			setLocationRelativeTo( null );
 		}
@@ -83,7 +130,7 @@ public class Boligvindu extends JFrame
 			if(e.getSource() == sok)
 			
 				{
-					if(Enebolig.isSelected() && Rekkehus.isSelected())
+					if(Enebolig.isSelected() && Rekkehus.isSelected() && Leilighet.isSelected())
 					{
 						
 					}
@@ -92,6 +139,10 @@ public class Boligvindu extends JFrame
 						
 					}
 					else if(Rekkehus.isSelected())
+					{
+						
+					}
+					else if(Leilighet.isSelected())
 					{
 						
 					}
