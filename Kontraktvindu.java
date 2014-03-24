@@ -1,3 +1,7 @@
+/* Vindu som viser liste over alle kontrakter.
+ * Laget av Joakim
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 
