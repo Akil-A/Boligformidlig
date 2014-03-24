@@ -4,6 +4,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Boligregister
 {
@@ -132,11 +133,33 @@ public class Boligregister
 				return k;
 		
 		return null;
-	}	
+	}
 	
 	public ArrayList<Kontrakt> getKontrakter()
 	{
 		return kontrakter;
+	}
+	
+	public ArrayList<Kontrakt> getFungerende()
+	{
+		ArrayList<Kontrakt> kl = new ArrayList<>();
+		
+		for (Kontrakt k : kontrakter)
+			if (k.getSluttdato().after(new Date()))
+				kl.add(k);
+				
+		return kl;			
+	}
+	
+	public ArrayList<Kontrakt> getUtgaatte()
+	{
+		ArrayList<Kontrakt> kl = new ArrayList<>();
+		
+		for (Kontrakt k : kontrakter)
+			if (k.getSluttdato().before(new Date()))
+				kl.add(k);
+				
+		return kl;			
 	}
 	
 	public Kontrakt slettKontrakt(int kontraktNr)
