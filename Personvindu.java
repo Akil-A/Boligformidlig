@@ -1,3 +1,5 @@
+package prosjekttest;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -10,8 +12,7 @@ public class Personvindu extends JFrame
 
     private JLabel felttekst1;
     private JLabel felttekst2;
-    private JList<Object> list1;
-    private JList<Object> list2;
+    private JList<String> list1, list2;
     private JTextArea tekstomraade;
     private JButton knapp;
     private Lytter lytter;
@@ -23,6 +24,11 @@ public class Personvindu extends JFrame
     public Personvindu(Boligregister br)
     {
         super("Personvindu");
+        
+        String[] dyrenavn = { "Fugl", "Katt", "Hund", "Kanin", "Gris" };
+        
+        JList<String> list1 = new JList<>( dyrenavn );
+        JList<String> list2 = new JList<>( dyrenavn );
 
         valgtPersonNr = -1;
 
@@ -36,14 +42,13 @@ public class Personvindu extends JFrame
 
         //knapp.addActionListener(lytter);
 
-        setSize( 420, 800 );
-        setVisible( true );
+        setSize( 500, 500 );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
 
         ArrayList<Boligsoker> boligsokerliste = br.getBoligsokere();
         ArrayList<Utleier> utleierliste = br.getUtleiere();
 
-        list1 = new JList<>( boligsokerliste.toArray() );
+        /*list1 = new JList<>( boligsokerliste.toArray() );
         list1.addListSelectionListener(listelytter);
         list2 = new JList<>( utleierliste.toArray() );
         list2.addListSelectionListener(listelytter);
@@ -54,26 +59,37 @@ public class Personvindu extends JFrame
 
         list2.setVisibleRowCount(10);
         list2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        add(new JScrollPane(list2));
+        add(new JScrollPane(list2));*/
 
-        JPanel p1 = new JPanel();
-        JPanel p2 = new JPanel();
-        JPanel p3 = new JPanel();
+        c = getContentPane();
+        c.setLayout(new GridBagLayout());
+        
 
-        p1.add(felttekst1);
-        p1.add(list1);
-        p2.add(felttekst2);
-        p2.add(list2);
-        p3.add(tekstomraade);
-        //p3.add(knapp);
+        GridBagConstraints gc = new GridBagConstraints();
+        
+        gc.insets.left = 2;
+		gc.insets.top = 2;
+		
+		gc.gridx = 0;
+		gc.gridy = 0;
+		c.add(felttekst1, gc);
+		
+		gc.gridx = 0;
+		gc.gridy = 1;
+		c.add(list1, gc);
+		
+		gc.insets.top = 90;
+		gc.gridx = 0;
+		gc.gridy = 6;
+		c.add(felttekst2, gc);
 
-        //layout = new BorderLayout(10,10);
-        //c = getContentPane();
-        //c.setLayout( layout);
+		gc.insets.top = 0;
+		gc.gridx = 0;
+		gc.gridy = 7;
+		c.add(list2, gc);
 
-        add(p1, BorderLayout.WEST);
-        add(p2, BorderLayout.SOUTH);
-        add(p3, BorderLayout.EAST);
+		setLocationRelativeTo(null);
+        setVisible( true );
     }
 
     private class Lytter implements ActionListener
@@ -107,4 +123,3 @@ public class Personvindu extends JFrame
         }
     }
 }
-
