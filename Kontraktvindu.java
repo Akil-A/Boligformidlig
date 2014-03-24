@@ -1,4 +1,4 @@
-/* Vindu som viser liste over alle kontrakter.
+/* Vindu som viser liste over alle utgåtte og fungerende kontrakter.
  * Laget av Joakim
  */
 
