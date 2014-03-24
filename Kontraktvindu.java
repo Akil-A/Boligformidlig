@@ -30,6 +30,8 @@ public class Kontraktvindu extends JFrame
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		Font font = new Font("System", Font.PLAIN, 12);
 		
+		// JList må bindes til en egen liste som skriver ut en passende toString
+		
 		fungerendeListe.setBorder(border);
 		fungerendeListe.setFont(font);
 		fungerendeListe.setListData(dyrenavn);
