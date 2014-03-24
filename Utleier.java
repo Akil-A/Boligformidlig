@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 public class Utleier extends Person 
 {
@@ -43,12 +42,19 @@ public class Utleier extends Person
 	
 	public Bolig finnBolig(int boligNr)
 	{
-		ListIterator<Bolig> iter = boliger.listIterator();
-		
-		while(iter.hasNext())
-			if(iter.next().getBoligNr() == boligNr)
-				return iter.next();
+		for (Bolig b : boliger)
+			if (b.getBoligNr() == boligNr)
+				return b;
 		
 		return null;
+	}
+	
+	public ArrayList<Bolig> sokBoliger( String kriterier )
+	{
+		ArrayList<Bolig> bl = new ArrayList<>();
+		
+		// loop gjennom boliger, returner de som matcher kriterier
+		
+		return bl;
 	}
 }
