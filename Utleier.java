@@ -1,3 +1,7 @@
+/* Klasse for Utleier-objektet. Inneholder boliglisten.
+ * laget av Ali og Joakim
+ */
+
 import java.util.ArrayList;
 
 public class Utleier extends Person 
