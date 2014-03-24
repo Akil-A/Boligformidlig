@@ -54,9 +54,9 @@ public class Kontraktvindu extends JFrame
     {
     	public void actionPerformed(ActionEvent e)
     	{
-    		if (e.getSource() == fungerendeKnapp)
+    		if (e.getSource() == fungerendeKnapp && fungerendeListe.getSelectedIndex() != -1)
     			JOptionPane.showMessageDialog(null, fungerendeListe.getSelectedValue());
-    		else if (e.getSource() == utgaatteKnapp)
+    		else if (e.getSource() == utgaatteKnapp && utgaatteListe.getSelectedIndex() != -1)
     			JOptionPane.showMessageDialog(null, utgaatteListe.getSelectedValue());
     	}
     }
