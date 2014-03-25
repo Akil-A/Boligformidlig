@@ -79,21 +79,13 @@ public class Personskjemavindu extends JFrame
         arbeidsforhold.addItem("Pensjonist");
 
         utleier = new JCheckBox("Utleier");
-        utleier.addChangeListener(sjekkboksLytter);
         boligsoker = new JCheckBox("Boligsoker");
-        boligsoker.addChangeListener(sjekkboksLytter);
         husdyr = new JCheckBox("Husdyr");
-        husdyr.addChangeListener(sjekkboksLytter);
         balkong = new JCheckBox("Balkong");
-        balkong.addChangeListener(sjekkboksLytter);
         royker = new JCheckBox("Royker");
-        royker.addChangeListener(sjekkboksLytter);
         hage = new JCheckBox("Hage");
-        hage.addChangeListener(sjekkboksLytter);
         heis = new JCheckBox("Heis");
-        heis.addChangeListener(sjekkboksLytter);
         parkering = new JCheckBox("Parkering");
-        parkering.addChangeListener(sjekkboksLytter);
 
         tekstomraade = new JTextArea();
 
@@ -151,47 +143,47 @@ public class Personskjemavindu extends JFrame
         gc.insets.top = 20;
         gc.gridx = 0;
         gc.gridy = 8;
-        p4.add(utleier, gc);
+        p4.add(utleier);
 
         gc.gridx = 1;
         gc.gridy = 8;
-        p4.add(boligsoker, gc);
+        p4.add(boligsoker);
 
         gc.insets.top = 10;
         gc.gridx = 0;
         gc.gridy = 12;
-        p3.add(husdyr, gc);
+        p3.add(husdyr);
 
         gc.insets.top = 10;
         gc.gridx = 1;
         gc.gridy = 12;
-        p3.add(balkong, gc);
+        p3.add(balkong);
 
         gc.insets.top = 10;
         gc.gridx = 2;
         gc.gridy = 12;
-        p3.add(royker, gc);
+        p3.add(royker);
 
         gc.insets.top = 20;
         gc.gridx = 0;
-        gc.gridy = 12;
-        p1.add(seBoligknapp, gc);
+        gc.gridy = 15;
+        p1.add(seBoligknapp);
 
-        gc.gridx = 1;
+        gc.gridx = 0;
         gc.gridy = 16;
-        p1.add(slettknapp1, gc);
+        p1.add(slettknapp1);
 
-        gc.gridx = 2;
-        gc.gridy = 16;
-        p1.add(registrerknapp, gc);
+        gc.gridx = 0;
+        gc.gridy = 17;
+        p1.add(registrerknapp);
 
         gc.gridx = 0;
         gc.gridy = 12;
-        p2.add(finnBoligknapp, gc);
+        p2.add(finnBoligknapp);
 
         gc.gridx = 1;
         gc.gridy = 12;
-        p2.add(slettknapp2, gc);
+        p2.add(slettknapp2);
 
         p2.setVisible(false);
 
