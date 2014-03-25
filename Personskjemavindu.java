@@ -117,6 +117,7 @@ public class Personskjemavindu extends JFrame
         p1 = new JPanel();
         p2 = new JPanel();
         p3 = new JPanel();
+        p4 = new JPanel();
 
         gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.WEST;
@@ -150,26 +151,26 @@ public class Personskjemavindu extends JFrame
         gc.insets.top = 20;
         gc.gridx = 0;
         gc.gridy = 8;
-        c.add(utleier, gc);
+        p4.add(utleier, gc);
 
         gc.gridx = 1;
         gc.gridy = 8;
-        c.add(boligsoker, gc);
+        p4.add(boligsoker, gc);
 
         gc.insets.top = 10;
         gc.gridx = 0;
         gc.gridy = 12;
-        c.add(husdyr, gc);
+        p3.add(husdyr, gc);
 
         gc.insets.top = 10;
         gc.gridx = 1;
         gc.gridy = 12;
-        c.add(balkong, gc);
+        p3.add(balkong, gc);
 
         gc.insets.top = 10;
         gc.gridx = 2;
         gc.gridy = 12;
-        c.add(royker, gc);
+        p3.add(royker, gc);
 
         gc.insets.top = 20;
         gc.gridx = 0;
@@ -199,6 +200,8 @@ public class Personskjemavindu extends JFrame
         gc.gridy = 13;
         c.add(p1, gc);
         c.add(p2, gc);
+        c.add(p3, gc);
+        c.add(p4, gc);
 
         setSize( 500, 400 );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
