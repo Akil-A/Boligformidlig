@@ -4,13 +4,9 @@ public class Rekkehus extends Bolig
 	private boolean kjeller;
 	private int tomtestr;
 	
-	public Rekkehus(int antetasjer, boolean kjeller, int tomtestr,String adresse, int postnr, String poststed, int boareal, int antrom,String byggeaar,String beskrivelse, int utleiepris, int aar, int maaned, int dag)
+	public Rekkehus(String adresse, int postnr, String poststed, int boareal, int antrom,int byggeaar,String beskrivelse, int utleiepris)
 	{
-		super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);	
-	
-		this.antetasjer = antetasjer;
-		this.kjeller = kjeller;
-		this.tomtestr = tomtestr;
+		super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);
 	}
 	
 	public int getAntetasjer() 
