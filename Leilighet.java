@@ -5,14 +5,9 @@ public class Leilighet extends Bolig
 	 private boolean balkong;
 	 private String leilighetsnr;
 	 
-	 public Leilighet(int etasje, boolean heis, boolean balkong, String leilighetsnr, String adresse, int postnr, String poststed, int boareal, int antrom, String byggeaar, String beskrivelse, int utleiepris, int aar, int maaned, int dag)
+	 public Leilighet(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar, String beskrivelse, int utleiepris)
 	 {
-		 super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);
-	    
-	    this.etasje = etasje;
-	    this.heis = heis;
-	    this.balkong = balkong;
-	    this.leilighetsnr = leilighetsnr;
+		super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);
 	 }
 	
 	public int getEtasje()
