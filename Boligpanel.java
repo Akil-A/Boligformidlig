@@ -8,14 +8,13 @@ import java.io.*;
 public class Boligpanel extends JPanel
 {
 
-	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomtestorrelse,tfra,ttil;
+	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomt,tfra,ttil,postnr,poststed;
 	private JButton sok;
 	private JButton vis;
-	private ButtonGroup bgHus,bgKjeller,bgGarasje,bgVask,bgHeis,bgBalkong;
+	private ButtonGroup bgHus;
 	public Boligregister br;
-	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lantrom,lbyggeaar,ltomtestorrelse,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt;
+	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,tilegg,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
-	private JScrollPane Skroller = new JScrollPane();
 	public Boligpanel()
 		{
 		
@@ -24,6 +23,10 @@ public class Boligpanel extends JPanel
 			Lytter lytter = new Lytter();
 			ladr = new JLabel("Adresse: ");
 			adr = new JTextField(10);
+			lpoststed = new JLabel("PostSted: ");
+			lpostnr = new JLabel("PostNr: ");
+			poststed = new JTextField(5);
+			postnr = new JTextField(5);
 			lpris = new JLabel("Utleiepris: ");
 			lfra = new JLabel("Fra: ");
 			fra = new JTextField(6);
@@ -38,6 +41,7 @@ public class Boligpanel extends JPanel
 			tfra = new JTextField(6);
 			lttil = new JLabel("Til: ");
 			ttil = new JTextField(6);
+			tilegg = new JLabel("Tilegg: ");
 			lboareal = new JLabel("Boareal: ");
 			lantrom = new JLabel("Antall rom: ");
 			antrom = new JTextField(20);
@@ -92,6 +96,11 @@ public class Boligpanel extends JPanel
 			pAdresse.add(ladr);
 			pAdresse.add(adr);
 			
+			JPanel pPost = new JPanel();
+			pPost.add(lpostnr);
+			pPost.add(postnr);
+			pPost.add(lpoststed);
+			pPost.add(poststed);
 			JPanel utforfelt = new JPanel();
 			
 			JPanel SjekkboksHus = new JPanel();
@@ -140,22 +149,28 @@ public class Boligpanel extends JPanel
 			JPanel pEtasje = new JPanel();
 			pEtasje.add(letasje);
 			pEtasje.add(etasje);
+			pEtasje.add(lantetasje);
+			pEtasje.add(antetasje);
 			
-			JPanel pantEtasje = new JPanel();
-			pantEtasje.add(lantetasje);
-			pantEtasje.add(antetasje);
 			
 			JPanel pantRom = new JPanel();
 			pantRom.add(lantrom);
 			pantRom.add(antrom);
 			
-			JPanel pByggeaar = new JPanel();
-			pByggeaar.add(lbyggeaar);
-			pByggeaar.add(byggeaar);
-			
+		
 			JPanel pDato = new JPanel();
 			pDato.add(ldato);
 			pDato.add(dato);
+			pDato.add(lbyggeaar);
+			pDato.add(byggeaar);
+			
+			JPanel pTilegg = new JPanel();
+			pTilegg.add(tilegg);
+			pTilegg.add(pHeis);
+			pTilegg.add(pGarasje);
+			pTilegg.add(pKjeller);
+			pTilegg.add(pBalkong);
+			pTilegg.add(pVask);
 			
 
 			SjekkboksHus.add(Rekkehus);
@@ -168,24 +183,50 @@ public class Boligpanel extends JPanel
 			
 			
 			JComponent innerPanel = new JPanel();
-            innerPanel.setLayout(new FlowLayout());
-            innerPanel.setPreferredSize(new Dimension(400, 500)); // (bredde, høyde)
-            innerPanel.add(pAdresse);
-            innerPanel.add(pType);
-            innerPanel.add(pBoareal);
-            innerPanel.add(pTomt);
-            innerPanel.add(pPrisen);
-            innerPanel.add(pHeis);
-            innerPanel.add(pEtasje);
-            innerPanel.add(pantEtasje);
-            innerPanel.add(pGarasje);
-            innerPanel.add(pKjeller);
-            innerPanel.add(pVask);
-            innerPanel.add(pByggeaar);
-            innerPanel.add(pDato);
+            innerPanel.setLayout(new GridBagLayout());
+            
+            
+            GridBagConstraints gc = new GridBagConstraints();
+            gc.anchor = GridBagConstraints.WEST;
+            
+            gc.gridy = 0;
+            
+            gc.gridx = 0;
+            innerPanel.add(pAdresse, gc);
+            
+            gc.gridy = 1;
+            
+            gc.gridx = 0;
+            innerPanel.add(pPost, gc);
+         
+            
+            gc.gridy = 2;
+            
+            gc.gridx = 0;
+            innerPanel.add(pBoareal, gc);
+            
+          
+            gc.gridy = 3;
+            
+            gc.gridx = 0;
+            innerPanel.add(pTomt, gc);
+            
+            gc.gridy = 4;
+            gc.gridx = 0;
+            innerPanel.add(pPrisen, gc);
+          
+            gc.gridy = 5;
+            gc.gridx = 0;
+            innerPanel.add(pType, gc);
+            
+            gc.gridy = 6;
+            gc.gridx = 0;
+            innerPanel.add(pTilegg, gc);
+            
+            
            
             JScrollPane rullePanel = new JScrollPane(innerPanel);
-            rullePanel.setPreferredSize(new Dimension(450, 250)); // (bredde, høyde)
+            rullePanel.setPreferredSize(new Dimension(500, 360)); // (bredde, høyde)
             add(rullePanel);
              
 			bgHus = new ButtonGroup();
