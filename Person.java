@@ -1,3 +1,6 @@
+package prosjekttest;
+
+
 abstract public class Person
 {
 	private int personNr;
@@ -9,6 +12,7 @@ abstract public class Person
 	private String email;
 	private String telefon;
 	private String poststed;
+	private String yrke;
 	private int postnr;
 	
 	public Person(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
@@ -98,5 +102,14 @@ abstract public class Person
 	{
 		this.postnr = postnr;
 	}
-
+	
+	public String getYrke()
+	{
+		return yrke;
+	}
+	
+	public void setyrke(String yrke)
+	{
+		this.postnr = postnr;
+	}
 }
