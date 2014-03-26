@@ -11,12 +11,11 @@ abstract public class Bolig
 	private String poststed;
 	private int boareal;
 	private int antrom;
-	private String byggeaar;
+	private int byggeaar;
 	private String beskrivelse;
-	private String beliggenhet;
 	private int utleiepris;
 	
-	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, String byggeaar, String beskrivelse, int utleiepris)
+	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar, String beskrivelse, int utleiepris)
 	{
 		boligNr = boligTeller++;
 		annonsedato = new Date();
@@ -89,12 +88,12 @@ abstract public class Bolig
 		return boareal;
 	}
 	
-	public void setByggeaar(String byggeaar) 
+	public void setByggeaar(int byggeaar) 
 	{
 		this.byggeaar = byggeaar;
 	}
 	
-	public String getByggeaar()
+	public int getByggeaar()
 	{
 		return byggeaar;
 	}
@@ -118,17 +117,6 @@ abstract public class Bolig
 	{
 		return utleiepris;
 	}
-	
-	public void setBeliggenhet(String beliggenhet) 
-	{
-		this.beliggenhet = beliggenhet;
-	}
-	
-	public String getBeliggenhet()
-	{
-		return beliggenhet;
-	}
-	
 	
 	public String toString()
 	{
