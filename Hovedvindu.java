@@ -1,96 +1,53 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.ArrayList;
 
 public class Hovedvindu extends JFrame
 {
-	private JButton personer, nyperson, boliger, nybolig, kontrakter;
-	private Lytter lytter;
+	
 	public Boligregister br;
 	
 	public Hovedvindu()
 	{
-		super("Boligformidling");
-		setSize(400, 250);
+		super("Boligformidling AS");
+		setSize(700, 600);
 		
-		// må hentes fra fil
+		// boligregister må hentes fra fil
 		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
 		
-		personer = new JButton("Personer");
-		personer.addActionListener(lytter);
-		personer.setPreferredSize(new Dimension(200, personer.getPreferredSize().height));
+
+		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		nyperson = new JButton("Ny person");
-		nyperson.addActionListener(lytter);
-		nyperson.setPreferredSize(new Dimension(100, personer.getPreferredSize().height));
+		JComponent boligpanel = new Boligpanel();
+		tabbedPane.addTab("Boliger", boligpanel);
+		JComponent panel2 = new JPanel();
+		tabbedPane.addTab("Personer", panel2);
+		JComponent panel3 = new JPanel();
+		tabbedPane.addTab("Kontrakter", panel3);
 		
-		boliger = new JButton("Boliger");
-		boliger.addActionListener(lytter);
-		boliger.setPreferredSize(new Dimension(200, personer.getPreferredSize().height));
-		
-		nybolig = new JButton("Ny bolig");
-		nybolig.addActionListener(lytter);
-		nybolig.setPreferredSize(new Dimension(100, personer.getPreferredSize().height));
-		
-		kontrakter = new JButton("Kontrakter");
-		kontrakter.addActionListener(lytter);
-		kontrakter.setPreferredSize(new Dimension(200, personer.getPreferredSize().height));
-		
-		JPanel p = new JPanel( new GridBagLayout() );
-		
-		GridBagConstraints gc = new GridBagConstraints();
-		
-		gc.insets.left = 5;
-		gc.insets.top = 5;
-		
-		gc.gridx = 0;
-		gc.gridy = 0;
-		p.add(personer, gc);
-		
-		gc.gridx = 1;
-		gc.gridy = 0;
-		p.add(nyperson, gc);
-		
-		gc.gridx = 0;
-		gc.gridy = 1;
-		p.add(boliger, gc);
-		
-		gc.gridx = 1;
-		gc.gridy = 1;
-		p.add(nybolig, gc);
-		
-		gc.gridx = 0;
-		gc.gridy = 2;
-		p.add(kontrakter, gc);
 		
 		Container c = getContentPane();
-		c.setLayout(new BorderLayout());
-		
-		c.add(p, BorderLayout.NORTH);
-		
-		
+		c.add(tabbedPane);
 
 		setVisible( true );
 		setLocationRelativeTo( null ); // Vinduet starter på midten av skjermen.
 	}
 	
-	private class Lytter implements ActionListener
+	public static void main( String[] args )
 	{
-		public void actionPerformed( ActionEvent e )
-		{
-			/*
-			if (e.getSource() == personer)
-				Personvindu p = new Personvindu(br);
-			else if (e.getSource() == nyperson)
-				Nypersonvindu np = new Nypersonvindu(br);
-			else if (e.getSource() == boliger)
-				Boligvindu b = new Boligvindu(br);
-			else if (e.getSource() == nybolig)
-				Nyboligvindu nb = new Nyboligvindu(br);
-			else if (e.getSource() == kontrakter)
-				Kontraktvindu k = new Kontraktvindu(br);
-			*/
-		}
+		final Hovedvindu hv = new Hovedvindu();
+
+		hv.addWindowListener(
+			new WindowAdapter()
+			{
+				public void windowClosing( WindowEvent e )
+				{
+					//hv.skrivTilFil();
+					System.exit( 0 );
+				}
+			} );
 	}
 }
