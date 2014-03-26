@@ -1,3 +1,5 @@
+package prosjekttest;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -41,6 +43,7 @@ public class Personskjemavindu extends JFrame
     private JPanel p2;
     private JPanel p3;
     private JPanel p4;
+    private JPanel p5;
 
     public Personskjemavindu()
     {
@@ -110,6 +113,7 @@ public class Personskjemavindu extends JFrame
         p2 = new JPanel();
         p3 = new JPanel();
         p4 = new JPanel();
+        p5 = new JPanel();
 
         gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.WEST;
@@ -164,17 +168,44 @@ public class Personskjemavindu extends JFrame
         gc.gridy = 12;
         p3.add(royker);
 
-        gc.insets.top = 20;
+        gc.insets.top = 10;
+        gc.gridx = 3;
+        gc.gridy = 12;
+        p3.add(hage);
+
+        gc.insets.top = 10;
+        gc.gridx = 4;
+        gc.gridy = 12;
+        p3.add(heis);
+
+        gc.insets.top = 10;
+        gc.gridx = 5;
+        gc.gridy = 12;
+        p3.add(parkering);
+
         gc.gridx = 0;
         gc.gridy = 15;
+        p5.add(sivilstatus);
+
+        gc.gridx = 3;
+        gc.gridy = 15;
+        p5.add(boligtype);
+
+        gc.gridx = 6;
+        gc.gridy = 15;
+        p5.add(arbeidsforhold);
+
+        gc.insets.top = 20;
+        gc.gridx = 0;
+        gc.gridy = 18;
         p1.add(seBoligknapp);
 
         gc.gridx = 0;
-        gc.gridy = 16;
+        gc.gridy = 19;
         p1.add(slettknapp1);
 
         gc.gridx = 0;
-        gc.gridy = 17;
+        gc.gridy = 20;
         p1.add(registrerknapp);
 
         gc.gridx = 0;
@@ -189,11 +220,28 @@ public class Personskjemavindu extends JFrame
 
         gc.gridwidth = 2;
         gc.gridx = 0;
-        gc.gridy = 13;
-        c.add(p1, gc);
-        c.add(p2, gc);
-        c.add(p3, gc);
+        gc.gridy = 15;
         c.add(p4, gc);
+
+        gc.gridwidth = 2;
+        gc.gridx = 0;
+        gc.gridy = 17;
+        c.add(p3, gc);
+
+        gc.gridwidth = 2;
+        gc.gridx = 0;
+        gc.gridy = 19;
+        c.add(p2, gc);
+
+        gc.gridwidth = 2;
+        gc.gridx = 0;
+        gc.gridy = 20;
+        c.add(p5, gc);
+
+        gc.gridwidth = 2;
+        gc.gridx = 0;
+        gc.gridy = 23;
+        c.add(p1, gc);
 
         setSize( 500, 400 );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
