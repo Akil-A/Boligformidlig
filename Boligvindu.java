@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-public class Boligvindu extends JFrame
+public class Boligvindu extends JPanel
 {
 
 	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomtestorrelse,tfra,ttil;
@@ -14,12 +14,15 @@ public class Boligvindu extends JFrame
 	private ButtonGroup bgHus,bgKjeller,bgGarasje,bgVask,bgHeis,bgBalkong;
 	public Boligregister br;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lantrom,lbyggeaar,ltomtestorrelse,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt;
-	private JCheckBox Enebolig,Rekkehus,Leilighet,KJa,KNei,GJa,GNei,VJa,VNei,HJa,HNei,BJa,BNei;
+	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
+	private JScrollPane Skroller;
 	public Boligvindu()
 		{
-			super("Bolig");
-			setSize(550,550);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+			
+			
+			add(Skroller);
+			setSize(600,600);
 			Lytter lytter = new Lytter();
 			ladr = new JLabel("Adresse: ");
 			adr = new JTextField(20);
@@ -61,70 +64,99 @@ public class Boligvindu extends JFrame
 			Enebolig = new JCheckBox("Enebolig");
 			Rekkehus = new JCheckBox("Rekkehus");
 			Leilighet = new JCheckBox("Leilighet");
-			KJa = new JCheckBox("Ja");
-			KNei = new JCheckBox("Nei");
-			GJa = new JCheckBox("Ja");
-			GNei = new JCheckBox("Nei");
-			VJa = new JCheckBox("Ja");
-			VNei = new JCheckBox("Nei");
-			HJa = new JCheckBox("Ja");
-			HNei = new JCheckBox("Nei");
-			BJa = new JCheckBox("Ja");
-			BNei = new JCheckBox("Nei");
+			Vask = new JCheckBox();
+			Garasje = new JCheckBox();
+			Heis = new JCheckBox();
+			Balkong = new JCheckBox();
+			Kjeller = new JCheckBox();
+			JPanel pAdresse = new JPanel();
+			pAdresse.add(ladr);
+			pAdresse.add(adr);
+			
 			JPanel utforfelt = new JPanel();
+			
 			JPanel SjekkboksHus = new JPanel();
-			JPanel SjekkboksKjeller = new JPanel();
-		    JPanel SjekkboksHeis = new JPanel();
-		    JPanel SjekkboksBalkong = new JPanel();
-		    JPanel SjekkboksVask = new JPanel();
-		    JPanel SjekkboksGarasje = new JPanel();
-		    JPanel boareal = new JPanel();
-		    JPanel tomt = new JPanel();
-		    tomt.add(ltfra);
-		    tomt.add(tfra);
-		    tomt.add(lttil);
-		    tomt.add(ttil);
-		    boareal.add(lbfra);
-		    boareal.add(bfra);
-		    boareal.add(lbtil);
-		    boareal.add(btil);
+		 
+		    JPanel pTomt = new JPanel();
+		    pTomt.add(ltomt);
+		    pTomt.add(ltfra);
+		    pTomt.add(tfra);
+		    pTomt.add(lttil);
+		    pTomt.add(ttil);
+		   
+		    JPanel pBoareal = new JPanel();
+		    pBoareal.add(lboareal);
+		    pBoareal.add(lbfra);
+		    pBoareal.add(bfra);
+		    pBoareal.add(lbtil);
+		    pBoareal.add(btil);
 		    
-			JPanel prisen = new JPanel();
-			prisen.add(lfra);
-			prisen.add(fra);
-			prisen.add(ltil);
-			prisen.add(til);
+			JPanel pPrisen = new JPanel();
+			pPrisen.add(lpris);
+			pPrisen.add(lfra);
+			pPrisen.add(fra);
+			pPrisen.add(ltil);
+			pPrisen.add(til);
+			
+			JPanel pKjeller = new JPanel();
+			pKjeller.add(lkjeller);
+			pKjeller.add(Kjeller);
+			
+			JPanel pBalkong = new JPanel();
+			pBalkong.add(lbalkong);
+			pBalkong.add(Balkong);
+			
+			JPanel pGarasje = new JPanel();
+			pGarasje.add(lgarasje);
+			pGarasje.add(Garasje);
+			
+			JPanel pVask = new JPanel();
+			pVask.add(lvask);
+			pVask.add(Vask);
+			
+			JPanel pHeis = new JPanel();
+			pHeis.add(lheis);
+			pHeis.add(Heis);
+			
+			JPanel pEtasje = new JPanel();
+			pEtasje.add(letasje);
+			pEtasje.add(etasje);
+			
+			JPanel pantEtasje = new JPanel();
+			pantEtasje.add(lantetasje);
+			pantEtasje.add(antetasje);
+			
+			JPanel pantRom = new JPanel();
+			pantRom.add(lantrom);
+			pantRom.add(antrom);
+			
+			JPanel pByggeaar = new JPanel();
+			pByggeaar.add(lbyggeaar);
+			pByggeaar.add(byggeaar);
+			
+			JPanel pDato = new JPanel();
+			pDato.add(ldato);
+			pDato.add(dato);
+			
+
+			SjekkboksHus.add(Rekkehus);
+			SjekkboksHus.add(Enebolig);
+			SjekkboksHus.add(Leilighet);
+			
+			JPanel pType = new JPanel();
+			pType.add(ltype);
+			pType.add(SjekkboksHus);
+			
 			bgHus = new ButtonGroup();
 			bgHus.add(Enebolig);
 			bgHus.add(Rekkehus);
 			bgHus.add(Leilighet);
 			
-			bgKjeller = new ButtonGroup();
-			bgKjeller.add(KJa);
-			bgKjeller.add(KNei);
-			
-			bgGarasje = new ButtonGroup();
-			bgGarasje.add(GJa);
-			bgGarasje.add(GNei);
-			
-			bgVask = new ButtonGroup();
-			bgVask.add(VJa);
-			bgVask.add(VNei);
-			
-			bgHeis = new ButtonGroup();
-			bgHeis.add(HJa);
-			bgHeis.add(HNei);
-			
-			bgBalkong = new ButtonGroup();
-			bgBalkong.add(BJa);
-			bgBalkong.add(BNei);
-			
 			
 			GridBagConstraints gc = new GridBagConstraints();
 
 			gc.anchor = GridBagConstraints.WEST;
-			Container c = getContentPane();
-			c.setLayout(new GridBagLayout());
+			setLayout(new GridBagLayout());
 			
 			
 			
@@ -133,151 +165,83 @@ public class Boligvindu extends JFrame
 			
 			gc.gridx = 0;
 			gc.gridy = 0;
-			c.add(ladr, gc);
+			add(pAdresse, gc);
 			
-			gc.gridx = 1;
-			gc.gridy = 0;
-			c.add(adr, gc);
-			
-			gc.gridx = 0;
-			gc.gridy = 1;
-			c.add(lpris,gc);
-			
-			gc.gridx = 1;
-			gc.gridy = 1;
-			c.add(prisen,gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 2;
-			c.add(lboareal, gc);
-			
-			gc.gridx = 1;
-			gc.gridy = 2;
-			c.add(boareal, gc);
+			add(pPrisen,gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 3;
-			c.add(ltomt, gc);
+			add(pBoareal, gc);
 			
-			gc.gridx = 1;
-			gc.gridy = 3;
-			c.add(tomt, gc);
-			
+		
 			gc.gridx = 0;
 			gc.gridy = 4;
-			c.add(letasje, gc);
-			
-			gc.gridx = 1;
-			gc.gridy = 4;
-			c.add(etasje, gc);
+			add(pTomt, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 5;
-			c.add(lantetasje, gc);
+			add(pEtasje, gc);
 			
-			gc.gridx = 1;
-			gc.gridy = 5;
-			c.add(antetasje, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 6;
-			c.add(lantrom, gc);
+			add(pantEtasje, gc);
 			
-			gc.gridx = 1;
-			gc.gridy = 6;
-			c.add(antrom, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 7;
-			c.add(lbyggeaar, gc);
+			add(pantRom, gc);
 			
-			gc.gridx = 1;
-			gc.gridy = 7;
-			c.add(byggeaar, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 8;
-			c.add(ldato, gc);
-			
-			gc.gridx = 1;
-			gc.gridy = 8;
-			c.add(dato, gc);
-			
+			add(pByggeaar, gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 9;
-			c.add(ltype, gc);
+			add(pDato, gc);
 			
-			SjekkboksHus.add(Rekkehus);
-			SjekkboksHus.add(Enebolig);
-			SjekkboksHus.add(Leilighet);
-			
-			gc.gridx = 1;
-			gc.gridy = 9;
-			c.add(SjekkboksHus,gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 10;
-			c.add(lkjeller,gc);
-			
-			SjekkboksKjeller.add(KJa);
-			SjekkboksKjeller.add(KNei);
-			gc.gridx = 1;
-			gc.gridy = 10;
-			c.add(SjekkboksKjeller,gc);
-			
+			add(pType, gc);
+		
 			gc.gridx = 0;
 			gc.gridy = 11;
-			c.add(lgarasje,gc);
+			add(pKjeller,gc);
 			
-			SjekkboksGarasje.add(GJa);
-			SjekkboksGarasje.add(GNei);
-			gc.gridx = 1;
-			gc.gridy = 11;
-			c.add(SjekkboksGarasje,gc);
+	
 			
 			gc.gridx = 0;
 			gc.gridy = 12;
-			c.add(lheis,gc);
-			
-			SjekkboksHeis.add(HJa);
-			SjekkboksHeis.add(HNei);
-			gc.gridx = 1;
-			gc.gridy = 12;
-			c.add(SjekkboksHeis,gc);
+			add(pGarasje,gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 13;
-			c.add(lvask, gc);
-			
-			SjekkboksVask.add(VJa);
-			SjekkboksVask.add(VNei);
-			gc.gridx = 1;
-			gc.gridy = 13;
-			c.add(SjekkboksVask,gc);
-			
+			add(pHeis,gc);
 			
 			gc.gridx = 0;
 			gc.gridy = 14;
-			c.add(lbalkong, gc);
+			add(pVask, gc);
+	
 			
-			SjekkboksBalkong.add(BJa);
-			SjekkboksBalkong.add(BNei);
-			gc.gridx = 1;
-			gc.gridy = 14;
-			c.add(SjekkboksBalkong, gc);
+			gc.gridx = 0;
+			gc.gridy = 15;
+			add(pBalkong, gc);
 			
 			utforfelt.add(sok);
 			utforfelt.add(vis);
 			gc.gridx = 0;
-			gc.gridy = 15;
+			gc.gridy = 16;
 			gc.anchor = GridBagConstraints.CENTER;
 			gc.gridwidth = 2;
-			c.add(utforfelt, gc);
+			add(utforfelt, gc);
 			
 			
-			setVisible( true );
-			setLocationRelativeTo( null );
+			
 		}
 	
 	private class Lytter implements ActionListener
@@ -288,26 +252,48 @@ public class Boligvindu extends JFrame
 			
 				{
 					if(Enebolig.isSelected())
+						{
+						
+						}
+						else if(Rekkehus.isSelected())
+						{
+							
+						}
+						else if(Leilighet.isSelected())
+						{
+							
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null,"Du maa velge minst en checkbox for aa soke!");
+						}
+					
+					if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Garasje.isSelected() && Balkong.isSelected())
 					{
 						
 					}
-					else if(Rekkehus.isSelected())
+					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Garasje.isSelected() )
 					{
 						
 					}
-					else if(Leilighet.isSelected())
+					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected())
 					{
 						
 					}
-					else
+					else if(Kjeller.isSelected())
 					{
-						JOptionPane.showMessageDialog(null,"Du ma velge minst en checkbox for a soke, eller trykk pa vis alle");
+						
 					}
+					else if(Kjeller.isSelected() && Heis.isSelected())
+					{
+						
+					}
+					else if(Kjeller.isSelected())
+					{
+						
+					}
+					
 				}   
-			else if(e.getSource() == vis)
-			{
-				
-			}
 			}
 		}
 	
