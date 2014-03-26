@@ -1,3 +1,5 @@
+package prosjekttest;
+
 import java.util.ArrayList;
 
 public class Main
@@ -11,6 +13,8 @@ public class Main
         ArrayList<Kontrakt> k = new ArrayList<>();
         ArrayList<Interesse> i = new ArrayList<>();
         Boligregister bso = new Boligregister(p, k, i);
-        Personvindu pvo = new Personvindu(bso);
+       // Personvindu pvo = new Personvindu(bso);
+       Personskjemavindu psvo = new Personskjemavindu();
+     //   Hovedvindu hvo = new Hovedvindu();
     }
 }
