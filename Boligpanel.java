@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-public class Boligvindu extends JPanel
+public class Boligpanel extends JPanel
 {
 
 	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomtestorrelse,tfra,ttil;
@@ -16,7 +16,7 @@ public class Boligvindu extends JPanel
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lantrom,lbyggeaar,ltomtestorrelse,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
 	private JScrollPane Skroller;
-	public Boligvindu()
+	public Boligpanel()
 		{
 		
 			
