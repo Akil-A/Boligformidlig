@@ -15,38 +15,57 @@ public class Boligpanel extends JPanel
 	public Boligregister br;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lantrom,lbyggeaar,ltomtestorrelse,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
-	private JScrollPane Skroller;
+	private JScrollPane Skroller = new JScrollPane();
 	public Boligpanel()
 		{
 		
 			
-			
-			add(Skroller);
-			setSize(600,600);
+		
 			Lytter lytter = new Lytter();
 			ladr = new JLabel("Adresse: ");
-			adr = new JTextField(20);
+			adr = new JTextField(10);
 			lpris = new JLabel("Utleiepris: ");
 			lfra = new JLabel("Fra: ");
-			fra = new JTextField(10);
+			fra = new JTextField(6);
 			ltil = new JLabel("Til: ");
-			til = new JTextField(10);
+			til = new JTextField(6);
 			lbfra = new JLabel("Fra: ");
-			bfra = new JTextField(10);
+			bfra = new JTextField(6);
 			lbtil = new JLabel("Til: ");
-			btil = new JTextField(10);
+			btil = new JTextField(6);
 			ltomt = new JLabel("Tomtestørrelse: ");
 			ltfra = new JLabel("Fra: ");
-			tfra = new JTextField(10);
+			tfra = new JTextField(6);
 			lttil = new JLabel("Til: ");
-			ttil = new JTextField(10);
+			ttil = new JTextField(6);
 			lboareal = new JLabel("Boareal: ");
 			lantrom = new JLabel("Antall rom: ");
 			antrom = new JTextField(20);
 			lbyggeaar = new JLabel("Byggeår: ");
-			byggeaar = new JTextField(20);
+			byggeaar = new JTextField(6);
 			ldato = new JLabel("Dato: ");
-			dato = new JTextField(20);
+			dato = new JTextField(10);
+			dato.setText("eks: 21/12/1989");
+			dato.setForeground(Color.GRAY);
+			dato.addFocusListener(new FocusListener()
+			{
+				public void focusGained(FocusEvent f)
+				{
+					if(dato.getText().equals("eks: 21/12/1989"))
+					dato.setText("");
+					dato.setForeground(Color.BLACK);
+				}
+
+				@Override
+				public void focusLost(FocusEvent arg0)
+				{
+					if(dato.getText().equals(""))
+						{
+							dato.setText("eks: 21/12/1989");
+							dato.setForeground(Color.GRAY);
+						}
+				}
+			});
 			ltype = new JLabel("Type: ");
 			lkjeller = new JLabel("Kjeller: ");
 			lbalkong = new JLabel("Balkong: ");
@@ -54,9 +73,9 @@ public class Boligpanel extends JPanel
 			lvask = new JLabel("Felles vask: ");
 			lheis = new JLabel("Heis: ");
 			letasje = new JLabel("Etasje: ");
-			etasje = new JTextField(20);
+			etasje = new JTextField(5);
 			lantetasje = new JLabel("Antall etasjer: ");
-			antetasje = new JTextField(20);
+			antetasje = new JTextField(5);
 			sok = new JButton("Sok bolig");
 			sok.addActionListener(lytter);
 			vis = new JButton("Vis alle");
@@ -147,101 +166,38 @@ public class Boligpanel extends JPanel
 			pType.add(ltype);
 			pType.add(SjekkboksHus);
 			
+			
+			JComponent innerPanel = new JPanel();
+            innerPanel.setLayout(new FlowLayout());
+            innerPanel.setPreferredSize(new Dimension(400, 500)); // (bredde, høyde)
+            innerPanel.add(pAdresse);
+            innerPanel.add(pType);
+            innerPanel.add(pBoareal);
+            innerPanel.add(pTomt);
+            innerPanel.add(pPrisen);
+            innerPanel.add(pHeis);
+            innerPanel.add(pEtasje);
+            innerPanel.add(pantEtasje);
+            innerPanel.add(pGarasje);
+            innerPanel.add(pKjeller);
+            innerPanel.add(pVask);
+            innerPanel.add(pByggeaar);
+            innerPanel.add(pDato);
+           
+            JScrollPane rullePanel = new JScrollPane(innerPanel);
+            rullePanel.setPreferredSize(new Dimension(450, 250)); // (bredde, høyde)
+            add(rullePanel);
+             
 			bgHus = new ButtonGroup();
 			bgHus.add(Enebolig);
 			bgHus.add(Rekkehus);
 			bgHus.add(Leilighet);
 			
 			
-			GridBagConstraints gc = new GridBagConstraints();
-
-			gc.anchor = GridBagConstraints.WEST;
-			setLayout(new GridBagLayout());
 			
-			
-			
-			gc.insets.bottom = 3;
-			gc.insets.left = 3;
-			
-			gc.gridx = 0;
-			gc.gridy = 0;
-			add(pAdresse, gc);
-			
-			
-			gc.gridx = 0;
-			gc.gridy = 2;
-			add(pPrisen,gc);
-			
-			gc.gridx = 0;
-			gc.gridy = 3;
-			add(pBoareal, gc);
-			
-		
-			gc.gridx = 0;
-			gc.gridy = 4;
-			add(pTomt, gc);
-			
-			gc.gridx = 0;
-			gc.gridy = 5;
-			add(pEtasje, gc);
-			
-			
-			gc.gridx = 0;
-			gc.gridy = 6;
-			add(pantEtasje, gc);
-			
-			
-			gc.gridx = 0;
-			gc.gridy = 7;
-			add(pantRom, gc);
-			
-			
-			gc.gridx = 0;
-			gc.gridy = 8;
-			add(pByggeaar, gc);
-			
-			gc.gridx = 0;
-			gc.gridy = 9;
-			add(pDato, gc);
-			
-			
-			gc.gridx = 0;
-			gc.gridy = 10;
-			add(pType, gc);
-		
-			gc.gridx = 0;
-			gc.gridy = 11;
-			add(pKjeller,gc);
-			
-	
-			
-			gc.gridx = 0;
-			gc.gridy = 12;
-			add(pGarasje,gc);
-			
-			gc.gridx = 0;
-			gc.gridy = 13;
-			add(pHeis,gc);
-			
-			gc.gridx = 0;
-			gc.gridy = 14;
-			add(pVask, gc);
-	
-			
-			gc.gridx = 0;
-			gc.gridy = 15;
-			add(pBalkong, gc);
 			
 			utforfelt.add(sok);
-			utforfelt.add(vis);
-			gc.gridx = 0;
-			gc.gridy = 16;
-			gc.anchor = GridBagConstraints.CENTER;
-			gc.gridwidth = 2;
-			add(utforfelt, gc);
-			
-			
-			
+		
 		}
 	
 	private class Lytter implements ActionListener
@@ -270,17 +226,21 @@ public class Boligpanel extends JPanel
 					
 					if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Garasje.isSelected() && Balkong.isSelected())
 					{
-						
+						JOptionPane.showMessageDialog(null,"Lol..");
 					}
 					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Garasje.isSelected() )
 					{
 						
 					}
-					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected())
+					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Balkong.isSelected() )
 					{
 						
 					}
-					else if(Kjeller.isSelected())
+					else if(Kjeller.isSelected() && Heis.isSelected() && Balkong.isSelected())
+					{
+						
+					}
+					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected())
 					{
 						
 					}
