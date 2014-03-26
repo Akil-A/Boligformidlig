@@ -13,6 +13,7 @@ abstract public class Bolig
 	private int antrom;
 	private String byggeaar;
 	private String beskrivelse;
+	private String beliggenhet;
 	private int utleiepris;
 	
 	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, String byggeaar, String beskrivelse, int utleiepris)
@@ -117,6 +118,17 @@ abstract public class Bolig
 	{
 		return utleiepris;
 	}
+	
+	public void setBeliggenhet(String beliggenhet) 
+	{
+		this.beliggenhet = beliggenhet;
+	}
+	
+	public String getBeliggenhet()
+	{
+		return beliggenhet;
+	}
+	
 	
 	public String toString()
 	{
