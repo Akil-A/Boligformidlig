@@ -1,120 +1,141 @@
 
 public class Boligsoker extends Person
 {
-	private int antallPersoner;
-	private String sivilstatus;
-	private String yrke;
-	private String arbeidsforhold;
-	private boolean royker;
-	private boolean husdyr;
-	private int boareal;
-	private int antallRom;
-	private String byggeaar;
-	private String utleiepris;
-	
-	public Boligsoker(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
-	{
-		super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
-	}
+    private int antallPersoner;
+    private String sivilstatus;
+    private String yrke;
+    private String arbeidsforhold;
+    private boolean royker;
+    private boolean husdyr;
+    private int fraStorrelse;
+    private int tilStorrelse;
+    private int antallRom;
+    private String byggeaar;
+    private String utleiepris;
 
-	public int getAntallPersoner()
-	{
-		return antallPersoner;
-	}
+    public Boligsoker(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
+    {
+        super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+    }
 
-	public void setAntallPersoner(int antallPersoner)
-	{
-		this.antallPersoner = antallPersoner;
-	}
+    public int getAntallPersoner()
+    {
+        return antallPersoner;
+    }
 
-	public String getSivilstatus()
-	{
-		return sivilstatus;
-	}
+    public void setAntallPersoner(int antallPersoner)
+    {
+        this.antallPersoner = antallPersoner;
+    }
 
-	public void setSivilstatus(String sivilstatus)
-	{
-		this.sivilstatus = sivilstatus;
-	}
+    public String getSivilstatus()
+    {
+        return sivilstatus;
+    }
 
-	public String getYrke()
-	{
-		return yrke;
-	}
+    public void setSivilstatus(String sivilstatus)
+    {
+        this.sivilstatus = sivilstatus;
+    }
 
-	public void setYrke(String yrke)
-	{
-		this.yrke = yrke;
-	}
+    public String getYrke()
+    {
+        return yrke;
+    }
 
-	public String getArbeidsforhold()
-	{
-		return arbeidsforhold;
-	}
+    public void setYrke(String yrke)
+    {
+        this.yrke = yrke;
+    }
 
-	public void setArbeidsforhold(String arbeidsforhold)
-	{
-		this.arbeidsforhold = arbeidsforhold;
-	}
+    public String getArbeidsforhold()
+    {
+        return arbeidsforhold;
+    }
 
-	public boolean isRoyker()
-	{
-		return royker;
-	}
+    public void setArbeidsforhold(String arbeidsforhold)
+    {
+        this.arbeidsforhold = arbeidsforhold;
+    }
 
-	public void setRoyker(boolean royker)
-	{
-		this.royker = royker;
-	}
+    public boolean isRoyker()
+    {
+        return royker;
+    }
 
-	public boolean isHusdyr()
-	{
-		return husdyr;
-	}
+    public void setRoyker(boolean royker)
+    {
+        this.royker = royker;
+    }
 
-	public void setHusdyr(boolean husdyr)
-	{
-		this.husdyr = husdyr;
-	}
+    public boolean isHusdyr()
+    {
+        return husdyr;
+    }
 
-	public int getBoareal()
-	{
-		return boareal;
-	}
+    public void setHusdyr(boolean husdyr)
+    {
+        this.husdyr = husdyr;
+    }
 
-	public void setBoareal(int boareal)
-	{
-		this.boareal = boareal;
-	}
+    public int getBoareal()
+    {
+        return boareal;
+    }
 
-	public int getAntallRom()
-	{
-		return antallRom;
-	}
+    public void setBoareal(int boareal)
+    {
+        this.boareal = boareal;
+    }
 
-	public void setAntallRom(int antallRom)
-	{
-		this.antallRom = antallRom;
-	}
+    public int getAntallRom()
+    {
+        return antallRom;
+    }
 
-	public String getByggeaar()
-	{
-		return byggeaar;
-	}
+    public void setAntallRom(int antallRom)
+    {
+        this.antallRom = antallRom;
+    }
 
-	public void setByggeaar(String byggeaar)
-	{
-		this.byggeaar = byggeaar;
-	}
+    public String getByggeaar()
+    {
+        return byggeaar;
+    }
 
-	public String getUtleiepris()
-	{
-		return utleiepris;
-	}
+    public void setByggeaar(String byggeaar)
+    {
+        this.byggeaar = byggeaar;
+    }
 
-	public void setUtleiepris(String utleiepris)
-	{
-		this.utleiepris = utleiepris;
-	}
+    public String getUtleiepris()
+    {
+        return utleiepris;
+    }
+
+    public void setUtleiepris(String utleiepris)
+    {
+        this.utleiepris = utleiepris;
+    }
+
+    public int getFraStorrelse()
+    {
+        return fraStorrelse;
+    }
+
+    public void setFraStorrelse(int fraStorrelse)
+    {
+        this.fraStorrelse = fraStorrelse;
+    }
+
+    public int getTilStorrelse()
+    {
+        return tilStorrelse;
+    }
+
+
+    public void setTilStorrelse(int tilStorrelse)
+    {
+        this.tilStorrelse = tilStorrelse;
+    }
 }
-
