@@ -1,6 +1,3 @@
-package prosjekttest;
-
-
 abstract public class Person
 {
 	private int personNr;
