@@ -12,6 +12,7 @@ public class Boligsoker extends Person
     private int antallRom;
     private String byggeaar;
     private String utleiepris;
+    private String firma;
 
     public Boligsoker(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
     {
@@ -127,5 +128,15 @@ public class Boligsoker extends Person
     public void setTilStorrelse(int tilStorrelse)
     {
         this.tilStorrelse = tilStorrelse;
+    }
+
+    public String getFirma()
+    {
+        return firma;
+    }
+
+    public void setFirma(String firma)
+    {
+        this.firma = firma;
     }
 }
