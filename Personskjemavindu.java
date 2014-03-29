@@ -5,69 +5,62 @@ import javax.swing.event.*;
 
 public class Personskjemavindu extends JFrame
 {
-    private JTextField forNavnfelt;
-    private JTextField etterNavnfelt;
-    private JTextField emailfelt;
-    private JTextField adressefelt;
-    private JTextField telefonfelt;
-    private JTextField yrkefelt;
-    private JTextField poststedfelt;
-    private JTextField postnrfelt;
-    private JTextField antPersonerfelt;
-    private JTextField beliggenhetfelt;
-    private JTextField fraStorrelsefelt;
-    private JTextField tilStorrelsefelt;
-    private JTextField antRomfelt;
-    private JLabel forNavn;
-    private JLabel etterNavn;
-    private JLabel email;
-    private JLabel adresse;
-    private JLabel telefon;
-    private JLabel yrke;
-    private JLabel poststed;
-    private JLabel postnr;
-    private JLabel antPersoner;
-    private JLabel beliggenhet;
-    private JLabel fraStorrelse;
-    private JLabel tilStorrelse;
-    private JLabel antRom;
+    private JTextField fornavnfelt, etternavnfelt, emailfelt, adressefelt, telefonfelt, yrkefelt, poststedfelt, postnrfelt, antPersonerfelt, beliggenhetfelt, fraStorrelsefelt, tilStorrelsefelt, antRomfelt, utleieprisfelt, firmafelt;
+    private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet, fraStorrelse, tilStorrelse, antRom, utleiepris, firma;
     private JButton seBoligknapp;
-    private JButton slettknapp1;
-    private JButton slettknapp2;
-    private JButton registrerknapp;
+    private JButton slettknapp1, slettknapp2, registrerknapp;
     private JButton finnBoligknapp;
     private JTextArea tekstomraade;
-    private JCheckBox utleier;
-    private JCheckBox boligsoker;
-    private JCheckBox husdyr;
-    private JCheckBox balkong;
-    private JCheckBox royker;
-    private JCheckBox hage;
-    private JCheckBox heis;
-    private JCheckBox parkering;
-    private JCheckBox enebolig;
-    private JCheckBox leilighet;
-    private JCheckBox rekkehus;
-    private JComboBox <String> sivilstatus;
-    private JComboBox <String> arbeidsforhold;
+    private JCheckBox utleier, boligsoker, husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
+    private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
     private GridBagConstraints gc;
     private Container c;
-    private JPanel p1;
-    private JPanel p2;
-    private JPanel p3;
-    private JPanel p4;
-    private JPanel p5;
-    private JPanel p6;
+    private JPanel ulpKnapper, bspKnapper, bspKrav1, typepanel, bspKrav2, bspKrav3;
 
-    public Personskjemavindu()
+  /*  public Personskjemavindu()
+    {
+    }*/
+
+    public Personskjemavindu(Person p)
     {
         super("Personskjemavindu");
 
+        fornavnfelt.setText(p.getFornavn());
+        etternavnfelt.setText(p.getEtternavn());
+        emailfelt.setText(p.getEmail());
+        adressefelt.setText(p.getAdresse());
+        telefonfelt.setText(p.getTelefon());
+        yrkefelt.setText(p.getYrke());
+        poststed.setText(p.getPoststed());
+        postnrfelt.setText(String.valueOf(p.getPostnr()));
+
+        if(p instanceof Boligsoker)
+        {
+            Boligsoker bso = ((Boligsoker) p);
+
+            antPersonerfelt.setText(String.valueOf(bso.getAntallPersoner()));
+            fraStorrelsefelt.setText(String.valueOf(bso.getFraStorrelse()));
+            tilStorrelse.setText(String.valueOf(bso.getTilStorrelse()));
+            antRomfelt.setText(String.valueOf(bso.getAntallRom()));
+            firmafelt.setText(bso.getFirma());
+            yrkefelt.setText(bso.getYrke());
+            utleieprisfelt.setText(bso.getUtleiepris());
+
+            royker.setSelected(bso.isRoyker());
+            husdyr.setSelected(bso.isHusdyr());
+            //sivilstatus og arbeidsforhold
+        }
+        else
+        {
+            Utleier ulo = ((Utleier) p);
+            
+        }
+
         sjekkboksLytter = new SjekkboksLytter();
 
-        forNavnfelt = new JTextField(10);
-        etterNavnfelt = new JTextField(10);
+        fornavnfelt = new JTextField(10);
+        etternavnfelt = new JTextField(10);
         adressefelt = new JTextField(10);
         telefonfelt = new JTextField(10);
         yrkefelt = new JTextField(10);
@@ -79,6 +72,8 @@ public class Personskjemavindu extends JFrame
         fraStorrelsefelt = new JTextField(10);
         tilStorrelsefelt = new JTextField(10);
         antRomfelt = new JTextField(10);
+        utleieprisfelt = new JTextField(10);
+        firmafelt = new JTextField(10);
 
         forNavn = new JLabel("Fornavn: ");
         etterNavn = new JLabel("Etternavn: ");
@@ -93,7 +88,9 @@ public class Personskjemavindu extends JFrame
         fraStorrelse = new JLabel("Fra storrelse: ");
         tilStorrelse = new JLabel("Til storrelse: ");
         antRom = new JLabel("Antall rom: ");
-        
+        utleiepris = new JLabel("Utleiepris: ");
+        firma = new JLabel("Firma: ");
+
         sivilstatus = new JComboBox<>();
         arbeidsforhold = new JComboBox<>();
 
@@ -144,19 +141,19 @@ public class Personskjemavindu extends JFrame
         gc.anchor = GridBagConstraints.WEST;
 
         gc.gridy = 0;
-        
+
         gc.gridx = 0;
         c.add(forNavn, gc);
-        
+
         gc.insets.left = 0;
         gc.gridx = 1;
-        c.add(forNavnfelt, gc);
-        
+        c.add(fornavnfelt, gc);
+
         gc.insets.left = 20;
         gc.gridx = 2;
         c.add(etterNavn, gc);
         gc.gridx = 3;
-        c.add(etterNavnfelt, gc);
+        c.add(etternavnfelt, gc);
 
         gc.insets.left = 0;
         gc.gridy = 1;
@@ -165,7 +162,7 @@ public class Personskjemavindu extends JFrame
         gc.insets.left = 0;
         gc.gridx = 1;
         c.add(adressefelt, gc);
-        
+
         gc.insets.left = 20;
         gc.gridx = 2;
         c.add(telefon, gc);
@@ -173,14 +170,14 @@ public class Personskjemavindu extends JFrame
         c.add(telefonfelt, gc);
 
         gc.gridy = 2;
-        
+
         gc.insets.left = 0;
         gc.gridx = 0;
         c.add(email, gc);
         gc.gridx = 1;
         gc.insets.left = 0;
         c.add(emailfelt, gc);
-        
+
         gc.insets.left = 20;
         gc.gridx = 2;
         c.add(yrke, gc);
@@ -189,7 +186,7 @@ public class Personskjemavindu extends JFrame
         c.add(yrkefelt, gc);
 
         gc.gridy = 3;
-        
+
         gc.insets.left = 0;
         gc.gridx = 0;
         c.add(postnr, gc);
@@ -203,7 +200,7 @@ public class Personskjemavindu extends JFrame
         c.add(poststedfelt, gc);
 
         gc.gridy = 4;
-        
+
         gc.insets.left = 0;
         gc.gridx = 0;
         c.add(antPersoner, gc);
@@ -216,7 +213,7 @@ public class Personskjemavindu extends JFrame
         c.add(beliggenhetfelt, gc);
 
         gc.gridy = 5;
-        
+
         gc.insets.left = 0;
         gc.gridx = 0;
         c.add(fraStorrelse, gc);
@@ -229,70 +226,90 @@ public class Personskjemavindu extends JFrame
         c.add(tilStorrelsefelt, gc);
 
         gc.gridy = 6;
-       
+
         gc.insets.left = 0;
         gc.gridx = 0;
         c.add(antRom, gc);
         gc.gridx = 1;
         c.add(antRomfelt, gc);
 
-        p1 = new JPanel();
-        p2 = new JPanel();
-        p3 = new JPanel();
-        p4 = new JPanel();
-        p5 = new JPanel();
-        p6 = new JPanel();
+        gc.insets.left = 20;
+        gc.gridx = 2;
+        c.add(utleiepris, gc);
+        gc.gridx = 3;
+        c.add(utleieprisfelt, gc);
 
-        p4.add(utleier);
-        p4.add(boligsoker);
+        gc.gridy = 7;
 
-        p3.add(husdyr);
-        p3.add(balkong);
-        p3.add(royker);
-        p3.add(hage);
-        p3.add(heis);
-        p3.add(parkering);
-        p6.add(enebolig);
-        p6.add(leilighet);
-        p6.add(rekkehus);
+        gc.insets.left = 0;
+        gc.gridx = 0;
+        c.add(firma, gc);
+        gc.gridx = 1;
+        c.add(firmafelt, gc);
 
-        p5.add(sivilstatus);
-        p5.add(arbeidsforhold);
+        //ulp = utleierpanel, bsp = boligsokerpanel
+        ulpKnapper = new JPanel();
+        bspKnapper = new JPanel();
+        bspKrav1 = new JPanel();
+        typepanel = new JPanel();
+        bspKrav2 = new JPanel();
+        bspKrav3 = new JPanel();
 
-        p1.add(seBoligknapp);
-        p1.add(slettknapp1);
-        p1.add(registrerknapp);
+        typepanel.add(utleier);
+        typepanel.add(boligsoker);
 
-        p2.add(finnBoligknapp);
-        p2.add(slettknapp2);
-        
+        bspKrav1.add(husdyr);
+        bspKrav1.add(balkong);
+        bspKrav1.add(royker);
+        bspKrav1.add(hage);
+        bspKrav1.add(heis);
+        bspKrav1.add(parkering);
+        bspKrav3.add(enebolig);
+        bspKrav3.add(leilighet);
+        bspKrav3.add(rekkehus);
+
+        bspKrav2.add(sivilstatus);
+        bspKrav2.add(arbeidsforhold);
+
+        ulpKnapper.add(seBoligknapp);
+        ulpKnapper.add(registrerknapp);
+        ulpKnapper.add(slettknapp1);
+
+        bspKnapper.add(finnBoligknapp);
+        bspKnapper.add(slettknapp2);
+
         gc.gridwidth = 4;
         gc.insets.left = -17;
         gc.insets.top = 15;
         gc.gridx = 0;
         gc.gridy = 15;
-        c.add(p4, gc);
-        
+        c.add(typepanel, gc);
+
         gc.gridy = 20;
-        c.add(p3, gc);
+        c.add(bspKrav1, gc);
         gc.insets.top = 0;
         gc.gridy = 21;
-        c.add(p6, gc);
-        
+        c.add(bspKrav3, gc);
+
+        gc.insets.top = 15;
         gc.gridy = 25;
-        c.add(p2, gc);
-        
-        gc.insets.top = 10;
-        gc.gridy = 26;
-        c.add(p5, gc);
+        c.add(bspKnapper, gc);
+
+        gc.gridy = 23;
+        gc.insets.top = 5;
+        c.add(bspKrav2, gc);
 
         gc.gridy = 27;
-        c.add(p1, gc);
+        c.add(ulpKnapper, gc);
 
-        setSize( 700, 700 );
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+        setSize(600, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        p2.setVisible(false);
+        bspKnapper.setVisible(false);
+        ulpKnapper.setVisible(false);
+        bspKrav1.setVisible(false);
+        bspKrav2.setVisible(false);
+        bspKrav3.setVisible(false);
         setVisible( true );
     }
 
@@ -301,21 +318,20 @@ public class Personskjemavindu extends JFrame
         public void stateChanged(ChangeEvent e)
         {
             if(utleier.isSelected())
-            {	
-            	p2.setVisible(false);
-                p1.setVisible(true);
-                p3.setVisible(false);
-                p6.setVisible(false);
-                p5.setVisible(false);
-                // p4.setVisible(true);
-                //c.add(p4, gc);
+            {
+                bspKnapper.setVisible(false);
+                ulpKnapper.setVisible(true);
+                bspKrav1.setVisible(false);
+                bspKrav3.setVisible(false);
+                bspKrav2.setVisible(false);
             }
             if(boligsoker.isSelected())
             {
-                p1.setVisible(false);
-                p2.setVisible(true);
-                p3.setVisible(true);
-                p6.setVisible(true);
+                ulpKnapper.setVisible(false);
+                bspKnapper.setVisible(true);
+                bspKrav1.setVisible(true);
+                bspKrav3.setVisible(true);
+                bspKrav2.setVisible(true);
             }
         }
     }
