@@ -78,16 +78,6 @@ public class Boligsoker extends Person
         this.husdyr = husdyr;
     }
 
-    public int getBoareal()
-    {
-        return boareal;
-    }
-
-    public void setBoareal(int boareal)
-    {
-        this.boareal = boareal;
-    }
-
     public int getAntallRom()
     {
         return antallRom;
