@@ -1,4 +1,9 @@
+package prosjekttest;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -7,25 +12,27 @@ public class Personskjemavindu extends JFrame
 {
     private JTextField fornavnfelt, etternavnfelt, emailfelt, adressefelt, telefonfelt, yrkefelt, poststedfelt, postnrfelt, antPersonerfelt, beliggenhetfelt, fraStorrelsefelt, tilStorrelsefelt, antRomfelt, utleieprisfelt, firmafelt;
     private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet, fraStorrelse, tilStorrelse, antRom, utleiepris, firma;
-    private JButton seBoligknapp;
-    private JButton slettknapp1, slettknapp2, registrerknapp;
-    private JButton finnBoligknapp;
-    private JTextArea tekstomraade;
+    private JButton slettknapp1, slettknapp2, utleierregistrerknapp, finnBoligknapp, seBoligknapp, boligsokerknapp;
     private JCheckBox utleier, boligsoker, husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
     private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
     private GridBagConstraints gc;
     private Container c;
     private JPanel ulpKnapper, bspKnapper, bspKrav1, typepanel, bspKrav2, bspKrav3;
+    private Lytter lytter;
 
-  /*  public Personskjemavindu()
+    public Personskjemavindu()
     {
-    }*/
+        super("Personskjemavindu");
+        lagVindu();
+    }
 
     public Personskjemavindu(Person p)
     {
         super("Personskjemavindu");
-
+        
+        lagVindu();
+        lytter = new Lytter();
         fornavnfelt.setText(p.getFornavn());
         etternavnfelt.setText(p.getEtternavn());
         emailfelt.setText(p.getEmail());
@@ -49,14 +56,29 @@ public class Personskjemavindu extends JFrame
 
             royker.setSelected(bso.isRoyker());
             husdyr.setSelected(bso.isHusdyr());
-            //sivilstatus og arbeidsforhold
+            sivilstatus.setSelectedItem(bso.getSivilstatus());
+            arbeidsforhold.setSelectedItem(bso.getArbeidsforhold());
         }
-        else
+      /*  else
         {
             Utleier ulo = ((Utleier) p);
             
-        }
+            fornavnfelt.setText(p.getFornavn());
+            etternavnfelt.setText(p.getEtternavn());
+            emailfelt.setText(p.getEmail());
+            adressefelt.setText(p.getAdresse());
+            telefonfelt.setText(p.getTelefon());
+            yrkefelt.setText(p.getYrke());
+            poststed.setText(p.getPoststed());
+            postnrfelt.setText(String.valueOf(p.getPostnr()));
+            
+        }*/
 
+    }
+    
+    public void lagVindu()
+    {
+    	
         sjekkboksLytter = new SjekkboksLytter();
 
         fornavnfelt = new JTextField(10);
@@ -93,12 +115,13 @@ public class Personskjemavindu extends JFrame
 
         sivilstatus = new JComboBox<>();
         arbeidsforhold = new JComboBox<>();
-
+        
+        sivilstatus.addItem("<Velg Sivilstatus>");
         sivilstatus.addItem("Gift");
         sivilstatus.addItem("Ugift");
         sivilstatus.addItem("Enke");
 
-        arbeidsforhold.addItem("");
+        arbeidsforhold.addItem("<Velg Arbeidsforhold>");
         arbeidsforhold.addItem("Arbeider");
         arbeidsforhold.addItem("Arbeidslos");
         arbeidsforhold.addItem("Pensjonist");
@@ -117,17 +140,18 @@ public class Personskjemavindu extends JFrame
         leilighet = new JCheckBox("Leilighet");
         rekkehus = new JCheckBox("Rekkehus");
 
-        tekstomraade = new JTextArea();
-
         seBoligknapp = new JButton("Se mine boliger");
-        //addlistener
+        seBoligknapp.addActionListener(lytter);
         slettknapp1 = new JButton("Slett");
-        //addlisteer
-        registrerknapp = new JButton("Registrer ny bolig paa meg");
-        //addlistener
+        slettknapp1.addActionListener(lytter);
+        utleierregistrerknapp = new JButton("Registrer ny bolig paa meg");
+        utleierregistrerknapp.addActionListener(lytter);
         slettknapp2 = new JButton("Slett");
-
+        slettknapp2.addActionListener(lytter);
         finnBoligknapp = new JButton("Finn bolig");
+        finnBoligknapp.addActionListener(lytter);
+        boligsokerknapp = new JButton("Registrer bolig");
+        boligsokerknapp.addActionListener(lytter);
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(utleier);
@@ -135,7 +159,6 @@ public class Personskjemavindu extends JFrame
 
         c = getContentPane();
         c.setLayout(new GridBagLayout());
-
 
         gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.WEST;
@@ -272,11 +295,12 @@ public class Personskjemavindu extends JFrame
         bspKrav2.add(arbeidsforhold);
 
         ulpKnapper.add(seBoligknapp);
-        ulpKnapper.add(registrerknapp);
+        ulpKnapper.add(utleierregistrerknapp);
         ulpKnapper.add(slettknapp1);
 
         bspKnapper.add(finnBoligknapp);
         bspKnapper.add(slettknapp2);
+        bspKnapper.add(boligsokerknapp);
 
         gc.gridwidth = 4;
         gc.insets.left = -17;
@@ -335,4 +359,13 @@ public class Personskjemavindu extends JFrame
             }
         }
     }
+    
+    private class Lytter implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			
+		}
+	}
+		
 }
