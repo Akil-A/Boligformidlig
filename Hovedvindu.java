@@ -1,3 +1,5 @@
+package prosjekttest;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -21,10 +23,10 @@ public class Hovedvindu extends JFrame
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		JComponent boligpanel = new Boligpanel();
+		JComponent boligpanel = new Boligpanel(br);
 		tabbedPane.addTab("Boliger", boligpanel);
-		JComponent panel2 = new JPanel();
-		tabbedPane.addTab("Personer", panel2);
+		JComponent personpanel = new Personpanel(br);
+		tabbedPane.addTab("Personer", personpanel);
 		JComponent panel3 = new JPanel();
 		tabbedPane.addTab("Kontrakter", panel3);
 		
