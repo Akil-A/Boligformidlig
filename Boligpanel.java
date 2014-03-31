@@ -241,30 +241,58 @@ public class Boligpanel extends JPanel
 			/***** testdata *****/
 			Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "");
 			Utleier p2 = new Utleier("Henrik", "Hansen", "Kirkegata 8", 3027, "Drammen", "", "");
-			Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 30 , 5 , 2006 , "" ,6000);
-			Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 30, 5, 2005, "", 7000);
+			Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 30 , 5 , 2006, "Hyggelig 3-roms med heis" ,6000);
+			Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 30, 5, 2005, "Nyoppusset og sentral beliggenhet", 7000);
 			p.settInnBolig(e);
 			p2.settInnBolig(r);
 			br.settInnPerson(p2);
 			br.settInnPerson(p);
 			/***** testdata slutt *****/
 			
-			JPanel Nord = new JPanel(new BorderLayout());
 			JPanel innerListePanel = new JPanel(new GridBagLayout());
 			GridBagConstraints gc3 = new GridBagConstraints();
-			gc3.anchor = GridBagConstraints.NORTH;
+			gc3.anchor = GridBagConstraints.NORTHWEST;
 			gc3.gridy = 0;
 			int i = 0;
 			for (Bolig b : br.getBoliger())
 			{
 				
-				JPanel Bolig = new JPanel();
-				Bolig.add(new JLabel(b.toString()));
+				JPanel Bolig = new JPanel(new GridBagLayout());
+				
+				JLabel Beskrivelse = new JLabel(b.getBeskrivelse());
+				JLabel Kvadratmeter = new JLabel(String.valueOf(b.getBoareal()));
+				JLabel Pris = new JLabel(String.valueOf(b.getUtleiepris()));
+
+				GridBagConstraints gc4 = new GridBagConstraints();
+				
+				gc4.anchor = GridBagConstraints.NORTHWEST;
+				
+				gc4.gridx = 0;
+				gc4.gridy = 0;
+				gc4.gridwidth = 2;
+				Bolig.add(Beskrivelse, gc4);
+				gc4.gridy = 1;
+				gc4.gridwidth = 1;
+				Bolig.add(Kvadratmeter, gc4);
+				gc4.gridx = 1;
+				Bolig.add(Pris, gc4);
+				
+				JSeparator sep = new JSeparator();
+				sep.setPreferredSize(new Dimension(super.getWidth(), 1));
+				
+				gc4.gridwidth = 2;
+				gc4.gridy = 2;
+				gc4.gridx = 0;
+				Bolig.add(sep, gc4);
+
+				gc3.gridy = i++;
 				innerListePanel.add(Bolig, gc3);
-				gc3.gridy = ++i;
 				
 			}
-			Nord.add(innerListePanel, BorderLayout.NORTH);
+			JPanel Vest = new JPanel(new BorderLayout());
+			Vest.add(innerListePanel, BorderLayout.WEST);
+			JPanel Nord = new JPanel(new BorderLayout());
+			Nord.add(Vest, BorderLayout.NORTH);
 			JScrollPane listePanel = new JScrollPane(Nord);
 			
 			add(listePanel, BorderLayout.CENTER);
