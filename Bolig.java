@@ -1,3 +1,5 @@
+package prosjekttest;
+
 import java.util.Date;
 
 abstract public class Bolig 
@@ -11,11 +13,12 @@ abstract public class Bolig
 	private String poststed;
 	private int boareal;
 	private int antrom;
-	private int byggeaar;
+	private String byggeaar;
 	private String beskrivelse;
+	private String beliggenhet;
 	private int utleiepris;
 	
-	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar, String beskrivelse, int utleiepris)
+	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, String byggeaar, String beskrivelse, int utleiepris)
 	{
 		boligNr = boligTeller++;
 		annonsedato = new Date();
@@ -88,12 +91,12 @@ abstract public class Bolig
 		return boareal;
 	}
 	
-	public void setByggeaar(int byggeaar) 
+	public void setByggeaar(String byggeaar) 
 	{
 		this.byggeaar = byggeaar;
 	}
 	
-	public int getByggeaar()
+	public String getByggeaar()
 	{
 		return byggeaar;
 	}
@@ -118,11 +121,21 @@ abstract public class Bolig
 		return utleiepris;
 	}
 	
+	public void setBeliggenhet(String beliggenhet) 
+	{
+		this.beliggenhet = beliggenhet;
+	}
+	
+	public String getBeliggenhet()
+	{
+		return beliggenhet;
+	}
+	
 	public String toString()
 	{
 		String s = "Boareal: " + boareal +
 					"\nAntall rom: " + antrom +
-					"\nByggeår: " + byggeaar +
+					"\nByggeÃ¥r: " + byggeaar +
 					"\nBeskrivelse: " + beskrivelse +
 					"\nUtleiepris: " + utleiepris +
 					"\nAnnonsen lagt ut: " + annonsedato;
