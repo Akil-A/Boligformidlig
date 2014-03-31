@@ -1,6 +1,8 @@
 //Denne klassen tar seg av registrering og soking av bolig.
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,12 +17,14 @@ public class Boligpanel extends JPanel
 	public Boligregister br;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,tilegg,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt,lbeliggenhet;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
+	private JPanel pAntetasje, pTomt, pBoareal;
 	public Boligpanel(Boligregister br)
 		{
 			setLayout(new BorderLayout());
 			
 		
 			Lytter lytter = new Lytter();
+			cLytter c = new cLytter();
 			ladr = new JLabel("Adresse: ");
 			adr = new JTextField(20);
 			lpoststed = new JLabel("PostSted: ");
@@ -36,7 +40,7 @@ public class Boligpanel extends JPanel
 			bfra = new JTextField(3);
 			lbtil = new JLabel("Til: ");
 			btil = new JTextField(3);
-			ltomt = new JLabel("           Tomtestørrelse: (kvm)");
+			ltomt = new JLabel("Tomtestørrelse: (kvm)");
 			ltfra = new JLabel("Fra: ");
 			tfra = new JTextField(3);
 			lttil = new JLabel("Til: ");
@@ -95,6 +99,8 @@ public class Boligpanel extends JPanel
 			Kjeller = new JCheckBox("Kjeller");
 			lbeliggenhet = new JLabel("Nermeste togstasjon: ");
 			
+		
+			
 			JPanel pBeliggenhet = new JPanel();
 			pBeliggenhet.add(lbeliggenhet);
 			pBeliggenhet.add(beliggenhet);
@@ -119,20 +125,19 @@ public class Boligpanel extends JPanel
 			SjekkboksTilegg.add(Kjeller);
 			SjekkboksTilegg.add(Vask);
 		 
-		    JPanel pTomt = new JPanel();
+		    pTomt = new JPanel();
 		    pTomt.add(ltomt);
 		    pTomt.add(ltfra);
 		    pTomt.add(tfra);
 		    pTomt.add(lttil);
 		    pTomt.add(ttil);
 		   
-		    JPanel pBoareal = new JPanel();
+		    pBoareal = new JPanel();
 		    pBoareal.add(lboareal);
 		    pBoareal.add(lbfra);
 		    pBoareal.add(bfra);
 		    pBoareal.add(lbtil);
 		    pBoareal.add(btil);
-		    pBoareal.add(pTomt);
 		    
 			JPanel pPrisen = new JPanel();
 			pPrisen.add(lpris);
@@ -142,13 +147,15 @@ public class Boligpanel extends JPanel
 			pPrisen.add(til);
 			
 			
+			pAntetasje = new JPanel();
+			pAntetasje.add(lantetasje);
+			pAntetasje.add(antetasje);
 			
 			
 			JPanel pEtasje = new JPanel();
 			pEtasje.add(letasje);
 			pEtasje.add(etasje);
-			pEtasje.add(lantetasje);
-			pEtasje.add(antetasje);
+			pEtasje.add(pAntetasje);
 			
 			
 			JPanel pantRom = new JPanel();
@@ -172,44 +179,61 @@ public class Boligpanel extends JPanel
 			pType.add(ltype);
 			pType.add(SjekkboksHus);
 			
+			Balkong.setVisible(false);
+			Kjeller.setVisible(false);
+			Vask.setVisible(false);
+			Garasje.setVisible(false);
+			Heis.setVisible(false);
+			pAntetasje.setVisible(false);
+			pTomt.setVisible(false);
+			
+			Balkong.addItemListener();
+			Kjeller.addItemListener(c);
+			Vask.addItemListener(c);
+			Garasje.addItemListener(c);
+			Heis.addItemListener(c);
+			
 			JPanel nordPanel = new JPanel(new GridBagLayout());
 			JComponent innerFilterPanel = new JPanel(new GridBagLayout());
 			GridBagConstraints gc = new GridBagConstraints();
             gc.anchor = GridBagConstraints.CENTER;
-            
+           
             gc.gridy = 0;
             gc.gridx = 0;
-            innerFilterPanel.add(pAdresse, gc);
+            innerFilterPanel.add(pType, gc);
             
             gc.gridy = 1;
             gc.gridx = 0;
-            innerFilterPanel.add(pBeliggenhet, gc);
+            innerFilterPanel.add(pAdresse, gc);
             
             gc.gridy = 2;
+            gc.gridx = 0;
+            innerFilterPanel.add(pBeliggenhet, gc);
+            
+            gc.gridy = 3;
             gc.gridx = 0;
             innerFilterPanel.add(pPost, gc);
          
           
-            gc.gridy = 3;
+            gc.gridy = 4;
             gc.gridx = 0;
             innerFilterPanel.add(pDato,gc);
             
             
-            gc.gridy = 4;
+            gc.gridy = 5;
             gc.gridx = 0;
             innerFilterPanel.add(pBoareal, gc);
             
-          
+            gc.gridy = 7;
+            gc.gridx = 0;
+            innerFilterPanel.add(pTomt, gc);
             
-            gc.gridy = 5;
+            gc.gridy = 8;
             gc.gridx = 0;
             innerFilterPanel.add(pPrisen, gc);
           
-            gc.gridy = 6;
-            gc.gridx = 0;
-            innerFilterPanel.add(pType, gc);
-            
-            gc.gridy = 7;
+        
+            gc.gridy = 9;
             gc.gridx = 0;
             innerFilterPanel.add(SjekkboksTilegg, gc);
             
@@ -220,7 +244,7 @@ public class Boligpanel extends JPanel
 		
 			
 			JPanel knappePanel = new JPanel(new BorderLayout());
-			knappePanel.add(new JButton("Sok"), BorderLayout.WEST);
+			knappePanel.add(sok, BorderLayout.WEST);
 			knappePanel.add(new JButton("Registrer ny"), BorderLayout.EAST);
 			
 			GridBagConstraints gc2 = new GridBagConstraints();
@@ -278,7 +302,7 @@ public class Boligpanel extends JPanel
 				Bolig.add(Pris, gc4);
 				
 				JSeparator sep = new JSeparator();
-				sep.setPreferredSize(new Dimension(super.getWidth(), 1));
+				sep.setPreferredSize(new Dimension(500, 1));
 				
 				gc4.gridwidth = 2;
 				gc4.gridy = 2;
@@ -297,19 +321,31 @@ public class Boligpanel extends JPanel
 			
 			add(listePanel, BorderLayout.CENTER);
 		
-	
-         
-			bgHus = new ButtonGroup();
-			bgHus.add(Enebolig);
-			bgHus.add(Rekkehus);
-			bgHus.add(Leilighet);
 			
 			
 			
-			
-			utforfelt.add(sok);
 		
 		}
+	
+	private void listBoliger()
+	{
+		
+	}
+	
+	private class cLytter implements ItemListener
+	{
+		public void itemStateChanged(ItemEvent i)
+		{
+			if(Enebolig.isSelected())
+				
+			{
+				Kjeller.setVisible(true);
+				pAntetasje.setVisible(true);
+				pTomt.setVisible(true);
+				Garasje.setVisible(true);
+			}
+		}
+	}
 	
 	private class Lytter implements ActionListener
 	{
@@ -318,51 +354,15 @@ public class Boligpanel extends JPanel
 			if(e.getSource() == sok)
 			
 				{
-					if(Enebolig.isSelected())
-						{
-						
-						}
-						else if(Rekkehus.isSelected())
-						{
+				
+						if(Enebolig.isSelected())
 							
-						}
-						else if(Leilighet.isSelected())
-						{
-							
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(null,"Du maa velge minst en checkbox for aa soke!");
-						}
-					
-					if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Garasje.isSelected() && Balkong.isSelected())
-					{
-						JOptionPane.showMessageDialog(null,"Lol..");
-					}
-					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Garasje.isSelected() )
-					{
-						
-					}
-					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected() && Balkong.isSelected() )
-					{
-						
-					}
-					else if(Kjeller.isSelected() && Heis.isSelected() && Balkong.isSelected())
-					{
-						
-					}
-					else if(Kjeller.isSelected() && Heis.isSelected() && Vask.isSelected())
-					{
-						
-					}
-					else if(Kjeller.isSelected() && Heis.isSelected())
-					{
-						
-					}
-					else if(Kjeller.isSelected())
-					{
-						
-					}
+							{
+								Kjeller.setVisible(true);
+								pAntetasje.setVisible(true);
+								pTomt.setVisible(true);
+								Garasje.setVisible(true);
+							}
 					
 				}   
 			}
