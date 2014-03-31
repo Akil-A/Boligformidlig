@@ -1,3 +1,5 @@
+package prosjekttest;
+
 
 public class Boligsoker extends Person
 {
