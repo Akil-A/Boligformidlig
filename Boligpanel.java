@@ -240,19 +240,32 @@ public class Boligpanel extends JPanel
 
 			/***** testdata *****/
 			Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "");
+			Utleier p2 = new Utleier("Henrik", "Hansen", "Kirkegata 8", 3027, "Drammen", "", "");
+			Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 30 , 5 , 2006 , "" ,6000);
 			Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 30, 5, 2005, "", 7000);
 			p.settInnBolig(e);
+			p2.settInnBolig(r);
+			br.settInnPerson(p2);
 			br.settInnPerson(p);
 			/***** testdata slutt *****/
 			
-			JPanel innerListePanel = new JPanel();
-			
+			JPanel Nord = new JPanel(new BorderLayout());
+			JPanel innerListePanel = new JPanel(new GridBagLayout());
+			GridBagConstraints gc3 = new GridBagConstraints();
+			gc3.anchor = GridBagConstraints.NORTH;
+			gc3.gridy = 0;
+			int i = 0;
 			for (Bolig b : br.getBoliger())
 			{
-				innerListePanel.add(new JLabel(b.toString()));
+				
+				JPanel Bolig = new JPanel();
+				Bolig.add(new JLabel(b.toString()));
+				innerListePanel.add(Bolig, gc3);
+				gc3.gridy = ++i;
+				
 			}
-			
-			JScrollPane listePanel = new JScrollPane(innerListePanel);
+			Nord.add(innerListePanel, BorderLayout.NORTH);
+			JScrollPane listePanel = new JScrollPane(Nord);
 			
 			add(listePanel, BorderLayout.CENTER);
 		
