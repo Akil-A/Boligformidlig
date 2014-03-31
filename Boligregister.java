@@ -112,9 +112,16 @@ public class Boligregister
 		return bl;
 	}
 	
-	public ArrayList<Bolig> sokBoliger( String kriterier )
+	public ArrayList<Bolig> sokBoliger( String adr, String stasjon, int postnr, String poststed, Date annonsedatoFra, int byggeaar,
+			int boarealfra, int boarealtil, int tomtestrfra, int tomtestrtil, int prisfra, int pristil, boolean rekkehus,
+			boolean enebolig, boolean leilighet, boolean balkong, boolean heis, boolean garasje, boolean kjeller, boolean vask)
 	{
-		// loop gjennom Utleiere, søk gjennom boliglistene deres etter boliger som matcher kriteriene
+		ArrayList<Bolig> resultat = new ArrayList<>();
+		
+		for (Bolig b : getBoliger())
+		{
+			
+		}
 		
 		return null;
 	}
