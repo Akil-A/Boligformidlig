@@ -101,6 +101,17 @@ public class Boligregister
 		return null;
 	}
 	
+	public ArrayList<Bolig> getBoliger()
+	{
+		ArrayList<Bolig> bl = new ArrayList<>();
+		
+		for (Utleier u : getUtleiere())
+			for (Bolig b : u.getBoliger())
+				bl.add(b);
+		
+		return bl;
+	}
+	
 	public ArrayList<Bolig> sokBoliger( String kriterier )
 	{
 		// loop gjennom Utleiere, søk gjennom boliglistene deres etter boliger som matcher kriteriene
