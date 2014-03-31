@@ -22,32 +22,32 @@ public class Boligpanel extends JPanel
 		
 			Lytter lytter = new Lytter();
 			ladr = new JLabel("Adresse: ");
-			adr = new JTextField(10);
+			adr = new JTextField(20);
 			lpoststed = new JLabel("PostSted: ");
 			lpostnr = new JLabel("PostNr: ");
-			poststed = new JTextField(5);
-			postnr = new JTextField(5);
+			poststed = new JTextField(10);
+			postnr = new JTextField(4);
 			lpris = new JLabel("Utleiepris: ");
 			lfra = new JLabel("Fra: ");
 			fra = new JTextField(6);
 			ltil = new JLabel("Til: ");
 			til = new JTextField(6);
 			lbfra = new JLabel("Fra: ");
-			bfra = new JTextField(6);
+			bfra = new JTextField(3);
 			lbtil = new JLabel("Til: ");
-			btil = new JTextField(6);
-			ltomt = new JLabel("Tomtestørrelse: ");
+			btil = new JTextField(3);
+			ltomt = new JLabel("           Tomtestørrelse: (kvm)");
 			ltfra = new JLabel("Fra: ");
-			tfra = new JTextField(6);
+			tfra = new JTextField(3);
 			lttil = new JLabel("Til: ");
-			ttil = new JTextField(6);
+			ttil = new JTextField(3);
 			tilegg = new JLabel("Tilegg: ");
-			lboareal = new JLabel("Boareal: ");
+			lboareal = new JLabel("Boareal: (kvm)");
 			lantrom = new JLabel("Antall rom: ");
 			antrom = new JTextField(20);
 			lbyggeaar = new JLabel("Byggeår: ");
 			byggeaar = new JTextField(6);
-			beliggenhet = new JTextField(10);
+			beliggenhet = new JTextField(14);
 			ldato = new JLabel("Dato: ");
 			dato = new JTextField(10);
 			dato.setText("eks: 21/12/1989");
@@ -88,11 +88,11 @@ public class Boligpanel extends JPanel
 			Enebolig = new JCheckBox("Enebolig");
 			Rekkehus = new JCheckBox("Rekkehus");
 			Leilighet = new JCheckBox("Leilighet");
-			Vask = new JCheckBox();
-			Garasje = new JCheckBox();
-			Heis = new JCheckBox();
-			Balkong = new JCheckBox();
-			Kjeller = new JCheckBox();
+			Vask = new JCheckBox("Vask");
+			Garasje = new JCheckBox("Garasje");
+			Heis = new JCheckBox("Heis");
+			Balkong = new JCheckBox("Balkong");
+			Kjeller = new JCheckBox("Kjeller");
 			lbeliggenhet = new JLabel("Nermeste togstasjon: ");
 			
 			JPanel pBeliggenhet = new JPanel();
@@ -111,6 +111,13 @@ public class Boligpanel extends JPanel
 			JPanel utforfelt = new JPanel();
 			
 			JPanel SjekkboksHus = new JPanel();
+			JPanel SjekkboksTilegg = new JPanel();
+			
+			SjekkboksTilegg.add(Balkong);
+			SjekkboksTilegg.add(Heis);
+			SjekkboksTilegg.add(Garasje);
+			SjekkboksTilegg.add(Kjeller);
+			SjekkboksTilegg.add(Vask);
 		 
 		    JPanel pTomt = new JPanel();
 		    pTomt.add(ltomt);
@@ -125,6 +132,7 @@ public class Boligpanel extends JPanel
 		    pBoareal.add(bfra);
 		    pBoareal.add(lbtil);
 		    pBoareal.add(btil);
+		    pBoareal.add(pTomt);
 		    
 			JPanel pPrisen = new JPanel();
 			pPrisen.add(lpris);
@@ -133,25 +141,8 @@ public class Boligpanel extends JPanel
 			pPrisen.add(ltil);
 			pPrisen.add(til);
 			
-			JPanel pKjeller = new JPanel();
-			pKjeller.add(lkjeller);
-			pKjeller.add(Kjeller);
 			
-			JPanel pBalkong = new JPanel();
-			pBalkong.add(lbalkong);
-			pBalkong.add(Balkong);
 			
-			JPanel pGarasje = new JPanel();
-			pGarasje.add(lgarasje);
-			pGarasje.add(Garasje);
-			
-			JPanel pVask = new JPanel();
-			pVask.add(lvask);
-			pVask.add(Vask);
-			
-			JPanel pHeis = new JPanel();
-			pHeis.add(lheis);
-			pHeis.add(Heis);
 			
 			JPanel pEtasje = new JPanel();
 			pEtasje.add(letasje);
@@ -171,13 +162,6 @@ public class Boligpanel extends JPanel
 			pDato.add(lbyggeaar);
 			pDato.add(byggeaar);
 			
-			JPanel pTilegg = new JPanel();
-			pTilegg.add(tilegg);
-			pTilegg.add(pHeis);
-			pTilegg.add(pGarasje);
-			pTilegg.add(pKjeller);
-			pTilegg.add(pBalkong);
-			pTilegg.add(pVask);
 			
 
 			SjekkboksHus.add(Rekkehus);
@@ -191,7 +175,7 @@ public class Boligpanel extends JPanel
 			JPanel nordPanel = new JPanel(new GridBagLayout());
 			JComponent innerFilterPanel = new JPanel(new GridBagLayout());
 			GridBagConstraints gc = new GridBagConstraints();
-            gc.anchor = GridBagConstraints.WEST;
+            gc.anchor = GridBagConstraints.CENTER;
             
             gc.gridy = 0;
             gc.gridx = 0;
@@ -208,13 +192,14 @@ public class Boligpanel extends JPanel
           
             gc.gridy = 3;
             gc.gridx = 0;
+            innerFilterPanel.add(pDato,gc);
+            
+            
+            gc.gridy = 4;
+            gc.gridx = 0;
             innerFilterPanel.add(pBoareal, gc);
             
           
-            gc.gridy = 4;
-            
-            gc.gridx = 0;
-            innerFilterPanel.add(pTomt, gc);
             
             gc.gridy = 5;
             gc.gridx = 0;
@@ -226,19 +211,20 @@ public class Boligpanel extends JPanel
             
             gc.gridy = 7;
             gc.gridx = 0;
-            innerFilterPanel.add(pTilegg, gc);
+            innerFilterPanel.add(SjekkboksTilegg, gc);
             
 			
 			JScrollPane filterPanel = new JScrollPane(innerFilterPanel);
 			filterPanel.setBorder(BorderFactory.createTitledBorder("Filter"));
-			filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 150)); // (bredde, hÃ¸yde)
-			filterPanel.setSize(new Dimension(filterPanel.getWidth(), 110)); // (bredde, hÃ¸yde)
+			filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hÃ¸yde)
+		
 			
 			JPanel knappePanel = new JPanel(new BorderLayout());
 			knappePanel.add(new JButton("Sok"), BorderLayout.WEST);
 			knappePanel.add(new JButton("Registrer ny"), BorderLayout.EAST);
 			
 			GridBagConstraints gc2 = new GridBagConstraints();
+			gc2.anchor = GridBagConstraints.CENTER;
 			gc2.gridx = 0;
 			gc2.gridy = 0;
 			gc2.fill = GridBagConstraints.HORIZONTAL;
