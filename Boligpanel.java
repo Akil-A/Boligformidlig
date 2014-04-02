@@ -11,8 +11,7 @@ public class Boligpanel extends JPanel
 {
 
 	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomt,tfra,ttil,postnr,poststed,beliggenhet;
-	private JButton sok;
-	private JButton vis;
+	private JButton sok, vis, registrer;
 	private ButtonGroup bgHus;
 	public Boligregister br;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,tilegg,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt,lbeliggenhet;
@@ -40,7 +39,7 @@ public class Boligpanel extends JPanel
 			bfra = new JTextField(3);
 			lbtil = new JLabel("Til: ");
 			btil = new JTextField(3);
-			ltomt = new JLabel("Tomtestørrelse: (kvm)");
+			ltomt = new JLabel("TomtestÃ¸rrelse: (kvm)");
 			ltfra = new JLabel("Fra: ");
 			tfra = new JTextField(3);
 			lttil = new JLabel("Til: ");
@@ -49,7 +48,7 @@ public class Boligpanel extends JPanel
 			lboareal = new JLabel("Boareal: (kvm)");
 			lantrom = new JLabel("Antall rom: ");
 			antrom = new JTextField(20);
-			lbyggeaar = new JLabel("Byggeår: ");
+			lbyggeaar = new JLabel("ByggeÃ¥r: ");
 			byggeaar = new JTextField(6);
 			beliggenhet = new JTextField(14);
 			ldato = new JLabel("Dato: ");
@@ -187,7 +186,7 @@ public class Boligpanel extends JPanel
 			pAntetasje.setVisible(false);
 			pTomt.setVisible(false);
 			
-			Balkong.addItemListener();
+			Balkong.addItemListener(c);
 			Kjeller.addItemListener(c);
 			Vask.addItemListener(c);
 			Garasje.addItemListener(c);
@@ -240,12 +239,14 @@ public class Boligpanel extends JPanel
 			
 			JScrollPane filterPanel = new JScrollPane(innerFilterPanel);
 			filterPanel.setBorder(BorderFactory.createTitledBorder("Filter"));
-			filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hÃ¸yde)
+			filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hÃƒÂ¸yde)
 		
+			registrer = new JButton("Registrer ny");
+			registrer.addActionListener(lytter);
 			
 			JPanel knappePanel = new JPanel(new BorderLayout());
 			knappePanel.add(sok, BorderLayout.WEST);
-			knappePanel.add(new JButton("Registrer ny"), BorderLayout.EAST);
+			knappePanel.add(registrer, BorderLayout.EAST);
 			
 			GridBagConstraints gc2 = new GridBagConstraints();
 			gc2.anchor = GridBagConstraints.CENTER;
@@ -352,22 +353,21 @@ public class Boligpanel extends JPanel
 		public void actionPerformed(ActionEvent e)
 		{
 			if(e.getSource() == sok)
-			
+			{
+				if(Enebolig.isSelected())
 				{
-				
-						if(Enebolig.isSelected())
-							
-							{
-								Kjeller.setVisible(true);
-								pAntetasje.setVisible(true);
-								pTomt.setVisible(true);
-								Garasje.setVisible(true);
-							}
-					
-				}   
+					Kjeller.setVisible(true);
+					pAntetasje.setVisible(true);
+					pTomt.setVisible(true);
+					Garasje.setVisible(true);
+				}
+			}  
+			else if (e.getSource() == registrer)
+			{
+				Boligskjemavindu bsv = new Boligskjemavindu();
 			}
 		}
-	
+	}
 }	
 
 
