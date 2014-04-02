@@ -1,5 +1,3 @@
-package prosjekttest;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -20,15 +18,14 @@ public class Hovedvindu extends JFrame
 		// boligregister må hentes fra fil
 		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
 		
-
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
 		JComponent boligpanel = new Boligpanel(br);
 		tabbedPane.addTab("Boliger", boligpanel);
 		JComponent personpanel = new Personpanel(br);
 		tabbedPane.addTab("Personer", personpanel);
-		JComponent panel3 = new JPanel();
-		tabbedPane.addTab("Kontrakter", panel3);
+		JComponent kontraktpanel = new Kontraktpanel(br);
+		tabbedPane.addTab("Kontrakter", kontraktpanel);
 		
 		
 		Container c = getContentPane();
@@ -37,6 +34,8 @@ public class Hovedvindu extends JFrame
 		setVisible( true );
 		setLocationRelativeTo( null ); // Vinduet starter på midten av skjermen.
 	}
+	
+	
 	
 	public static void main( String[] args )
 	{
