@@ -1,5 +1,3 @@
-package prosjekttest;
-
 import java.util.Date;
 
 abstract public class Bolig 
@@ -15,7 +13,6 @@ abstract public class Bolig
 	private int antrom;
 	private int byggeaar;
 	private String beskrivelse;
-	private String beliggenhet;
 	private int utleiepris;
 	
 	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar, String beskrivelse, int utleiepris)
@@ -121,21 +118,11 @@ abstract public class Bolig
 		return utleiepris;
 	}
 	
-	public void setBeliggenhet(String beliggenhet) 
-	{
-		this.beliggenhet = beliggenhet;
-	}
-	
-	public String getBeliggenhet()
-	{
-		return beliggenhet;
-	}
-	
 	public String toString()
 	{
 		String s = "Boareal: " + boareal +
 					"\nAntall rom: " + antrom +
-					"\nByggeÃ¥r: " + byggeaar +
+					"\nByggeår: " + byggeaar +
 					"\nBeskrivelse: " + beskrivelse +
 					"\nUtleiepris: " + utleiepris +
 					"\nAnnonsen lagt ut: " + annonsedato;
