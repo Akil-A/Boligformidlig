@@ -1,4 +1,3 @@
-package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,9 +43,10 @@ public class Personpanel extends JPanel
         utleierknapp = new JButton("Utleier");
         boligsokerknapp = new JButton("Bolig");
         personskjemavinduknapp = new JButton("Personskjemavindu");
+        lytter = new Lytter();
+        personskjemavinduknapp.addActionListener(lytter);
         
 
-        lytter = new Lytter();
   //      listelytter = new Listelytter();
 
         //knapp.addActionListener(lytter);
@@ -135,7 +135,7 @@ public class Personpanel extends JPanel
 	    
 	    panel3.add(panel2, BorderLayout.NORTH);
 	    add(panel3, BorderLayout.EAST);
-	    add(personskjemavinduknapp, BorderLayout.CENTER);
+	    add(personskjemavinduknapp, BorderLayout.SOUTH);
 		
     }
 
@@ -143,12 +143,12 @@ public class Personpanel extends JPanel
     {
         public void actionPerformed( ActionEvent e )
         {
-            if(e.getSource() == knapp)
+            if(e.getSource() == personskjemavinduknapp)
             {
-                if(valgtPersonNr != -1)
-                {
+               // if(valgtPersonNr != -1)
+                //{
                     Personskjemavindu pv = new Personskjemavindu(); //br.finnPerson(valgtPersonNr
-                }
+                //}
             }
         }
     }
