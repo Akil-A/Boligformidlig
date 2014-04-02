@@ -20,6 +20,7 @@ public class Boligskjemavindu extends JFrame
 	{
 		super("Registrer ny bolig");
 		lagVindu();
+		slett.setText("Avbryt");
 	}
 
 	public Boligskjemavindu(Bolig b)
