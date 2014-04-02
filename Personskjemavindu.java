@@ -1,6 +1,8 @@
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -8,16 +10,17 @@ import javax.swing.event.*;
 
 public class Personskjemavindu extends JFrame
 {
-    private JTextField fornavnfelt, etternavnfelt, emailfelt, adressefelt, telefonfelt, yrkefelt, poststedfelt, postnrfelt, antPersonerfelt, beliggenhetfelt, fraStorrelsefelt, tilStorrelsefelt, antRomfelt, utleieprisfelt, firmafelt;
-    private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet, fraStorrelse, tilStorrelse, antRom, utleiepris, firma;
-    private JButton slettknapp1, slettknapp2, utleierregistrerknapp, finnBoligknapp, seBoligknapp, boligsokerknapp;
+    private JTextField fornavnfelt, etternavnfelt, emailfelt, adressefelt, telefonfelt, yrkefelt, poststedfelt, postnrfelt, antPersonerfelt, beliggenhetfelt, fraStorrelsefelt, tilStorrelsefelt, antRomfelt, utleieprisfelt, firmafelt, testfelt;
+    private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet, fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test;
+    private JButton slettknapp1, slettknapp2, utleierregistrerknapp, seBoligknapp, boligsokerknapp;
     private JCheckBox utleier, boligsoker, husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
     private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
     private GridBagConstraints gc;
     private Container c;
-    private JPanel ulpKnapper, bspKnapper, bspKrav1, typepanel, bspKrav2, bspKrav3;
+    private JPanel ulpKnapper, bspKnapper, bspKrav1, typepanel, bspKrav2, bspKrav3, testpanel, feltpanel, utleierpanel, boligsokerpanel;
     private Lytter lytter;
+    private Random generator;
 
     public Personskjemavindu()
     {
@@ -76,7 +79,9 @@ public class Personskjemavindu extends JFrame
     
     public void lagVindu()
     {
-    	
+    	generator = new Random();
+    	int randNr1 = generator.nextInt(10);
+    	int randNr2 = generator.nextInt(10);
         sjekkboksLytter = new SjekkboksLytter();
 
         fornavnfelt = new JTextField(10);
@@ -94,6 +99,7 @@ public class Personskjemavindu extends JFrame
         antRomfelt = new JTextField(10);
         utleieprisfelt = new JTextField(10);
         firmafelt = new JTextField(10);
+        testfelt = new JTextField(4);
 
         forNavn = new JLabel("Fornavn: ");
         etterNavn = new JLabel("Etternavn: ");
@@ -110,6 +116,7 @@ public class Personskjemavindu extends JFrame
         antRom = new JLabel("Antall rom: ");
         utleiepris = new JLabel("Utleiepris: ");
         firma = new JLabel("Firma: ");
+        test = new JLabel("Hva er " + randNr1 + " + " + randNr2);
 
         sivilstatus = new JComboBox<>();
         arbeidsforhold = new JComboBox<>();
@@ -118,9 +125,11 @@ public class Personskjemavindu extends JFrame
         sivilstatus.addItem("Gift");
         sivilstatus.addItem("Ugift");
         sivilstatus.addItem("Enke");
+        sivilstatus.addItem("Enkemann");
 
         arbeidsforhold.addItem("<Velg Arbeidsforhold>");
         arbeidsforhold.addItem("Arbeider");
+        arbeidsforhold.addItem("Student");
         arbeidsforhold.addItem("Arbeidslos");
         arbeidsforhold.addItem("Pensjonist");
 
@@ -146,8 +155,6 @@ public class Personskjemavindu extends JFrame
         utleierregistrerknapp.addActionListener(lytter);
         slettknapp2 = new JButton("Slett");
         slettknapp2.addActionListener(lytter);
-        finnBoligknapp = new JButton("Finn bolig");
-        finnBoligknapp.addActionListener(lytter);
         boligsokerknapp = new JButton("Registrer bolig");
         boligsokerknapp.addActionListener(lytter);
 
@@ -220,54 +227,6 @@ public class Personskjemavindu extends JFrame
         gc.gridx = 3;
         c.add(poststedfelt, gc);
 
-        gc.gridy = 4;
-
-        gc.insets.left = 0;
-        gc.gridx = 0;
-        c.add(antPersoner, gc);
-        gc.gridx = 1;
-        c.add(antPersonerfelt, gc);
-        gc.insets.left = 20;
-        gc.gridx = 2;
-        c.add(beliggenhet, gc);
-        gc.gridx = 3;
-        c.add(beliggenhetfelt, gc);
-
-        gc.gridy = 5;
-
-        gc.insets.left = 0;
-        gc.gridx = 0;
-        c.add(fraStorrelse, gc);
-        gc.gridx = 1;
-        c.add(fraStorrelsefelt, gc);
-        gc.insets.left = 20;
-        gc.gridx = 2;
-        c.add(tilStorrelse, gc);
-        gc.gridx = 3;
-        c.add(tilStorrelsefelt, gc);
-
-        gc.gridy = 6;
-
-        gc.insets.left = 0;
-        gc.gridx = 0;
-        c.add(antRom, gc);
-        gc.gridx = 1;
-        c.add(antRomfelt, gc);
-
-        gc.insets.left = 20;
-        gc.gridx = 2;
-        c.add(utleiepris, gc);
-        gc.gridx = 3;
-        c.add(utleieprisfelt, gc);
-
-        gc.gridy = 7;
-
-        gc.insets.left = 0;
-        gc.gridx = 0;
-        c.add(firma, gc);
-        gc.gridx = 1;
-        c.add(firmafelt, gc);
-
         //ulp = utleierpanel, bsp = boligsokerpanel
         ulpKnapper = new JPanel();
         bspKnapper = new JPanel();
@@ -275,6 +234,7 @@ public class Personskjemavindu extends JFrame
         typepanel = new JPanel();
         bspKrav2 = new JPanel();
         bspKrav3 = new JPanel();
+        testpanel = new JPanel();
 
         typepanel.add(utleier);
         typepanel.add(boligsoker);
@@ -285,10 +245,11 @@ public class Personskjemavindu extends JFrame
         bspKrav1.add(hage);
         bspKrav1.add(heis);
         bspKrav1.add(parkering);
+        
         bspKrav3.add(enebolig);
         bspKrav3.add(leilighet);
         bspKrav3.add(rekkehus);
-
+   
         bspKrav2.add(sivilstatus);
         bspKrav2.add(arbeidsforhold);
 
@@ -296,9 +257,8 @@ public class Personskjemavindu extends JFrame
         ulpKnapper.add(utleierregistrerknapp);
         ulpKnapper.add(slettknapp1);
 
-        bspKnapper.add(finnBoligknapp);
-        bspKnapper.add(slettknapp2);
         bspKnapper.add(boligsokerknapp);
+        bspKnapper.add(slettknapp2);
 
         gc.gridwidth = 4;
         gc.insets.left = -17;
@@ -306,33 +266,94 @@ public class Personskjemavindu extends JFrame
         gc.gridx = 0;
         gc.gridy = 15;
         c.add(typepanel, gc);
+        
+        /******* UTLEIERPANEL ********/
+        utleierpanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gcUp = new GridBagConstraints();
+       
+        gcUp.gridy = 0;
+        gcUp.gridx = 0;
+        gcUp.insets.left = 15;
+        utleierpanel.add(firma, gcUp);
+        
+        gcUp.gridx = 1;
+        gcUp.insets.left = -250;
+        utleierpanel.add(firmafelt, gcUp);
+        
+        gcUp.gridy = 3;
+        gcUp.insets.left = -55;
+        gcUp.insets.top = 10;
+        utleierpanel.add(ulpKnapper, gcUp);
+        
 
-        gc.gridy = 20;
-        c.add(bspKrav1, gc);
-        gc.insets.top = 0;
-        gc.gridy = 21;
-        c.add(bspKrav3, gc);
+        /******* BOLIGSOKERPANEL ********/
+        boligsokerpanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gcBsp = new GridBagConstraints();
 
-        gc.insets.top = 15;
-        gc.gridy = 25;
-        c.add(bspKnapper, gc);
 
-        gc.gridy = 23;
-        gc.insets.top = 5;
-        c.add(bspKrav2, gc);
+        gcBsp.gridy = 0;
 
-        gc.gridy = 27;
-        c.add(ulpKnapper, gc);
+        gcBsp.gridx = 0;
+        boligsokerpanel.add(antPersoner, gcBsp);
+        gcBsp.gridx = 1;
+        boligsokerpanel.add(antPersonerfelt, gcBsp);
+        gcBsp.gridx = 2;
+        boligsokerpanel.add(beliggenhet, gcBsp);
+        gcBsp.gridx = 3;
+        boligsokerpanel.add(beliggenhetfelt, gcBsp);
 
+        gcBsp.gridy = 1;
+
+        gcBsp.gridx = 0;
+        boligsokerpanel.add(fraStorrelse, gcBsp);
+        gcBsp.gridx = 1;
+        boligsokerpanel.add(fraStorrelsefelt, gcBsp);
+        gcBsp.gridx = 2;
+        boligsokerpanel.add(tilStorrelse, gcBsp);
+        gcBsp.gridx = 3;
+        boligsokerpanel.add(tilStorrelsefelt, gcBsp);
+
+        gcBsp.gridy = 2;
+
+        gcBsp.gridx = 0;
+        boligsokerpanel.add(antRom, gcBsp);
+        gcBsp.gridx = 1;
+        boligsokerpanel.add(antRomfelt, gcBsp);
+        gcBsp.gridx = 2;
+        boligsokerpanel.add(utleiepris, gcBsp);
+        gcBsp.gridx = 3;
+        boligsokerpanel.add(utleieprisfelt, gcBsp);
+
+        gcBsp.gridx = 0;
+        gcBsp.gridwidth = 4;
+        gcBsp.gridy = 4;
+        gcBsp.insets.top = 5;
+        boligsokerpanel.add(bspKrav1, gcBsp);
+        
+        gcBsp.gridy = 5;
+        boligsokerpanel.add(bspKrav3, gcBsp);
+        
+        gcBsp.gridy = 6;
+        gcBsp.insets.top = 5;
+        boligsokerpanel.add(bspKrav2, gcBsp);
+        
+        gcBsp.insets.top = 15;
+        gcBsp.gridy = 7;
+        boligsokerpanel.add(bspKnapper, gcBsp);
+        
+        utleierpanel.setVisible(false);
+        boligsokerpanel.setVisible(false);
+        
+        gc.gridx = 0;
+        gc.gridy = 16;
+        gc.gridwidth = 4;
+        c.add(utleierpanel, gc);
+        c.add(boligsokerpanel, gc);
+        
         setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        bspKnapper.setVisible(false);
-        ulpKnapper.setVisible(false);
-        bspKrav1.setVisible(false);
-        bspKrav2.setVisible(false);
-        bspKrav3.setVisible(false);
-        setVisible( true );
+        setVisible( true);
     }
 
     private class SjekkboksLytter implements ChangeListener
@@ -341,19 +362,13 @@ public class Personskjemavindu extends JFrame
         {
             if(utleier.isSelected())
             {
-                bspKnapper.setVisible(false);
-                ulpKnapper.setVisible(true);
-                bspKrav1.setVisible(false);
-                bspKrav3.setVisible(false);
-                bspKrav2.setVisible(false);
+                utleierpanel.setVisible(true);
+                boligsokerpanel.setVisible(false);
             }
-            if(boligsoker.isSelected())
+            else if(boligsoker.isSelected())
             {
-                ulpKnapper.setVisible(false);
-                bspKnapper.setVisible(true);
-                bspKrav1.setVisible(true);
-                bspKrav3.setVisible(true);
-                bspKrav2.setVisible(true);
+                utleierpanel.setVisible(false);
+                boligsokerpanel.setVisible(true);
             }
         }
     }
