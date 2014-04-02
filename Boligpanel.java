@@ -361,10 +361,10 @@ public class Boligpanel extends JPanel
 					pTomt.setVisible(true);
 					Garasje.setVisible(true);
 				}
-			}  
+			}
 			else if (e.getSource() == registrer)
 			{
-				Boligskjemavindu bsv = new Boligskjemavindu();
+				Boligskjemavindu bsv = new Boligskjemavindu(br);
 			}
 		}
 	}
