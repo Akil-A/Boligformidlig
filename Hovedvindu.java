@@ -7,13 +7,11 @@ import java.util.ArrayList;
 
 public class Hovedvindu extends JFrame
 {
-	
 	public Boligregister br;
 	
 	public Hovedvindu()
 	{
 		super("Boligformidling AS");
-		setSize(700, 600);
 		
 		// boligregister må hentes fra fil
 		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
@@ -27,28 +25,32 @@ public class Hovedvindu extends JFrame
 		JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
 		
-		
 		Container c = getContentPane();
 		c.add(tabbedPane);
-
-		setVisible( true );
-		setLocationRelativeTo( null ); // Vinduet starter på midten av skjermen.
 	}
 	
 	
 	
 	public static void main( String[] args )
 	{
-		final Hovedvindu hv = new Hovedvindu();
-
-		hv.addWindowListener(
-			new WindowAdapter()
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
 			{
-				public void windowClosing( WindowEvent e )
+				final Hovedvindu hv = new Hovedvindu();
+				hv.setSize(700, 600);
+				hv.setVisible(true);
+				hv.setLocationRelativeTo( null ); // Vinduet starter på midten av skjermen.
+				
+				hv.addWindowListener(new WindowAdapter()
 				{
-					//hv.skrivTilFil();
-					System.exit( 0 );
-				}
-			} );
+					public void windowClosing( WindowEvent e )
+					{
+						//hv.skrivTilFil();
+						System.exit( 0 );
+					}
+				} );
+			}
+		});
 	}
 }
