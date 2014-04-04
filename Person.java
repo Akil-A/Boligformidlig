@@ -1,3 +1,5 @@
+package prosjekttest;
+
 abstract public class Person
 {
 	private int personNr;
@@ -108,5 +110,10 @@ abstract public class Person
 	public void setyrke(String yrke)
 	{
 		this.postnr = postnr;
+	}
+	
+	public String toString()
+	{
+		return fornavn + " " + etternavn;
 	}
 }
