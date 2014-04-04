@@ -1,3 +1,4 @@
+package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -351,7 +352,6 @@ public class Personskjemavindu extends JFrame
         c.add(boligsokerpanel, gc);
         
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible( true);
     }
