@@ -11,7 +11,8 @@ public class Boligpanel extends JPanel
 {
 
 	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomt,tfra,ttil,postnr,poststed,beliggenhet;
-	private JButton sok, registrer;
+	private JButton sok;
+	private JButton vis;
 	private ButtonGroup bgHus;
 	public Boligregister br;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,tilegg,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt,lbeliggenhet;
@@ -32,18 +33,18 @@ public class Boligpanel extends JPanel
 			postnr = new JTextField(4);
 			lpris = new JLabel("Utleiepris: ");
 			lfra = new JLabel("Fra: ");
-			fra = new JTextField(6);
+			fra = new JTextField(7);
 			ltil = new JLabel("Til: ");
-			til = new JTextField(6);
+			til = new JTextField(7);
 			lbfra = new JLabel("Fra: ");
-			bfra = new JTextField(3);
+			bfra = new JTextField(5);
 			lbtil = new JLabel("Til: ");
-			btil = new JTextField(3);
+			btil = new JTextField(7);
 			ltomt = new JLabel("Tomtestørrelse: (kvm)");
 			ltfra = new JLabel("Fra: ");
-			tfra = new JTextField(3);
+			tfra = new JTextField(7);
 			lttil = new JLabel("Til: ");
-			ttil = new JTextField(3);
+			ttil = new JTextField(7);
 			tilegg = new JLabel("Tilegg: ");
 			lboareal = new JLabel("Boareal: (kvm)");
 			lantrom = new JLabel("Antall rom: ");
@@ -86,8 +87,8 @@ public class Boligpanel extends JPanel
 			antetasje = new JTextField(5);
 			sok = new JButton("Sok bolig");
 			sok.addActionListener(lytter);
-			registrer = new JButton("Registrer ny");
-			registrer.addActionListener(lytter);
+			vis = new JButton("Vis alle");
+			vis.addActionListener(lytter);
 			Enebolig = new JCheckBox("Enebolig");
 			Rekkehus = new JCheckBox("Rekkehus");
 			Leilighet = new JCheckBox("Leilighet");
@@ -247,7 +248,7 @@ public class Boligpanel extends JPanel
 			
 			JPanel knappePanel = new JPanel(new BorderLayout());
 			knappePanel.add(sok, BorderLayout.WEST);
-			knappePanel.add(registrer, BorderLayout.EAST);
+			knappePanel.add(new JButton("Registrer ny"), BorderLayout.EAST);
 			
 			GridBagConstraints gc2 = new GridBagConstraints();
 			gc2.anchor = GridBagConstraints.CENTER;
@@ -387,13 +388,17 @@ public class Boligpanel extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			Boligskjemavindu bsv;
+			if(e.getSource() == sok)
 			
-			if (e.getSource() == registrer)
-				bsv = new Boligskjemavindu(br);
+				{
+				
+					
+					
+				}   
+			}
 		}
-	}
-}
+	
+}	
 
 
 
