@@ -22,11 +22,13 @@ public class Personpanel extends JPanel
     private BorderLayout bLayout;
     private Container c;
     private GridBagConstraints gc;
-    private Boligregister br;
+    private Boligregister register;
     
     public Personpanel(Boligregister br)
     {
     	setLayout(new BorderLayout());
+    	
+    	register = br;
                 
 
         tekstomraade = new JTextArea("dette er tekstomraade");
@@ -134,18 +136,17 @@ public class Personpanel extends JPanel
     {
         public void actionPerformed( ActionEvent e )
         {	
-        	Personskjemavindu pv;
-        	
             if(e.getSource() == utleierknapp)
             {
                if( list2.getSelectedIndex() != -1)
                 {	
-                    //pv = new Personskjemavindu(br.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()));
-                    
-                    //JOptionPane.showMessageDialog(null, br.finnPerson( ((Utleier)list2.getSelectedValue()).getPersonNr() ).toString());
-                    
-                    JOptionPane.showMessageDialog(null, br.finnPerson( 1 ).toString() + "");
+                   Personskjemavindu pv = new Personskjemavindu(register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()));
+    
                 }
+            }
+            else if(e.getSource() == personskjemavinduknapp)
+            {
+            	Personskjemavindu pv = new Personskjemavindu(register);
             }
         }
     }
