@@ -164,7 +164,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		c.add(slett, gc);
 
-		setSize(700, 600);
+		setSize(500, 300);
         setLocationRelativeTo(null);
         setVisible( true );
 	}
