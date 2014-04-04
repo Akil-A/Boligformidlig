@@ -1,3 +1,4 @@
+package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,12 +12,11 @@ public class Personpanel extends JPanel
 
     private JLabel felttekst1;
     private JLabel felttekst2;
-    private JList<String> list1, list2;
+    private JList<Object> list1;
+    private JList<Object> list2;
     private JTextArea tekstomraade;
     private JButton knapp;
     private Lytter lytter;
-   // private Listelytter listelytter;
-    private int valgtPersonNr;
     private JPanel utleierpanel1, utleierpanel2, boligsokerpanel1, boligsokerpanel2;
     private JButton utleierknapp, boligsokerknapp, personskjemavinduknapp;
     private BorderLayout bLayout;
@@ -27,18 +27,12 @@ public class Personpanel extends JPanel
     public Personpanel(Boligregister br)
     {
     	setLayout(new BorderLayout());
-        
-        String[] dyrenavn = { "Fugl", "Katt", "Hund", "Kanin", "Gris" };
-        
-        JList<String> list1 = new JList<>( dyrenavn );
-        JList<String> list2 = new JList<>( dyrenavn );
-
-        valgtPersonNr = -1;
+                
 
         tekstomraade = new JTextArea("dette er tekstomraade");
 
-        felttekst1 = new JLabel("Utleiere");
-        felttekst2 = new JLabel("Boligsokere");
+        felttekst1 = new JLabel("Boligsokere");
+        felttekst2 = new JLabel("Utleiere");
         
         utleierknapp = new JButton("Utleier");
         boligsokerknapp = new JButton("Bolig");
@@ -47,18 +41,15 @@ public class Personpanel extends JPanel
         personskjemavinduknapp.addActionListener(lytter);
         
 
-  //      listelytter = new Listelytter();
 
-        //knapp.addActionListener(lytter);
+       utleierknapp.addActionListener(lytter);
 
 
         ArrayList<Boligsoker> boligsokerliste = br.getBoligsokere();
         ArrayList<Utleier> utleierliste = br.getUtleiere();
 
-        /*list1 = new JList<>( boligsokerliste.toArray() );
-        list1.addListSelectionListener(listelytter);
+        list1 = new JList<>( boligsokerliste.toArray() );
         list2 = new JList<>( utleierliste.toArray() );
-        list2.addListSelectionListener(listelytter);
 
         list1.setVisibleRowCount(10);
         list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -66,7 +57,7 @@ public class Personpanel extends JPanel
 
         list2.setVisibleRowCount(10);
         list2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        add(new JScrollPane(list2));*/
+        add(new JScrollPane(list2));
 
         JPanel panel1 = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel(new BorderLayout());
@@ -110,7 +101,7 @@ public class Personpanel extends JPanel
 		utleierpanel1.add(list1, gc);
 		gc.gridx = 0;
 		gc.gridy = 2;
-		utleierpanel1.add(utleierknapp, gc);
+		utleierpanel1.add(boligsokerknapp, gc);
 		
 		gc.gridx = 20;
 		gc.gridy = 0;
@@ -120,7 +111,7 @@ public class Personpanel extends JPanel
 		boligsokerpanel1.add(list2, gc);
 		gc.gridx = 20;
 		gc.gridy = 2;
-		boligsokerpanel1.add(boligsokerknapp, gc);
+		boligsokerpanel1.add(utleierknapp, gc);
 		
 	    gc.gridx = 0;
 	    gc.gridy = 0;
@@ -142,31 +133,20 @@ public class Personpanel extends JPanel
     private class Lytter implements ActionListener
     {
         public void actionPerformed( ActionEvent e )
-        {
-            if(e.getSource() == personskjemavinduknapp)
+        {	
+        	Personskjemavindu pv;
+        	
+            if(e.getSource() == utleierknapp)
             {
-               // if(valgtPersonNr != -1)
-                //{
-                    Personskjemavindu pv = new Personskjemavindu(); //br.finnPerson(valgtPersonNr
-                //}
+               if( list2.getSelectedIndex() != -1)
+                {	
+                    //pv = new Personskjemavindu(br.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()));
+                    
+                    //JOptionPane.showMessageDialog(null, br.finnPerson( ((Utleier)list2.getSelectedValue()).getPersonNr() ).toString());
+                    
+                    JOptionPane.showMessageDialog(null, br.finnPerson( 1 ).toString() + "");
+                }
             }
         }
     }
-
-   /* private class Listelytter implements ListSelectionListener
-    {
-        public void valueChanged( ListSelectionEvent e)
-        {
-            if (e.getSource() == list1)
-            {
-                list2.clearSelection();
-                valgtPersonNr = ((Utleier)list1.getSelectedValue()).getPersonNr();
-            }
-            else if (e.getSource() == list2)
-            {
-                list1.clearSelection();
-                valgtPersonNr = ((Boligsoker)list2.getSelectedValue()).getPersonNr();
-            }
-        }
-    }*/
 }
