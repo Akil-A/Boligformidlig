@@ -2,6 +2,8 @@
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -192,5 +194,16 @@ public class Boligskjemavindu extends JFrame
             	leilighetfelt.setVisible(true);
             }
         }
+    }
+    
+    private class Lytter implements ActionListener
+    {
+    	public void actionPerformed(ActionEvent e)
+    	{
+    		if (e.getSource() == lagre)
+    		{
+    			// sjekk at feltene er fylt ut riktig, så legg til i boligregister
+    		}
+    	}
     }
 }
