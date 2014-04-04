@@ -91,6 +91,7 @@ public class Boligregister
 	// BOLIG-METODER
 	// ###############################################################################################
 	
+	
 	public Bolig finnBolig( int boligNr )
 	{
 		for (Utleier u : getUtleiere())
