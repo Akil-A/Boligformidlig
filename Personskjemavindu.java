@@ -37,7 +37,6 @@ public class Personskjemavindu extends JFrame
         super("Personskjemavindu");
 
         lagVindu();
-        lytter = new Lytter();
         fornavnfelt.setText(p.getFornavn());
         etternavnfelt.setText(p.getEtternavn());
         emailfelt.setText(p.getEmail());
@@ -71,7 +70,6 @@ public class Personskjemavindu extends JFrame
         {
             Utleier ulo = ((Utleier) p);
             firmafelt.setText(ulo.getFirma());
-
             utleier.setSelected(true);
         }
 
@@ -79,6 +77,7 @@ public class Personskjemavindu extends JFrame
 
     public void lagVindu()
     {
+        lytter = new Lytter();
         generator = new Random();
         int randNr1 = generator.nextInt(10);
         int randNr2 = generator.nextInt(10);
@@ -393,18 +392,17 @@ public class Personskjemavindu extends JFrame
 
             if(e.getSource() == boligregistrerknapp)
             {
-                /*Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+                Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
                 register.settInnPerson(person);
-                pl.addPerson(person);*/
-                JOptionPane.showMessageDialog(null, "fungerer");
-
+                pl.addPerson(person);
+                JOptionPane.showMessageDialog(null, "funker");
             }
             else if(e.getSource() == utleierregistrerknapp)
             {
-                /*Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+               /* Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
                 register.settInnPerson(person);
                 pl.addPerson(person);*/
-                JOptionPane.showMessageDialog(null, "fungerer");
+                JOptionPane.showMessageDialog(null, "funker");
             }
         }
     }
