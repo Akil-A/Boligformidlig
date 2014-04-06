@@ -20,8 +20,8 @@ public class Personpanel extends JPanel
     private Container c;
     private GridBagConstraints gc;
     private Boligregister register;
-    DefaultListModel model;
-    ArrayList<Utleier> utleierliste;
+    private DefaultListModel model;
+    private ArrayList<Utleier> utleierliste;
 
     public Personpanel(Boligregister br)
     {
@@ -140,7 +140,7 @@ public class Personpanel extends JPanel
 
     }
 
-    public class Test extends AbstractListModel {
+    /* public class Test extends AbstractListModel {
         public int getSize() {
             return utleierliste.size();
         }
@@ -152,8 +152,12 @@ public class Personpanel extends JPanel
 
         public void addPerson(Person p) {
             model.addElement(p);
-            fireIntervalAdded(this, 0, getSize());
+            fireIntervalAdded(p, 0, getSize());
         }
+    }*/
+
+    public void addPerson(Person p) {
+        model.addElement(p);
     }
 
     private class Lytter implements ActionListener
