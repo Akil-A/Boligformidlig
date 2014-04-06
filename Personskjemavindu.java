@@ -1,4 +1,3 @@
-package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +22,8 @@ public class Personskjemavindu extends JFrame
     private Lytter lytter;
     private Random generator;
     private Boligregister register;
+    private Personpanel.Test pl;
+
 
     public Personskjemavindu(Boligregister br)
     {
@@ -34,7 +35,7 @@ public class Personskjemavindu extends JFrame
     public Personskjemavindu(Person p)
     {
         super("Personskjemavindu");
-        
+
         lagVindu();
         lytter = new Lytter();
         fornavnfelt.setText(p.getFornavn());
@@ -70,17 +71,17 @@ public class Personskjemavindu extends JFrame
         {
             Utleier ulo = ((Utleier) p);
             firmafelt.setText(ulo.getFirma());
-       
-            utleier.setSelected(true);     
+
+            utleier.setSelected(true);
         }
 
     }
-    
+
     public void lagVindu()
     {
-    	generator = new Random();
-    	int randNr1 = generator.nextInt(10);
-    	int randNr2 = generator.nextInt(10);
+        generator = new Random();
+        int randNr1 = generator.nextInt(10);
+        int randNr2 = generator.nextInt(10);
         sjekkboksLytter = new SjekkboksLytter();
 
         fornavnfelt = new JTextField(10);
@@ -119,7 +120,7 @@ public class Personskjemavindu extends JFrame
 
         sivilstatus = new JComboBox<>();
         arbeidsforhold = new JComboBox<>();
-        
+
         sivilstatus.addItem("<Velg Sivilstatus>");
         sivilstatus.addItem("Gift");
         sivilstatus.addItem("Ugift");
@@ -248,11 +249,11 @@ public class Personskjemavindu extends JFrame
         bspKrav1.add(hage);
         bspKrav1.add(heis);
         bspKrav1.add(parkering);
-        
+
         bspKrav3.add(enebolig);
         bspKrav3.add(leilighet);
         bspKrav3.add(rekkehus);
-   
+
         bspKrav2.add(sivilstatus);
         bspKrav2.add(arbeidsforhold);
 
@@ -271,25 +272,25 @@ public class Personskjemavindu extends JFrame
         gc.gridx = 0;
         gc.gridy = 15;
         c.add(typepanel, gc);
-        
+
         /******* UTLEIERPANEL ********/
         utleierpanel = new JPanel(new GridBagLayout());
         GridBagConstraints gcUp = new GridBagConstraints();
-       
+
         gcUp.gridy = 0;
         gcUp.gridx = 0;
         gcUp.insets.left = 15;
         utleierpanel.add(firma, gcUp);
-        
+
         gcUp.gridx = 1;
         gcUp.insets.left = -250;
         utleierpanel.add(firmafelt, gcUp);
-        
+
         gcUp.gridy = 3;
         gcUp.insets.left = -55;
         gcUp.insets.top = 10;
         utleierpanel.add(ulpKnapper, gcUp);
-        
+
 
         /******* BOLIGSOKERPANEL ********/
         boligsokerpanel = new JPanel(new GridBagLayout());
@@ -334,27 +335,27 @@ public class Personskjemavindu extends JFrame
         gcBsp.gridy = 4;
         gcBsp.insets.top = 5;
         boligsokerpanel.add(bspKrav1, gcBsp);
-        
+
         gcBsp.gridy = 5;
         boligsokerpanel.add(bspKrav3, gcBsp);
-        
+
         gcBsp.gridy = 6;
         gcBsp.insets.top = 5;
         boligsokerpanel.add(bspKrav2, gcBsp);
-        
+
         gcBsp.insets.top = 15;
         gcBsp.gridy = 7;
         boligsokerpanel.add(bspKnapper, gcBsp);
-        
+
         utleierpanel.setVisible(false);
         boligsokerpanel.setVisible(false);
-        
+
         gc.gridx = 0;
         gc.gridy = 16;
         gc.gridwidth = 4;
         c.add(utleierpanel, gc);
         c.add(boligsokerpanel, gc);
-        
+
         setSize(600, 500);
         setLocationRelativeTo(null);
         setVisible( true);
@@ -376,32 +377,37 @@ public class Personskjemavindu extends JFrame
             }
         }
     }
-    
+
     private class Lytter implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{   
-		       String fornavn = fornavnfelt.getText();
-		       String etternavn = etternavnfelt.getText();
-		       String email = emailfelt.getText();
-		       String adresse = adressefelt.getText();
-		       String telefon = telefonfelt.getText();
-		       String yrke = yrkefelt.getText();
-		       String poststed = poststedfelt.getText();
-		       int postnr = Integer.parseInt(postnrfelt.getText());
-		       
-			if(e.getSource() == boligregistrerknapp)
-			{
-				Person person = new Boligsoker(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
-			    register.settInnPerson(person);
-			}
-			else if(e.getSource() == utleierregistrerknapp)
-			{
-				Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
-			    register.settInnPerson(person);
-			}
-		}
-	}		
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            String fornavn = fornavnfelt.getText();
+            String etternavn = etternavnfelt.getText();
+            String email = emailfelt.getText();
+            String adresse = adressefelt.getText();
+            String telefon = telefonfelt.getText();
+            String yrke = yrkefelt.getText();
+            String poststed = poststedfelt.getText();
+            int postnr = Integer.parseInt(postnrfelt.getText());
+
+            if(e.getSource() == boligregistrerknapp)
+            {
+                /*Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+                register.settInnPerson(person);
+                pl.addPerson(person);*/
+                JOptionPane.showMessageDialog(null, "fungerer");
+
+            }
+            else if(e.getSource() == utleierregistrerknapp)
+            {
+                /*Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+                register.settInnPerson(person);
+                pl.addPerson(person);*/
+                JOptionPane.showMessageDialog(null, "fungerer");
+            }
+        }
+    }
 }
     
    
