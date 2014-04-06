@@ -22,7 +22,7 @@ public class Personskjemavindu extends JFrame
     private Lytter lytter;
     private Random generator;
     private Boligregister register;
-    private Personpanel.Test pl;
+    private Personpanel pl;
 
 
     public Personskjemavindu(Boligregister br)
@@ -390,7 +390,7 @@ public class Personskjemavindu extends JFrame
             String poststed = poststedfelt.getText();
             int postnr = Integer.parseInt(postnrfelt.getText());
 
-            if(e.getSource() == boligregistrerknapp)
+            if(e.getSource() == seBoligknapp)
             {
                 Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
                 register.settInnPerson(person);
@@ -399,9 +399,9 @@ public class Personskjemavindu extends JFrame
             }
             else if(e.getSource() == utleierregistrerknapp)
             {
-               /* Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+                 Person person = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
                 register.settInnPerson(person);
-                pl.addPerson(person);*/
+                pl.addPerson(person);
                 JOptionPane.showMessageDialog(null, "funker");
             }
         }
