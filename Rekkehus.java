@@ -4,9 +4,9 @@ public class Rekkehus extends Bolig
 	private boolean kjeller;
 	private int tomtestr;
 	
-	public Rekkehus(String adresse, int postnr, String poststed, int boareal, int antrom,int byggeaar,String beskrivelse, int utleiepris)
+	public Rekkehus(String adresse, int postnr, String poststed, int utleiepris)
 	{
-		super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);
+		super(adresse, postnr, poststed, utleiepris);
 	}
 	
 	public int getAntetasjer() 
