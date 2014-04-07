@@ -1,5 +1,3 @@
-package prosjekttest;
-
 
 public class Boligsoker extends Person
 {
@@ -13,9 +11,10 @@ public class Boligsoker extends Person
     private int tilStorrelse;
     private int antallRom;
     private String byggeaar;
-    private String utleiepris;
+    private int utleiepris;
     private String firma;
-
+    private String nTogstasjon;
+    
     public Boligsoker(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
     {
         super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
@@ -101,12 +100,12 @@ public class Boligsoker extends Person
         this.byggeaar = byggeaar;
     }
 
-    public String getUtleiepris()
+    public int getUtleiepris()
     {
         return utleiepris;
     }
 
-    public void setUtleiepris(String utleiepris)
+    public void setUtleiepris(int utleiepris)
     {
         this.utleiepris = utleiepris;
     }
@@ -140,5 +139,15 @@ public class Boligsoker extends Person
     public void setFirma(String firma)
     {
         this.firma = firma;
+    }
+    
+    public String getnTogstasjon()
+    {
+        return nTogstasjon;
+    }
+
+    public void setnTogstasjon (String nTogstasjon)
+    {
+        this.nTogstasjon = nTogstasjon;
     }
 }
