@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 public class Boligskjemavindu extends JFrame
 {
 	private JRadioButton enebolig, rekkehus, leilighet;
-	private JTextField adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris;
+	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris;
 	private JTextArea beskrivelse;
 	private CLytter clytter;
 	private Lytter lytter;
@@ -71,6 +71,7 @@ public class Boligskjemavindu extends JFrame
 	{
         clytter = new CLytter();
         lytter = new Lytter();
+        tittel = new JTextField(25);
 		adresse = new JTextField(10);
 		postnr = new JTextField(10);
 		poststed = new JTextField(10);
@@ -94,80 +95,94 @@ public class Boligskjemavindu extends JFrame
         avbryt = new JButton("Avbryt");
         avbryt.addActionListener(lytter);
 		
+        
+        
+        
+        
+
+		
 		Container c = getContentPane();
 		c.setLayout(new GridBagLayout());
+        
+        
+        
 		
-		JPanel toppvenstre = new JPanel(new GridBagLayout());
+		
+        
+
+		/***** toppanel start *****/
+		JPanel toppanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
-		gc.anchor = GridBagConstraints.NORTHEAST;
+		
+		gc.anchor = GridBagConstraints.EAST;
 		gc.insets.left = 5;
-		gc.gridx = 0;
+		
 		gc.gridy = 0;
-		toppvenstre.add(new JLabel("Adresse:"), gc);
-		gc.gridx = 1;
-		toppvenstre.add(adresse, gc);
+		
+		gc.insets.bottom = 20;
 		gc.gridx = 0;
+		toppanel.add(new JLabel("Tittel:"), gc);
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.WEST;
+		gc.gridwidth = 3;
+		toppanel.add(tittel, gc);
+		gc.anchor = GridBagConstraints.EAST;
+		gc.gridwidth = 1;
+		gc.insets.bottom = 0;
+		
 		gc.gridy = 1;
-		toppvenstre.add(new JLabel("Postnr:"), gc);
-		gc.gridx = 1;
-		toppvenstre.add(postnr, gc);
+		
 		gc.gridx = 0;
+		toppanel.add(new JLabel("Adresse:"), gc);
+		gc.gridx = 1;
+		toppanel.add(adresse, gc);
+		gc.gridx = 2;
+		toppanel.add(new JLabel("Boareal (kvm):"), gc);
+		gc.gridx = 3;
+		toppanel.add(boareal, gc);
+		
 		gc.gridy = 2;
-		toppvenstre.add(new JLabel("Poststed:"), gc);
-		gc.gridx = 1;
-		toppvenstre.add(poststed, gc);
+		
 		gc.gridx = 0;
+		toppanel.add(new JLabel("Postnr:"), gc);
+		gc.gridx = 1;
+		toppanel.add(postnr, gc);
+		gc.gridx = 2;
+		toppanel.add(new JLabel("Antall rom:"), gc);
+		gc.gridx = 3;
+		toppanel.add(antrom, gc);
+		
 		gc.gridy = 3;
-		toppvenstre.add(new JLabel("Naermeste togstasjon:"), gc);
-		gc.gridx = 1;
-		toppvenstre.add(togst, gc);
-		
-		JPanel topphoyre = new JPanel(new GridBagLayout());
-		gc.gridx = 0;
-		gc.gridy = 0;
-		topphoyre.add(new JLabel("Boareal (kvm)"), gc);
-		gc.gridx = 1;
-		topphoyre.add(boareal, gc);
-		gc.gridx = 0;
-		gc.gridy = 1;
-		topphoyre.add(new JLabel("Antall rom:"), gc);
-		gc.gridx = 1;
-		topphoyre.add(antrom, gc);
-		gc.gridx = 0;
-		gc.gridy = 2;
-		topphoyre.add(new JLabel("Byggeaar:"), gc);
-		gc.gridx = 1;
-		topphoyre.add(byggeaar, gc);
-		gc.gridx = 0;
-		gc.gridy = 3;
-		topphoyre.add(new JLabel("Pris kr/mnd:"), gc);
-		gc.gridx = 1;
-		topphoyre.add(pris, gc);
 		
 		gc.gridx = 0;
-		gc.gridy = 0;
-		c.add(toppvenstre, gc);
+		toppanel.add(new JLabel("Poststed:"), gc);
 		gc.gridx = 1;
-		c.add(topphoyre, gc);    	
-    	
+		toppanel.add(poststed, gc);
+		gc.gridx = 2;
+		toppanel.add(new JLabel("Byggeaar:"), gc);
+		gc.gridx = 3;
+		toppanel.add(byggeaar, gc);
+
+		gc.gridy = 4;
+		
+		gc.gridx = 0;
+		toppanel.add(new JLabel("Naermeste togstasjon:"), gc);
+		gc.gridx = 1;
+		toppanel.add(togst, gc);
+		gc.gridx = 2;
+		toppanel.add(new JLabel("Pris kr/mnd:"), gc);
+		gc.gridx = 3;
+		toppanel.add(pris, gc);
+		/***** toppanel slutt *****/
 		
 		
-		
-		
-		
-		
-		beskrivelse = new JTextArea(4, 25);
-		beskrivelse.setBorder(BorderFactory.createTitledBorder("Beskrivelse:"));
 		
 		gc.anchor = GridBagConstraints.CENTER;
 		gc.gridwidth = 2;
 		gc.gridx = 0;
-		gc.gridy = 1;
-		gc.insets.top = 10;
-		c.add(beskrivelse, gc);
-		gc.insets.top = 0;
+		gc.gridy = 0;
 		
-		
+		c.add(toppanel, gc);
 		
 		
 		
@@ -186,15 +201,21 @@ public class Boligskjemavindu extends JFrame
 		
     	eneboligfelt.setVisible(false);
     	rekkehusfelt.setVisible(false);
-    	leilighetfelt.setVisible(false);		
+    	leilighetfelt.setVisible(false);
+		
+		gc.gridy = 1;
+
+		gc.gridx = 0;
+		c.add(velgBoligtype, gc);
 		
 		gc.gridy = 2;
-		c.add(velgBoligtype, gc);
-		gc.gridy = 3;
+		
 		c.add(eneboligfelt, gc);
 		c.add(rekkehusfelt, gc);
 		c.add(leilighetfelt, gc);
-		gc.gridy = 4;
+		
+		gc.gridy = 3;
+		
 		gc.gridwidth = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridx = 0;
