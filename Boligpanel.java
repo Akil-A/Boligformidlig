@@ -244,17 +244,6 @@ public class Boligpanel extends JPanel
 		
 		/* LISTEPANEL 
 		 =========================================================================== */
-
-		/***** testdata *****/
-		Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "");
-		Utleier p2 = new Utleier("Henrik", "Pettersen", "Avisveien 8", 3027, "Drammen", "", "");
-		Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 30 , 5 , 2006, "Hyggelig 3-roms med heis" ,6000);
-		Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 30, 5, 2005, "Nyoppusset og sentral beliggenhet", 7000);
-		p.settInnBolig(e);
-		p2.settInnBolig(r);
-		br.settInnPerson(p2);
-		br.settInnPerson(p);
-		/***** testdata slutt *****/
 		
 		listBoliger(false);
 	}
