@@ -14,7 +14,7 @@ abstract public class Bolig
 	private int boareal;
 	private int antrom;
 	private int byggeaar;
-	private String beskrivelse;
+	private String tittel;
 	
 	public Bolig(String adresse, int postnr, String poststed, int utleiepris)
 	{
@@ -35,6 +35,16 @@ abstract public class Bolig
 	public Date getAnnonsedato()
 	{
 		return annonsedato;
+	}
+	
+	public void setTittel(String tittel) 
+	{
+		this.tittel = tittel;
+	}
+	
+	public String getBeskrivelse()
+	{
+		return tittel;
 	}
 	
 	public void setAdresse(String adresse) 
@@ -103,16 +113,6 @@ abstract public class Bolig
 		return byggeaar;
 	}
 	
-	public void setBeskrivelse(String beskrivelse) 
-	{
-		this.beskrivelse = beskrivelse;
-	}
-	
-	public String getBeskrivelse()
-	{
-		return beskrivelse;
-	}
-	
 	public void setUtleiepris(int utleiepris) 
 	{
 		this.utleiepris = utleiepris;
@@ -129,7 +129,7 @@ abstract public class Bolig
 					"\nBoareal: " + boareal +
 					"\nAntall rom: " + antrom +
 					"\nByggeår: " + byggeaar +
-					"\nBeskrivelse: " + beskrivelse +
+					"\nTittel: " + tittel +
 					"\nUtleiepris: " + utleiepris +
 					"\nAnnonsen lagt ut: " + annonsedato;
 		return s;
