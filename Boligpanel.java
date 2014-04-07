@@ -251,17 +251,33 @@ public class Boligpanel extends JPanel
 	private class cLytter implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
-        {		
+        {
+        	if (e.getSource() == Enebolig && Enebolig.isSelected())
+        	{
+        		Leilighet.setSelected(false);
+        		Rekkehus.setSelected(false);
+        	}
+        	else if (e.getSource() == Leilighet && Leilighet.isSelected())
+        	{
+        		Enebolig.setSelected(false);
+        		Rekkehus.setSelected(false);
+        	}
+        	else if (e.getSource() == Rekkehus && Rekkehus.isSelected())
+        	{
+        		Enebolig.setSelected(false);
+        		Leilighet.setSelected(false);
+        	}
+        	
         	if(Enebolig.isSelected())
 			{
-			Kjeller.setVisible(true);
-			pAntetasje.setVisible(true);
-			pTomt.setVisible(true);
-			pEtasje.setVisible(false);
-			Heis.setVisible(false);
-			Garasje.setVisible(false);
-			Balkong.setVisible(false);
-			Vask.setVisible(false);
+				Kjeller.setVisible(true);
+				pAntetasje.setVisible(true);
+				pTomt.setVisible(true);
+				pEtasje.setVisible(false);
+				Heis.setVisible(false);
+				Garasje.setVisible(false);
+				Balkong.setVisible(false);
+				Vask.setVisible(false);
 			}
 			else if(Leilighet.isSelected())
 			{
