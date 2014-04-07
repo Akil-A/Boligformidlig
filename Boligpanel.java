@@ -171,9 +171,9 @@ public class Boligpanel extends JPanel
 		pAntetasje.setVisible(false);
 		pTomt.setVisible(false);
 		
-		Enebolig.addChangeListener(c);
-		Rekkehus.addChangeListener(c);
-		Leilighet.addChangeListener(c);
+		Enebolig.addActionListener(c);
+		Rekkehus.addActionListener(c);
+		Leilighet.addActionListener(c);
 		
 		
 		JPanel nordPanel = new JPanel(new GridBagLayout());
@@ -248,19 +248,8 @@ public class Boligpanel extends JPanel
 		/***** testdata *****/
 		Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "");
 		Utleier p2 = new Utleier("Henrik", "Pettersen", "Avisveien 8", 3027, "Drammen", "", "");
-		
-		Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 6000);
-		r.setBoareal(30);
-		r.setAntrom(5);
-		r.setByggeaar(2006);
-		r.setBeskrivelse("Hyggelig 3-roms med heis");
-		
-		Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 7000);
-		e.setBoareal(30);
-		e.setAntrom(5);
-		e.setByggeaar(2005);
-		e.setBeskrivelse("Nyoppusset og sentral beliggenhet");
-		
+		Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 30 , 5 , 2006, "Hyggelig 3-roms med heis" ,6000);
+		Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 30, 5, 2005, "Nyoppusset og sentral beliggenhet", 7000);
 		p.settInnBolig(e);
 		p2.settInnBolig(r);
 		br.settInnPerson(p2);
@@ -270,28 +259,26 @@ public class Boligpanel extends JPanel
 		listBoliger(false);
 	}
 	
-	private class cLytter implements ChangeListener
+	private class cLytter implements ActionListener
     {
-        public void stateChanged(ChangeEvent e)
+        public void actionPerformed(ActionEvent e)
         {		
         	if(Enebolig.isSelected())
 			{
 			Kjeller.setVisible(true);
 			pAntetasje.setVisible(true);
 			pTomt.setVisible(true);
-			Garasje.setVisible(true);
 			pEtasje.setVisible(false);
 			Heis.setVisible(false);
-			Garasje.setVisible(true);
-			Balkong.setVisible(true);
-			Vask.setVisible(true);
+			Garasje.setVisible(false);
+			Balkong.setVisible(false);
+			Vask.setVisible(false);
 			}
 			else if(Leilighet.isSelected())
 			{
 				Kjeller.setVisible(true);
 				pAntetasje.setVisible(true);
 				pTomt.setVisible(false);
-				Garasje.setVisible(true);
 				pEtasje.setVisible(true);
 				Heis.setVisible(true);
 				Garasje.setVisible(true);
@@ -303,24 +290,22 @@ public class Boligpanel extends JPanel
 				Kjeller.setVisible(true);
 				pAntetasje.setVisible(true);
 				pTomt.setVisible(false);
-				Garasje.setVisible(true);
 				pEtasje.setVisible(true);
 				Heis.setVisible(true);
 				Garasje.setVisible(true);
 				Balkong.setVisible(true);
-				Vask.setVisible(true);
+				Vask.setVisible(false);
 			}
         	else if(Enebolig.isSelected() && Rekkehus.isSelected())
         	{
         		Kjeller.setVisible(true);
 				pAntetasje.setVisible(true);
-				pTomt.setVisible(true);
-				Garasje.setVisible(true);
-				pEtasje.setVisible(false);
-				Heis.setVisible(false);
+				pTomt.setVisible(false);
+				pEtasje.setVisible(true);
+				Heis.setVisible(true);
 				Garasje.setVisible(true);
 				Balkong.setVisible(true);
-				Vask.setVisible(true);
+				Vask.setVisible(false);
         	}
         	else if(Enebolig.isSelected() && Leilighet.isSelected())
 			{
@@ -330,14 +315,13 @@ public class Boligpanel extends JPanel
 				Garasje.setVisible(true);
 				pEtasje.setVisible(true);
 				Heis.setVisible(true);
-				Garasje.setVisible(true);
 				Balkong.setVisible(true);
 				Vask.setVisible(true);
 			}
 			else if(Leilighet.isSelected() && Rekkehus.isSelected())
 			{
-				Kjeller.setVisible(false);
-				pAntetasje.setVisible(false);
+				Kjeller.setVisible(true);
+				pAntetasje.setVisible(true);
 				pTomt.setVisible(true);
 				Garasje.setVisible(true);
 				pEtasje.setVisible(true);
