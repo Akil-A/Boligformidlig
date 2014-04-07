@@ -17,17 +17,20 @@ public class Boligskjemavindu extends JFrame
 	private CLytter clytter;
 	private JPanel eneboligfelt, rekkehusfelt, leilighetfelt;
 	private JButton lagre, slett;
+	private Boligpanel boligpanelet;
 	
-	public Boligskjemavindu(Boligregister br)
+	public Boligskjemavindu(Boligpanel bp, Boligregister br)
 	{
 		super("Registrer ny bolig");
+		boligpanelet = bp;
 		lagVindu();
 		slett.setText("Avbryt");
 	}
 
-	public Boligskjemavindu(Bolig b)
+	public Boligskjemavindu(Boligpanel bp, Bolig b)
 	{
 		super("Oppdater bolig");
+		boligpanelet = bp;
 		lagVindu();
 		
 		adresse.setText(b.getAdresse());
@@ -203,6 +206,8 @@ public class Boligskjemavindu extends JFrame
     		if (e.getSource() == lagre)
     		{
     			// sjekk at feltene er fylt ut riktig, så legg til i boligregister
+    			
+    			boligpanelet.listBoliger(false);
     		}
     	}
     }
