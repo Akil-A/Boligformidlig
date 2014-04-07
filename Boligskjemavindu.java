@@ -241,7 +241,8 @@ public class Boligskjemavindu extends JFrame
     		{
     			// sjekk at feltene er fylt ut riktig, så legg til i boligregister
     			
-    			boligpanelet.listBoliger(false);
+    			if (boligpanelet != null)
+    				boligpanelet.listBoliger(false);
     			//dispose();
     		}
     		else if(e.getSource() == avbryt)
