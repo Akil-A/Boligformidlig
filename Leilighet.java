@@ -5,9 +5,9 @@ public class Leilighet extends Bolig
 	 private boolean balkong;
 	 private String leilighetsnr;
 	 
-	 public Leilighet(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar, String beskrivelse, int utleiepris)
+	 public Leilighet(String adresse, int postnr, String poststed, int utleiepris)
 	 {
-		super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);
+		super(adresse, postnr, poststed, utleiepris);
 	 }
 	
 	public int getEtasje()
