@@ -1,3 +1,5 @@
+package prosjekttest;
+
 
 public class Boligsoker extends Person
 {
@@ -7,6 +9,13 @@ public class Boligsoker extends Person
     private String arbeidsforhold;
     private boolean royker;
     private boolean husdyr;
+    private boolean hage;
+    private boolean heis;
+    private boolean balkong;
+    private boolean parkering;
+    private boolean enebolig;
+    private boolean rekkehus;
+    private boolean leilighet;
     private int fraStorrelse;
     private int tilStorrelse;
     private int antallRom;
@@ -150,4 +159,60 @@ public class Boligsoker extends Person
     {
         this.nTogstasjon = nTogstasjon;
     }
+
+	public boolean isHage() {
+		return hage;
+	}
+
+	public void setHage(boolean hage) {
+		this.hage = hage;
+	}
+
+	public boolean isHeis() {
+		return heis;
+	}
+
+	public void setHeis(boolean heis) {
+		this.heis = heis;
+	}
+
+	public boolean isParkering() {
+		return parkering;
+	}
+
+	public void setParkering(boolean parkering) {
+		this.parkering = parkering;
+	}
+
+	public boolean isBalkong() {
+		return balkong;
+	}
+
+	public void setBalkong(boolean balkong) {
+		this.balkong = balkong;
+	}
+
+	public boolean isEnebolig() {
+		return enebolig;
+	}
+
+	public void setEnebolig(boolean enebolig) {
+		this.enebolig = enebolig;
+	}
+
+	public boolean isRekkehus() {
+		return rekkehus;
+	}
+
+	public void setRekkehus(boolean rekkehus) {
+		this.rekkehus = rekkehus;
+	}
+
+	public boolean isLeilighet() {
+		return leilighet;
+	}
+
+	public void setLeilighet(boolean leilighet) {
+		this.leilighet = leilighet;
+	}
 }
