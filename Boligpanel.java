@@ -1,4 +1,4 @@
-//Denne klassen tar seg av registrering og soking av bolig.
+//Denne klassen tar seg av listing og soking av bolig.
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -10,10 +10,10 @@ import java.awt.event.*;
 public class Boligpanel extends JPanel
 {
 
-	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,utleiepris,dato,etasje,antetasje,tomt,tfra,ttil,postnr,poststed,beliggenhet;
+	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,dato,etasje,antetasje,tfra,ttil,postnr,poststed,beliggenhet;
 	private JButton sok, registrer;
 	private ButtonGroup bgHus;
-	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,tilegg,lutleiepris,ldato,ltype,lkjeller,lgarasje,lvask,lbalkong,lheis,letasje,lantetasje,ltomt,lbeliggenhet;
+	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,ldato,ltype,letasje,lantetasje,ltomt,lbeliggenhet;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
 	private JPanel pAntetasje, pTomt, pBoareal, pEtasje;
 	private Boligregister register;
@@ -47,42 +47,34 @@ public class Boligpanel extends JPanel
 		tfra = new JTextField(7);
 		lttil = new JLabel("Til: ");
 		ttil = new JTextField(7);
-		tilegg = new JLabel("Tilegg: ");
 		lboareal = new JLabel("Boareal: (kvm)");
 		lantrom = new JLabel("Antall rom: ");
 		antrom = new JTextField(20);
 		lbyggeaar = new JLabel("Byggeår: ");
 		byggeaar = new JTextField(6);
 		beliggenhet = new JTextField(14);
-		ldato = new JLabel("Dato: ");
+		ldato = new JLabel("Annonsedato: ");
 		dato = new JTextField(10);
-		dato.setText("eks: 21/12/1989");
+		dato.setText("eks: 21/12/2013");
 		dato.setForeground(Color.GRAY);
 		dato.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent f)
 			{
-				if(dato.getText().equals("eks: 21/12/1989"))
+				if(dato.getText().equals("eks: 21/12/2013"))
 				dato.setText("");
 				dato.setForeground(Color.BLACK);
 			}
-
-			@Override
-			public void focusLost(FocusEvent arg0)
+			public void focusLost(FocusEvent f)
 			{
 				if(dato.getText().equals(""))
-					{
-						dato.setText("eks: 21/12/1989");
-						dato.setForeground(Color.GRAY);
-					}
+				{
+					dato.setText("eks: 21/12/2013");
+					dato.setForeground(Color.GRAY);
+				}
 			}
 		});
 		ltype = new JLabel("Type: ");
-		lkjeller = new JLabel("Kjeller: ");
-		lbalkong = new JLabel("Balkong: ");
-		lgarasje = new JLabel("Garasje: ");
-		lvask = new JLabel("Felles vask: ");
-		lheis = new JLabel("Heis: ");
 		letasje = new JLabel("Etasje: ");
 		etasje = new JTextField(5);
 		lantetasje = new JLabel("Antall etasjer: ");
@@ -101,20 +93,19 @@ public class Boligpanel extends JPanel
 		Kjeller = new JCheckBox("Kjeller");
 		lbeliggenhet = new JLabel("Nermeste togstasjon: ");
 		
-		JPanel pBeliggenhet = new JPanel();
-		pBeliggenhet.add(lbeliggenhet);
-		pBeliggenhet.add(beliggenhet);
-		
 		JPanel pAdresse = new JPanel();
 		pAdresse.add(ladr);
 		pAdresse.add(adr);
+		
+		JPanel pBeliggenhet = new JPanel();
+		pBeliggenhet.add(lbeliggenhet);
+		pBeliggenhet.add(beliggenhet);
 		
 		JPanel pPost = new JPanel();
 		pPost.add(lpostnr);
 		pPost.add(postnr);
 		pPost.add(lpoststed);
 		pPost.add(poststed);
-		JPanel utforfelt = new JPanel();
 		
 		JPanel SjekkboksHus = new JPanel();
 		JPanel SjekkboksTilegg = new JPanel();
@@ -214,19 +205,19 @@ public class Boligpanel extends JPanel
         gc.gridy = 4;
         gc.gridx = 0;
         innerFilterPanel.add(pDato,gc);
-        
+
         
         gc.gridy = 5;
+        gc.gridx = 0;
+        innerFilterPanel.add(pPrisen, gc);
+        
+        gc.gridy = 6;
         gc.gridx = 0;
         innerFilterPanel.add(pBoareal, gc);
         
         gc.gridy = 7;
         gc.gridx = 0;
         innerFilterPanel.add(pTomt, gc);
-        
-        gc.gridy = 8;
-        gc.gridx = 0;
-        innerFilterPanel.add(pPrisen, gc);
       
     
         gc.gridy = 9;
@@ -320,7 +311,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
-	private void listBoliger(boolean medFilter)
+	public void listBoliger(boolean medFilter)
 	{
 		JPanel innerListePanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc3 = new GridBagConstraints();
@@ -401,7 +392,7 @@ public class Boligpanel extends JPanel
 			
 			if (e.getSource() == registrer)
 			{
-				bsv = new Boligskjemavindu(register);
+				bsv = new Boligskjemavindu(Boligpanel.this, register);
 			}
 			else if (e.getSource() == sok)
 			{
