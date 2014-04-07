@@ -4,18 +4,16 @@ public class Enebolig extends Bolig
 	private boolean kjeller;
 	private int tomtestr;
 
-	public Enebolig(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar,String beskrivelse, int utleiepris)
+	public Enebolig(String adresse, int postnr, String poststed, int utleiepris)
 	{
-		super(adresse, postnr, poststed, boareal, antrom, byggeaar, beskrivelse, utleiepris);
+		super(adresse, postnr, poststed, utleiepris);
 	}
 	
 	public void setAntetasjer(int antetasjer)
-	
 	{
 		this.antetasjer = antetasjer;
 	}
 	public int getAntetasjer()
-	
 	{
 		return antetasjer;
 	}
