@@ -12,11 +12,12 @@ import javax.swing.event.ChangeListener;
 public class Boligskjemavindu extends JFrame
 {
 	private JRadioButton enebolig, rekkehus, leilighet;
-	private JTextField adresse, postnr, poststed, boareal, antrom, byggeaar, pris;
+	private JTextField adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris;
 	private JTextArea beskrivelse;
 	private CLytter clytter;
+	private Lytter lytter;
 	private JPanel eneboligfelt, rekkehusfelt, leilighetfelt;
-	private JButton lagre, slett;
+	private JButton lagre, avbryt;
 	private Boligpanel boligpanelet;
 	
 	public Boligskjemavindu(Boligpanel bp, Boligregister br)
@@ -24,7 +25,13 @@ public class Boligskjemavindu extends JFrame
 		super("Registrer ny bolig");
 		boligpanelet = bp;
 		lagVindu();
-		slett.setText("Avbryt");
+	}
+	
+	public Boligskjemavindu(Boligregister br)
+	{
+		super("Registrer ny bolig");
+		boligpanelet = null;
+		lagVindu();
 	}
 
 	public Boligskjemavindu(Boligpanel bp, Bolig b)
@@ -36,34 +43,38 @@ public class Boligskjemavindu extends JFrame
 		adresse.setText(b.getAdresse());
 		postnr.setText(Integer.toString(b.getPostnr()));
 		poststed.setText(b.getPoststed());
+		togst.setText(b.getTogst());
 		boareal.setText(Integer.toString(b.getBoareal()));
 		antrom.setText(Integer.toString(b.getAntrom()));
 		byggeaar.setText(Integer.toString(b.getByggeaar()));
 		pris.setText(Integer.toString(b.getUtleiepris()));
+
+		enebolig.setEnabled(false);
+		rekkehus.setEnabled(false);
+		leilighet.setEnabled(false);
 		
 		if (b instanceof Enebolig)
 		{
-			enebolig.doClick();
-			//enebolig.setSelected(true);
+			enebolig.setSelected(true);
 		}
 		else if (b instanceof Rekkehus)
 		{
-			enebolig.doClick();
-			//rekkehus.setSelected(true);
+			rekkehus.setSelected(true);
 		}
 		else if (b instanceof Leilighet)
 		{
-			enebolig.doClick();
-			//leilighet.setSelected(true);
+			leilighet.setSelected(true);
 		}
 	}
 	
 	private void lagVindu()
 	{
         clytter = new CLytter();
+        lytter = new Lytter();
 		adresse = new JTextField(10);
 		postnr = new JTextField(10);
 		poststed = new JTextField(10);
+		togst = new JTextField(10);
 		boareal = new JTextField(10);
 		antrom = new JTextField(10);
 		byggeaar = new JTextField(10);
@@ -79,7 +90,9 @@ public class Boligskjemavindu extends JFrame
         boligtype.add(rekkehus);
         boligtype.add(leilighet);
         lagre = new JButton("Lagre");
-        slett = new JButton("Slett");
+        lagre.addActionListener(lytter);
+        avbryt = new JButton("Avbryt");
+        avbryt.addActionListener(lytter);
 		
 		Container c = getContentPane();
 		c.setLayout(new GridBagLayout());
@@ -103,6 +116,11 @@ public class Boligskjemavindu extends JFrame
 		toppvenstre.add(new JLabel("Poststed:"), gc);
 		gc.gridx = 1;
 		toppvenstre.add(poststed, gc);
+		gc.gridx = 0;
+		gc.gridy = 3;
+		toppvenstre.add(new JLabel("Naermeste togstasjon:"), gc);
+		gc.gridx = 1;
+		toppvenstre.add(togst, gc);
 		
 		JPanel topphoyre = new JPanel(new GridBagLayout());
 		gc.gridx = 0;
@@ -126,6 +144,34 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		topphoyre.add(pris, gc);
 		
+		gc.gridx = 0;
+		gc.gridy = 0;
+		c.add(toppvenstre, gc);
+		gc.gridx = 1;
+		c.add(topphoyre, gc);    	
+    	
+		
+		
+		
+		
+		
+		
+		beskrivelse = new JTextArea(4, 25);
+		beskrivelse.setBorder(BorderFactory.createTitledBorder("Beskrivelse:"));
+		
+		gc.anchor = GridBagConstraints.CENTER;
+		gc.gridwidth = 2;
+		gc.gridx = 0;
+		gc.gridy = 1;
+		gc.insets.top = 10;
+		c.add(beskrivelse, gc);
+		gc.insets.top = 0;
+		
+		
+		
+		
+		
+		
 		JPanel velgBoligtype = new JPanel();
 		velgBoligtype.add(enebolig);
 		velgBoligtype.add(rekkehus);
@@ -140,36 +186,24 @@ public class Boligskjemavindu extends JFrame
 		
     	eneboligfelt.setVisible(false);
     	rekkehusfelt.setVisible(false);
-    	leilighetfelt.setVisible(false);
-    	
-    	JPanel knappefelt = new JPanel();
-    	knappefelt.add(lagre);
-    	knappefelt.add(slett);
+    	leilighetfelt.setVisible(false);		
 		
-		gc.gridx = 0;
-		gc.gridy = 0;
-		c.add(toppvenstre, gc);
-		gc.gridx = 1;
-		c.add(topphoyre, gc);
-		gc.gridwidth = 2;
-		gc.gridx = 0;
-		gc.gridy = 1;
-		gc.anchor = GridBagConstraints.CENTER;
-		c.add(velgBoligtype, gc);
 		gc.gridy = 2;
+		c.add(velgBoligtype, gc);
+		gc.gridy = 3;
 		c.add(eneboligfelt, gc);
 		c.add(rekkehusfelt, gc);
 		c.add(leilighetfelt, gc);
-		gc.gridy = 3;
+		gc.gridy = 4;
 		gc.gridwidth = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridx = 0;
 		c.add(lagre, gc);
 		gc.anchor = GridBagConstraints.EAST;
 		gc.gridx = 1;
-		c.add(slett, gc);
+		c.add(avbryt, gc);
 
-		setSize(500, 300);
+		setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible( true );
 	}
@@ -208,6 +242,11 @@ public class Boligskjemavindu extends JFrame
     			// sjekk at feltene er fylt ut riktig, så legg til i boligregister
     			
     			boligpanelet.listBoliger(false);
+    			//dispose();
+    		}
+    		else if(e.getSource() == avbryt)
+    		{
+    			dispose();
     		}
     	}
     }
