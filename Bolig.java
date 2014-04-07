@@ -9,13 +9,14 @@ abstract public class Bolig
 	private String adresse;
 	private int postnr;
 	private String poststed;
+	private int utleiepris;
+	private String nTogstasjon; // nermeste togstasjon
 	private int boareal;
 	private int antrom;
 	private int byggeaar;
 	private String beskrivelse;
-	private int utleiepris;
 	
-	public Bolig(String adresse, int postnr, String poststed, int boareal, int antrom, int byggeaar, String beskrivelse, int utleiepris)
+	public Bolig(String adresse, int postnr, String poststed, int utleiepris)
 	{
 		boligNr = boligTeller++;
 		annonsedato = new Date();
@@ -23,10 +24,6 @@ abstract public class Bolig
 		this.adresse = adresse;
 		this.postnr = postnr;
 		this.poststed = poststed;
-		this.boareal = boareal;
-		this.antrom = antrom;
-		this.byggeaar = byggeaar;
-		this.beskrivelse = beskrivelse;
 		this.utleiepris = utleiepris;
 	}
 	
@@ -66,6 +63,14 @@ abstract public class Bolig
 	
 	public void setPoststed(String poststed) {
 		this.poststed = poststed;
+	}
+	
+	public String getNTogstasjon() {
+		return nTogstasjon;
+	}
+	
+	public void setNTogstasjon(String nt) {
+		this.nTogstasjon = nt;
 	}
 	
 	public void setAntrom(int antrom) 
@@ -120,7 +125,8 @@ abstract public class Bolig
 	
 	public String toString()
 	{
-		String s = "Boareal: " + boareal +
+		String s = "Naermeste togstasjon: " + nTogstasjon +
+					"\nBoareal: " + boareal +
 					"\nAntall rom: " + antrom +
 					"\nByggeår: " + byggeaar +
 					"\nBeskrivelse: " + beskrivelse +
