@@ -50,11 +50,11 @@ public class Boligpanel extends JPanel
 		lboareal = new JLabel("Boareal: (kvm)");
 		lantrom = new JLabel("Antall rom: ");
 		antrom = new JTextField(20);
-		lbyggeaar = new JLabel("Byggeår: ");
-		byggeaar = new JTextField(6);
+		lbyggeaar = new JLabel("Byggeaar: ");
+		byggeaar = new JTextField(4);
 		beliggenhet = new JTextField(14);
 		ldato = new JLabel("Annonsedato: ");
-		dato = new JTextField(10);
+		dato = new JTextField(9);
 		dato.setText("eks: 21/12/2013");
 		dato.setForeground(Color.GRAY);
 		dato.addFocusListener(new FocusListener()
