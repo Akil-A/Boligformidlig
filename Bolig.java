@@ -10,7 +10,7 @@ abstract public class Bolig
 	private int postnr;
 	private String poststed;
 	private int utleiepris;
-	private String nTogstasjon; // nermeste togstasjon
+	private String togst;
 	private int boareal;
 	private int antrom;
 	private int byggeaar;
@@ -65,12 +65,12 @@ abstract public class Bolig
 		this.poststed = poststed;
 	}
 	
-	public String getNTogstasjon() {
-		return nTogstasjon;
+	public String getTogst() {
+		return togst;
 	}
 	
-	public void setNTogstasjon(String nt) {
-		this.nTogstasjon = nt;
+	public void setTogst(String t) {
+		this.togst = t;
 	}
 	
 	public void setAntrom(int antrom) 
@@ -125,7 +125,7 @@ abstract public class Bolig
 	
 	public String toString()
 	{
-		String s = "Naermeste togstasjon: " + nTogstasjon +
+		String s = "Naermeste togstasjon: " + togst +
 					"\nBoareal: " + boareal +
 					"\nAntall rom: " + antrom +
 					"\nByggeår: " + byggeaar +
