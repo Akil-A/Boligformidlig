@@ -1,3 +1,5 @@
+package prosjekttest;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +12,7 @@ public class Personpanel extends JPanel
     private JLabel felttekst1;
     private JLabel felttekst2;
     private JList<Object> list1;
-    private JList<Object> list2;
+    private JList<Person> list2;
     private JTextArea tekstomraade;
     private JButton knapp;
     private Lytter lytter;
@@ -20,7 +22,7 @@ public class Personpanel extends JPanel
     private Container c;
     private GridBagConstraints gc;
     private Boligregister register;
-    private DefaultListModel model;
+    private DefaultListModel<Person> model;
     private ArrayList<Utleier> utleierliste;
 
     public Personpanel(Boligregister br)
@@ -47,9 +49,9 @@ public class Personpanel extends JPanel
         ArrayList<Boligsoker> boligsokerliste = register.getBoligsokere();
        utleierliste = register.getUtleiere();
 
-        list1 = new JList<>( boligsokerliste.toArray() );
+        list1 = new JList<Object>(boligsokerliste.toArray());
 
-        model = new DefaultListModel();
+        model = new DefaultListModel<Person>();
 
         Iterator<Utleier> iterator = utleierliste.iterator();
 
@@ -57,7 +59,7 @@ public class Personpanel extends JPanel
         {
             model.addElement(iterator.next());
         }
-        list2 = new JList<>(model);
+        list2 = new JList<Person>(model);
 
 
 
@@ -137,24 +139,7 @@ public class Personpanel extends JPanel
         panel3.add(panel2, BorderLayout.NORTH);
         add(panel3, BorderLayout.EAST);
         add(personskjemavinduknapp, BorderLayout.SOUTH);
-
     }
-
-    /* public class Test extends AbstractListModel {
-        public int getSize() {
-            return utleierliste.size();
-        }
-
-        public Object getElementAt(int index) {
-            int a = 0;
-            return a;
-        }
-
-        public void addPerson(Person p) {
-            model.addElement(p);
-            fireIntervalAdded(p, 0, getSize());
-        }
-    }*/
 
     public void addPerson(Person p) {
         model.addElement(p);
@@ -168,12 +153,12 @@ public class Personpanel extends JPanel
             {
                 if( list2.getSelectedIndex() != -1)
                 {
-                    Personskjemavindu pv = new Personskjemavindu(register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()));
+                    Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()));
                 }
             }
             else if(e.getSource() == personskjemavinduknapp)
             {
-                Personskjemavindu pv = new Personskjemavindu(register);
+                Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register);
             }
         }
     }
