@@ -242,6 +242,7 @@ public class Personskjemavindu extends JFrame
         c.add(poststed, gc);
         gc.gridx = 3;
         c.add(poststedfelt, gc);
+        
 
         //ulp = utleierpanel, bsp = boligsokerpanel
         ulpKnapper = new JPanel();
@@ -273,12 +274,10 @@ public class Personskjemavindu extends JFrame
         ulpKnapper.add(utleierregistrerknapp);
         ulpKnapper.add(lagre1);
         ulpKnapper.add(slettknapp1);
-        ulpKnapper.add(avbryt);
 
         bspKnapper.add(boligregistrerknapp);
         bspKnapper.add(lagre2);
         bspKnapper.add(slettknapp2);
-        bspKnapper.add(avbryt);
 
         gc.gridwidth = 4;
         gc.insets.left = -17;
@@ -290,20 +289,24 @@ public class Personskjemavindu extends JFrame
         /******* UTLEIERPANEL ********/
         utleierpanel = new JPanel(new GridBagLayout());
         GridBagConstraints gcUp = new GridBagConstraints();
-
+        gcUp.anchor = GridBagConstraints.WEST;
+        
         gcUp.gridy = 0;
         gcUp.gridx = 0;
         gcUp.insets.left = 15;
         utleierpanel.add(firma, gcUp);
 
         gcUp.gridx = 1;
-        gcUp.insets.left = -250;
+        gcUp.gridwidth = 3;
         utleierpanel.add(firmafelt, gcUp);
+        gcUp.gridwidth = 0;
+
 
         gcUp.gridy = 3;
-        gcUp.insets.left = -55;
         gcUp.insets.top = 10;
         utleierpanel.add(ulpKnapper, gcUp);
+        
+       
 
 
         /******* BOLIGSOKERPANEL ********/
@@ -375,8 +378,13 @@ public class Personskjemavindu extends JFrame
         gc.gridwidth = 4;
         c.add(utleierpanel, gc);
         c.add(boligsokerpanel, gc);
+        
+        gcUp.anchor = GridBagConstraints.CENTER;
+        gcUp.gridwidth = 2;
+        gcUp.gridy = 17;
+        c.add(avbryt, gcUp);
 
-        setSize(600, 500);
+        setSize(700, 600);
         setLocationRelativeTo(null);
         setVisible( true);
     }
@@ -402,53 +410,52 @@ public class Personskjemavindu extends JFrame
     {
         public void actionPerformed(ActionEvent e)
         {
-        	Boligskjemavindu bsv;
-        	
-        	if (e.getSource() == avbryt)
-        		dispose();
-            else if(e.getSource() == utleierregistrerknapp)
-            	bsv = new Boligskjemavindu(register);
-            else
+            String fornavn = fornavnfelt.getText();
+            String etternavn = etternavnfelt.getText();
+            String email = emailfelt.getText();
+            String adresse = adressefelt.getText();
+            String telefon = telefonfelt.getText();
+            String yrke = yrkefelt.getText();
+            String poststed = poststedfelt.getText();
+            int postnr = Integer.parseInt(postnrfelt.getText());
+
+            if(e.getSource() == seBoligknapp)
             {
-	            String fornavn = fornavnfelt.getText();
-	            String etternavn = etternavnfelt.getText();
-	            String email = emailfelt.getText();
-	            String adresse = adressefelt.getText();
-	            String telefon = telefonfelt.getText();
-	            String yrke = yrkefelt.getText();
-	            String poststed = poststedfelt.getText();
-	            int postnr = Integer.parseInt(postnrfelt.getText());
-	
-	            if(e.getSource() == seBoligknapp)
-	            {
-	                Utleier utleier = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
-	                String firma = firmafelt.getText();
-	                utleier.setFirma(firma);
-	                register.settInnPerson(utleier);
-	                pl.addPerson(utleier);
-	            }
-	            else if(e.getSource() == boligregistrerknapp)
-	            {
-	                Boligsoker boligsoker = new Boligsoker(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
-	                boligsoker.setAntallPersoner(Integer.parseInt(antPersonerfelt.getText()));
-	                boligsoker.setFraStorrelse(Integer.parseInt(fraStorrelsefelt.getText()));
-	                boligsoker.setTilStorrelse(Integer.parseInt(tilStorrelsefelt.getText()));
-	                boligsoker.setAntallRom(Integer.parseInt(antRomfelt.getText()));
-	                boligsoker.setUtleiepris(Integer.parseInt(antRomfelt.getText()));
-	                boligsoker.setnTogstasjon(beliggenhet.getText()); // endre navn 
-	                boligsoker.setHusdyr(husdyr.isSelected());
-	                boligsoker.setBalkong(balkong.isSelected());
-	                boligsoker.setRoyker(royker.isSelected());
-	                boligsoker.setHage(hage.isSelected());
-	                boligsoker.setHeis(heis.isSelected());
-	                boligsoker.setParkering(parkering.isSelected());
-	                boligsoker.setEnebolig(enebolig.isSelected());
-	                boligsoker.setRekkehus(rekkehus.isSelected());
-	                boligsoker.setLeilighet(leilighet.isSelected());
-	    
-	                register.settInnPerson(boligsoker);
-	                pl.addPerson(boligsoker);
-	            }
+                Utleier utleier = new Utleier(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+                String firma = firmafelt.getText();
+                utleier.setFirma(firma);
+                register.settInnPerson(utleier);
+                pl.addPerson(utleier);
+            }
+            else if(e.getSource() == utleierregistrerknapp)
+            {
+            	Boligskjemavindu bsv = new Boligskjemavindu(register);
+            }
+            else if(e.getSource() == boligregistrerknapp)
+            {
+                Boligsoker boligsoker = new Boligsoker(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+                boligsoker.setAntallPersoner(Integer.parseInt(antPersonerfelt.getText()));
+                boligsoker.setFraStorrelse(Integer.parseInt(fraStorrelsefelt.getText()));
+                boligsoker.setTilStorrelse(Integer.parseInt(tilStorrelsefelt.getText()));
+                boligsoker.setAntallRom(Integer.parseInt(antRomfelt.getText()));
+                boligsoker.setUtleiepris(Integer.parseInt(antRomfelt.getText()));
+                boligsoker.setnTogstasjon(beliggenhet.getText()); // endre navn 
+                boligsoker.setHusdyr(husdyr.isSelected());
+                boligsoker.setBalkong(balkong.isSelected());
+                boligsoker.setRoyker(royker.isSelected());
+                boligsoker.setHage(hage.isSelected());
+                boligsoker.setHeis(heis.isSelected());
+                boligsoker.setParkering(parkering.isSelected());
+                boligsoker.setEnebolig(enebolig.isSelected());
+                boligsoker.setRekkehus(rekkehus.isSelected());
+                boligsoker.setLeilighet(leilighet.isSelected());
+    
+                register.settInnPerson(boligsoker);
+                pl.addPerson(boligsoker);
+            }
+            else if(e.getSource() == avbryt)
+            {
+            	dispose();
             }
         }
     }
