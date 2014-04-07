@@ -326,7 +326,7 @@ public class Boligpanel extends JPanel
 				!medFilter ||
 				(
 					medFilter &&
-					b.getAdresse().contains(adr.getText())
+					b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())
 				)
 			)
 			{
