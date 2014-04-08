@@ -36,7 +36,7 @@ public class Personpanel extends JPanel
 
         utleierknapp = new JButton("Utleier");
         boligsokerknapp = new JButton("Bolig");
-        personskjemavinduknapp = new JButton("Personskjemavindu");
+        personskjemavinduknapp = new JButton("Registrer ny person");
         lytter = new Lytter();
         personskjemavinduknapp.addActionListener(lytter);
 
@@ -44,9 +44,7 @@ public class Personpanel extends JPanel
 
 
         ArrayList<Boligsoker> boligsokerliste = register.getBoligsokere();
-       utleierliste = register.getUtleiere();
-
-      //  list1 = new JList<Object>(boligsokerliste.toArray());
+        utleierliste = register.getUtleiere();
 
         model1 = new DefaultListModel<Person>();
         model2 = new DefaultListModel<Person>();
@@ -84,7 +82,6 @@ public class Personpanel extends JPanel
 
         setLayout(new GridBagLayout());
         
-        JPanel panel = new JPanel(new BorderLayout());
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.NORTHWEST;
@@ -115,7 +112,6 @@ public class Personpanel extends JPanel
 		gc.insets.left = 10;
 		add(utleierknapp, gc);
 		
-		JPanel panel1 = new JPanel(new GridBagLayout());
         GridBagConstraints gc2 = new GridBagConstraints();
         
         gc2.insets.top = 20;
