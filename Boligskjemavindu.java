@@ -12,25 +12,25 @@ import javax.swing.event.ChangeListener;
 public class Boligskjemavindu extends JFrame
 {
 	private JRadioButton enebolig, rekkehus, leilighet;
-	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris;
-	private JTextArea beskrivelse;
+	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
+							liggerietasje;
+	private JCheckBox harkjeller, hargarasje, harvaskeri;
 	private CLytter clytter;
 	private Lytter lytter;
-	private JPanel eneboligfelt, rekkehusfelt, leilighetfelt;
+	private JPanel eneboligrekkehusfelt, leilighetfelt;
 	private JButton lagre, avbryt;
 	private Boligpanel boligpanelet;
+	
+	public Boligskjemavindu(Boligregister br)
+	{
+		super("Registrer ny bolig");
+		lagVindu();
+	}
 	
 	public Boligskjemavindu(Boligpanel bp, Boligregister br)
 	{
 		super("Registrer ny bolig");
 		boligpanelet = bp;
-		lagVindu();
-	}
-	
-	public Boligskjemavindu(Boligregister br)
-	{
-		super("Registrer ny bolig");
-		boligpanelet = null;
 		lagVindu();
 	}
 
@@ -121,7 +121,7 @@ public class Boligskjemavindu extends JFrame
 		
 		gc.insets.bottom = 20;
 		gc.gridx = 0;
-		toppanel.add(new JLabel("Tittel:"), gc);
+		toppanel.add(new JLabel("Annonsetittel:"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
@@ -192,15 +192,55 @@ public class Boligskjemavindu extends JFrame
 		velgBoligtype.add(rekkehus);
 		velgBoligtype.add(leilighet);
 		
-		eneboligfelt = new JPanel();
-		eneboligfelt.add(new JLabel("Enebolig er valgt"));
-		rekkehusfelt = new JPanel();
-		rekkehusfelt.add(new JLabel("Rekkehus er valgt"));
-		leilighetfelt = new JPanel();
-		leilighetfelt.add(new JLabel("Leilighet er valgt"));
 		
-    	eneboligfelt.setVisible(false);
-    	rekkehusfelt.setVisible(false);
+		// Felter for enebolig og rekkehus
+		eneboligrekkehusfelt = new JPanel();
+		
+		tomtestr = new JTextField(3);
+		eneboligrekkehusfelt.add(new JLabel("Tomtestorrelse (kvm):"));
+		eneboligrekkehusfelt.add(tomtestr);
+		
+
+		antetasjer = new JTextField(3);
+		eneboligrekkehusfelt.add(new JLabel("Antall etasjer:"));
+		eneboligrekkehusfelt.add(antetasjer);
+		
+		
+		harkjeller = new JCheckBox("Er det kjeller?");
+		eneboligrekkehusfelt.add(harkjeller);
+		
+		
+		
+		
+		// Felter for leilighet
+		leilighetfelt = new JPanel(new GridBagLayout());
+		GridBagConstraints lhGc = new GridBagConstraints();
+		
+
+		JPanel linje1 = new JPanel();
+		linje1.add(new JLabel("Hvilken etasje ligger leiligheten i?"));
+		liggerietasje = new JTextField(3);
+		linje1.add(liggerietasje);
+
+		lhGc.gridx = 0;
+		lhGc.gridy = 0;
+		leilighetfelt.add(linje1, lhGc);
+
+		JPanel linje2 = new JPanel();
+
+		hargarasje = new JCheckBox("Garasje");
+		harvaskeri = new JCheckBox("Fellesvaskeri");
+		
+		linje2.add(hargarasje);
+		linje2.add(harvaskeri);
+
+		lhGc.gridy = 1;
+		leilighetfelt.add(linje2, lhGc);
+				
+		
+		
+		
+		eneboligrekkehusfelt.setVisible(false);
     	leilighetfelt.setVisible(false);
 		
 		gc.gridy = 1;
@@ -210,8 +250,7 @@ public class Boligskjemavindu extends JFrame
 		
 		gc.gridy = 2;
 		
-		c.add(eneboligfelt, gc);
-		c.add(rekkehusfelt, gc);
+		c.add(eneboligrekkehusfelt, gc);
 		c.add(leilighetfelt, gc);
 		
 		gc.gridy = 3;
@@ -233,22 +272,14 @@ public class Boligskjemavindu extends JFrame
     {
         public void stateChanged(ChangeEvent e)
         {
-            if (enebolig.isSelected())
+            if (enebolig.isSelected() || rekkehus.isSelected())
             {
-            	eneboligfelt.setVisible(true);
-            	rekkehusfelt.setVisible(false);
-            	leilighetfelt.setVisible(false);
-            }
-            else if (rekkehus.isSelected())
-            {
-            	eneboligfelt.setVisible(false);
-            	rekkehusfelt.setVisible(true);
+            	eneboligrekkehusfelt.setVisible(true);
             	leilighetfelt.setVisible(false);
             }
             else if (leilighet.isSelected())
             {
-            	eneboligfelt.setVisible(false);
-            	rekkehusfelt.setVisible(false);
+            	eneboligrekkehusfelt.setVisible(false);
             	leilighetfelt.setVisible(true);
             }
         }
