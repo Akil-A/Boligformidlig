@@ -1,3 +1,4 @@
+package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,7 @@ public class Personskjemavindu extends JFrame
 {
     private JTextField fornavnfelt, etternavnfelt, emailfelt, adressefelt, telefonfelt, yrkefelt, poststedfelt, postnrfelt, antPersonerfelt, beliggenhetfelt, fraStorrelsefelt, tilStorrelsefelt, antRomfelt, utleieprisfelt, firmafelt, testfelt, byggeaarfelt;
     private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet, fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test, byggeaar;
-    private JButton slettknapp1, slettknapp2, utleierregistrerknapp, seBoligknapp, boligregistrerknapp, lagre1, lagre2, avbryt;
+    private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, avbryt;
     private JCheckBox utleier, boligsoker, husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
     private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
@@ -23,16 +24,17 @@ public class Personskjemavindu extends JFrame
     private Random generator;
     private Boligregister register;
     private Personpanel pl;
+    private Person personen;
 
 
     public Personskjemavindu(Personpanel pl, Boligregister br)
     {
         super("Personskjemavindu");
         lagVindu();
-        lagre1.setVisible(false);
-        lagre2.setVisible(false);
-        slettknapp1.setVisible(false);
-        slettknapp2.setVisible(false);
+        uLagre.setVisible(false);
+        bLagre.setVisible(false);
+        uSlett.setVisible(false);
+        bSlett.setVisible(false);
 
         register = br;
         this.pl=pl;
@@ -42,15 +44,16 @@ public class Personskjemavindu extends JFrame
     {
         super("Personskjemavindu");
         this.pl=pl;
+        personen = p;
         lagVindu();
-        seBoligknapp.setVisible(false);
+        uRegPerson.setVisible(false);
         fornavnfelt.setText(p.getFornavn());
         etternavnfelt.setText(p.getEtternavn());
         emailfelt.setText(p.getEmail());
         adressefelt.setText(p.getAdresse());
         telefonfelt.setText(p.getTelefon());
         yrkefelt.setText(p.getYrke());
-        poststed.setText(p.getPoststed());
+        poststedfelt.setText(p.getPoststed());
         postnrfelt.setText(String.valueOf(p.getPostnr()));
         utleier.setEnabled(false);
         boligsoker.setEnabled(false);
@@ -156,20 +159,20 @@ public class Personskjemavindu extends JFrame
         rekkehus = new JCheckBox("Rekkehus");
         
 
-        seBoligknapp = new JButton("Registrer ny person");
-        seBoligknapp.addActionListener(lytter);
-        slettknapp1 = new JButton("Slett");
-        slettknapp1.addActionListener(lytter);
-        utleierregistrerknapp = new JButton("Registrer ny bolig paa meg");
-        utleierregistrerknapp.addActionListener(lytter);
-        slettknapp2 = new JButton("Slett");
-        slettknapp2.addActionListener(lytter);
-        boligregistrerknapp = new JButton("Registrer ny person");
-        boligregistrerknapp.addActionListener(lytter);
-        lagre1 = new JButton("Lagre");
-        lagre1.addActionListener(lytter);
-        lagre2 = new JButton("Lagre");
-        lagre2.addActionListener(lytter);
+        uRegPerson = new JButton("Registrer ny person");
+        uRegPerson.addActionListener(lytter);
+        uSlett = new JButton("Slett");
+        uSlett.addActionListener(lytter);
+        uRegBolig = new JButton("Registrer ny bolig paa meg");
+        uRegBolig.addActionListener(lytter);
+        bSlett = new JButton("Slett");
+        bSlett.addActionListener(lytter);
+        bRegPerson = new JButton("Registrer ny person");
+        bRegPerson.addActionListener(lytter);
+        uLagre = new JButton("Lagre");
+        uLagre.addActionListener(lytter);
+        bLagre = new JButton("Lagre");
+        bLagre.addActionListener(lytter);
         avbryt = new JButton("Avbryt");
         avbryt.addActionListener(lytter);
 
@@ -269,14 +272,14 @@ public class Personskjemavindu extends JFrame
         bspKrav2.add(sivilstatus);
         bspKrav2.add(arbeidsforhold);
 
-        ulpKnapper.add(seBoligknapp);
-        ulpKnapper.add(utleierregistrerknapp);
-        ulpKnapper.add(lagre1);
-        ulpKnapper.add(slettknapp1);
+        ulpKnapper.add(uRegPerson);
+        ulpKnapper.add(uRegBolig);
+        ulpKnapper.add(uLagre);
+        ulpKnapper.add(uSlett);
 
-        bspKnapper.add(boligregistrerknapp);
-        bspKnapper.add(lagre2);
-        bspKnapper.add(slettknapp2);
+        bspKnapper.add(bRegPerson);
+        bspKnapper.add(bLagre);
+        bspKnapper.add(bSlett);
 
         gc.gridwidth = 4;
         gc.insets.left = -17;
@@ -445,7 +448,7 @@ public class Personskjemavindu extends JFrame
         	{
         		dispose();
         	}
-        	else if(e.getSource() == utleierregistrerknapp)
+        	else if(e.getSource() == uRegBolig)
         	{
         		Boligskjemavindu bsv = new Boligskjemavindu(register);
         	}
@@ -476,7 +479,7 @@ public class Personskjemavindu extends JFrame
 	            }
 	            else
 	            {
-		            if(e.getSource() == seBoligknapp)
+		            if(e.getSource() == uRegPerson)
 		            {
 		                Utleier utleier = new Utleier(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
 		                utleier.setYrke(yrke);
@@ -487,7 +490,7 @@ public class Personskjemavindu extends JFrame
 		                register.settInnPerson(utleier);
 		                pl.addUtleier(utleier);
 		            }
-		            else if(e.getSource() == boligregistrerknapp)
+		            else if(e.getSource() == bRegPerson)
 		            {
 		                Boligsoker boligsoker = new Boligsoker(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
 		                boligsoker.setYrke(yrke);
@@ -509,6 +512,45 @@ public class Personskjemavindu extends JFrame
 		    
 		                register.settInnPerson(boligsoker);
 		                pl.addUtleier(boligsoker);
+		           
+		               if(e.getSource() == bLagre)
+		                {	
+		           			String feilmelding1 = "";
+		           		
+			            	Boligsoker p = (Boligsoker)personen;
+			            	
+				            if (erTom(fornavn) || erTom(etternavn) || erTom(adresse) || erTom(postnr) || erTom(poststed) || erTom(telefon))
+			            	{
+				            	feilmelding += "Du maa fylle inn alle paakrevde felter.\n";
+			            	}
+				            if (!erTall(postnr))
+				            {
+				            	feilmelding += "Postnr maa vaere tall.";
+				            }
+				            if (!erTom(feilmelding))
+				            {	            	
+				            	JOptionPane.showMessageDialog( null, "Vennligst rett følgende feil før du går videre:\n\n" + feilmelding, "Problem",
+				            			JOptionPane.PLAIN_MESSAGE);
+				            	return;
+				            }
+				            else
+				            {
+				            	p.setFornavn(fornavn);
+				            	p.setEtternavn(etternavn);
+				            	p.setAdresse(adresse);
+				            	p.setPostnr(Integer.parseInt(postnr));
+				            	p.setPoststed(poststed);
+				            	p.setTelefon(telefon);
+				            	p.setYrke(yrke);
+				            	p.setAntallPersoner(Integer.parseInt(antPersonerfelt.getText()));
+				            	p.setAntallRom(Integer.parseInt(antRomfelt.getText()));
+				            	p.setArbeidsforhold((String) arbeidsforhold.getSelectedItem());
+				            	p.setSivilstatus((String) sivilstatus.getSelectedItem());
+				            	p.setBalkong(balkong.isSelected());
+				            	p.getByggeaar()
+				            }
+		                }
+		            	
 		            }
 	            }
         	}
