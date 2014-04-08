@@ -1,5 +1,3 @@
-package prosjekttest;
-
 abstract public class Person
 {
 	private int personNr;
@@ -8,11 +6,11 @@ abstract public class Person
 	private String fornavn;
 	private String etternavn;
 	private String adresse;
+	private int postnr;
+	private String poststed;
 	private String email;
 	private String telefon;
-	private String poststed;
 	private String yrke;
-	private int postnr;
 	
 	public Person(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
 	{
@@ -107,9 +105,9 @@ abstract public class Person
 		return yrke;
 	}
 	
-	public void setyrke(String yrke)
+	public void setYrke(String yrke)
 	{
-		this.postnr = postnr;
+		this.yrke = yrke;
 	}
 	
 	public String toString()
