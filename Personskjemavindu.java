@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,7 +6,6 @@ import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.plaf.FontUIResource;
 
 
 public class Personskjemavindu extends JFrame
@@ -426,7 +426,21 @@ public class Personskjemavindu extends JFrame
     private class Lytter implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
-        {
+        {	
+        	if(boligsoker.isSelected())
+        	{
+        		String antPersoner = antPersonerfelt.getText();
+        		String fraStorrelse = fraStorrelsefelt.getText();
+        		String tilStorrelse = tilStorrelsefelt.getText();
+        		String antallRom = 		antRomfelt.getText();
+        		String utleiepris = 	utleieprisfelt.getText();
+        		String byggeaar = 	byggeaarfelt.getText();
+        		
+        		if(!erTall(antPersoner) || !erTall(fraStorrelse) || !erTall(tilStorrelse) || !erTall(antallRom) || !erTall(utleiepris) || !erTall(byggeaar))
+        		{
+        			JOptionPane.showMessageDialog(null, "Du maa ikke skrive tekst i tallfelter!");
+        		}
+        	}
         	if (e.getSource() == avbryt)
         	{
         		dispose();
@@ -471,7 +485,7 @@ public class Personskjemavindu extends JFrame
 		                utleier.setFirma(firma);
 		                
 		                register.settInnPerson(utleier);
-		                pl.addPerson(utleier);
+		                pl.addUtleier(utleier);
 		            }
 		            else if(e.getSource() == boligregistrerknapp)
 		            {
@@ -494,7 +508,7 @@ public class Personskjemavindu extends JFrame
 		                boligsoker.setLeilighet(leilighet.isSelected());
 		    
 		                register.settInnPerson(boligsoker);
-		                pl.addPerson(boligsoker);
+		                pl.addUtleier(boligsoker);
 		            }
 	            }
         	}
