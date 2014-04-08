@@ -1,29 +1,33 @@
 //Denne klassen tar seg av listing og soking av bolig.
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Boligpanel extends JPanel
 {
 
 	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,dato,etasje,antetasje,tfra,ttil,postnr,poststed,beliggenhet;
-	private JButton sok, registrer;
+	private JButton sok, registrer,test;
 	private ButtonGroup bgHus;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,ldato,ltype,letasje,lantetasje,ltomt,lbeliggenhet;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
 	private JPanel pAntetasje, pTomt, pBoareal, pEtasje;
 	private Boligregister register;
 	private JScrollPane boligListe;
+	private Image picLabel;
 	
 	public Boligpanel(Boligregister br)
 	{
 		register = br;
 		
 		setLayout(new BorderLayout());
-		
-		Lytter lytter = new Lytter();
+ 	   	Lytter lytter = new Lytter();
 		cLytter c = new cLytter();
 		ladr = new JLabel("Adresse: ");
 		adr = new JTextField(20);
@@ -94,6 +98,9 @@ public class Boligpanel extends JPanel
 		JPanel pAdresse = new JPanel();
 		pAdresse.add(ladr);
 		pAdresse.add(adr);
+		
+		
+		
 		
 		JPanel pBeliggenhet = new JPanel();
 		pBeliggenhet.add(lbeliggenhet);
@@ -403,6 +410,23 @@ public class Boligpanel extends JPanel
 				gc4.gridy = 3;
 				gc4.gridwidth = 2;
 				Bolig.add(adresse, gc4);
+				try
+				{
+					BufferedImage mittBilde1 = ImageIO.read(new File("C:/Users/Ali/Pictures/" + b.getBoligNr()  + ".png"));
+					Image skalert = mittBilde1.getScaledInstance(90,90, BufferedImage.SCALE_SMOOTH);
+					BufferedImage mittBilde2 = toBufferedImage(skalert);
+					File fikset = new File("C:/Users/Ali/Pictures/fikset" + b.getBoligNr()  + ".png");
+					ImageIO.write(mittBilde2, "png",fikset);
+					BufferedImage mittBilde3 = ImageIO.read(new File("C:/Users/Ali/Pictures/fikset" + b.getBoligNr()  + ".png"));
+					ImageIcon bilder = new ImageIcon("C:/Users/Ali/Pictures/fikset" + b.getBoligNr()  + ".png");
+					test = new JButton(bilder);
+			 	   	Bolig.add(test);
+					
+				}
+				catch(IOException ex)
+				{
+					
+				}
 				
 				JSeparator sep = new JSeparator();
 				sep.setPreferredSize(new Dimension(500, 1));
@@ -416,6 +440,7 @@ public class Boligpanel extends JPanel
 				innerListePanel.add(Bolig, gc3);
 			}
 		}
+		
 		
 		JPanel Vest = new JPanel(new BorderLayout());
 		Vest.add(innerListePanel, BorderLayout.WEST);
@@ -432,8 +457,21 @@ public class Boligpanel extends JPanel
 		
 		revalidate();
 	}
+	public static BufferedImage toBufferedImage(Image img)
+    {
+        if (img instanceof BufferedImage)
+        {
+            return (BufferedImage) img;
+        }
+
+        BufferedImage bimage = new BufferedImage(img.getWidth(null),img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        bimage.getGraphics().drawImage(img, 5, 5 , null);
+        return bimage;
+      }
 	
-	private class Lytter implements ActionListener
+	
+        private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
@@ -447,8 +485,10 @@ public class Boligpanel extends JPanel
 			{
 				listBoliger(true);
 			}
+			
 		}
 	}
+	
 }
 
 
