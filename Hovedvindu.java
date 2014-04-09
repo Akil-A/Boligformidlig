@@ -1,3 +1,5 @@
+package prosjekttest;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -17,8 +19,9 @@ public class Hovedvindu extends JFrame
 		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
 
 		/***** testdata *****/
-		Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "");
-		Utleier p2 = new Utleier("Henrik", "Pettersen", "Avisveien 8", 3027, "Drammen", "", "");
+		Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "12345678");
+		Utleier p2 = new Utleier("Henrik", "Pettersen", "Avisveien 8", 3027, "Drammen", "", "98765432");
+		Boligsoker bo = new Boligsoker("Nils", "Vogt", "Drammensveien 76", 1337, "Sandvika", "", "45678123");
 		
 		Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 6000);
 		r.setTittel("Hyggelig 3-roms med heis");
@@ -36,6 +39,7 @@ public class Hovedvindu extends JFrame
 		p2.settInnBolig(r);
 		br.settInnPerson(p2);
 		br.settInnPerson(p);
+		br.settInnPerson(bo);
 		/***** testdata slutt *****/
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
