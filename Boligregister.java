@@ -47,8 +47,11 @@ public class Boligregister
 			if (p.getPersonNr() == personNr)
 			{
 				pers = p;
-				personer.remove(p);
+				break;
 			}
+		
+		if (pers != null)
+			personer.remove(pers);
 		
 		return pers;
 	}
