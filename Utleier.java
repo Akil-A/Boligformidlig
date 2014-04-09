@@ -26,7 +26,7 @@ public class Utleier extends Person
 	}
 	
 	// ###############################################################################################
-	// OPERASJONER PÅ BOLIGLISTEN
+	// OPERASJONER PAA BOLIGLISTEN
 	// ###############################################################################################
 	
 	public void settInnBolig(Bolig b)
