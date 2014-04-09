@@ -397,18 +397,14 @@ public class Boligpanel extends JPanel
 				
 				gc4.anchor = GridBagConstraints.NORTHWEST;
 				
-				gc4.gridx = 0;
+				gc4.gridx = 1;
 				gc4.gridy = 0;
-				gc4.gridwidth = 2;
 				Bolig.add(beskrivelse, gc4);
 				gc4.gridy = 1;
-				gc4.gridwidth = 1;
 				Bolig.add(boareal, gc4);
 				gc4.gridy = 2;
 				Bolig.add(pris, gc4);
-				gc4.gridx = 0;
 				gc4.gridy = 3;
-				gc4.gridwidth = 2;
 				Bolig.add(adresse, gc4);
 				try
 				{
@@ -438,7 +434,11 @@ public class Boligpanel extends JPanel
 						}
 						
 					});
-			 	   	Bolig.add(test);
+					gc4.gridheight = 4;
+					gc4.gridx = 0;
+					gc4.gridy = 0;
+					gc4.insets.right = 10;
+			 	   	Bolig.add(test, gc4);
 					
 				}
 				catch(IOException ex)
@@ -446,13 +446,6 @@ public class Boligpanel extends JPanel
 					
 				}
 				
-				JSeparator sep = new JSeparator();
-				sep.setPreferredSize(new Dimension(500, 1));
-				
-				gc4.gridwidth = 2;
-				gc4.gridy = 4;
-				gc4.gridx = 0;
-				Bolig.add(sep, gc4);
 	
 				gc3.gridy = i++;
 				innerListePanel.add(Bolig, gc3);
