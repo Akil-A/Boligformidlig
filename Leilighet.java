@@ -44,6 +44,6 @@ public class Leilighet extends Bolig
 		return super.toString() +
 				"\nEtasje: " + etasje +
 				"\nHeis: " + (heis ? "ja" : "nei") +
-				"\nBalkong: " + (balkong? "ja" : "nei");
+				"\nBalkong: " + (balkong ? "ja" : "nei");
 	}
 }
