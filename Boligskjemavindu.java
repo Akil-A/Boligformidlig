@@ -113,7 +113,6 @@ public class Boligskjemavindu extends JFrame
 		/***** toppanel start *****/
 		JPanel toppanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
-		Font ikkefet = new Font(c.getFont().getFontName(), Font.PLAIN, c.getFont().getSize());
 		
 		gc.anchor = GridBagConstraints.EAST;
 		gc.insets.left = 5;
@@ -122,7 +121,7 @@ public class Boligskjemavindu extends JFrame
 		
 		gc.insets.bottom = 20;
 		gc.gridx = 0;
-		toppanel.add(new JLabel("Annonsetittel:"), gc);
+		toppanel.add(new JLabel("*Annonsetittel"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
@@ -134,46 +133,44 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 1;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("Adresse:"), gc);
+		toppanel.add(new JLabel("*Adresse"), gc);
 		gc.gridx = 1;
 		toppanel.add(adresse, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("Boareal (kvm):"), gc);
+		toppanel.add(new JLabel("*Boareal (kvm)"), gc);
 		gc.gridx = 3;
 		toppanel.add(boareal, gc);
 		
 		gc.gridy = 2;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("Postnr:"), gc);
+		toppanel.add(new JLabel("*Postnr"), gc);
 		gc.gridx = 1;
 		toppanel.add(postnr, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("Antall rom:"), gc);
+		toppanel.add(new JLabel("*Antall rom"), gc);
 		gc.gridx = 3;
 		toppanel.add(antrom, gc);
 		
 		gc.gridy = 3;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("Poststed:"), gc);
+		toppanel.add(new JLabel("*Poststed"), gc);
 		gc.gridx = 1;
 		toppanel.add(poststed, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("Byggeaar:"), gc);
+		toppanel.add(new JLabel("*Byggeaar"), gc);
 		gc.gridx = 3;
 		toppanel.add(byggeaar, gc);
 
 		gc.gridy = 4;
 		
 		gc.gridx = 0;
-		JLabel ltogst = new JLabel("Naermeste togstasjon:");
-		ltogst.setFont(ikkefet);
-		toppanel.add(ltogst, gc);
+		toppanel.add(new JLabel("Naermeste togstasjon"), gc);
 		gc.gridx = 1;
 		toppanel.add(togst, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("Pris kr/mnd:"), gc);
+		toppanel.add(new JLabel("*Pris kr/mnd"), gc);
 		gc.gridx = 3;
 		toppanel.add(pris, gc);
 		/***** toppanel slutt *****/
@@ -203,21 +200,16 @@ public class Boligskjemavindu extends JFrame
 		JPanel elinje1 = new JPanel();
 		
 		tomtestr = new JTextField(3);
-		JLabel ltomtestr = new JLabel("Tomtestorrelse (kvm):");
-		ltomtestr.setFont(ikkefet);
-		elinje1.add(ltomtestr);
+		elinje1.add(new JLabel("Tomtestorrelse (kvm):"));
 		elinje1.add(tomtestr);
 
 		antetasjer = new JTextField(3);
-		JLabel lantetasjer = new JLabel("Antall etasjer:");
-		lantetasjer.setFont(ikkefet);
-		elinje1.add(lantetasjer);
+		elinje1.add(new JLabel("Antall etasjer:"));
 		elinje1.add(antetasjer);
 
 		JPanel elinje2 = new JPanel();
 		
 		harkjeller = new JCheckBox("Er det kjeller?");
-		harkjeller.setFont(ikkefet);
 		elinje2.add(harkjeller);
 
 		eneboligrekkehusfelt.add(elinje1, erGc);
@@ -236,9 +228,7 @@ public class Boligskjemavindu extends JFrame
 		lhGc.gridy = 0;
 		
 		JPanel llinje1 = new JPanel();
-		JLabel lliggerietasje = new JLabel("Hvilken etasje ligger leiligheten i?");
-		lliggerietasje.setFont(ikkefet);
-		llinje1.add(lliggerietasje);
+		llinje1.add(new JLabel("Hvilken etasje ligger leiligheten i?"));
 		liggerietasje = new JTextField(3);
 		llinje1.add(liggerietasje);
 
@@ -247,9 +237,7 @@ public class Boligskjemavindu extends JFrame
 		JPanel llinje2 = new JPanel();
 
 		hargarasje = new JCheckBox("Garasje");
-		hargarasje.setFont(ikkefet);
 		harvaskeri = new JCheckBox("Fellesvaskeri");
-		harvaskeri.setFont(ikkefet);
 		
 		llinje2.add(hargarasje);
 		llinje2.add(harvaskeri);
@@ -278,22 +266,11 @@ public class Boligskjemavindu extends JFrame
 		
 		JPanel knappepanel = new JPanel(new BorderLayout());
 		knappepanel.add(lagre, BorderLayout.WEST);
-		knappepanel.add(new JLabel("                **Felter med fet tekst er obligatoriske**"), BorderLayout.CENTER);
+		knappepanel.add(new JLabel("           **Felter markert med stjerne er obligatoriske**"), BorderLayout.CENTER);
 		knappepanel.add(avbryt, BorderLayout.EAST);
 		
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		c.add(knappepanel, gc);
-		
-		/*gc.gridwidth = 1;
-		gc.anchor = GridBagConstraints.WEST;
-		gc.gridx = 0;
-		c.add(lagre, gc);
-		gc.anchor = GridBagConstraints.CENTER;
-		gc.gridx = 1;
-		c.add(new JLabel("**Felter med fet tekst er obligatoriske**"), gc);
-		gc.anchor = GridBagConstraints.EAST;
-		gc.gridx = 2;
-		c.add(avbryt, gc);*/
 
 		setSize(600, 400);
         setLocationRelativeTo(null);
@@ -317,6 +294,24 @@ public class Boligskjemavindu extends JFrame
         }
     }
     
+	public boolean erTom( String s )
+	{
+		return s.equals("");
+	}
+	
+	public boolean erTall( String s )
+	{
+		try
+		{
+			Integer.parseInt( s );
+			return true;
+		}
+		catch( Exception e )
+		{
+			return false;
+		}
+	}
+    
     private class Lytter implements ActionListener
     {
     	public void actionPerformed(ActionEvent e)
@@ -324,10 +319,12 @@ public class Boligskjemavindu extends JFrame
     		if (e.getSource() == lagre)
     		{
     			String feilmelding = "";
-    			// sjekk at feltene er fylt ut riktig, så legg til i boligregister
+    			
+    			if ()
     			
     			if (boligpanelet != null)
     				boligpanelet.listBoliger(false);
+    			
     			//dispose();
     		}
     		else if(e.getSource() == avbryt)
