@@ -1,8 +1,8 @@
 public class Leilighet extends Bolig
 {
 	 private int etasje;
-	 private boolean heis;
-	 private boolean balkong;
+	 private boolean garasje;
+	 private boolean vaskeri;
 	 
 	 public Leilighet(String adresse, int postnr, String poststed, int utleiepris)
 	 {
@@ -19,31 +19,31 @@ public class Leilighet extends Bolig
 		this.etasje = etasje;
 	}
 	
-	public boolean isHeis() 
+	public boolean getGarasje() 
 	{
-		return heis;
+		return vaskeri;
 	}
 	
-	public void setHeis(boolean heis)
+	public void setGarasje(boolean g) 
 	{
-		this.heis = heis;
+		garasje = g;
 	}
 	
-	public boolean isBalkong() 
+	public boolean getVaskeri() 
 	{
-		return balkong;
+		return vaskeri;
 	}
 	
-	public void setBalkong(boolean balkong) 
+	public void setVaskeri(boolean v) 
 	{
-		this.balkong = balkong;
+		vaskeri = v;
 	}
 	
 	public String toString()
 	{
 		return super.toString() +
 				"\nEtasje: " + etasje +
-				"\nHeis: " + (heis ? "ja" : "nei") +
-				"\nBalkong: " + (balkong ? "ja" : "nei");
+				"\nGarasje: " + (garasje ? "ja" : "nei") +
+				"\nVaskeri: " + (vaskeri ? "ja" : "nei");
 	}
 }
