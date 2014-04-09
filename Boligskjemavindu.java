@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 
 public class Boligskjemavindu extends JFrame
 {
+	private JComboBox utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
 							liggerietasje;
@@ -20,10 +21,12 @@ public class Boligskjemavindu extends JFrame
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
 	private JButton lagre, avbryt;
 	private Boligpanel boligpanelet;
+	private Boligregister registret;
 	
 	public Boligskjemavindu(Boligregister br)
 	{
 		super("Registrer ny bolig");
+		registret = br;
 		lagVindu();
 	}
 	
@@ -31,6 +34,7 @@ public class Boligskjemavindu extends JFrame
 	{
 		super("Registrer ny bolig");
 		boligpanelet = bp;
+		registret = br;
 		lagVindu();
 	}
 
@@ -96,19 +100,11 @@ public class Boligskjemavindu extends JFrame
         avbryt.addActionListener(lytter);
 		
         
-        
-        
-        
-
 		
 		Container c = getContentPane();
 		c.setLayout(new GridBagLayout());
         
-        
-        
 		
-		
-        
 
 		/***** toppanel start *****/
 		JPanel toppanel = new JPanel(new GridBagLayout());
@@ -119,7 +115,6 @@ public class Boligskjemavindu extends JFrame
 		
 		gc.gridy = 0;
 		
-		gc.insets.bottom = 20;
 		gc.gridx = 0;
 		toppanel.add(new JLabel("*Annonsetittel"), gc);
 		gc.gridx = 1;
@@ -128,9 +123,22 @@ public class Boligskjemavindu extends JFrame
 		toppanel.add(tittel, gc);
 		gc.anchor = GridBagConstraints.EAST;
 		gc.gridwidth = 1;
-		gc.insets.bottom = 0;
 		
 		gc.gridy = 1;
+		
+		gc.gridx = 0;
+		gc.insets.bottom = 20;
+		toppanel.add(new JLabel("*Utleier"), gc);
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.WEST;
+		gc.gridwidth = 3;
+		toppanel.add(new JLabel("Dropdownlist med utleiere"), gc);
+		//toppanel.add(utleiere, gc);
+		gc.anchor = GridBagConstraints.EAST;
+		gc.gridwidth = 1;
+		gc.insets.bottom = 0;
+		
+		gc.gridy = 2;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("*Adresse"), gc);
@@ -141,7 +149,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 3;
 		toppanel.add(boareal, gc);
 		
-		gc.gridy = 2;
+		gc.gridy = 3;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("*Postnr"), gc);
@@ -152,7 +160,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 3;
 		toppanel.add(antrom, gc);
 		
-		gc.gridy = 3;
+		gc.gridy = 4;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("*Poststed"), gc);
@@ -163,7 +171,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 3;
 		toppanel.add(byggeaar, gc);
 
-		gc.gridy = 4;
+		gc.gridy = 5;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("Naermeste togstasjon"), gc);
@@ -301,6 +309,9 @@ public class Boligskjemavindu extends JFrame
 	
 	public boolean erTall( String s )
 	{
+		if (erTom(s))
+			return true;
+		
 		try
 		{
 			Integer.parseInt( s );
@@ -320,8 +331,136 @@ public class Boligskjemavindu extends JFrame
     		{
     			String feilmelding = "";
     			
-    			if ()
+    			String stittel = tittel.getText();
+    			String sadresse = adresse.getText();
+    			String spostnr = postnr.getText();
+    			String spoststed = poststed.getText();
+    			String stogst = togst.getText();
+    			String sboareal = boareal.getText();
+    			String santrom = antrom.getText();
+    			String sbyggeaar = byggeaar.getText();
+    			String spris = pris.getText();
+    			boolean benebolig = enebolig.isSelected();
+    			boolean brekkehus = rekkehus.isSelected();
+    			boolean bleilighet = leilighet.isSelected();
+    			String stomtestr = tomtestr.getText();
+    			String santetasjer = antetasjer.getText();
+    			boolean bkjeller = harkjeller.isSelected();
+    			String sliggerietasje = liggerietasje.getText();
+    			boolean bgarasje = hargarasje.isSelected();
+    			boolean bvaskeri = harvaskeri.isSelected();
     			
+    			if (erTom(stittel) || erTom(sadresse) || spostnr.length() != 4 || erTom(spoststed) || 
+    					erTom(sboareal) || erTom(sbyggeaar) || erTom(spris))
+    				feilmelding += "- Du maa fylle inn alle paakrevde felter.\n";
+    			
+    			if (!erTall(spostnr) || !erTall(sboareal) || 
+    					!erTall(santrom) || !erTall(sbyggeaar) || !erTall(spris) || 
+    					(
+    							(benebolig || brekkehus) &&
+    							(!erTall(stomtestr) || !erTall(santetasjer))
+    					)
+    					||
+    					(
+    							bleilighet &&
+    							!erTall(sliggerietasje)
+    					)
+    				)
+    				feilmelding += "- Feil i tallformat.\n";
+    			
+    			if (!benebolig && !brekkehus && !bleilighet)
+    				feilmelding += "- Du maa velge en boligtype (enebolig, rekkehus, leilighet)\n";
+    			
+	            if (!erTom(feilmelding))
+	            {	            	
+	            	JOptionPane.showMessageDialog( null, "Vennligst rett følgende feil før du går videre:\n\n" + feilmelding, "Problem",
+	            			JOptionPane.PLAIN_MESSAGE);
+	            	return;
+	            }
+    			
+	            if (benebolig)
+	            {
+	            	Enebolig b = new Enebolig(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	
+	            	if (!erTom(santrom))
+	            		b.setAntrom(Integer.parseInt(santrom));
+	            	
+	            	if (!erTom(sboareal))
+	            		b.setBoareal(Integer.parseInt(sboareal));
+	            	
+	            	if (!erTom(sbyggeaar))
+	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	
+	            	
+	            	// Under: enebolig-spesifikke felt
+	            	
+	            	if (!erTom(santetasjer))
+	            		b.setAntetasjer(Integer.parseInt(santetasjer));
+	            	
+	            	if (!erTom(stomtestr))
+	            		b.setTomtestr(Integer.parseInt(stomtestr));
+	            	
+	            	if (!erTom(santetasjer))
+	            		b.setAntetasjer(Integer.parseInt(santetasjer));
+	            	
+	            	b.setKjeller(bkjeller);
+	            	
+	            	// Utleier.settInnBolig(b);
+	            }
+	            else if (brekkehus)
+	            {
+	            	Rekkehus b = new Rekkehus(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	
+	            	if (!erTom(santrom))
+	            		b.setAntrom(Integer.parseInt(santrom));
+	            	
+	            	if (!erTom(sboareal))
+	            		b.setBoareal(Integer.parseInt(sboareal));
+	            	
+	            	if (!erTom(sbyggeaar))
+	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	
+	            	
+	            	// Under: rekkehus-spesifikke felt
+	            	
+	            	if (!erTom(santetasjer))
+	            		b.setAntetasjer(Integer.parseInt(santetasjer));
+	            	
+	            	if (!erTom(stomtestr))
+	            		b.setTomtestr(Integer.parseInt(stomtestr));
+	            	
+	            	if (!erTom(santetasjer))
+	            		b.setAntetasjer(Integer.parseInt(santetasjer));
+	            	
+	            	b.setKjeller(bkjeller);
+	            	
+	            	// Utleier.settInnBolig(b);
+	            }
+	            else if (bleilighet)
+	            {
+	            	Leilighet b = new Leilighet(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	
+	            	if (!erTom(santrom))
+	            		b.setAntrom(Integer.parseInt(santrom));
+	            	
+	            	if (!erTom(sboareal))
+	            		b.setBoareal(Integer.parseInt(sboareal));
+	            	
+	            	if (!erTom(sbyggeaar))
+	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	
+	            	
+	            	// Under: leilighet-spesifikke felt
+	            	
+	            	if (!erTom(sliggerietasje))
+	            		b.setEtasje(Integer.parseInt(sliggerietasje));
+	            	
+	            	b.setGarasje(bgarasje);
+	            	b.setVaskeri(bvaskeri);
+	            		            	
+	            	// Utleier.settInnBolig(b);
+	            }
+	            
     			if (boligpanelet != null)
     				boligpanelet.listBoliger(false);
     			
