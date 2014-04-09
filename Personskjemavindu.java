@@ -30,19 +30,20 @@ public class Personskjemavindu extends JFrame
     public Personskjemavindu(Personpanel pl, Boligregister br)
     {
         super("Personskjemavindu");
+        register = br;
         lagVindu();
         uLagre.setVisible(false);
         bLagre.setVisible(false);
         uSlett.setVisible(false);
         bSlett.setVisible(false);
 
-        register = br;
         this.pl=pl;
     }
 
-    public Personskjemavindu(Personpanel pl, Person p)
+    public Personskjemavindu(Personpanel pl, Person p, Boligregister br)
     {
         super("Personskjemavindu");
+        register = br;
         this.pl=pl;
         personen = p;
         lagVindu();
@@ -436,7 +437,7 @@ public class Personskjemavindu extends JFrame
         		String fraStorrelse = fraStorrelsefelt.getText();
         		String tilStorrelse = tilStorrelsefelt.getText();
         		String antallRom = 		antRomfelt.getText();
-        		String utleiepris = 	utleieprisfelt.getText();
+        		String utleiepris = utleieprisfelt.getText();
         		String byggeaar = 	byggeaarfelt.getText();
         		
         		if(!erTall(antPersoner) || !erTall(fraStorrelse) || !erTall(tilStorrelse) || !erTall(antallRom) || !erTall(utleiepris) || !erTall(byggeaar))
@@ -480,7 +481,7 @@ public class Personskjemavindu extends JFrame
 	            else
 	            {
 		            if(e.getSource() == uRegPerson)
-		            {
+		            {	
 		                Utleier utleier = new Utleier(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
 		                utleier.setYrke(yrke);
 		                
@@ -489,16 +490,20 @@ public class Personskjemavindu extends JFrame
 		                
 		                register.settInnPerson(utleier);
 		                pl.addUtleier(utleier);
+		                pl.oppdaterUtleierliste();
 		            }
 		            else if(e.getSource() == bRegPerson)
-		            {
+		            {	
+		            	JOptionPane.showMessageDialog(null, "test");
+
 		                Boligsoker boligsoker = new Boligsoker(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
+		               
 		                boligsoker.setYrke(yrke);
 		                boligsoker.setAntallPersoner(Integer.parseInt(antPersonerfelt.getText()));
 		                boligsoker.setFraStorrelse(Integer.parseInt(fraStorrelsefelt.getText()));
 		                boligsoker.setTilStorrelse(Integer.parseInt(tilStorrelsefelt.getText()));
 		                boligsoker.setAntallRom(Integer.parseInt(antRomfelt.getText()));
-		                boligsoker.setUtleiepris(Integer.parseInt(antRomfelt.getText()));
+		                boligsoker.setUtleiepris(Integer.parseInt(utleieprisfelt.getText()));
 		                boligsoker.setnTogstasjon(beliggenhet.getText()); // endre navn 
 		                boligsoker.setHusdyr(husdyr.isSelected());
 		                boligsoker.setBalkong(balkong.isSelected());
@@ -511,47 +516,63 @@ public class Personskjemavindu extends JFrame
 		                boligsoker.setLeilighet(leilighet.isSelected());
 		    
 		                register.settInnPerson(boligsoker);
-		                pl.addUtleier(boligsoker);
-		           
-		               if(e.getSource() == bLagre)
+		                pl.addBoligsoker(boligsoker);
+		                pl.oppdaterBoligsokerliste();
+		            }
+		            else if(e.getSource() == bLagre)
 		                {	
 		           			String feilmelding1 = "";
 		           		
 			            	Boligsoker p = (Boligsoker)personen;
-			            	
-				            if (erTom(fornavn) || erTom(etternavn) || erTom(adresse) || erTom(postnr) || erTom(poststed) || erTom(telefon))
-			            	{
-				            	feilmelding += "Du maa fylle inn alle paakrevde felter.\n";
-			            	}
-				            if (!erTall(postnr))
-				            {
-				            	feilmelding += "Postnr maa vaere tall.";
-				            }
-				            if (!erTom(feilmelding))
-				            {	            	
-				            	JOptionPane.showMessageDialog( null, "Vennligst rett følgende feil før du går videre:\n\n" + feilmelding, "Problem",
-				            			JOptionPane.PLAIN_MESSAGE);
-				            	return;
-				            }
-				            else
-				            {
-				            	p.setFornavn(fornavn);
-				            	p.setEtternavn(etternavn);
-				            	p.setAdresse(adresse);
-				            	p.setPostnr(Integer.parseInt(postnr));
-				            	p.setPoststed(poststed);
-				            	p.setTelefon(telefon);
-				            	p.setYrke(yrke);
-				            	p.setAntallPersoner(Integer.parseInt(antPersonerfelt.getText()));
-				            	p.setAntallRom(Integer.parseInt(antRomfelt.getText()));
-				            	p.setArbeidsforhold((String) arbeidsforhold.getSelectedItem());
-				            	p.setSivilstatus((String) sivilstatus.getSelectedItem());
-				            	p.setBalkong(balkong.isSelected());
-				            	p.getByggeaar()
-				            }
+
+			            	p.setFornavn(fornavn);
+			            	p.setEtternavn(etternavn);
+			            	p.setAdresse(adresse);
+			            	p.setPostnr(Integer.parseInt(postnr));
+			            	p.setPoststed(poststed);
+			            	p.setTelefon(telefon);
+			            	p.setYrke(yrke);
+			            	p.setAntallPersoner(Integer.parseInt(antPersonerfelt.getText()));
+			            	p.setAntallRom(Integer.parseInt(antRomfelt.getText()));
+			            	p.setArbeidsforhold((String) arbeidsforhold.getSelectedItem());
+			            	p.setSivilstatus((String) sivilstatus.getSelectedItem());
+			            	p.setBalkong(balkong.isSelected());
+			            	p.setByggeaar(byggeaarfelt.getText());
+			            	p.setEmail(email);
+			            	p.setEnebolig(enebolig.isSelected());
+			            	p.setFraStorrelse(Integer.parseInt(fraStorrelse.getText()));
+			            	p.setHage(hage.isSelected());
+			            	p.setHeis(heis.isSelected());
+			            	p.setHusdyr(husdyr.isSelected());
+			            	p.setLeilighet(leilighet.isSelected());
+			            	p.setnTogstasjon(beliggenhetfelt.getText());//endrenavn
+			            	p.setParkering(parkering.isSelected());				            	
+			            	p.setRekkehus(rekkehus.isSelected());
+			            	p.setRoyker(royker.isSelected());
 		                }
-		            	
-		            }
+		               else if(e.getSource() == uLagre)
+		               {
+		            	   	Utleier u = (Utleier)personen;
+		            		u.setFornavn(fornavn);
+			            	u.setEtternavn(etternavn);
+			            	u.setAdresse(adresse);
+			            	u.setPostnr(Integer.parseInt(postnr));
+			            	u.setPoststed(poststed);
+			            	u.setTelefon(telefon);
+			            	u.setYrke(yrke);
+			            	u.setEmail(email);
+			            	
+			            	personen = u;
+			            	
+			            	pl.oppdaterUtleierliste();
+		               }
+		               else if(e.getSource() == uSlett)
+		               {	
+		            	   int personNr = personen.getPersonNr();
+		            	   register.slettPerson(personNr);
+		            	   pl.slettPerson(personen);
+		            	   pl.oppdaterUtleierliste();
+		               }
 	            }
         	}
         }
