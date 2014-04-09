@@ -81,6 +81,12 @@ public class Personpanel extends JPanel
         
         list1.setPreferredSize(new Dimension(450, (int) list1.getPreferredSize().getHeight()));
 		list2.setPreferredSize(new Dimension(450, (int) list2.getPreferredSize().getHeight()));
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(list2);
+        add(scrollPane);
+        
+		list1.setVisibleRowCount(5);
+		list2.setVisibleRowCount(5);
 
         setLayout(new GridBagLayout());
         
@@ -129,6 +135,21 @@ public class Personpanel extends JPanel
     public void addBoligsoker(Person p) {
         model2.addElement(p);
     }
+    
+    public void oppdaterUtleierliste()
+    {
+       list2.repaint();    
+    }
+    
+    public void oppdaterBoligsokerliste()
+    {
+       list1.repaint();    
+    }
+    
+    public void slettPerson(Person p)
+    {
+    	model1.removeElement(p);
+    }
 
     private class Lytter implements ActionListener
     {
@@ -138,7 +159,7 @@ public class Personpanel extends JPanel
             {
                 if( list2.getSelectedIndex() != -1)
                 {
-                    Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()));
+                    Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()), register);
                 }
             }
             else if(e.getSource() == personskjemavinduknapp)
