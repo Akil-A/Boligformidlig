@@ -3,7 +3,6 @@ public class Leilighet extends Bolig
 	 private int etasje;
 	 private boolean heis;
 	 private boolean balkong;
-	 private String leilighetsnr;
 	 
 	 public Leilighet(String adresse, int postnr, String poststed, int utleiepris)
 	 {
@@ -40,22 +39,11 @@ public class Leilighet extends Bolig
 		this.balkong = balkong;
 	}
 	
-	public String getLeilighetsnr() 
-	{
-		return leilighetsnr;
-	}
-	
-	public void setLeilighetsnr(String leilighetsnr) 
-	{
-		this.leilighetsnr = leilighetsnr;
-	}
-	
 	public String toString()
 	{
 		return super.toString() +
 				"\nEtasje: " + etasje +
 				"\nHeis: " + (heis ? "ja" : "nei") +
-				"\nBalkong: " + (balkong? "ja" : "nei") +
-				"\nLeilighet nr." + leilighetsnr;
+				"\nBalkong: " + (balkong? "ja" : "nei");
 	}
 }
