@@ -1,12 +1,12 @@
 /*
- * Underliggende klasse som holder rede på lister av Personer, Boliger og Kontrakter. 
- * Objektet av denne klassen skal være med i alle programmets vindusklasser.
+ * Klassen som holder rede på lister av Personer, Boliger og Kontrakter. 
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Boligregister
+public class Boligregister implements Serializable
 {
 	private ArrayList<Person> personer;
 	private ArrayList<Kontrakt> kontrakter;
