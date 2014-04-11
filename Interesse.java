@@ -1,8 +1,10 @@
+import java.io.Serializable;
+
 /*
  * Klasse som forteller hvilken boligsoker som er interessert i hvilken bolig.
  */
 
-public class Interesse
+public class Interesse implements Serializable
 {
 	private int interesseNr;
 	private static int interesseTeller = 0;
