@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class Hovedvindu extends JFrame
 		tabbedPane.addTab("Personer", personpanel);
 		JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
+		//JComponent statistikkpanel = new Statistikkpanel(br);
 		
 		JPanel statistikkpanel = new JPanel();
 		statistikkpanel.add(new JLabel("Her kommer statistikk:"));
