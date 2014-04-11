@@ -1,3 +1,9 @@
+/* Panel som viser liste over alle utleiere og boligsokere.
+ * Laget av Akil og Joakim
+ */
+
+package prosjekttest;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,6 +47,7 @@ public class Personpanel extends JPanel
         personskjemavinduknapp.addActionListener(lytter);
 
         utleierknapp.addActionListener(lytter);
+        boligsokerknapp.addActionListener(lytter);
 
 
         ArrayList<Boligsoker> boligsokerliste = register.getBoligsokere();
@@ -159,6 +166,10 @@ public class Personpanel extends JPanel
                 {
                     Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()), register);
                 }
+            }
+            else if(e.getSource() == boligsokerknapp)
+            {
+                Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Boligsoker) list1.getSelectedValue()).getPersonNr()), register);
             }
             else if(e.getSource() == personskjemavinduknapp)
             {
