@@ -29,6 +29,13 @@ public class Hovedvindu extends JFrame
 		JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
 		
+		JPanel statistikkpanel = new JPanel();
+		statistikkpanel.add(new JLabel("Her kommer statistikk:"));
+		statistikkpanel.add(new JLabel("Hvor mange boliger firmaet har for utleie for øyeblikket."));
+		statistikkpanel.add(new JLabel("Hvor mange leiekontrakter firmaet har formidlet hittil i år."));
+		
+		tabbedPane.addTab("Statistikk", statistikkpanel);
+		
 		Container c = getContentPane();
 		c.add(tabbedPane);
 	}
