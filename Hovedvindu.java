@@ -14,10 +14,11 @@ public class Hovedvindu extends JFrame
 	{
 		super("Boligformidling AS");
 		
-		//br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
+		//tomtRegister();
+		//settInnTestData();
+		
 		lesFil();
 
-		//settInnTestData();
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
