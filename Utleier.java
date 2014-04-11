@@ -34,9 +34,21 @@ public class Utleier extends Person
 		boliger.add(b);
 	}
 	
-	public void slettBolig(int indeks)
+	public Bolig slettBolig(int boligNr)
 	{
-		boliger.remove(indeks);
+		Bolig bol = null;
+		
+		for (Bolig b : boliger)
+			if (b.getBoligNr() == boligNr)
+			{
+				bol = b;
+				break;
+			}
+		
+		if (bol != null)
+			boliger.remove(bol);
+		
+		return bol;
 	}
 	
 	public ArrayList<Bolig> getBoliger() 
