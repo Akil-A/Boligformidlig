@@ -64,13 +64,4 @@ public class Utleier extends Person
 		
 		return null;
 	}
-	
-	public ArrayList<Bolig> sokBoliger( String kriterier )
-	{
-		ArrayList<Bolig> bl = new ArrayList<>();
-		
-		// loop gjennom boliger, returner de som matcher kriterier
-		
-		return bl;
-	}
 }
