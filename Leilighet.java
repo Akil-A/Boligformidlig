@@ -1,4 +1,6 @@
-public class Leilighet extends Bolig
+import java.io.Serializable;
+
+public class Leilighet extends Bolig implements Serializable
 {
 	 private int etasje;
 	 private boolean garasje;
