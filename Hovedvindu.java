@@ -8,7 +8,7 @@ import java.io.*;
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
-	private final String FILNAVN = "register.dta";
+	private final String DATAFIL = "register.dta";
 	
 	public Hovedvindu()
 	{
@@ -61,10 +61,10 @@ public class Hovedvindu extends JFrame
 
 	private void lesFil()
 	{
-		try ( ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( FILNAVN ) ) )
+		try ( ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( DATAFIL ) ) )
 		{
 			br = (Boligregister) innfil.readObject();
-			visMelding( "Register er hentet fra " + FILNAVN );
+			visMelding( "Register er hentet fra " + DATAFIL );
 		}
 		catch(ClassNotFoundException cnfe)
 		{
@@ -91,10 +91,10 @@ public class Hovedvindu extends JFrame
 	
 	private void skrivTilFil()
 	{
-		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( FILNAVN ) ) )
+		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( DATAFIL ) ) )
 		{
 			utfil.writeObject( br );
-			visMelding("Registret er lagret i " + FILNAVN);
+			visMelding("Registret er lagret i " + DATAFIL);
 		}
 		catch( NotSerializableException nse )
 		{
