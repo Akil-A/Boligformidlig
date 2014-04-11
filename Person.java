@@ -10,7 +10,6 @@ abstract public class Person
 	private String poststed;
 	private String email;
 	private String telefon;
-	private String yrke;
 	
 	public Person(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
 	{
@@ -98,16 +97,6 @@ abstract public class Person
 	public void setPostnr(int postnr)
 	{
 		this.postnr = postnr;
-	}
-	
-	public String getYrke()
-	{
-		return yrke;
-	}
-	
-	public void setYrke(String yrke)
-	{
-		this.yrke = yrke;
 	}
 	
 	public String toString()
