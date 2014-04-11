@@ -1,6 +1,7 @@
-import java.io.Serializable;
+package prosjekttest;
 
-public class Boligsoker extends Person implements Serializable
+
+public class Boligsoker extends Person
 {
     private int antallPersoner;
     private String sivilstatus;
@@ -21,7 +22,7 @@ public class Boligsoker extends Person implements Serializable
     private String byggeaar;
     private int utleiepris;
     private String firma;
-    private String nTogstasjon;
+    private String togst;
     
     public Boligsoker(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
     {
@@ -149,14 +150,14 @@ public class Boligsoker extends Person implements Serializable
         this.firma = firma;
     }
     
-    public String getnTogstasjon()
+    public String getTogst()
     {
-        return nTogstasjon;
+        return togst;
     }
 
-    public void setnTogstasjon (String nTogstasjon)
+    public void setTogst (String t)
     {
-        this.nTogstasjon = nTogstasjon;
+        this.togst = t;
     }
 
 	public boolean isHage() {
