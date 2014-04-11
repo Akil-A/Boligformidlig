@@ -1,4 +1,3 @@
-package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -53,7 +52,6 @@ public class Personskjemavindu extends JFrame
         emailfelt.setText(p.getEmail());
         adressefelt.setText(p.getAdresse());
         telefonfelt.setText(p.getTelefon());
-        yrkefelt.setText(p.getYrke());
         poststedfelt.setText(p.getPoststed());
         postnrfelt.setText(String.valueOf(p.getPostnr()));
         utleier.setEnabled(false);
@@ -483,7 +481,6 @@ public class Personskjemavindu extends JFrame
 		            if(e.getSource() == uRegPerson)
 		            {	
 		                Utleier utleier = new Utleier(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
-		                utleier.setYrke(yrke);
 		                
 		                String firma = firmafelt.getText();
 		                utleier.setFirma(firma);
@@ -559,7 +556,6 @@ public class Personskjemavindu extends JFrame
 			            	u.setPostnr(Integer.parseInt(postnr));
 			            	u.setPoststed(poststed);
 			            	u.setTelefon(telefon);
-			            	u.setYrke(yrke);
 			            	u.setEmail(email);
 			            	
 			            	personen = u;
