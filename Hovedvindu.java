@@ -1,24 +1,40 @@
-package prosjekttest;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
 import java.util.ArrayList;
+import java.io.*;
 
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
+	private final String FILNAVN = "register.dta";
 	
 	public Hovedvindu()
 	{
 		super("Boligformidling AS");
 		
-		// boligregister må hentes fra fil
-		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
+		//br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
+		lesFil();
 
-		/***** testdata *****/
+		//settInnTestData();
+		
+		JTabbedPane tabbedPane = new JTabbedPane();
+		
+		JComponent boligpanel = new Boligpanel(br);
+		tabbedPane.addTab("Boliger", boligpanel);
+		JComponent personpanel = new Personpanel(br);
+		tabbedPane.addTab("Personer", personpanel);
+		JComponent kontraktpanel = new Kontraktpanel(br);
+		tabbedPane.addTab("Kontrakter", kontraktpanel);
+		
+		Container c = getContentPane();
+		c.add(tabbedPane);
+	}
+	
+	
+	private void settInnTestData()
+	{
 		Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "12345678");
 		Utleier p2 = new Utleier("Henrik", "Pettersen", "Avisveien 8", 3027, "Drammen", "", "98765432");
 		Boligsoker bo = new Boligsoker("Nils", "Vogt", "Drammensveien 76", 1337, "Sandvika", "", "45678123");
@@ -40,21 +56,60 @@ public class Hovedvindu extends JFrame
 		br.settInnPerson(p2);
 		br.settInnPerson(p);
 		br.settInnPerson(bo);
-		/***** testdata slutt *****/
-		
-		JTabbedPane tabbedPane = new JTabbedPane();
-		
-		JComponent boligpanel = new Boligpanel(br);
-		tabbedPane.addTab("Boliger", boligpanel);
-		JComponent personpanel = new Personpanel(br);
-		tabbedPane.addTab("Personer", personpanel);
-		JComponent kontraktpanel = new Kontraktpanel(br);
-		tabbedPane.addTab("Kontrakter", kontraktpanel);
-		
-		Container c = getContentPane();
-		c.add(tabbedPane);
 	}
 	
+
+	private void lesFil()
+	{
+		try ( ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( FILNAVN ) ) )
+		{
+			br = (Boligregister) innfil.readObject();
+			visMelding( "Register er hentet fra " + FILNAVN );
+		}
+		catch(ClassNotFoundException cnfe)
+		{
+			visMelding( cnfe.getMessage() + "\n\nOppretter tom liste." );
+			tomtRegister();
+		}
+		catch(FileNotFoundException fne)
+		{
+			visMelding( "Finner ikke datafil. Oppretter tomt register." );
+			tomtRegister();
+		}
+		catch(IOException ioe)
+		{
+			visMelding( "Innlesingsfeil. Oppretter tomt register." );
+			tomtRegister();
+		}
+	}
+	
+	private void tomtRegister()
+	{
+		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
+	}
+
+	
+	private void skrivTilFil()
+	{
+		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( FILNAVN ) ) )
+		{
+			utfil.writeObject( br );
+			visMelding("Objektet er lagret i " + FILNAVN);
+		}
+		catch( NotSerializableException nse )
+		{
+			visMelding("Objektet er ikke serialisert!");
+		}
+		catch( IOException ioe )
+		{
+			visMelding("Problem med utskrift til fil.");
+		}
+	}
+
+	private void visMelding(String melding)
+	{
+		JOptionPane.showMessageDialog( this, melding, "Problem", JOptionPane.PLAIN_MESSAGE );
+	}
 	
 	
 	public static void main( String[] args )
@@ -72,7 +127,7 @@ public class Hovedvindu extends JFrame
 				{
 					public void windowClosing( WindowEvent e )
 					{
-						//hv.skrivTilFil();
+						hv.skrivTilFil();
 						System.exit( 0 );
 					}
 				} );
