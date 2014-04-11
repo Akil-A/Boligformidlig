@@ -13,7 +13,7 @@ public class Bildevindu extends JFrame
 			Container c = getContentPane();
 			JLabel picLabel = new JLabel(new ImageIcon(skalert2));
 			c.add(picLabel);
-	        setLocationRelativeTo(null);
+			setLocationRelativeTo(null);
 			setVisible(true);
 		}
 }
