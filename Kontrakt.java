@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class Kontrakt 
+public class Kontrakt implements Serializable
 {
 	private int kontraktNr;
 	private static int kontraktTeller = 0;
@@ -9,7 +10,9 @@ public class Kontrakt
 	private int leietakerNr; // leietaker er det samme som boligsøker
 	private int boligNr;
 	private Date startdato;
-	private Date sluttdato;	
+	private Date sluttdato;
+	private Date oppsagtDato; // må lage get-set-metoder
+	private String oppsigelsesgrunn;
 	
 	public Kontrakt(int utleierNr, int leietakerNr, int boligNr, Date startdato, Date sluttdato)
 	{
