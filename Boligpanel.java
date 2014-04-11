@@ -225,10 +225,12 @@ public class Boligpanel extends JPanel
         gc.gridx = 0;
         innerFilterPanel.add(SjekkboksTilegg, gc);
         
+
+        innerFilterPanel.setBorder(BorderFactory.createTitledBorder("Sokefilter"));
+        
 		
 		JScrollPane filterPanel = new JScrollPane(innerFilterPanel);
-		filterPanel.setBorder(BorderFactory.createTitledBorder("Filter"));
-		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hÃ¸yde)
+		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hoyde)
 	
 		
 		JPanel knappePanel = new JPanel(new BorderLayout());
@@ -425,11 +427,11 @@ public class Boligpanel extends JPanel
 						{
 							if(mittBilde1.getWidth() > 800 || mittBilde1.getHeight() > 600)
 							{
-							Vindu vindu = new Vindu(skalert2);
+								Bildevindu vindu = new Bildevindu(skalert2);
 							}
 							else
 							{
-								Vindu vindu = new Vindu(mittBilde1);
+								Bildevindu vindu = new Bildevindu(mittBilde1);
 							}
 						}
 						
@@ -490,7 +492,7 @@ public class Boligpanel extends JPanel
 			
 			if (e.getSource() == registrer)
 			{
-				bsv = new Boligskjemavindu(Boligpanel.this, register);
+				bsv = new Boligskjemavindu(register, Boligpanel.this);
 			}
 			else if (e.getSource() == sok)
 			{
