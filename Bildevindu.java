@@ -1,14 +1,11 @@
 import javax.swing.JFrame;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-
 import javax.swing.*;
 
-public class Vindu extends JFrame
+public class Bildevindu extends JFrame
 {
-		public Vindu(Image skalert2)
+		public Bildevindu(Image skalert2)
 		{
 			super("Stor vindu");
 			setSize(800,600);
