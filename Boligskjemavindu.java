@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 
 public class Boligskjemavindu extends JFrame
 {
-	private JComboBox utleiere;
+	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
 							liggerietasje;
@@ -30,17 +30,18 @@ public class Boligskjemavindu extends JFrame
 		lagVindu();
 	}
 	
-	public Boligskjemavindu(Boligpanel bp, Boligregister br)
+	public Boligskjemavindu(Boligregister br, Boligpanel bp)
 	{
 		super("Registrer ny bolig");
-		boligpanelet = bp;
 		registret = br;
+		boligpanelet = bp;
 		lagVindu();
 	}
 
-	public Boligskjemavindu(Boligpanel bp, Bolig b)
+	public Boligskjemavindu(Boligregister br, Boligpanel bp, Bolig b)
 	{
 		super("Oppdater bolig");
+		registret = br;
 		boligpanelet = bp;
 		lagVindu();
 		
@@ -98,6 +99,12 @@ public class Boligskjemavindu extends JFrame
         lagre.addActionListener(lytter);
         avbryt = new JButton("Avbryt");
         avbryt.addActionListener(lytter);
+        
+        
+        
+        utleiere = new JComboBox(registret.getUtleiere().toArray());
+        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", 0, "", "", ""), 0);
+        utleiere.setSelectedIndex(0);
 		
         
 		
@@ -132,8 +139,8 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
-		toppanel.add(new JLabel("Dropdownlist med utleiere"), gc);
-		//toppanel.add(utleiere, gc);
+		//toppanel.add(new JLabel("JComboBox med utleiere"), gc);
+		toppanel.add(utleiere, gc);
 		gc.anchor = GridBagConstraints.EAST;
 		gc.gridwidth = 1;
 		gc.insets.bottom = 0;
@@ -350,8 +357,8 @@ public class Boligskjemavindu extends JFrame
     			boolean bgarasje = hargarasje.isSelected();
     			boolean bvaskeri = harvaskeri.isSelected();
     			
-    			if (erTom(stittel) || erTom(sadresse) || spostnr.length() != 4 || erTom(spoststed) || 
-    					erTom(sboareal) || erTom(sbyggeaar) || erTom(spris))
+    			if (utleiere.getSelectedIndex() == 0 || erTom(stittel) || erTom(sadresse) || spostnr.length() != 4 || 
+    					erTom(spoststed) || erTom(sboareal) || erTom(sbyggeaar) || erTom(spris))
     				feilmelding += "- Du maa fylle inn alle paakrevde felter.\n";
     			
     			if (!erTall(spostnr) || !erTall(sboareal) || 
@@ -377,10 +384,12 @@ public class Boligskjemavindu extends JFrame
 	            			JOptionPane.PLAIN_MESSAGE);
 	            	return;
 	            }
-    			
+	            
 	            if (benebolig)
 	            {
 	            	Enebolig b = new Enebolig(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	
+	            	b.setTittel(stittel);
 	            	
 	            	if (!erTom(santrom))
 	            		b.setAntrom(Integer.parseInt(santrom));
@@ -405,11 +414,13 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setKjeller(bkjeller);
 	            	
-	            	// Utleier.settInnBolig(b);
+	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            else if (brekkehus)
 	            {
 	            	Rekkehus b = new Rekkehus(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	
+	            	b.setTittel(stittel);
 	            	
 	            	if (!erTom(santrom))
 	            		b.setAntrom(Integer.parseInt(santrom));
@@ -434,11 +445,13 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setKjeller(bkjeller);
 	            	
-	            	// Utleier.settInnBolig(b);
+	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            else if (bleilighet)
 	            {
 	            	Leilighet b = new Leilighet(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	
+	            	b.setTittel(stittel);
 	            	
 	            	if (!erTom(santrom))
 	            		b.setAntrom(Integer.parseInt(santrom));
@@ -457,14 +470,14 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setGarasje(bgarasje);
 	            	b.setVaskeri(bvaskeri);
-	            		            	
-	            	// Utleier.settInnBolig(b);
+	            	
+	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            
     			if (boligpanelet != null)
     				boligpanelet.listBoliger(false);
     			
-    			//dispose();
+    			dispose();
     		}
     		else if(e.getSource() == avbryt)
     		{
