@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-abstract public class Bolig 
+abstract public class Bolig implements Serializable
 {
 	private int boligNr;
 	private static int boligTeller = 0;
