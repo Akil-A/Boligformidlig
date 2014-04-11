@@ -123,7 +123,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 0;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("*Annonsetittel"), gc);
+		toppanel.add(new JLabel("* Annonsetittel"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
@@ -135,7 +135,7 @@ public class Boligskjemavindu extends JFrame
 		
 		gc.gridx = 0;
 		gc.insets.bottom = 20;
-		toppanel.add(new JLabel("*Utleier"), gc);
+		toppanel.add(new JLabel("* Utleier"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
@@ -148,33 +148,33 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 2;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("*Adresse"), gc);
+		toppanel.add(new JLabel("* Adresse"), gc);
 		gc.gridx = 1;
 		toppanel.add(adresse, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("*Boareal (kvm)"), gc);
+		toppanel.add(new JLabel("* Boareal (kvm)"), gc);
 		gc.gridx = 3;
 		toppanel.add(boareal, gc);
 		
 		gc.gridy = 3;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("*Postnr"), gc);
+		toppanel.add(new JLabel("* Postnr"), gc);
 		gc.gridx = 1;
 		toppanel.add(postnr, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("*Antall rom"), gc);
+		toppanel.add(new JLabel("* Antall rom"), gc);
 		gc.gridx = 3;
 		toppanel.add(antrom, gc);
 		
 		gc.gridy = 4;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("*Poststed"), gc);
+		toppanel.add(new JLabel("* Poststed"), gc);
 		gc.gridx = 1;
 		toppanel.add(poststed, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("*Byggeaar"), gc);
+		toppanel.add(new JLabel("* Byggeaar"), gc);
 		gc.gridx = 3;
 		toppanel.add(byggeaar, gc);
 
@@ -185,7 +185,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		toppanel.add(togst, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("*Pris kr/mnd"), gc);
+		toppanel.add(new JLabel("* Pris kr/mnd"), gc);
 		gc.gridx = 3;
 		toppanel.add(pris, gc);
 		/***** toppanel slutt *****/
