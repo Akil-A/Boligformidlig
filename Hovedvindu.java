@@ -68,7 +68,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch(ClassNotFoundException cnfe)
 		{
-			visMelding( cnfe.getMessage() + "\n\nOppretter tom liste." );
+			visMelding( cnfe.getMessage() + "\n\nOppretter tomt register." );
 			tomtRegister();
 		}
 		catch(FileNotFoundException fne)
@@ -94,7 +94,7 @@ public class Hovedvindu extends JFrame
 		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( FILNAVN ) ) )
 		{
 			utfil.writeObject( br );
-			visMelding("Objektet er lagret i " + FILNAVN);
+			visMelding("Registret er lagret i " + FILNAVN);
 		}
 		catch( NotSerializableException nse )
 		{
