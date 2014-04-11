@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -116,7 +115,7 @@ public class Hovedvindu extends JFrame
 
 	private void visMelding(String melding)
 	{
-		JOptionPane.showMessageDialog( this, melding, "Problem", JOptionPane.PLAIN_MESSAGE );
+		JOptionPane.showMessageDialog( this, melding, "Melding", JOptionPane.PLAIN_MESSAGE );
 	}
 	
 	
