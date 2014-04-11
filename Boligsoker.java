@@ -1,7 +1,6 @@
-package prosjekttest;
+import java.io.Serializable;
 
-
-public class Boligsoker extends Person
+public class Boligsoker extends Person implements Serializable
 {
     private int antallPersoner;
     private String sivilstatus;
