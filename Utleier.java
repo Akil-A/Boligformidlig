@@ -2,9 +2,10 @@
  * laget av Ali og Joakim
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Utleier extends Person 
+public class Utleier extends Person  implements Serializable
 {
 	private String firma;
 	private ArrayList<Bolig> boliger;
