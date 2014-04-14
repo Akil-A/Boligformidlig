@@ -1,5 +1,4 @@
 /* Panel som viser liste over alle utleiere og boligsokere.
- * Laget av Akil og Joakim
  */
 
 
@@ -70,14 +69,12 @@ public class Personpanel extends JPanel
 		uList.setBorder(border);
 		uList.setFont(font);
         
-        bList.setPreferredSize(new Dimension(450, (int) bList.getPreferredSize().getHeight()));
-		uList.setPreferredSize(new Dimension(450, (int) uList.getPreferredSize().getHeight()));
+        bList.setPreferredSize(new Dimension(450, 200));
+		uList.setPreferredSize(new Dimension(450, 200));
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(uList);
         add(scrollPane);
         
-		bList.setVisibleRowCount(5);
-		uList.setVisibleRowCount(5);
 
         setLayout(new GridBagLayout());
         
@@ -137,9 +134,14 @@ public class Personpanel extends JPanel
        bList.repaint();    
     }
     
-    public void slettPerson(Person p)
+    public void slettUtleier(Person p)
     {
     	uModel.removeElement(p);
+    }
+    
+    public void slettBoligsoker(Person p)
+    {
+    	bModel.removeElement(p);
     }
     
     public void visMelding(String meldingen, String tittel)
