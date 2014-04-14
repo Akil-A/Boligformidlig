@@ -33,28 +33,40 @@ public class Personskjemavindu extends JFrame
     private Boligregister register;
     private Personpanel pl;
     private Person personen;
-
-
-    public Personskjemavindu(Personpanel pl, Boligregister br)
+    private Boligskjemavindu boligvinduet;
+    
+    
+    public Personskjemavindu(Boligregister br, Boligskjemavindu bsv)
     {
-        super("Personskjemavindu");
+    	super("Registrer utleier");
+    	register = br;
+    	boligvinduet = bsv;
+    	lagVindu();
+    }
+
+
+    public Personskjemavindu(Boligregister br, Personpanel pl)
+    {
+        super("Registrer person");
         register = br;
+        this.pl = pl;
         lagVindu();
+        
         uLagre.setVisible(false);
         bLagre.setVisible(false);
         uSlett.setVisible(false);
         bSlett.setVisible(false);
-
-        this.pl=pl;
     }
 
-    public Personskjemavindu(Personpanel pl, Person p, Boligregister br)
+    public Personskjemavindu(Boligregister br, Personpanel pl, Person p)
     {
-        super("Personskjemavindu");
+        super("Oppdater person");
         register = br;
-        this.pl=pl;
-        personen = p;
+        this.pl = pl;
         lagVindu();
+        
+        personen = p;
+        
         uRegPerson.setVisible(false);
         fornavnfelt.setText(p.getFornavn());
         etternavnfelt.setText(p.getEtternavn());
@@ -511,7 +523,7 @@ public class Personskjemavindu extends JFrame
 
                 if (butleier)
                 {
-                    // validering for utleier
+                    // validering for utleier hvis det trengs
                 }
                 else if (bboligsoker)
                 {
@@ -591,10 +603,13 @@ public class Personskjemavindu extends JFrame
                     if (e.getSource() == bRegPerson)
                     {
                         register.settInnPerson(b);
-                        pl.addBoligsoker(b);
+                        
+                        if (pl != null)
+                        	pl.addBoligsoker(b);
                     }
 
-                    pl.oppdaterBoligsokerliste();
+                    if (pl != null)
+                    	pl.oppdaterBoligsokerliste();
                 }
                 else if (butleier)
                 {
@@ -619,11 +634,19 @@ public class Personskjemavindu extends JFrame
                     if (e.getSource() == uRegPerson)
                     {
                         register.settInnPerson(u);
-                        pl.addUtleier(u);
+                        
+                        if (pl != null)
+                        	pl.addUtleier(u);
                     }
 
-                    pl.oppdaterUtleierliste();
+                    if (pl != null)
+                    	pl.oppdaterUtleierliste();
+                    
+                    if (boligvinduet != null)
+                    	boligvinduet.oppdaterUtleierliste();
                 }
+                
+                dispose();
 
 
                 if(e.getSource() == uSlett)
@@ -638,3 +661,4 @@ public class Personskjemavindu extends JFrame
     }
 }
     
+   
