@@ -14,31 +14,19 @@ import javax.swing.border.Border;
 
 public class Personpanel extends JPanel
 {
-
-    private JLabel felttekst1;
-    private JLabel felttekst2;
-    private JList<Person> list1;
-    private JList<Person> list2;
-    private JTextArea tekstomraade;
-    private JButton knapp;
+    private JList<Person> bList;
+    private JList<Person> uList;
     private Lytter lytter;
-    private JPanel utleierpanel1, utleierpanel2, boligsokerpanel1, boligsokerpanel2;
     private JButton utleierknapp, boligsokerknapp, personskjemavinduknapp;
-    private BorderLayout bLayout;
-    private Container c;
-    private GridBagConstraints gc;
     private Boligregister register;
-    private DefaultListModel<Person> model1, model2;
-    private ArrayList<Utleier> utleierliste;
+    private DefaultListModel<Person> uModel, bModel;
+    private ArrayList<Utleier> utleierliste; 
+    private ArrayList<Boligsoker>boligsokerliste;
 
     public Personpanel(Boligregister br)
     {	
     	
-
         register = br;
-
-        felttekst1 = new JLabel("Boligsokere");
-        felttekst2 = new JLabel("Utleiere");
 
         utleierknapp = new JButton("Utleier");
         boligsokerknapp = new JButton("Bolig");
@@ -50,48 +38,48 @@ public class Personpanel extends JPanel
         boligsokerknapp.addActionListener(lytter);
 
 
-        ArrayList<Boligsoker> boligsokerliste = register.getBoligsokere();
+        boligsokerliste = register.getBoligsokere();
         utleierliste = register.getUtleiere();
 
-        model1 = new DefaultListModel<Person>();
-        model2 = new DefaultListModel<Person>();
+        uModel = new DefaultListModel<Person>();
+        bModel = new DefaultListModel<Person>();
 
 
         Iterator<Utleier> iterator = utleierliste.iterator();
 
         while(iterator.hasNext())
         {
-            model1.addElement(iterator.next());
+            uModel.addElement(iterator.next());
         }
-        list2 = new JList<Person>(model1);
+        uList = new JList<Person>(uModel);
         
         Iterator<Boligsoker> iterator2 = boligsokerliste.iterator();
 
         while(iterator2.hasNext())
         {
-            model2.addElement(iterator2.next());
+            bModel.addElement(iterator2.next());
         }
-        list2 = new JList<Person>(model1);
-        list1 = new JList<Person>(model2);
+        uList = new JList<Person>(uModel);
+        bList = new JList<Person>(bModel);
         
     	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		Font font = new Font("System", Font.PLAIN, 12);
 		
 		// JList må bindes til en egen liste som skriver ut en passende toString
 		
-		list1.setBorder(border);
-		list1.setFont(font);
-		list2.setBorder(border);
-		list2.setFont(font);
+		bList.setBorder(border);
+		bList.setFont(font);
+		uList.setBorder(border);
+		uList.setFont(font);
         
-        list1.setPreferredSize(new Dimension(450, (int) list1.getPreferredSize().getHeight()));
-		list2.setPreferredSize(new Dimension(450, (int) list2.getPreferredSize().getHeight()));
+        bList.setPreferredSize(new Dimension(450, (int) bList.getPreferredSize().getHeight()));
+		uList.setPreferredSize(new Dimension(450, (int) uList.getPreferredSize().getHeight()));
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(list2);
+        scrollPane.setViewportView(uList);
         add(scrollPane);
         
-		list1.setVisibleRowCount(5);
-		list2.setVisibleRowCount(5);
+		bList.setVisibleRowCount(5);
+		uList.setVisibleRowCount(5);
 
         setLayout(new GridBagLayout());
         
@@ -105,7 +93,7 @@ public class Personpanel extends JPanel
 		add(new JLabel("Boligsokerliste:"), gc);
 		
 		gc.gridy = 1;
-		add(list1, gc);
+		add(bList, gc);
 		
 		gc.gridx = 1;
 		gc.insets.left = 10;
@@ -119,7 +107,7 @@ public class Personpanel extends JPanel
 		
 		gc.gridy = 3;
 		gc.insets.top = 0;
-		add(list2, gc);
+		add(uList, gc);
 
 		gc.gridx = 1;
 		gc.insets.left = 10;
@@ -134,26 +122,31 @@ public class Personpanel extends JPanel
     }
 
     public void addUtleier(Person p) {
-        model1.addElement(p);
+        uModel.addElement(p);
     }
     
     public void addBoligsoker(Person p) {
-        model2.addElement(p);
+        bModel.addElement(p);
     }
     
     public void oppdaterUtleierliste()
     {
-       list2.repaint();    
+       uList.repaint();    
     }
     
     public void oppdaterBoligsokerliste()
     {
-       list1.repaint();    
+       bList.repaint();    
     }
     
     public void slettPerson(Person p)
     {
-    	model1.removeElement(p);
+    	uModel.removeElement(p);
+    }
+    
+    public void visMelding(String meldingen, String tittel)
+    {
+    	JOptionPane.showMessageDialog(null,  meldingen, tittel, JOptionPane.PLAIN_MESSAGE);
     }
 
     private class Lytter implements ActionListener
@@ -162,18 +155,27 @@ public class Personpanel extends JPanel
         {
             if(e.getSource() == utleierknapp)
             {
-                if( list2.getSelectedIndex() != -1)
+                if( uList.getSelectedIndex() != -1)
                 {
-                    Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Utleier) list2.getSelectedValue()).getPersonNr()), register);
+                	Person valgtperson = uList.getSelectedValue();
+                	Person p = register.finnPerson(valgtperson.getPersonNr());
+                	
+                    new Personskjemavindu(register, Personpanel.this, p);
                 }
             }
             else if(e.getSource() == boligsokerknapp)
             {
-                Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register.finnPerson(((Boligsoker) list1.getSelectedValue()).getPersonNr()), register);
+                if( bList.getSelectedIndex() != -1)
+                {
+                	Person valgtperson = bList.getSelectedValue();
+                	Person p = register.finnPerson(valgtperson.getPersonNr());
+                	
+                	new Personskjemavindu(register, Personpanel.this, p);
+                }
             }
             else if(e.getSource() == personskjemavinduknapp)
             {
-                Personskjemavindu pv = new Personskjemavindu(Personpanel.this, register);
+                new Personskjemavindu(register, Personpanel.this);
             }
         }
     }
