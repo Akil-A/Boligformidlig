@@ -1,3 +1,5 @@
+package prosjekttest;
+
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -69,13 +71,17 @@ public class Personskjemavindu extends JFrame
             Boligsoker bso = ((Boligsoker) p);
 
             String antallRom = (bso.getAntallRom() == 0) ? "" : bso.getAntallRom() + "";
+            String antPersoner = (bso.getAntallPersoner() == 0) ? "" : bso.getAntallPersoner() + "";
+            String fraStorrelse = (bso.getFraStorrelse() == 0) ? "" : bso.getFraStorrelse() + "";
+            String tilStorrelse = (bso.getTilStorrelse() == 0) ? "" : bso.getTilStorrelse() + "";
+            String utleiepris = (bso.getUtleiepris() == 0) ? "" : bso.getUtleiepris() + "";
 
-            antPersonerfelt.setText(String.valueOf(bso.getAntallPersoner()));
-            fraStorrelsefelt.setText(String.valueOf(bso.getFraStorrelse()));
-            tilStorrelsefelt.setText(String.valueOf(bso.getTilStorrelse()));
             antRomfelt.setText(antallRom);
+            antPersonerfelt.setText(antPersoner);
+            fraStorrelsefelt.setText(fraStorrelse);
+            tilStorrelsefelt.setText(tilStorrelse);
             yrkefelt.setText(bso.getYrke());
-            utleieprisfelt.setText(String.valueOf(bso.getUtleiepris()));
+            utleieprisfelt.setText(utleiepris);
 
             royker.setSelected(bso.isRoyker());
             husdyr.setSelected(bso.isHusdyr());
@@ -529,7 +535,7 @@ public class Personskjemavindu extends JFrame
                     s+=feilmelding1;
                 }
 
-                if (!erTom(feilmelding))
+                if (!erTom(feilmelding) || !erTom(s))
                 {
                         JOptionPane.showMessageDialog(null, feilmelding + s, "Problem",
                                 JOptionPane.PLAIN_MESSAGE);
@@ -613,7 +619,7 @@ public class Personskjemavindu extends JFrame
                     if (e.getSource() == uRegPerson)
                     {
                         register.settInnPerson(u);
-                        pl.addBoligsoker(u);
+                        pl.addUtleier(u);
                     }
 
                     pl.oppdaterUtleierliste();
@@ -632,4 +638,3 @@ public class Personskjemavindu extends JFrame
     }
 }
     
-   
