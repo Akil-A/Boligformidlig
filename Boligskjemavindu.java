@@ -14,12 +14,12 @@ public class Boligskjemavindu extends JFrame
 	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
-							liggerietasje;
+							liggerietasje, bildeSti;
 	private JCheckBox harkjeller, hargarasje, harvaskeri;
 	private CLytter clytter;
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
-	private JButton lagre, avbryt;
+	private JButton lagre, avbryt, velgBilde, fjernBilde;
 	private Boligpanel boligpanelet;
 	private Boligregister registret;
 	
@@ -99,6 +99,19 @@ public class Boligskjemavindu extends JFrame
         lagre.addActionListener(lytter);
         avbryt = new JButton("Avbryt");
         avbryt.addActionListener(lytter);
+        velgBilde = new JButton("Velg bilde");
+        velgBilde.addActionListener(lytter);
+        bildeSti = new JTextField(15);
+        bildeSti.setEditable(false);
+        fjernBilde = new JButton("Fjern bilde");
+        fjernBilde.addActionListener(lytter);
+        
+        
+        
+		JPanel velgBildePanel = new JPanel();
+		velgBildePanel.add(velgBilde);
+		velgBildePanel.add(bildeSti);
+		velgBildePanel.add(fjernBilde);
         
         
         
@@ -134,18 +147,28 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 1;
 		
 		gc.gridx = 0;
-		gc.insets.bottom = 20;
 		toppanel.add(new JLabel("* Utleier"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
-		//toppanel.add(new JLabel("JComboBox med utleiere"), gc);
 		toppanel.add(utleiere, gc);
+		gc.anchor = GridBagConstraints.EAST;
+		gc.gridwidth = 1;
+		
+		gc.gridy = 2;
+
+		gc.gridx = 0;
+		gc.insets.bottom = 20;
+		toppanel.add(new JLabel("Bilde"), gc);
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.WEST;
+		gc.gridwidth = 3;
+		toppanel.add(velgBildePanel, gc);
 		gc.anchor = GridBagConstraints.EAST;
 		gc.gridwidth = 1;
 		gc.insets.bottom = 0;
 		
-		gc.gridy = 2;
+		gc.gridy = 3;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("* Adresse"), gc);
@@ -156,7 +179,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 3;
 		toppanel.add(boareal, gc);
 		
-		gc.gridy = 3;
+		gc.gridy = 4;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("* Postnr"), gc);
@@ -167,7 +190,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 3;
 		toppanel.add(antrom, gc);
 		
-		gc.gridy = 4;
+		gc.gridy = 5;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("* Poststed"), gc);
@@ -178,7 +201,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 3;
 		toppanel.add(byggeaar, gc);
 
-		gc.gridy = 5;
+		gc.gridy = 6;
 		
 		gc.gridx = 0;
 		toppanel.add(new JLabel("Naermeste togstasjon"), gc);
@@ -473,6 +496,9 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
+	            
+	            JOptionPane.showMessageDialog( null, "Boligen er registrert.", "Melding",
+            			JOptionPane.PLAIN_MESSAGE);
 	            
     			if (boligpanelet != null)
     				boligpanelet.listBoliger(false);
