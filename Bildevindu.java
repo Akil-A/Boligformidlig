@@ -1,19 +1,40 @@
-import javax.swing.JFrame;
-
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 
 public class Bildevindu extends JFrame
 {
-		public Bildevindu(Image skalert2)
+	public Bildevindu(BufferedImage original)
+	{
+		super("Stor vindu");
+		setSize(800,600);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		Container c = getContentPane();
+
+		int origB = original.getWidth();
+		int origH = original.getHeight();
+		
+		int nyB = origB;
+		int nyH = origH;
+		
+		if (origB > 800)
 		{
-			super("Stor vindu");
-			setSize(800,600);
-			setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			Container c = getContentPane();
-			JLabel picLabel = new JLabel(new ImageIcon(skalert2));
-			c.add(picLabel);
-			setLocationRelativeTo(null);
-			setVisible(true);
+			nyB = 800;
+			nyH = origH / (origB / nyB);
 		}
+		
+		if (origH > 600)
+		{
+			nyH = 600;
+			nyB = origB / (origH / nyH);
+		}
+		
+		Image nyttBilde = original.getScaledInstance(nyB, nyH, BufferedImage.SCALE_SMOOTH);
+		
+		JLabel picLabel = new JLabel(new ImageIcon(nyttBilde));
+		c.add(picLabel);
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
 }
