@@ -1,4 +1,5 @@
 
+
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -475,6 +476,11 @@ public class Personskjemavindu extends JFrame
             return false;
         }
     }
+    
+    public void visMelding(String meldingen, String tittel)
+    {
+    	JOptionPane.showMessageDialog(null,  meldingen, tittel, JOptionPane.PLAIN_MESSAGE);
+    }
 
     private class Lytter implements ActionListener
     {
@@ -487,6 +493,33 @@ public class Personskjemavindu extends JFrame
             else if(e.getSource() == uRegBolig)
             {
                 //Boligskjemavindu bsv = new Boligskjemavindu(register);
+            }
+            else if(e.getSource() == uSlett || e.getSource() == bSlett)
+            {
+            	if (e.getSource() == uSlett)
+    			{
+            		Utleier u = (Utleier)personen;
+            	
+            		if (u.getBoliger().size() > 0)
+            		{
+            			visMelding("Kan ikke slette, denne utleier har boliger.", "Problem");
+            			return;
+            		}
+    			}
+            	
+            	
+            	///////  kontrollsporsmaal
+            	
+            	
+                int personNr = personen.getPersonNr();
+                register.slettPerson(personNr);
+                
+                if (e.getSource() == uSlett)
+                	pl.slettUtleier(personen);
+                else
+                	pl.slettBoligsoker(personen);
+                
+                dispose();
             }
             else
             {
@@ -619,6 +652,9 @@ public class Personskjemavindu extends JFrame
 
                     if (pl != null)
                     	pl.oppdaterBoligsokerliste();
+                    
+                    
+                    
                 }
                 else if (butleier)
                 {
@@ -647,6 +683,7 @@ public class Personskjemavindu extends JFrame
                         if (pl != null)
                         	pl.addUtleier(u);
                     }
+                                    
 
                     if (pl != null)
                     	pl.oppdaterUtleierliste();
@@ -656,15 +693,6 @@ public class Personskjemavindu extends JFrame
                 }
                 
                 dispose();
-
-
-                if(e.getSource() == uSlett)
-                {
-                    int personNr = personen.getPersonNr();
-                    register.slettPerson(personNr);
-                    pl.slettPerson(personen);
-                    pl.oppdaterUtleierliste();
-                }
             }
         }
     }
