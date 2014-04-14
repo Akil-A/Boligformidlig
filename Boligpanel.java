@@ -410,15 +410,15 @@ public class Boligpanel extends JPanel
 				Bolig.add(adresse, gc4);
 				try
 				{
-					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBoligNr()  + ".png"));
+					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
 					Image skalert = mittBilde1.getScaledInstance(90,90, BufferedImage.SCALE_SMOOTH);
 					final Image skalert2 = mittBilde1.getScaledInstance(800,600, BufferedImage.SCALE_SMOOTH);
 					//final BufferedImage mittBildeStor = toBufferedImage(skalert2);
 					BufferedImage mittBilde2 = toBufferedImage(skalert);
-					File fikset = new File("bilder" + File.separatorChar + "fikset" + b.getBoligNr()  + ".png");
+					File fikset = new File("bilder" + File.separatorChar + "fikset" + b.getBildefilnavn());
 					ImageIO.write(mittBilde2, "png",fikset);
-					//BufferedImage mittBilde3 = ImageIO.read(new File("bilder\\fikset" + b.getBoligNr()  + ".png"));
-					ImageIcon bilder = new ImageIcon("bilder" +  File.separatorChar + "fikset" + b.getBoligNr()  + ".png");
+					//BufferedImage mittBilde3 = ImageIO.read(new File("bilder\\fikset" + b.getBildefilnavn()));
+					ImageIcon bilder = new ImageIcon("bilder" +  File.separatorChar + "fikset" + b.getBildefilnavn());
 					test = new JButton(bilder);
 					test.addActionListener(new ActionListener()
 					{
@@ -427,11 +427,11 @@ public class Boligpanel extends JPanel
 						{
 							if(mittBilde1.getWidth() > 800 || mittBilde1.getHeight() > 600)
 							{
-								Bildevindu vindu = new Bildevindu(skalert2);
+								Bildevindu bv = new Bildevindu(skalert2);
 							}
 							else
 							{
-								Bildevindu vindu = new Bildevindu(mittBilde1);
+								Bildevindu bv = new Bildevindu(mittBilde1);
 							}
 						}
 						
