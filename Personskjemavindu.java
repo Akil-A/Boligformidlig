@@ -40,15 +40,6 @@ public class Personskjemavindu extends JFrame
     	register = br;
     	boligvinduet = bsv;
     	lagVindu();
-    }
-
-
-    public Personskjemavindu(Boligregister br, Boligskjemavindu bsv)
-    {
-    	super("Registrer utleier");
-    	register = br;
-    	boligvinduet = bsv;
-    	lagVindu();
         
         uLagre.setVisible(false);
         bLagre.setVisible(false);
@@ -59,6 +50,20 @@ public class Personskjemavindu extends JFrame
         utleier.setSelected(true);
         utleier.setEnabled(false);
         boligsoker.setEnabled(false);
+    }
+
+
+    public Personskjemavindu(Boligregister br, Personpanel pl)
+    {
+        super("Registrer person");
+        register = br;
+        this.pl = pl;
+        lagVindu();
+        
+        uLagre.setVisible(false);
+        bLagre.setVisible(false);
+        uSlett.setVisible(false);
+        bSlett.setVisible(false);
     }
 
     public Personskjemavindu(Boligregister br, Personpanel pl, Person p)
