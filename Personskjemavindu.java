@@ -1,4 +1,3 @@
-
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -44,17 +43,22 @@ public class Personskjemavindu extends JFrame
     }
 
 
-    public Personskjemavindu(Boligregister br, Personpanel pl)
+    public Personskjemavindu(Boligregister br, Boligskjemavindu bsv)
     {
-        super("Registrer person");
-        register = br;
-        this.pl = pl;
-        lagVindu();
+    	super("Registrer utleier");
+    	register = br;
+    	boligvinduet = bsv;
+    	lagVindu();
         
         uLagre.setVisible(false);
         bLagre.setVisible(false);
         uSlett.setVisible(false);
         bSlett.setVisible(false);
+        uRegBolig.setVisible(false);
+        
+        utleier.setSelected(true);
+        utleier.setEnabled(false);
+        boligsoker.setEnabled(false);
     }
 
     public Personskjemavindu(Boligregister br, Personpanel pl, Person p)
@@ -415,249 +419,4 @@ public class Personskjemavindu extends JFrame
         gc.gridx = 0;
         gc.gridy = 16;
         gc.gridwidth = 4;
-        c.add(utleierpanel, gc);
-        c.add(boligsokerpanel, gc);
-
-        gcUp.anchor = GridBagConstraints.CENTER;
-        gcUp.gridwidth = 2;
-        gcUp.gridy = 17;
-        c.add(avbryt, gcUp);
-
-        setSize(700, 600);
-        setLocationRelativeTo(null);
-        setVisible( true);
-    }
-
-    private class SjekkboksLytter implements ChangeListener
-    {
-        public void stateChanged(ChangeEvent e)
-        {
-            if(utleier.isSelected())
-            {
-                utleierpanel.setVisible(true);
-                boligsokerpanel.setVisible(false);
-            }
-            else if(boligsoker.isSelected())
-            {
-                utleierpanel.setVisible(false);
-                boligsokerpanel.setVisible(true);
-            }
-        }
-    }
-
-    public boolean erTom( String s )
-    {
-        return s.equals("");
-    }
-
-    public boolean erTall( String s )
-    {
-        if (erTom(s))
-            return true;
-
-        try
-        {
-            Integer.parseInt( s );
-            return true;
-        }
-        catch( Exception e )
-        {
-            return false;
-        }
-    }
-
-    private class Lytter implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            if (e.getSource() == avbryt)
-            {
-                dispose();
-            }
-            else if(e.getSource() == uRegBolig)
-            {
-                //Boligskjemavindu bsv = new Boligskjemavindu(register);
-            }
-            else
-            {
-                String feilmelding = "";
-                String feilmelding1 = "";
-
-                String fornavn = fornavnfelt.getText();
-                String etternavn = etternavnfelt.getText();
-                String email = emailfelt.getText();
-                String adresse = adressefelt.getText();
-                String postnr = postnrfelt.getText();
-                String poststed = poststedfelt.getText();
-                String telefon = telefonfelt.getText();
-                String yrke = yrkefelt.getText();
-                boolean butleier = utleier.isSelected();
-                boolean bboligsoker = boligsoker.isSelected();
-                String firma = firmafelt.getText();
-                String togst = beliggenhet.getText(); // endre navn
-                String antpersoner = antPersonerfelt.getText();
-                String frastr = fraStorrelsefelt.getText();
-                String tilstr = tilStorrelsefelt.getText();
-                String antrom = antRomfelt.getText();
-                String pris = utleieprisfelt.getText();
-                String byggeaar = byggeaarfelt.getText();
-                boolean bhusdyr = husdyr.isSelected();
-                boolean bbalkong = balkong.isSelected();
-                boolean broyker = royker.isSelected();
-                boolean bhage = hage.isSelected();
-                boolean bheis = heis.isSelected();
-                boolean bparkering = parkering.isSelected();
-                boolean benebolig = enebolig.isSelected();
-                boolean brekkehus = rekkehus.isSelected();
-                boolean bleilighet = leilighet.isSelected();
-
-
-                if (erTom(fornavn) || erTom(etternavn) || erTom(adresse) || erTom(postnr) || erTom(poststed) || erTom(telefon))
-                    feilmelding += "Du maa fylle inn alle felter som er merket med stjerne.\n\n\n";
-
-                if (!erTall(postnr))
-                {
-                    feilmelding1 += "Postnr\n";
-                }
-
-                if (butleier)
-                {
-                    // validering for utleier hvis det trengs
-                }
-                else if (bboligsoker)
-                {
-                        if (!erTom(antpersoner) && !erTall(antpersoner))
-                            feilmelding1 += "Antall personer\n";
-                        if  (!erTom(frastr) && !erTall(frastr))
-                            feilmelding1 += "Fra storrelse\n";
-                        if (!erTom(tilstr) && !erTall(tilstr))
-                            feilmelding1 += "Til storrelse\n";
-                        if (!erTom(antrom) && !erTall(antrom))
-                            feilmelding1 += "Antall rom\n";
-                        if(!erTom(pris) && !erTall(pris))
-                            feilmelding1 += "Utleiepris\n";
-                        if(!erTom(byggeaar) && !erTall(byggeaar))
-                            feilmelding1 += "Byggeaar\n.";
-                }
-                String s = "";
-                if(!erTom(feilmelding1))
-                {
-                    s = "Feltene som er nevnt nedenfor maa inneholde tall, vennligst rett disse feltene:\n\n";
-                    s+=feilmelding1;
-                }
-
-                if (!erTom(feilmelding) || !erTom(s))
-                {
-                        JOptionPane.showMessageDialog(null, feilmelding + s, "Problem",
-                                JOptionPane.PLAIN_MESSAGE);
-                        return;
-                }
-
-
-
-
-                if (bboligsoker)
-                {
-                    Boligsoker b;
-
-                    if (e.getSource() == bRegPerson)
-                        b = new Boligsoker(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
-                    else
-                    {
-                        b = (Boligsoker)personen;
-                        b.setFornavn(fornavn);
-                        b.setEtternavn(etternavn);
-                        b.setAdresse(adresse);
-                        b.setPostnr(Integer.parseInt(postnr));
-                        b.setPoststed(poststed);
-                        b.setTelefon(telefon);
-                        b.setEmail(email);
-                    }
-
-
-                    if (!erTom(antpersoner))
-                        b.setAntallPersoner(Integer.parseInt(antpersoner));
-                    if (!erTom(frastr))
-                        b.setFraStorrelse(Integer.parseInt(frastr));
-                    if (!erTom(tilstr))
-                        b.setTilStorrelse(Integer.parseInt(tilstr));
-                    if (!erTom(antrom))
-                        b.setAntallRom(Integer.parseInt(antrom));
-                    if (!erTom(pris))
-                        b.setUtleiepris(Integer.parseInt(pris));
-
-
-                    b.setTogst(togst); // endre navn
-                    b.setHusdyr(bhusdyr);
-                    b.setBalkong(bbalkong);
-                    b.setRoyker(broyker);
-                    b.setHage(bhage);
-                    b.setHeis(bheis);
-                    b.setParkering(bparkering);
-                    b.setEnebolig(benebolig);
-                    b.setRekkehus(brekkehus);
-                    b.setLeilighet(bleilighet);
-                    b.setYrke(yrke);
-
-                    if (e.getSource() == bRegPerson)
-                    {
-                        register.settInnPerson(b);
-                        
-                        if (pl != null)
-                        	pl.addBoligsoker(b);
-                    }
-
-                    if (pl != null)
-                    	pl.oppdaterBoligsokerliste();
-                }
-                else if (butleier)
-                {
-                    Utleier u;
-
-                    if(e.getSource() == uRegPerson)
-                        u = new Utleier(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
-                    else
-                    {
-                        u = (Utleier)personen;
-                        u.setFornavn(fornavn);
-                        u.setEtternavn(etternavn);
-                        u.setAdresse(adresse);
-                        u.setPostnr(Integer.parseInt(postnr));
-                        u.setPoststed(poststed);
-                        u.setTelefon(telefon);
-                        u.setEmail(email);
-                    }
-
-                    u.setFirma(firma);
-
-                    if (e.getSource() == uRegPerson)
-                    {
-                        register.settInnPerson(u);
-                        
-                        if (pl != null)
-                        	pl.addUtleier(u);
-                    }
-
-                    if (pl != null)
-                    	pl.oppdaterUtleierliste();
-                    
-                    if (boligvinduet != null)
-                    	boligvinduet.oppdaterUtleierliste();
-                }
-                
-                dispose();
-
-
-                if(e.getSource() == uSlett)
-                {
-                    int personNr = personen.getPersonNr();
-                    register.slettPerson(personNr);
-                    pl.slettPerson(personen);
-                    pl.oppdaterUtleierliste();
-                }
-            }
-        }
-    }
-}
-    
-   
+        
