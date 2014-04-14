@@ -4,24 +4,30 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Boligskjemavindu extends JFrame
 {
 	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
-							liggerietasje, bildeSti;
+							liggerietasje, bildeSti,navn;
 	private JCheckBox harkjeller, hargarasje, harvaskeri;
 	private CLytter clytter;
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
-	private JButton lagre, avbryt, velgBilde, fjernBilde;
+	private JButton lagre, avbryt, velgBilde, fjernBilde,nyUtleier;
 	private Boligpanel boligpanelet;
 	private Boligregister registret;
+	private File bildet;
 	
 	public Boligskjemavindu(Boligregister br)
 	{
@@ -101,12 +107,14 @@ public class Boligskjemavindu extends JFrame
         avbryt.addActionListener(lytter);
         velgBilde = new JButton("Velg bilde");
         velgBilde.addActionListener(lytter);
+        navn = new JTextField(50);
+        navn.setVisible(false);
         bildeSti = new JTextField(15);
         bildeSti.setEditable(false);
         fjernBilde = new JButton("Fjern bilde");
         fjernBilde.addActionListener(lytter);
-        
-        
+        nyUtleier = new JButton("Registrer utleier");
+        nyUtleier.addActionListener(lytter);
         
 		JPanel velgBildePanel = new JPanel();
 		velgBildePanel.add(velgBilde);
@@ -115,9 +123,8 @@ public class Boligskjemavindu extends JFrame
         
         
         
-        utleiere = new JComboBox(registret.getUtleiere().toArray());
-        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", 0, "", "", ""), 0);
-        utleiere.setSelectedIndex(0);
+		oppdaterUtleierliste();
+        
 		
         
 		
@@ -152,6 +159,8 @@ public class Boligskjemavindu extends JFrame
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
 		toppanel.add(utleiere, gc);
+		gc.gridx = 2;
+		toppanel.add(nyUtleier, gc);
 		gc.anchor = GridBagConstraints.EAST;
 		gc.gridwidth = 1;
 		
@@ -352,6 +361,19 @@ public class Boligskjemavindu extends JFrame
 			return false;
 		}
 	}
+	
+	private void visMelding(String meldingen, String tittel)
+	{
+		JOptionPane.showMessageDialog( null, meldingen, tittel, JOptionPane.PLAIN_MESSAGE);
+	}
+
+
+	public void oppdaterUtleierliste()
+	{
+		utleiere = new JComboBox(registret.getUtleiere().toArray());
+        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", 0, "", "", ""), 0);
+        utleiere.setSelectedIndex(0);
+	}
     
     private class Lytter implements ActionListener
     {
@@ -437,6 +459,26 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setKjeller(bkjeller);
 	            	
+	            	if (bildet != null)
+	            	{
+	            		try
+						{
+							BufferedImage utbilde = ImageIO.read(bildet);
+							
+							File utfil = new File("bilder" + File.separator + bildet.getName());
+							
+							String filnavn = bildet.getName();
+							String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
+							
+							ImageIO.write(utbilde, format, utfil);
+							b.setBildefilnavn(filnavn);
+						}
+						catch (IOException e1)
+						{
+							visMelding(e1.getMessage(), "Feil");
+						}
+	            	}
+	            	
 	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            else if (brekkehus)
@@ -504,6 +546,26 @@ public class Boligskjemavindu extends JFrame
     				boligpanelet.listBoliger(false);
     			
     			dispose();
+    		}
+    		else if(e.getSource() == velgBilde)
+    		{
+    			JFileChooser filvelger = new JFileChooser();
+    			filvelger.setAcceptAllFileFilterUsed(false);
+    			FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, GIF og PNG-filer", "jpg", "jpeg", "gif", "png");
+    			filvelger.setFileFilter(filter);
+    			
+    			int resultat = filvelger.showOpenDialog(null);
+    			
+    			if (resultat == JFileChooser.APPROVE_OPTION)
+    			{
+    				bildet = filvelger.getSelectedFile();
+    				bildeSti.setText(bildet.getPath());
+    				navn.setText(bildet.getName());
+    			}
+    		}
+    		else if(e.getSource() == nyUtleier)
+    		{
+    			Personskjemavindu psv1 = new Personskjemavindu(registret, Boligskjemavindu.this);
     		}
     		else if(e.getSource() == avbryt)
     		{
