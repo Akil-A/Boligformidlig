@@ -1,4 +1,3 @@
-package prosjekttest;
 
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
