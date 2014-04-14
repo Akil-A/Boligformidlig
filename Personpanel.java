@@ -2,8 +2,6 @@
  * Laget av Akil og Joakim
  */
 
-package prosjekttest;
-
 
 import java.awt.*;
 import java.awt.event.*;
