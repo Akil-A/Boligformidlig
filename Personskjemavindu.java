@@ -1,4 +1,3 @@
-
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -19,7 +18,7 @@ public class Personskjemavindu extends JFrame
             firmafelt, testfelt, byggeaarfelt;
     private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet,
             fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test, byggeaar;
-    private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, avbryt;
+    private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, uAvbryt, bAvbryt;
     private JCheckBox utleier, boligsoker, husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
     private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
@@ -103,10 +102,19 @@ public class Personskjemavindu extends JFrame
             tilStorrelsefelt.setText(tilStorrelse);
             yrkefelt.setText(bso.getYrke());
             utleieprisfelt.setText(utleiepris);
+            byggeaarfelt.setText(bso.getByggeaar());
+            beliggenhetfelt.setText(bso.getTogst());
 
             royker.setSelected(bso.isRoyker());
             husdyr.setSelected(bso.isHusdyr());
-
+            balkong.setSelected(bso.isBalkong());
+            hage.setSelected(bso.isHage());
+            heis.setSelected(bso.isHage());
+            parkering.setSelected(bso.isParkering());
+            enebolig.setSelected(bso.isEnebolig());
+            rekkehus.setSelected(bso.isRekkehus());
+            leilighet.setSelected(bso.isLeilighet());
+            
 
             if (bso.getSivilstatus() != null && !bso.getSivilstatus().isEmpty())
                 sivilstatus.setSelectedItem(bso.getSivilstatus());
@@ -214,8 +222,10 @@ public class Personskjemavindu extends JFrame
         uLagre.addActionListener(lytter);
         bLagre = new JButton("Lagre");
         bLagre.addActionListener(lytter);
-        avbryt = new JButton("Avbryt");
-        avbryt.addActionListener(lytter);
+        uAvbryt = new JButton("Avbryt");
+        uAvbryt.addActionListener(lytter);;
+        bAvbryt = new JButton("Avbryt");
+        bAvbryt.addActionListener(lytter);
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(utleier);
@@ -321,7 +331,11 @@ public class Personskjemavindu extends JFrame
         gc.gridy = 15;
         c.add(typepanel, gc);
 
-        /******* UTLEIERPANEL ********/
+        
+        
+        
+        
+        /************ UTLEIERPANEL START *************/
         utleierpanel = new JPanel(new GridBagLayout());
         GridBagConstraints gcUp = new GridBagConstraints();
         gcUp.anchor = GridBagConstraints.WEST;
@@ -340,11 +354,16 @@ public class Personskjemavindu extends JFrame
         gcUp.gridy = 3;
         gcUp.insets.top = 10;
         utleierpanel.add(ulpKnapper, gcUp);
+        
+        gcUp.gridy = 4;
+        gcUp.insets.left = 20;
+        utleierpanel.add(uAvbryt, gcUp);
+        /************ UTLEIERPANEL SLUTT *************/
 
 
 
 
-        /******* BOLIGSOKERPANEL ********/
+        /************ BOLIGSOKERPANEL START *************/
         boligsokerpanel = new JPanel(new GridBagLayout());
         GridBagConstraints gcBsp = new GridBagConstraints();
         gcBsp.anchor = GridBagConstraints.WEST;
@@ -388,23 +407,24 @@ public class Personskjemavindu extends JFrame
         gcBsp.gridx = 3;
         boligsokerpanel.add(utleieprisfelt, gcBsp);
 
-        gcBsp.insets.left = 0;
         gcBsp.gridy = 3;
+
+        gcBsp.insets.left = 0;
         gcBsp.gridx = 0;
         boligsokerpanel.add(byggeaar, gcBsp);
         gcBsp.gridx = 1;
         boligsokerpanel.add(byggeaarfelt, gcBsp);
-
         gcBsp.insets.left = 20;
         gcBsp.gridx = 2;
         boligsokerpanel.add(yrke, gcBsp);
         gcBsp.gridx = 3;
         boligsokerpanel.add(yrkefelt, gcBsp);
 
+        gcBsp.gridy = 4;
+
         gcBsp.insets.left = 0;
         gcBsp.gridx = 0;
         gcBsp.gridwidth = 4;
-        gcBsp.gridy = 4;
         gcBsp.insets.top = 5;
         boligsokerpanel.add(bspKrav1, gcBsp);
 
@@ -418,6 +438,12 @@ public class Personskjemavindu extends JFrame
         gcBsp.insets.top = 15;
         gcBsp.gridy = 7;
         boligsokerpanel.add(bspKnapper, gcBsp);
+        
+        gcBsp.insets.top = 15;
+        gcBsp.gridy = 8;
+        gcBsp.insets.left = 5;
+        boligsokerpanel.add(bAvbryt, gcBsp);
+        /************ BOLIGSOKERPANEL SLUTT *************/
 
         utleierpanel.setVisible(false);
         boligsokerpanel.setVisible(false);
@@ -427,11 +453,6 @@ public class Personskjemavindu extends JFrame
         gc.gridwidth = 4;
         c.add(utleierpanel, gc);
         c.add(boligsokerpanel, gc);
-
-        gcUp.anchor = GridBagConstraints.CENTER;
-        gcUp.gridwidth = 2;
-        gcUp.gridy = 17;
-        c.add(avbryt, gcUp);
 
         setSize(700, 600);
         setLocationRelativeTo(null);
@@ -485,9 +506,13 @@ public class Personskjemavindu extends JFrame
     {
         public void actionPerformed(ActionEvent e)
         {
-            if (e.getSource() == avbryt)
+            if (e.getSource() == uAvbryt)
             {
                 dispose();
+            }
+            if(e.getSource() == bAvbryt)
+            {
+            	dispose();
             }
             else if(e.getSource() == uRegBolig)
             {
@@ -533,10 +558,8 @@ public class Personskjemavindu extends JFrame
                 String poststed = poststedfelt.getText();
                 String telefon = telefonfelt.getText();
                 String yrke = yrkefelt.getText();
-                boolean butleier = utleier.isSelected();
-                boolean bboligsoker = boligsoker.isSelected();
                 String firma = firmafelt.getText();
-                String togst = beliggenhet.getText(); // endre navn
+                String togst = beliggenhetfelt.getText(); // endre navn
                 String antpersoner = antPersonerfelt.getText();
                 String frastr = fraStorrelsefelt.getText();
                 String tilstr = tilStorrelsefelt.getText();
@@ -552,15 +575,13 @@ public class Personskjemavindu extends JFrame
                 boolean benebolig = enebolig.isSelected();
                 boolean brekkehus = rekkehus.isSelected();
                 boolean bleilighet = leilighet.isSelected();
+                boolean butleier = utleier.isSelected();
+                boolean bboligsoker = boligsoker.isSelected();
 
 
                 if (erTom(fornavn) || erTom(etternavn) || erTom(adresse) || erTom(postnr) || erTom(poststed) || erTom(telefon))
-                    feilmelding += "Du maa fylle inn alle felter som er merket med stjerne.\n\n\n";
+                    feilmelding += "Du maa fylle inn alle felter som er merket med stjerne.\n";
 
-                if (!erTall(postnr))
-                {
-                    feilmelding1 += "Postnr\n";
-                }
 
                 if (butleier)
                 {
@@ -568,24 +589,26 @@ public class Personskjemavindu extends JFrame
                 }
                 else if (bboligsoker)
                 {
-                        if (!erTom(antpersoner) && !erTall(antpersoner))
-                            feilmelding1 += "Antall personer\n";
-                        if  (!erTom(frastr) && !erTall(frastr))
-                            feilmelding1 += "Fra storrelse\n";
-                        if (!erTom(tilstr) && !erTall(tilstr))
-                            feilmelding1 += "Til storrelse\n";
-                        if (!erTom(antrom) && !erTall(antrom))
-                            feilmelding1 += "Antall rom\n";
-                        if(!erTom(pris) && !erTall(pris))
-                            feilmelding1 += "Utleiepris\n";
-                        if(!erTom(byggeaar) && !erTall(byggeaar))
-                            feilmelding1 += "Byggeaar\n.";
+                    if (!erTall(postnr))
+                        feilmelding1 += "Postnr\n";
+                    if (!erTom(antpersoner) && !erTall(antpersoner))
+                        feilmelding1 += "Antall personer\n";
+                    if  (!erTom(frastr) && !erTall(frastr))
+                        feilmelding1 += "Fra storrelse\n";
+                    if (!erTom(tilstr) && !erTall(tilstr))
+                        feilmelding1 += "Til storrelse\n";
+                    if (!erTom(antrom) && !erTall(antrom))
+                        feilmelding1 += "Antall rom\n";
+                    if(!erTom(pris) && !erTall(pris))
+                        feilmelding1 += "Utleiepris\n";
+                    if(!erTom(byggeaar) && !erTall(byggeaar))
+                        feilmelding1 += "Byggeaar\n";
                 }
                 String s = "";
                 if(!erTom(feilmelding1))
                 {
-                    s = "Feltene som er nevnt nedenfor maa inneholde tall, vennligst rett disse feltene:\n\n";
-                    s+=feilmelding1;
+                    s = "\n\nFeltene som er nevnt nedenfor maa inneholde tall, vennligst rett disse feltene:\n\n";
+                    s += feilmelding1;
                 }
 
                 if (!erTom(feilmelding) || !erTom(s))
@@ -629,17 +652,24 @@ public class Personskjemavindu extends JFrame
                         b.setUtleiepris(Integer.parseInt(pris));
 
 
-                    b.setTogst(togst); // endre navn
+              
                     b.setHusdyr(bhusdyr);
                     b.setBalkong(bbalkong);
+                    b.setParkering(bparkering);
                     b.setRoyker(broyker);
                     b.setHage(bhage);
                     b.setHeis(bheis);
-                    b.setParkering(bparkering);
                     b.setEnebolig(benebolig);
-                    b.setRekkehus(brekkehus);
                     b.setLeilighet(bleilighet);
+                    b.setRekkehus(brekkehus);            
+                    b.setTogst(togst); // endre navn
+                    b.setByggeaar(byggeaar);
                     b.setYrke(yrke);
+                    if(sivilstatus.getSelectedIndex() != 0)
+                    b.setSivilstatus(String.valueOf(sivilstatus.getSelectedItem()));
+                    if(arbeidsforhold.getSelectedIndex() != 0)
+                    b.setArbeidsforhold(String.valueOf(arbeidsforhold.getSelectedItem()));
+
 
                     if (e.getSource() == bRegPerson)
                     {
