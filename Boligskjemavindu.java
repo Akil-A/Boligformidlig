@@ -21,7 +21,7 @@ public class Boligskjemavindu extends JFrame
 	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
-							liggerietasje, bildeSti,navn;
+							liggerietasje, bildeSti;
 	private JCheckBox harkjeller, hargarasje, harvaskeri;
 	private CLytter clytter;
 	private Lytter lytter;
@@ -110,8 +110,6 @@ public class Boligskjemavindu extends JFrame
         avbryt.addActionListener(lytter);
         velgBilde = new JButton("Velg bilde");
         velgBilde.addActionListener(lytter);
-        navn = new JTextField(50);
-        navn.setVisible(false);
         bildeSti = new JTextField(15);
         bildeSti.setEditable(false);
         fjernBilde = new JButton("Fjern bilde");
@@ -538,6 +536,26 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setKjeller(bkjeller);
 	            	
+	            	if (bildet != null)
+	            	{
+	            		try
+						{
+							BufferedImage utbilde = ImageIO.read(bildet);
+							
+							File utfil = new File("bilder" + File.separator + bildet.getName());
+							
+							String filnavn = bildet.getName();
+							String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
+							
+							ImageIO.write(utbilde, format, utfil);
+							b.setBildefilnavn(filnavn);
+						}
+						catch (IOException e1)
+						{
+							visMelding(e1.getMessage(), "Feil");
+						}
+	            	}
+	            	
 	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            else if (bleilighet)
@@ -566,6 +584,26 @@ public class Boligskjemavindu extends JFrame
 	            	b.setGarasje(bgarasje);
 	            	b.setVaskeri(bvaskeri);
 	            	
+	            	if (bildet != null)
+	            	{
+	            		try
+						{
+							BufferedImage utbilde = ImageIO.read(bildet);
+							
+							File utfil = new File("bilder" + File.separator + bildet.getName());
+							
+							String filnavn = bildet.getName();
+							String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
+							
+							ImageIO.write(utbilde, format, utfil);
+							b.setBildefilnavn(filnavn);
+						}
+						catch (IOException e1)
+						{
+							visMelding(e1.getMessage(), "Feil");
+						}
+	            	}
+	            	
 	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            
@@ -589,8 +627,7 @@ public class Boligskjemavindu extends JFrame
     			if (resultat == JFileChooser.APPROVE_OPTION)
     			{
     				bildet = filvelger.getSelectedFile();
-    				bildeSti.setText(bildet.getPath());
-    				navn.setText(bildet.getName());
+    				bildeSti.setText(bildet.getName());
     			}
     		}
     		else if(e.getSource() == utleiere && ((JComboBox)e.getSource()).getSelectedIndex() == 1)
