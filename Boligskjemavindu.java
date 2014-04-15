@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,7 +26,7 @@ public class Boligskjemavindu extends JFrame
 	private CLytter clytter;
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
-	private JButton lagre, avbryt, velgBilde, fjernBilde,nyUtleier;
+	private JButton lagre, avbryt, velgBilde, fjernBilde;
 	private Boligpanel boligpanelet;
 	private Boligregister registret;
 	private File bildet;
@@ -80,6 +82,7 @@ public class Boligskjemavindu extends JFrame
 	
 	private void lagVindu()
 	{
+		/********* DEFINISJON AV KOMPONENTER START *********/
         clytter = new CLytter();
         lytter = new Lytter();
         tittel = new JTextField(25);
@@ -113,19 +116,24 @@ public class Boligskjemavindu extends JFrame
         bildeSti.setEditable(false);
         fjernBilde = new JButton("Fjern bilde");
         fjernBilde.addActionListener(lytter);
-        nyUtleier = new JButton("Registrer utleier");
-        nyUtleier.addActionListener(lytter);
+		/********* DEFINISJON AV KOMPONENTER SLUTT *********/
         
 		JPanel velgBildePanel = new JPanel();
 		velgBildePanel.add(velgBilde);
 		velgBildePanel.add(bildeSti);
 		velgBildePanel.add(fjernBilde);
         
-        
-        
-		oppdaterUtleierliste();
-        
 		
+		
+		
+		/***** UTFYLLING AV UTLEIERBOKS START *****/
+		utleiere = new JComboBox<>();
+		utleiere.addActionListener(lytter);
+		oppdaterUtleierliste(null);
+		/***** UTFYLLING AV UTLEIERBOKS SLUTT *****/
+		
+        
+        
         
 		
 		Container c = getContentPane();
@@ -137,37 +145,34 @@ public class Boligskjemavindu extends JFrame
 		JPanel toppanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		
-		gc.anchor = GridBagConstraints.EAST;
 		gc.insets.left = 5;
-		
 		gc.gridy = 0;
 		
 		gc.gridx = 0;
+		gc.anchor = GridBagConstraints.EAST;
 		toppanel.add(new JLabel("* Annonsetittel"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
 		toppanel.add(tittel, gc);
-		gc.anchor = GridBagConstraints.EAST;
 		gc.gridwidth = 1;
 		
 		gc.gridy = 1;
 		
 		gc.gridx = 0;
+		gc.anchor = GridBagConstraints.EAST;
 		toppanel.add(new JLabel("* Utleier"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
 		toppanel.add(utleiere, gc);
-		gc.gridx = 2;
-		toppanel.add(nyUtleier, gc);
-		gc.anchor = GridBagConstraints.EAST;
 		gc.gridwidth = 1;
 		
 		gc.gridy = 2;
 
 		gc.gridx = 0;
 		gc.insets.bottom = 20;
+		gc.anchor = GridBagConstraints.EAST;
 		toppanel.add(new JLabel("Bilde"), gc);
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
@@ -328,25 +333,27 @@ public class Boligskjemavindu extends JFrame
         setLocationRelativeTo(null);
         setVisible( true );
 	}
+
+
+	// FYLLER UT UTLEIERBOKSEN
+	public void oppdaterUtleierliste(Object valgtUtleier)
+	{
+		utleiere.removeAllItems();
+		for (Utleier u : registret.getUtleiere())
+		{
+			utleiere.addItem(u);
+		}
+        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", 0, "", "", ""), 0);
+        utleiere.insertItemAt(new Utleier("<Ny utleier ...>", "", "", 0, "", "", ""), 1);
+        
+        if (valgtUtleier == null)
+        	utleiere.setSelectedIndex(0);
+        else
+        	utleiere.setSelectedItem(valgtUtleier);
+	}
 	
-    private class CLytter implements ChangeListener
-    {
-        public void stateChanged(ChangeEvent e)
-        {
-            if (enebolig.isSelected() || rekkehus.isSelected())
-            {
-            	eneboligrekkehusfelt.setVisible(true);
-            	leilighetfelt.setVisible(false);
-            }
-            else if (leilighet.isSelected())
-            {
-            	eneboligrekkehusfelt.setVisible(false);
-            	leilighetfelt.setVisible(true);
-            }
-        }
-    }
-    
-	public boolean erTom( String s )
+	
+    public boolean erTom( String s )
 	{
 		return s.equals("");
 	}
@@ -371,16 +378,25 @@ public class Boligskjemavindu extends JFrame
 	{
 		JOptionPane.showMessageDialog( null, meldingen, tittel, JOptionPane.PLAIN_MESSAGE);
 	}
-
-
-	public void oppdaterUtleierliste()
-	{
-		utleiere = new JComboBox(registret.getUtleiere().toArray());
-        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", 0, "", "", ""), 0);
-        utleiere.setSelectedIndex(0);
-	}
     
-    private class Lytter implements ActionListener
+    private class CLytter implements ChangeListener
+	{
+	    public void stateChanged(ChangeEvent e)
+	    {
+	        if (enebolig.isSelected() || rekkehus.isSelected())
+	        {
+	        	eneboligrekkehusfelt.setVisible(true);
+	        	leilighetfelt.setVisible(false);
+	        }
+	        else if (leilighet.isSelected())
+	        {
+	        	eneboligrekkehusfelt.setVisible(false);
+	        	leilighetfelt.setVisible(true);
+	        }
+	    }
+	}
+
+	private class Lytter implements ActionListener
     {
     	public void actionPerformed(ActionEvent e)
     	{
@@ -407,8 +423,9 @@ public class Boligskjemavindu extends JFrame
     			boolean bgarasje = hargarasje.isSelected();
     			boolean bvaskeri = harvaskeri.isSelected();
     			
-    			if (utleiere.getSelectedIndex() == 0 || erTom(stittel) || erTom(sadresse) || spostnr.length() != 4 || 
-    					erTom(spoststed) || erTom(sboareal) || erTom(sbyggeaar) || erTom(spris))
+    			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || erTom(stittel) ||
+    					erTom(sadresse) || spostnr.length() != 4 || erTom(spoststed) || erTom(sboareal) ||
+    					erTom(sbyggeaar) || erTom(spris))
     				feilmelding += "- Du maa fylle inn alle paakrevde felter.\n";
     			
     			if (!erTall(spostnr) || !erTall(sboareal) || 
@@ -430,7 +447,7 @@ public class Boligskjemavindu extends JFrame
     			
 	            if (!erTom(feilmelding))
 	            {	            	
-	            	JOptionPane.showMessageDialog( null, "Vennligst rett følgende feil før du går videre:\n\n" + feilmelding, "Problem",
+	            	JOptionPane.showMessageDialog( null, "Vennligst rett folgende feil for du gaar videre:\n\n" + feilmelding, "Problem",
 	            			JOptionPane.PLAIN_MESSAGE);
 	            	return;
 	            }
@@ -449,6 +466,9 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	if (!erTom(sbyggeaar))
 	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	
+	            	if (!erTom(stogst))
+	            		b.setTogst(stogst);
 	            	
 	            	
 	            	// Under: enebolig-spesifikke felt
@@ -501,6 +521,9 @@ public class Boligskjemavindu extends JFrame
 	            	if (!erTom(sbyggeaar))
 	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
+	            	if (!erTom(stogst))
+	            		b.setTogst(stogst);
+	            	
 	            	
 	            	// Under: rekkehus-spesifikke felt
 	            	
@@ -532,6 +555,8 @@ public class Boligskjemavindu extends JFrame
 	            	if (!erTom(sbyggeaar))
 	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
+	            	if (!erTom(stogst))
+	            		b.setTogst(stogst);
 	            	
 	            	// Under: leilighet-spesifikke felt
 	            	
@@ -568,9 +593,11 @@ public class Boligskjemavindu extends JFrame
     				navn.setText(bildet.getName());
     			}
     		}
-    		else if(e.getSource() == nyUtleier)
+    		else if(e.getSource() == utleiere && ((JComboBox)e.getSource()).getSelectedIndex() == 1)
     		{
     			Personskjemavindu psv1 = new Personskjemavindu(registret, Boligskjemavindu.this);
+    			psv1.setSize(550, 350);
+    			psv1.setLocationRelativeTo(null);
     		}
     		else if(e.getSource() == avbryt)
     		{
