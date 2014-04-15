@@ -133,7 +133,7 @@ public class Boligskjemavindu extends JFrame
         
 		
 
-		/***** toppanel start *****/
+		/********* TOPPANEL START *********/
 		JPanel toppanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		
@@ -220,7 +220,10 @@ public class Boligskjemavindu extends JFrame
 		toppanel.add(new JLabel("* Pris kr/mnd"), gc);
 		gc.gridx = 3;
 		toppanel.add(pris, gc);
-		/***** toppanel slutt *****/
+		/********* TOPPANEL SLUTT *********/
+		
+		
+		
 		
 		
 		gc.anchor = GridBagConstraints.CENTER;
@@ -237,7 +240,9 @@ public class Boligskjemavindu extends JFrame
 		
 		
 		
-		/***** enebolig og rekkehusfelt start *****/
+		
+
+		/********* ENEBOLIG OG REKKEHUSFELT START *********/
 		eneboligrekkehusfelt = new JPanel(new GridBagLayout());
 		GridBagConstraints erGc = new GridBagConstraints();
 
@@ -262,12 +267,12 @@ public class Boligskjemavindu extends JFrame
 		eneboligrekkehusfelt.add(elinje1, erGc);
 		erGc.gridy = 1;
 		eneboligrekkehusfelt.add(elinje2, erGc);
-		/***** enebolig og rekkehusfelt slutt *****/
+		/********* ENEBOLIG OG REKKEHUSFELT SLUTT *********/
 		
 		
 		
-		
-		/***** leilighetfelt start *****/
+
+		/********* LEILIGHETFELT START *********/
 		leilighetfelt = new JPanel(new GridBagLayout());
 		GridBagConstraints lhGc = new GridBagConstraints();
 
@@ -291,7 +296,7 @@ public class Boligskjemavindu extends JFrame
 
 		lhGc.gridy = 1;
 		leilighetfelt.add(llinje2, lhGc);
-		/***** leilighetfelt slutt *****/
+		/********* LEILIGHETFELT SLUTT *********/
 				
 		
 		
