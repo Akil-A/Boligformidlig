@@ -13,7 +13,7 @@ public class Boligpanel extends JPanel
 {
 
 	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,dato,etasje,antetasje,tfra,ttil,postnr,poststed,beliggenhet;
-	private JButton sok, registrer,test;
+	private JButton sok, registrer;
 	private ButtonGroup bgHus;
 	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,ldato,ltype,letasje,lantetasje,ltomt,lbeliggenhet;
 	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
@@ -412,21 +412,22 @@ public class Boligpanel extends JPanel
 				Bolig.add(adresse, gc4);
 				gc4.gridy = 4;
 				Bolig.add(new JButton("Endre annonse"), gc4);
+				
+				
 				try
 				{
 					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
+					
 					Image skalert = mittBilde1.getScaledInstance(90,90, BufferedImage.SCALE_SMOOTH);
-					final Image skalert2 = mittBilde1.getScaledInstance(800,600, BufferedImage.SCALE_SMOOTH);
-					final Image skalert3 = mittBilde1.getScaledInstance(mittBilde1.getWidth(), 600, BufferedImage.SCALE_SMOOTH);
-					final Image skalert4 = mittBilde1.getScaledInstance(800, mittBilde1.getHeight(), BufferedImage.SCALE_SMOOTH);
-					//final BufferedImage mittBildeStor = toBufferedImage(skalert2);
+					
 					BufferedImage mittBilde2 = toBufferedImage(skalert);
+					
 					File fikset = new File("bilder" + File.separatorChar + "fikset" + b.getBildefilnavn());
-					ImageIO.write(mittBilde2, "png",fikset);
-					//BufferedImage mittBilde3 = ImageIO.read(new File("bilder\\fikset" + b.getBildefilnavn()));
-					ImageIcon bilder = new ImageIcon("bilder" +  File.separatorChar + "fikset" + b.getBildefilnavn());
-					test = new JButton(bilder);
-					test.addActionListener(new ActionListener()
+					
+					ImageIO.write(mittBilde2, "png", fikset);
+					
+					JButton bildeknapp = new JButton(new ImageIcon("bilder" +  File.separatorChar + "fikset" + b.getBildefilnavn()));
+					bildeknapp.addActionListener(new ActionListener()
 					{
 						public void actionPerformed(ActionEvent e)
 						{
@@ -434,12 +435,12 @@ public class Boligpanel extends JPanel
 						}
 						
 					});
+					
 					gc4.gridheight = 5;
 					gc4.gridx = 0;
 					gc4.gridy = 0;
 					gc4.insets.right = 10;
-			 	   	Bolig.add(test, gc4);
-					
+			 	   	Bolig.add(bildeknapp, gc4);
 				}
 				catch(IOException ex)
 				{
