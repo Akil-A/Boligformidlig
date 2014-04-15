@@ -1,3 +1,4 @@
+
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -19,7 +20,8 @@ public class Personskjemavindu extends JFrame
     private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet,
             fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test, byggeaar;
     private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, uAvbryt, bAvbryt;
-    private JCheckBox utleier, boligsoker, husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
+    private JCheckBox husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
+    private JRadioButton utleier, boligsoker;
     private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
     private GridBagConstraints gc;
@@ -193,9 +195,9 @@ public class Personskjemavindu extends JFrame
         arbeidsforhold.addItem("Arbeidslos");
         arbeidsforhold.addItem("Pensjonist");
 
-        utleier = new JCheckBox("Utleier");
+        utleier = new JRadioButton("Utleier");
         utleier.addChangeListener(sjekkboksLytter);
-        boligsoker = new JCheckBox("Boligsoker");
+        boligsoker = new JRadioButton("Boligsoker");
         boligsoker.addChangeListener(sjekkboksLytter);
         husdyr = new JCheckBox("Husdyr");
         balkong = new JCheckBox("Balkong");
