@@ -1,0 +1,7 @@
+- Endre annonse
+- Søk gjennom boliger
+- Bildevindu skalerer bildet riktig (bildet skalerer med vinduet?)
+- Kontrollspørsmål når man sletter
+- Inngå kontrakt (leie ut)
+- Søker kan melde interesse for bolig
+- Statistikk
