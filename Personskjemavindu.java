@@ -97,7 +97,9 @@ public class Personskjemavindu extends JFrame
             String fraStorrelse = (bso.getFraStorrelse() == 0) ? "" : bso.getFraStorrelse() + "";
             String tilStorrelse = (bso.getTilStorrelse() == 0) ? "" : bso.getTilStorrelse() + "";
             String utleiepris = (bso.getUtleiepris() == 0) ? "" : bso.getUtleiepris() + "";
-
+            
+            bRegPerson.setVisible(false);
+            
             antRomfelt.setText(antallRom);
             antPersonerfelt.setText(antPersoner);
             fraStorrelsefelt.setText(fraStorrelse);
