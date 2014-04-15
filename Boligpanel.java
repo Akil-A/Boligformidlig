@@ -64,8 +64,10 @@ public class Boligpanel extends JPanel
 			public void focusGained(FocusEvent f)
 			{
 				if(dato.getText().equals("eks: 21/12/2013"))
-				dato.setText("");
-				dato.setForeground(Color.BLACK);
+				{
+					dato.setText("");
+					dato.setForeground(Color.BLACK);
+				}
 			}
 			public void focusLost(FocusEvent f)
 			{
@@ -408,6 +410,8 @@ public class Boligpanel extends JPanel
 				Bolig.add(pris, gc4);
 				gc4.gridy = 3;
 				Bolig.add(adresse, gc4);
+				gc4.gridy = 4;
+				Bolig.add(new JButton("Endre annonse"), gc4);
 				try
 				{
 					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
@@ -427,29 +431,10 @@ public class Boligpanel extends JPanel
 						public void actionPerformed(ActionEvent e)
 						{
 							Bildevindu bv = new Bildevindu(mittBilde1);
-							
-							/*
-							if(mittBilde1.getWidth() > 800 || mittBilde1.getHeight() > 600)
-							{
-								Bildevindu bv = new Bildevindu(skalert2);
-							}
-							else if(mittBilde1.getWidth() < 800 && mittBilde1.getHeight() > 600)
-							{
-								Bildevindu bv = new Bildevindu(skalert3);
-							}
-							else if(mittBilde1.getWidth() > 800 && mittBilde1.getHeight() < 600)
-							{
-								Bildevindu bv = new Bildevindu(skalert4);
-							}
-							else
-							{
-								Bildevindu bv = new Bildevindu(mittBilde1);
-							}
-							*/
 						}
 						
 					});
-					gc4.gridheight = 4;
+					gc4.gridheight = 5;
 					gc4.gridx = 0;
 					gc4.gridy = 0;
 					gc4.insets.right = 10;
