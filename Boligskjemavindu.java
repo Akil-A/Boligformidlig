@@ -29,6 +29,7 @@ public class Boligskjemavindu extends JFrame
 	private JButton lagre, avbryt, velgBilde, fjernBilde;
 	private Boligpanel boligpanelet;
 	private Boligregister registret;
+	private Bolig boligen;
 	private File bildet;
 	
 	public Boligskjemavindu(Boligregister br)
@@ -51,8 +52,12 @@ public class Boligskjemavindu extends JFrame
 		super("Oppdater bolig");
 		registret = br;
 		boligpanelet = bp;
+		boligen = b;
 		lagVindu();
 		
+		tittel.setText(b.getTittel());
+		//utleiere.setSelectedItem();
+		bildeSti.setText(b.getBildefilnavn());
 		adresse.setText(b.getAdresse());
 		postnr.setText(Integer.toString(b.getPostnr()));
 		poststed.setText(b.getPoststed());
@@ -69,14 +74,40 @@ public class Boligskjemavindu extends JFrame
 		if (b instanceof Enebolig)
 		{
 			enebolig.setSelected(true);
+			
+			Enebolig c = (Enebolig)b;
+			
+			String sTomteStr = (c.getTomtestr() == 0) ? "" : c.getTomtestr() + "";
+			String sAntEtasjer = (c.getAntetasjer() == 0) ? "" : c.getAntetasjer() + "";
+			
+			tomtestr.setText(sTomteStr);
+			antetasjer.setText(sAntEtasjer);
+			harkjeller.setSelected(c.isKjeller());
 		}
 		else if (b instanceof Rekkehus)
 		{
 			rekkehus.setSelected(true);
+			
+			Rekkehus c = (Rekkehus)b;
+			
+			String sTomteStr = (c.getTomtestr() == 0) ? "" : c.getTomtestr() + "";
+			String sAntEtasjer = (c.getAntetasjer() == 0) ? "" : c.getAntetasjer() + "";
+			
+			tomtestr.setText(sTomteStr);
+			antetasjer.setText(sAntEtasjer);
+			harkjeller.setSelected(c.isKjeller());
 		}
 		else if (b instanceof Leilighet)
 		{
 			leilighet.setSelected(true);
+			
+			Leilighet c = (Leilighet)b;
+			
+			String sEtasje = (c.getEtasje() == 0) ? "" : c.getEtasje() + "";
+			
+			liggerietasje.setText(sEtasje);
+			hargarasje.setSelected(c.getGarasje());
+			harvaskeri.setSelected(c.getVaskeri());
 		}
 	}
 	
@@ -502,7 +533,10 @@ public class Boligskjemavindu extends JFrame
 						}
 	            	}
 	            	
-	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
+	            	if (boligen != null)
+	            		boligen = b;
+	            	else
+	            		((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            else if (brekkehus)
 	            {
@@ -556,7 +590,10 @@ public class Boligskjemavindu extends JFrame
 						}
 	            	}
 	            	
-	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
+	            	if (boligen != null)
+	            		boligen = b;
+	            	else
+	            		((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            else if (bleilighet)
 	            {
@@ -604,7 +641,10 @@ public class Boligskjemavindu extends JFrame
 						}
 	            	}
 	            	
-	            	((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
+	            	if (boligen != null)
+	            		boligen = b;
+	            	else
+	            		((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
 	            }
 	            
 	            JOptionPane.showMessageDialog( null, "Boligen er registrert.", "Melding",
