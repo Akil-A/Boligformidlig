@@ -1,24 +1,25 @@
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.io.*;
 
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
-	private final String DATAFIL = "register.dta";
+	private String DATAFIL = "register.dta";
 	
 	public Hovedvindu()
 	{
 		super("Boligformidling AS");
 		
 		//tomtRegister();
-		//settInnTestData();
 		
 		lesFil();
-
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
@@ -32,57 +33,94 @@ public class Hovedvindu extends JFrame
 		tabbedPane.addTab("Statistikk", statistikkpanel);
 		
 		Container c = getContentPane();
-		c.add(tabbedPane);
+		c.setLayout(new BorderLayout());
+		c.add(tabbedPane, BorderLayout.CENTER);
+		
+		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+		JLabel lDatafil = new JLabel("Gjeldende datafil: " + DATAFIL);
+		lDatafil.setFont(font);
+		
+		c.add(lDatafil, BorderLayout.SOUTH);
 	}
 	
-	
-	private void settInnTestData()
+	private boolean erLong(String s)
 	{
-		Utleier p = new Utleier("Per", "Hansen", "Kirkegata 6", 3024, "Drammen", "", "12345678");
-		Utleier p2 = new Utleier("Henrik", "Pettersen", "Avisveien 8", 3027, "Drammen", "", "98765432");
-		Boligsoker bo = new Boligsoker("Nils", "Vogt", "Drammensveien 76", 1337, "Sandvika", "", "45678123");
+		try
+		{
+			Long.parseLong(s);
+		}
+		catch(NumberFormatException e)
+		{
+			return false;
+		}
 		
-		Rekkehus r = new Rekkehus("Borggata 12", 3027, "Drammen", 6000);
-		r.setTittel("Hyggelig 3-roms med heis");
-		r.setBoareal(30);
-		r.setAntrom(5);
-		r.setByggeaar(2006);
-		
-		Enebolig e = new Enebolig("Parkveien 16", 3024, "Drammen", 7000);
-		e.setTittel("Nyoppusset og sentral beliggenhet");
-		e.setBoareal(30);
-		e.setAntrom(5);
-		e.setByggeaar(2005);
-		
-		p.settInnBolig(e);
-		p2.settInnBolig(r);
-		br.settInnPerson(p2);
-		br.settInnPerson(p);
-		br.settInnPerson(bo);
+		return true;
 	}
 	
+	private String datafil(boolean ny)
+	{
+		long timestamp = 0;
+		
+		if (ny)
+			timestamp = new Date().getTime();
+		else
+		{
+			File mappen = new File(".");
+			
+			for (String s : mappen.list())
+			{
+				// for hver fil i mappen
+				// sjekk at filnavnet
+				// begynner på "register_"
+				// slutter på ".dta"
+				// og inneholder en long-verdi imellom
+				if (s.length() > 14 &&
+						s.substring(0, 9).equals("register_") &&
+						s.substring(s.length() - 4).equals(".dta") &&
+						erLong(s.substring(9, s.length() - 4)))
+				{
+					long j = Long.parseLong(s.substring(9, s.length() - 4));
+					
+					if (j > timestamp)
+						timestamp = j;
+				}
+			}
+
+			if (timestamp == 0)
+				timestamp = new Date().getTime();
+		}
+		
+		return "register_" + timestamp + ".dta";
+	}
 
 	private void lesFil()
 	{
+		DATAFIL = datafil(false);
+		
 		try ( ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( DATAFIL ) ) )
 		{
 			br = (Boligregister) innfil.readObject();
-			visMelding( "Register er hentet fra " + DATAFIL );
+			visMelding( "Data er hentet fra fil." );
 		}
 		catch(ClassNotFoundException cnfe)
 		{
-			visMelding( cnfe.getMessage() + "\n\nOppretter tomt register." );
+			visMelding( "Feil:\n\n" + cnfe.getMessage() + "\n\nOppretter tom datafil. Tar vare på gammel datafil." );
 			tomtRegister();
+			DATAFIL = datafil(true);
+			skrivTilFil(false);
 		}
 		catch(FileNotFoundException fne)
 		{
-			visMelding( "Finner ikke datafil. Oppretter tomt register." );
+			visMelding( "Finner ikke datafil. Oppretter tom datafil." );
 			tomtRegister();
+			skrivTilFil(false);
 		}
 		catch(IOException ioe)
 		{
-			visMelding( "Innlesingsfeil. Oppretter tomt register." );
+			visMelding( "Innlesingsfeil. Oppretter tom datafil. Tar vare på gammel datafil." );
 			tomtRegister();
+			DATAFIL = datafil(true);
+			skrivTilFil(false);
 		}
 	}
 	
@@ -92,12 +130,14 @@ public class Hovedvindu extends JFrame
 	}
 
 	
-	private void skrivTilFil()
+	private void skrivTilFil(boolean visMelding)
 	{
 		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( DATAFIL ) ) )
 		{
 			utfil.writeObject( br );
-			visMelding("Registret er lagret i " + DATAFIL);
+			
+			if (visMelding)
+				visMelding("Data er skrevet til fil.");
 		}
 		catch( NotSerializableException nse )
 		{
@@ -130,7 +170,7 @@ public class Hovedvindu extends JFrame
 				{
 					public void windowClosing( WindowEvent e )
 					{
-						hv.skrivTilFil();
+						hv.skrivTilFil(true);
 						System.exit( 0 );
 					}
 				} );
