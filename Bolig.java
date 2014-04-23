@@ -49,6 +49,11 @@ abstract public class Bolig implements Serializable
 		bildefilnavn = n;
 	}
 	
+	public String getTittel() 
+	{
+		return tittel;
+	}
+	
 	public void setTittel(String tittel) 
 	{
 		this.tittel = tittel;
