@@ -7,8 +7,8 @@ public class Bildevindu extends JFrame
 {
 	public Bildevindu(BufferedImage original)
 	{
-		super("Stor vindu");
-		setSize(800,600);
+		super("Stort bilde");
+		setSize(800, 600);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		Container c = getContentPane();
 
@@ -24,10 +24,10 @@ public class Bildevindu extends JFrame
 			nyH = origH / (origB / nyB);
 		}
 		
-		if (origH > 600)
+		if (nyH > 600)
 		{
 			nyH = 600;
-			nyB = origB / (origH / nyH);
+			nyB = nyB / (origH / nyH);
 		}
 		
 		Image nyttBilde = original.getScaledInstance(nyB, nyH, BufferedImage.SCALE_SMOOTH);
