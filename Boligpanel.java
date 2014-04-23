@@ -379,7 +379,7 @@ public class Boligpanel extends JPanel
 		gc3.gridy = 0;
 		int i = 0;
 		
-		for (Bolig b : register.getBoliger())
+		for (final Bolig b : register.getBoliger())
 		{
 			if
 			(
@@ -411,22 +411,26 @@ public class Boligpanel extends JPanel
 				gc4.gridy = 3;
 				Bolig.add(adresse, gc4);
 				gc4.gridy = 4;
-				Bolig.add(new JButton("Endre annonse"), gc4);
 				
+				JButton endreknapp = new JButton("Detaljer");
+				
+				Bolig.add(endreknapp, gc4);
+				
+				endreknapp.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						Boligskjemavindu bsv = new Boligskjemavindu(register, Boligpanel.this, b);
+					}
+				});
 				
 				try
 				{
 					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
 					
-					Image skalert = mittBilde1.getScaledInstance(90,90, BufferedImage.SCALE_SMOOTH);
+					Image skalert = mittBilde1.getScaledInstance(90, 90, BufferedImage.SCALE_SMOOTH);
 					
-					BufferedImage mittBilde2 = toBufferedImage(skalert);
-					
-					File fikset = new File("bilder" + File.separatorChar + "fikset" + b.getBildefilnavn());
-					
-					ImageIO.write(mittBilde2, "png", fikset);
-					
-					JButton bildeknapp = new JButton(new ImageIcon("bilder" +  File.separatorChar + "fikset" + b.getBildefilnavn()));
+					JButton bildeknapp = new JButton(new ImageIcon(skalert));
 					bildeknapp.addActionListener(new ActionListener()
 					{
 						public void actionPerformed(ActionEvent e)
