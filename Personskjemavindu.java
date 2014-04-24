@@ -1,4 +1,3 @@
-
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -722,7 +721,7 @@ public class Personskjemavindu extends JFrame
                     	pl.oppdaterUtleierliste();
                     
                     if (boligvinduet != null)
-                    	boligvinduet.oppdaterUtleierliste();
+                    	boligvinduet.oppdaterUtleierliste(u);
                 }
                 
                 dispose();
