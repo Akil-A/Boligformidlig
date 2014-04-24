@@ -1,4 +1,4 @@
-/* Klasse for Utleier-objektet. Inneholder boliglisten.
+/* Klasse for Utleier-objektet.
  * laget av Ali
  */
 
