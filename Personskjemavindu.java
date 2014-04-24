@@ -1,3 +1,4 @@
+
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
  * Laget av Akil og Joakim
  */
@@ -525,9 +526,7 @@ public class Personskjemavindu extends JFrame
             {
             	if (e.getSource() == uSlett)
     			{
-            		Utleier u = (Utleier)personen;
-            	
-            		if (u.getBoliger().size() > 0)
+            		if (register.utleierHarBoliger(personen.getPersonNr()))
             		{
             			visMelding("Kan ikke slette, denne utleier har boliger.", "Problem");
             			return;
