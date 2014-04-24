@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,6 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Boligskjemavindu extends JFrame
 {
+	final private String BILDEMAPPE = "bilder" + File.separator;
 	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
@@ -56,8 +55,14 @@ public class Boligskjemavindu extends JFrame
 		lagVindu();
 		
 		tittel.setText(b.getTittel());
-		//utleiere.setSelectedItem();
-		bildeSti.setText(b.getBildefilnavn());
+		utleiere.setSelectedItem(registret.finnPerson(b.getUtleierId()));
+		
+		if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
+		{
+			bildet = new File(BILDEMAPPE + b.getBildefilnavn());
+			bildeSti.setText(b.getBildefilnavn());
+		}
+		
 		adresse.setText(b.getAdresse());
 		postnr.setText(Integer.toString(b.getPostnr()));
 		poststed.setText(b.getPoststed());
@@ -352,7 +357,7 @@ public class Boligskjemavindu extends JFrame
 		
 		JPanel knappepanel = new JPanel(new BorderLayout());
 		knappepanel.add(lagre, BorderLayout.WEST);
-		knappepanel.add(new JLabel("           **Felter markert med stjerne er obligatoriske**"), BorderLayout.CENTER);
+		knappepanel.add(new JLabel("     **Felter markert med stjerne er obligatoriske**"), BorderLayout.CENTER);
 		knappepanel.add(avbryt, BorderLayout.EAST);
 		
 		gc.fill = GridBagConstraints.HORIZONTAL;
@@ -453,11 +458,11 @@ public class Boligskjemavindu extends JFrame
     			boolean bvaskeri = harvaskeri.isSelected();
     			
     			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || erTom(stittel) ||
-    					erTom(sadresse) || spostnr.length() != 4 || erTom(spoststed) || erTom(sboareal) ||
+    					erTom(sadresse) || erTom(spoststed) || erTom(sboareal) ||
     					erTom(sbyggeaar) || erTom(spris))
     				feilmelding += "- Du maa fylle inn alle paakrevde felter.\n";
     			
-    			if (!erTall(spostnr) || !erTall(sboareal) || 
+    			if (!erTall(spostnr) || spostnr.length() != 4 || !erTall(sboareal) || 
     					!erTall(santrom) || !erTall(sbyggeaar) || !erTall(spris) || 
     					(
     							(benebolig || brekkehus) &&
@@ -486,6 +491,7 @@ public class Boligskjemavindu extends JFrame
 	            	Enebolig b = new Enebolig(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
 	            	
 	            	b.setTittel(stittel);
+	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	
 	            	if (!erTom(santrom))
 	            		b.setAntrom(Integer.parseInt(santrom));
@@ -515,34 +521,40 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	if (bildet != null)
 	            	{
-	            		try
-						{
-							BufferedImage utbilde = ImageIO.read(bildet);
-							
-							File utfil = new File("bilder" + File.separator + bildet.getName());
-							
-							String filnavn = bildet.getName();
-							String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
-							
-							ImageIO.write(utbilde, format, utfil);
-							b.setBildefilnavn(filnavn);
-						}
-						catch (IOException e1)
-						{
-							visMelding(e1.getMessage(), "Feil");
-						}
+	            		if (bildeSti.getText().isEmpty())
+	            			bildet.delete();
+	            		else
+	            		{
+		            		try
+							{
+								BufferedImage utbilde = ImageIO.read(bildet);
+								
+								File utfil = new File(BILDEMAPPE + bildet.getName());
+								
+								String filnavn = bildet.getName();
+								String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
+								
+								ImageIO.write(utbilde, format, utfil);
+								b.setBildefilnavn(filnavn);
+							}
+							catch (IOException e1)
+							{
+								visMelding(e1.getMessage(), "Feil");
+							}
+	            		}
 	            	}
 	            	
 	            	if (boligen != null)
-	            		boligen = b;
+	            		registret.oppdaterBolig(boligen.getBoligNr(), b);
 	            	else
-	            		((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
+	            		registret.settInnBolig(b);
 	            }
 	            else if (brekkehus)
 	            {
 	            	Rekkehus b = new Rekkehus(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
 	            	
 	            	b.setTittel(stittel);
+	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	
 	            	if (!erTom(santrom))
 	            		b.setAntrom(Integer.parseInt(santrom));
@@ -572,34 +584,40 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	if (bildet != null)
 	            	{
-	            		try
-						{
-							BufferedImage utbilde = ImageIO.read(bildet);
-							
-							File utfil = new File("bilder" + File.separator + bildet.getName());
-							
-							String filnavn = bildet.getName();
-							String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
-							
-							ImageIO.write(utbilde, format, utfil);
-							b.setBildefilnavn(filnavn);
-						}
-						catch (IOException e1)
-						{
-							visMelding(e1.getMessage(), "Feil");
-						}
+	            		if (bildeSti.getText().isEmpty())
+	            			bildet.delete();
+	            		else
+	            		{
+		            		try
+							{
+								BufferedImage utbilde = ImageIO.read(bildet);
+								
+								File utfil = new File(BILDEMAPPE + bildet.getName());
+								
+								String filnavn = bildet.getName();
+								String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
+								
+								ImageIO.write(utbilde, format, utfil);
+								b.setBildefilnavn(filnavn);
+							}
+							catch (IOException e1)
+							{
+								visMelding(e1.getMessage(), "Feil");
+							}
+	            		}
 	            	}
 	            	
 	            	if (boligen != null)
-	            		boligen = b;
+	            		registret.oppdaterBolig(boligen.getBoligNr(), b);
 	            	else
-	            		((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
+	            		registret.settInnBolig(b);
 	            }
 	            else if (bleilighet)
 	            {
 	            	Leilighet b = new Leilighet(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
 	            	
 	            	b.setTittel(stittel);
+	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	
 	            	if (!erTom(santrom))
 	            		b.setAntrom(Integer.parseInt(santrom));
@@ -623,28 +641,33 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	if (bildet != null)
 	            	{
-	            		try
-						{
-							BufferedImage utbilde = ImageIO.read(bildet);
-							
-							File utfil = new File("bilder" + File.separator + bildet.getName());
-							
-							String filnavn = bildet.getName();
-							String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
-							
-							ImageIO.write(utbilde, format, utfil);
-							b.setBildefilnavn(filnavn);
-						}
-						catch (IOException e1)
-						{
-							visMelding(e1.getMessage(), "Feil");
-						}
+	            		if (bildeSti.getText().isEmpty())
+	            			bildet.delete();
+	            		else
+	            		{
+		            		try
+							{
+								BufferedImage utbilde = ImageIO.read(bildet);
+								
+								File utfil = new File(BILDEMAPPE + bildet.getName());
+								
+								String filnavn = bildet.getName();
+								String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
+								
+								ImageIO.write(utbilde, format, utfil);
+								b.setBildefilnavn(filnavn);
+							}
+							catch (IOException e1)
+							{
+								visMelding(e1.getMessage(), "Feil");
+							}
+	            		}
 	            	}
 	            	
 	            	if (boligen != null)
-	            		boligen = b;
+	            		registret.oppdaterBolig(boligen.getBoligNr(), b);
 	            	else
-	            		((Utleier) utleiere.getSelectedItem()).settInnBolig(b);
+	            		registret.settInnBolig(b);
 	            }
 	            
 	            JOptionPane.showMessageDialog( null, "Boligen er registrert.", "Melding",
@@ -669,6 +692,10 @@ public class Boligskjemavindu extends JFrame
     				bildet = filvelger.getSelectedFile();
     				bildeSti.setText(bildet.getName());
     			}
+    		}
+    		else if(e.getSource() == fjernBilde)
+    		{
+    			bildeSti.setText("");
     		}
     		else if(e.getSource() == utleiere && ((JComboBox)e.getSource()).getSelectedIndex() == 1)
     		{
