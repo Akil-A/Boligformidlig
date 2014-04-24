@@ -126,7 +126,7 @@ public class Hovedvindu extends JFrame
 	
 	private void tomtRegister()
 	{
-		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
+		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Bolig>(), new ArrayList<Kontrakt>(), new ArrayList<Interesse>());
 	}
 
 	
