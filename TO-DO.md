@@ -1,4 +1,4 @@
-- Endre annonse
+- Endre annonse CHECK
 - Søk gjennom boliger
 - Bildevindu skalerer bildet riktig (bildet skalerer med vinduet?)
 - Kontrollspørsmål når man sletter
