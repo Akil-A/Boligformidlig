@@ -225,7 +225,9 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 2;
 		toppanel.add(new JLabel("* Boareal (kvm)"), gc);
 		gc.gridx = 3;
+		gc.anchor = GridBagConstraints.WEST;
 		toppanel.add(boareal, gc);
+		gc.anchor = GridBagConstraints.EAST;
 		
 		gc.gridy = 4;
 		
@@ -236,7 +238,9 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 2;
 		toppanel.add(new JLabel("* Antall rom"), gc);
 		gc.gridx = 3;
+		gc.anchor = GridBagConstraints.WEST;
 		toppanel.add(antrom, gc);
+		gc.anchor = GridBagConstraints.EAST;
 		
 		gc.gridy = 5;
 		
@@ -247,7 +251,9 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 2;
 		toppanel.add(new JLabel("* Byggeaar"), gc);
 		gc.gridx = 3;
+		gc.anchor = GridBagConstraints.WEST;
 		toppanel.add(byggeaar, gc);
+		gc.anchor = GridBagConstraints.EAST;
 
 		gc.gridy = 6;
 		
@@ -258,7 +264,9 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 2;
 		toppanel.add(new JLabel("* Pris kr/mnd"), gc);
 		gc.gridx = 3;
+		gc.anchor = GridBagConstraints.WEST;
 		toppanel.add(pris, gc);
+		gc.anchor = GridBagConstraints.EAST;
 		/********* TOPPANEL SLUTT *********/
 		
 		
@@ -386,15 +394,9 @@ public class Boligskjemavindu extends JFrame
         	utleiere.setSelectedItem(valgtUtleier);
 	}
 	
-	
-    public boolean erTom( String s )
-	{
-		return s.equals("");
-	}
-	
 	public boolean erTall( String s )
 	{
-		if (erTom(s))
+		if (s.isEmpty())
 			return true;
 		
 		try
@@ -457,9 +459,9 @@ public class Boligskjemavindu extends JFrame
     			boolean bgarasje = hargarasje.isSelected();
     			boolean bvaskeri = harvaskeri.isSelected();
     			
-    			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || erTom(stittel) ||
-    					erTom(sadresse) || erTom(spoststed) || erTom(sboareal) ||
-    					erTom(sbyggeaar) || erTom(spris))
+    			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || stittel.isEmpty() ||
+    					sadresse.isEmpty() || spoststed.isEmpty() || sboareal.isEmpty() ||
+    					sbyggeaar.isEmpty() || spris.isEmpty())
     				feilmelding += "- Du maa fylle inn alle paakrevde felter.\n";
     			
     			if (!erTall(spostnr) || spostnr.length() != 4 || !erTall(sboareal) || 
@@ -479,7 +481,7 @@ public class Boligskjemavindu extends JFrame
     			if (!benebolig && !brekkehus && !bleilighet)
     				feilmelding += "- Du maa velge en boligtype (enebolig, rekkehus, leilighet)\n";
     			
-	            if (!erTom(feilmelding))
+	            if (!feilmelding.isEmpty())
 	            {	            	
 	            	JOptionPane.showMessageDialog( null, "Vennligst rett folgende feil for du gaar videre:\n\n" + feilmelding, "Problem",
 	            			JOptionPane.PLAIN_MESSAGE);
@@ -493,28 +495,28 @@ public class Boligskjemavindu extends JFrame
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	
-	            	if (!erTom(santrom))
+	            	if (!santrom.isEmpty())
 	            		b.setAntrom(Integer.parseInt(santrom));
 	            	
-	            	if (!erTom(sboareal))
+	            	if (!sboareal.isEmpty())
 	            		b.setBoareal(Integer.parseInt(sboareal));
 	            	
-	            	if (!erTom(sbyggeaar))
+	            	if (!sbyggeaar.isEmpty())
 	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
-	            	if (!erTom(stogst))
+	            	if (!stogst.isEmpty())
 	            		b.setTogst(stogst);
 	            	
 	            	
 	            	// Under: enebolig-spesifikke felt
 	            	
-	            	if (!erTom(santetasjer))
+	            	if (!santetasjer.isEmpty())
 	            		b.setAntetasjer(Integer.parseInt(santetasjer));
 	            	
-	            	if (!erTom(stomtestr))
+	            	if (!stomtestr.isEmpty())
 	            		b.setTomtestr(Integer.parseInt(stomtestr));
 	            	
-	            	if (!erTom(santetasjer))
+	            	if (!santetasjer.isEmpty())
 	            		b.setAntetasjer(Integer.parseInt(santetasjer));
 	            	
 	            	b.setKjeller(bkjeller);
@@ -556,28 +558,28 @@ public class Boligskjemavindu extends JFrame
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	
-	            	if (!erTom(santrom))
+	            	if (!santrom.isEmpty())
 	            		b.setAntrom(Integer.parseInt(santrom));
 	            	
-	            	if (!erTom(sboareal))
+	            	if (!sboareal.isEmpty())
 	            		b.setBoareal(Integer.parseInt(sboareal));
 	            	
-	            	if (!erTom(sbyggeaar))
+	            	if (!sbyggeaar.isEmpty())
 	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
-	            	if (!erTom(stogst))
+	            	if (!stogst.isEmpty())
 	            		b.setTogst(stogst);
 	            	
 	            	
 	            	// Under: rekkehus-spesifikke felt
 	            	
-	            	if (!erTom(santetasjer))
+	            	if (!santetasjer.isEmpty())
 	            		b.setAntetasjer(Integer.parseInt(santetasjer));
 	            	
-	            	if (!erTom(stomtestr))
+	            	if (!stomtestr.isEmpty())
 	            		b.setTomtestr(Integer.parseInt(stomtestr));
 	            	
-	            	if (!erTom(santetasjer))
+	            	if (!santetasjer.isEmpty())
 	            		b.setAntetasjer(Integer.parseInt(santetasjer));
 	            	
 	            	b.setKjeller(bkjeller);
@@ -619,21 +621,21 @@ public class Boligskjemavindu extends JFrame
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	
-	            	if (!erTom(santrom))
+	            	if (!santrom.isEmpty())
 	            		b.setAntrom(Integer.parseInt(santrom));
 	            	
-	            	if (!erTom(sboareal))
+	            	if (!sboareal.isEmpty())
 	            		b.setBoareal(Integer.parseInt(sboareal));
 	            	
-	            	if (!erTom(sbyggeaar))
+	            	if (!sbyggeaar.isEmpty())
 	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
-	            	if (!erTom(stogst))
+	            	if (!stogst.isEmpty())
 	            		b.setTogst(stogst);
 	            	
 	            	// Under: leilighet-spesifikke felt
 	            	
-	            	if (!erTom(sliggerietasje))
+	            	if (!sliggerietasje.isEmpty())
 	            		b.setEtasje(Integer.parseInt(sliggerietasje));
 	            	
 	            	b.setGarasje(bgarasje);
