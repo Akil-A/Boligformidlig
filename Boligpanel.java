@@ -156,42 +156,47 @@ public class Boligpanel extends JPanel
 		GridBagConstraints gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.CENTER;
         
+
         gc.gridy = 0;
-        gc.gridx = 0;
-        innerFilterPanel.add(pAdresse, gc);
+        JLabel tips = new JLabel("Skriv hele eller deler av teksten du vil soke paa og trykk Sok.");
+        tips.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, this.getFont().getSize() - 1));
+        innerFilterPanel.add(tips, gc);
         
         gc.gridy = 1;
-        gc.gridx = 0;
-        innerFilterPanel.add(pBeliggenhet, gc);
+        JLabel tips2 = new JLabel("La feltene staa tomme for aa vise alle.");
+        tips2.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, this.getFont().getSize() - 1));
+        gc.insets.bottom = 5;
+        innerFilterPanel.add(tips2, gc);
+        gc.insets.bottom = 0;
         
         gc.gridy = 2;
-        gc.gridx = 0;
-        innerFilterPanel.add(pPost, gc);
-      
+        innerFilterPanel.add(pAdresse, gc);
+        
         gc.gridy = 3;
-        gc.gridx = 0;
-        innerFilterPanel.add(pDato,gc);
+        innerFilterPanel.add(pBeliggenhet, gc);
         
         gc.gridy = 4;
-        gc.gridx = 0;
+        innerFilterPanel.add(pPost, gc);
+      
+        gc.gridy = 5;
+        innerFilterPanel.add(pDato,gc);
+        
+        gc.gridy = 6;
         innerFilterPanel.add(pPrisen, gc);
         
-        gc.gridy = 5;
-        gc.gridx = 0;
+        gc.gridy = 7;
         innerFilterPanel.add(pBoareal, gc);
        
-        gc.gridy = 6;
-        gc.gridx = 0;
+        gc.gridy = 8;
         innerFilterPanel.add(pType, gc);
        
-        gc.gridy = 7;
-        gc.gridx = 0;
+        gc.gridy = 9;
         innerFilterPanel.add(pEneRekke, gc);
         innerFilterPanel.add(pLeilighet, gc);
         
 		filterPanel = new JScrollPane(innerFilterPanel);
         filterPanel.setBorder(BorderFactory.createTitledBorder("Sokefilter"));
-		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 280)); // (bredde, hoyde)
+		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hoyde)
 		
 		JPanel knappePanel = new JPanel(new BorderLayout());
 		knappePanel.add(sok, BorderLayout.WEST);
@@ -257,11 +262,11 @@ public class Boligpanel extends JPanel
 				Bolig.add(adresse, gc4);
 				gc4.gridy = 4;
 				
-				JButton endreknapp = new JButton("Detaljer");
+				JButton detaljer = new JButton("Detaljer");
 				
-				Bolig.add(endreknapp, gc4);
+				Bolig.add(detaljer, gc4);
 				
-				endreknapp.addActionListener(new ActionListener()
+				detaljer.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
@@ -269,31 +274,40 @@ public class Boligpanel extends JPanel
 					}
 				});
 				
-				try
+				JButton bilde = new JButton();
+				bilde.setPreferredSize(new Dimension(90, 90));
+				bilde.setForeground(Color.BLACK); ////////////??????????????????? funker ikke
+				bilde.setText("<html><font color=black>-mangler<br>bilde-</font></html>");
+				bilde.setEnabled(false);
+				
+				if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 				{
-					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
-					
-					Image skalert = mittBilde1.getScaledInstance(90, 90, BufferedImage.SCALE_SMOOTH);
-					
-					JButton bildeknapp = new JButton(new ImageIcon(skalert));
-					bildeknapp.addActionListener(new ActionListener()
+					try
 					{
-						public void actionPerformed(ActionEvent e)
+						final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
+						Image skalert = mittBilde1.getScaledInstance(90, 90, BufferedImage.SCALE_SMOOTH);
+						
+						bilde.setText(null);
+						bilde.setEnabled(true);
+						bilde.setIcon(new ImageIcon(skalert));
+						bilde.addActionListener(new ActionListener()
 						{
-							Bildevindu bv = new Bildevindu(mittBilde1);
-						}
-					});
-					
-					gc4.gridheight = 5;
-					gc4.gridx = 0;
-					gc4.gridy = 0;
-					gc4.insets.right = 10;
-			 	   	Bolig.add(bildeknapp, gc4);
+							public void actionPerformed(ActionEvent e)
+							{
+								Bildevindu bv = new Bildevindu(mittBilde1);
+							}
+						});
+					}
+					catch(IOException ex)
+					{
+					}
 				}
-				catch(IOException ex)
-				{
-					
-				}
+
+				gc4.gridheight = 5;
+				gc4.gridx = 0;
+				gc4.gridy = 0;
+				gc4.insets.right = 10;
+		 	   	Bolig.add(bilde, gc4);
 				
 	
 				gc3.gridy = i++;
