@@ -19,7 +19,7 @@ public class Personskjemavindu extends JFrame
             firmafelt, testfelt, byggeaarfelt;
     private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet,
             fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test, byggeaar;
-    private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, uAvbryt, bAvbryt;
+    private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, avbryt;
     private JCheckBox husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
     private JRadioButton utleier, boligsoker;
     private JComboBox <String> sivilstatus, arbeidsforhold;
@@ -226,10 +226,8 @@ public class Personskjemavindu extends JFrame
         uLagre.addActionListener(lytter);
         bLagre = new JButton("Lagre");
         bLagre.addActionListener(lytter);
-        uAvbryt = new JButton("Avbryt");
-        uAvbryt.addActionListener(lytter);;
-        bAvbryt = new JButton("Avbryt");
-        bAvbryt.addActionListener(lytter);
+        avbryt = new JButton("Avbryt");
+        avbryt.addActionListener(lytter);
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(utleier);
@@ -320,8 +318,8 @@ public class Personskjemavindu extends JFrame
         bspKrav2.add(arbeidsforhold);
 
         ulpKnapper.add(uRegPerson);
-        ulpKnapper.add(uRegBolig);
         ulpKnapper.add(uLagre);
+        ulpKnapper.add(uRegBolig);
         ulpKnapper.add(uSlett);
 
         bspKnapper.add(bRegPerson);
@@ -346,22 +344,17 @@ public class Personskjemavindu extends JFrame
 
         gcUp.gridy = 0;
         gcUp.gridx = 0;
-        gcUp.insets.left = 15;
         utleierpanel.add(firma, gcUp);
 
         gcUp.gridx = 1;
         gcUp.gridwidth = 3;
         utleierpanel.add(firmafelt, gcUp);
-        gcUp.gridwidth = 0;
 
 
-        gcUp.gridy = 3;
-        gcUp.insets.top = 10;
+        gcUp.gridy = 1;
+        gcUp.gridx = 0;
+        gcUp.insets.top = 15;
         utleierpanel.add(ulpKnapper, gcUp);
-        
-        gcUp.gridy = 4;
-        gcUp.insets.left = 20;
-        utleierpanel.add(uAvbryt, gcUp);
         /************ UTLEIERPANEL SLUTT *************/
 
 
@@ -442,11 +435,6 @@ public class Personskjemavindu extends JFrame
         gcBsp.insets.top = 15;
         gcBsp.gridy = 7;
         boligsokerpanel.add(bspKnapper, gcBsp);
-        
-        gcBsp.insets.top = 15;
-        gcBsp.gridy = 8;
-        gcBsp.insets.left = 5;
-        boligsokerpanel.add(bAvbryt, gcBsp);
         /************ BOLIGSOKERPANEL SLUTT *************/
 
         utleierpanel.setVisible(false);
@@ -457,6 +445,8 @@ public class Personskjemavindu extends JFrame
         gc.gridwidth = 4;
         c.add(utleierpanel, gc);
         c.add(boligsokerpanel, gc);
+        gc.gridy = 17;
+        c.add(avbryt, gc);
 
         setSize(600, 300);
         setLocationRelativeTo(null);
@@ -514,14 +504,8 @@ public class Personskjemavindu extends JFrame
     {
         public void actionPerformed(ActionEvent e)
         {
-            if (e.getSource() == uAvbryt)
-            {
+            if (e.getSource() == avbryt)
                 dispose();
-            }
-            if(e.getSource() == bAvbryt)
-            {
-            	dispose();
-            }
             else if(e.getSource() == uRegBolig)
             {
                 //Boligskjemavindu bsv = new Boligskjemavindu(register);
