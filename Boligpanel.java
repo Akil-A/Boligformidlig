@@ -1,4 +1,4 @@
-//Denne klassen tar seg av listing og soking av bolig.
+//Denne klassen tar seg av opplisting og soking av bolig.
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,16 +11,14 @@ import java.io.IOException;
 
 public class Boligpanel extends JPanel
 {
-
-	private JTextField adr,fra,til,bfra,btil,boareal,antrom,byggeaar,dato,etasje,antetasje,tfra,ttil,postnr,poststed,beliggenhet;
+	private JTextField adr, postnr, poststed, beliggenhet, prisfra, pristil, boarealfra, boarealtil, byggeaar, annonsedato,
+							tomtfra, tomttil, antetgfra, antetgtil;
+	private JCheckBox enebolig, rekkehus, leilighet, kjeller, garasje, vask;
+	private JPanel pEneRekke, pLeilighet;
+	private JScrollPane filterPanel;
 	private JButton sok, registrer;
-	private ButtonGroup bgHus;
-	private JLabel ladr,lpris,lfra,ltil,lttil,ltfra,lbfra,lbtil,lboareal,lpoststed,lpostnr,lantrom,lbyggeaar,ldato,ltype,letasje,lantetasje,ltomt,lbeliggenhet;
-	private JCheckBox Enebolig,Rekkehus,Leilighet,Kjeller,Garasje,Balkong,Heis,Vask;
-	private JPanel pAntetasje, pTomt, pBoareal, pEtasje;
-	private Boligregister register;
 	private JScrollPane boligListe;
-	private Image picLabel;
+	private Boligregister register;
 	
 	public Boligpanel(Boligregister br)
 	{
@@ -28,217 +26,178 @@ public class Boligpanel extends JPanel
 		
 		setLayout(new BorderLayout());
  	   	Lytter lytter = new Lytter();
-		cLytter c = new cLytter();
-		ladr = new JLabel("Adresse: ");
+
+	    /******** DEFINERING AV FILTERFELTER START ********/
 		adr = new JTextField(20);
-		lpoststed = new JLabel("PostSted: ");
-		lpostnr = new JLabel("PostNr: ");
-		poststed = new JTextField(10);
 		postnr = new JTextField(4);
-		lpris = new JLabel("Utleiepris: ");
-		lfra = new JLabel("Fra: ");
-		fra = new JTextField(7);
-		ltil = new JLabel("Til: ");
-		til = new JTextField(7);
-		lbfra = new JLabel("Fra: ");
-		bfra = new JTextField(5);
-		lbtil = new JLabel("Til: ");
-		btil = new JTextField(7);
-		ltomt = new JLabel("Tomtestørrelse: (kvm)");
-		ltfra = new JLabel("Fra: ");
-		tfra = new JTextField(7);
-		lttil = new JLabel("Til: ");
-		ttil = new JTextField(7);
-		lboareal = new JLabel("Boareal: (kvm)");
-		lantrom = new JLabel("Antall rom: ");
-		antrom = new JTextField(20);
-		lbyggeaar = new JLabel("Byggeaar: ");
+		poststed = new JTextField(10);
+		prisfra = new JTextField(7);
+		pristil = new JTextField(7);
+		boarealfra = new JTextField(3);
+		boarealtil = new JTextField(3);
 		byggeaar = new JTextField(4);
 		beliggenhet = new JTextField(14);
-		ldato = new JLabel("Annonsedato: ");
-		dato = new JTextField(9);
-		dato.setText("eks: 21/12/2013");
-		dato.setForeground(Color.GRAY);
-		dato.addFocusListener(new FocusListener()
+		annonsedato = new JTextField(9);
+		annonsedato.setText("eks: 21/12/2013");
+		annonsedato.setForeground(Color.GRAY);
+		annonsedato.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent f)
 			{
-				if(dato.getText().equals("eks: 21/12/2013"))
+				if(annonsedato.getText().equals("eks: 21/12/2013"))
 				{
-					dato.setText("");
-					dato.setForeground(Color.BLACK);
+					annonsedato.setText("");
+					annonsedato.setForeground(Color.BLACK);
 				}
 			}
 			public void focusLost(FocusEvent f)
 			{
-				if(dato.getText().equals(""))
+				if(annonsedato.getText().equals(""))
 				{
-					dato.setText("eks: 21/12/2013");
-					dato.setForeground(Color.GRAY);
+					annonsedato.setText("eks: 21/12/2013");
+					annonsedato.setForeground(Color.GRAY);
 				}
 			}
 		});
-		ltype = new JLabel("Type: ");
-		letasje = new JLabel("Etasje: ");
-		etasje = new JTextField(5);
-		lantetasje = new JLabel("Antall etasjer: ");
-		antetasje = new JTextField(5);
 		sok = new JButton("Sok bolig");
 		sok.addActionListener(lytter);
 		registrer = new JButton("Registrer ny");
 		registrer.addActionListener(lytter);
-		Enebolig = new JCheckBox("Enebolig");
-		Rekkehus = new JCheckBox("Rekkehus");
-		Leilighet = new JCheckBox("Leilighet");
-		Vask = new JCheckBox("Vask");
-		Garasje = new JCheckBox("Garasje");
-		Heis = new JCheckBox("Heis");
-		Balkong = new JCheckBox("Balkong");
-		Kjeller = new JCheckBox("Kjeller");
-		lbeliggenhet = new JLabel("Nermeste togstasjon: ");
+		enebolig = new JCheckBox("Enebolig");
+		enebolig.addActionListener(lytter);
+		rekkehus = new JCheckBox("Rekkehus");
+		rekkehus.addActionListener(lytter);
+		leilighet = new JCheckBox("Leilighet");
+		leilighet.addActionListener(lytter);
+		tomtfra = new JTextField(3);
+		tomttil = new JTextField(3);
+		antetgfra = new JTextField(3);
+		antetgtil = new JTextField(3);
+		kjeller = new JCheckBox("Kjeller");
+		vask = new JCheckBox("Vask");
+		garasje = new JCheckBox("Garasje");
 		
 		JPanel pAdresse = new JPanel();
-		pAdresse.add(ladr);
+		pAdresse.add(new JLabel("Adresse: "));
 		pAdresse.add(adr);
 		
-		
-		
-		
 		JPanel pBeliggenhet = new JPanel();
-		pBeliggenhet.add(lbeliggenhet);
+		pBeliggenhet.add(new JLabel("Naermeste togstasjon: "));
 		pBeliggenhet.add(beliggenhet);
 		
 		JPanel pPost = new JPanel();
-		pPost.add(lpostnr);
+		pPost.add(new JLabel("PostNr: "));
 		pPost.add(postnr);
-		pPost.add(lpoststed);
+		pPost.add(new JLabel("Poststed: "));
 		pPost.add(poststed);
-		
-		JPanel SjekkboksHus = new JPanel();
-		JPanel SjekkboksTilegg = new JPanel();
-		
-		SjekkboksTilegg.add(Balkong);
-		SjekkboksTilegg.add(Heis);
-		SjekkboksTilegg.add(Garasje);
-		SjekkboksTilegg.add(Kjeller);
-		SjekkboksTilegg.add(Vask);
-	 
-	    pTomt = new JPanel();
-	    pTomt.add(ltomt);
-	    pTomt.add(ltfra);
-	    pTomt.add(tfra);
-	    pTomt.add(lttil);
-	    pTomt.add(ttil);
 	   
-	    pBoareal = new JPanel();
-	    pBoareal.add(lboareal);
-	    pBoareal.add(lbfra);
-	    pBoareal.add(bfra);
-	    pBoareal.add(lbtil);
-	    pBoareal.add(btil);
+	    JPanel pBoareal = new JPanel();
+	    pBoareal.add(new JLabel("Boareal (kvm)"));
+	    pBoareal.add(new JLabel("fra: "));
+	    pBoareal.add(boarealfra);
+	    pBoareal.add(new JLabel("til: "));
+	    pBoareal.add(boarealtil);
 	    
 		JPanel pPrisen = new JPanel();
-		pPrisen.add(lpris);
-		pPrisen.add(lfra);
-		pPrisen.add(fra);
-		pPrisen.add(ltil);
-		pPrisen.add(til);
-		
-		pAntetasje = new JPanel();
-		pAntetasje.add(lantetasje);
-		pAntetasje.add(antetasje);
-		
-		pEtasje = new JPanel();
-		pEtasje.add(letasje);
-		pEtasje.add(etasje);
-		
-		JPanel pantRom = new JPanel();
-		pantRom.add(lantrom);
-		pantRom.add(antrom);
+		pPrisen.add(new JLabel("Pris/mnd"));
+		pPrisen.add(new JLabel("fra: "));
+		pPrisen.add(prisfra);
+		pPrisen.add(new JLabel("til: "));
+		pPrisen.add(pristil);
 	
 		JPanel pDato = new JPanel();
-		pDato.add(ldato);
-		pDato.add(dato);
-		pDato.add(lbyggeaar);
+		pDato.add(new JLabel("Annonsedato: "));
+		pDato.add(annonsedato);
+		pDato.add(new JLabel("Byggeaar: "));
 		pDato.add(byggeaar);
-
-		SjekkboksHus.add(Rekkehus);
-		SjekkboksHus.add(Enebolig);
-		SjekkboksHus.add(Leilighet);
 		
 		JPanel pType = new JPanel();
-		pType.add(ltype);
-		pType.add(SjekkboksHus);
+		pType.add(new JLabel("Type: "));
+		pType.add(enebolig);
+		pType.add(rekkehus);
+		pType.add(leilighet);
 		
-		Balkong.setVisible(false);
-		Kjeller.setVisible(false);
-		Vask.setVisible(false);
-		Garasje.setVisible(false);
-		Heis.setVisible(false);
-		pAntetasje.setVisible(false);
-		pTomt.setVisible(false);
+		pEneRekke = new JPanel(new GridBagLayout());
+		GridBagConstraints enerekkeGC = new GridBagConstraints();
+
+	    JPanel pTomt = new JPanel();
+	    pTomt.add(new JLabel("Tomtestørrelse (kvm)"));
+	    pTomt.add(new JLabel("fra:"));
+	    pTomt.add(tomtfra);
+	    pTomt.add(new JLabel("til: "));
+	    pTomt.add(tomttil);
+
+	    JPanel pAntEtg = new JPanel();
+	    pAntEtg.add(new JLabel("Antall etasjer"));
+	    pAntEtg.add(new JLabel("fra:"));
+	    pAntEtg.add(antetgfra);
+	    pAntEtg.add(new JLabel("til: "));
+	    pAntEtg.add(antetgtil);
+	    
+	    enerekkeGC.anchor = GridBagConstraints.CENTER;
+	    pEneRekke.add(pTomt, enerekkeGC);
+	    enerekkeGC.gridy = 1;
+	    pEneRekke.add(pAntEtg, enerekkeGC);
+	    enerekkeGC.gridy = 2;
+	    pEneRekke.add(kjeller, enerekkeGC);
+	    
+	    pLeilighet = new JPanel();
 		
-		Enebolig.addActionListener(c);
-		Rekkehus.addActionListener(c);
-		Leilighet.addActionListener(c);
+		pLeilighet.add(garasje);
+		pLeilighet.add(vask);
 		
+		pEneRekke.setVisible(false);
+		pLeilighet.setVisible(false);
+	    /******** DEFINERING AV FILTERFELTER SLUTT ********/
 		
-		JPanel nordPanel = new JPanel(new GridBagLayout());
+
+	    /******** SETTE FILTERFELTER INN I VINDU START ********/
 		JComponent innerFilterPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.CENTER;
-       
-        gc.gridy = 0;
-        gc.gridx = 0;
-        innerFilterPanel.add(pType, gc);
         
-        gc.gridy = 1;
+        gc.gridy = 0;
         gc.gridx = 0;
         innerFilterPanel.add(pAdresse, gc);
         
-        gc.gridy = 2;
+        gc.gridy = 1;
         gc.gridx = 0;
         innerFilterPanel.add(pBeliggenhet, gc);
         
-        gc.gridy = 3;
+        gc.gridy = 2;
         gc.gridx = 0;
         innerFilterPanel.add(pPost, gc);
-     
       
-        gc.gridy = 4;
+        gc.gridy = 3;
         gc.gridx = 0;
         innerFilterPanel.add(pDato,gc);
-
         
-        gc.gridy = 5;
+        gc.gridy = 4;
         gc.gridx = 0;
         innerFilterPanel.add(pPrisen, gc);
         
-        gc.gridy = 6;
+        gc.gridy = 5;
         gc.gridx = 0;
         innerFilterPanel.add(pBoareal, gc);
-        
+       
+        gc.gridy = 6;
+        gc.gridx = 0;
+        innerFilterPanel.add(pType, gc);
+       
         gc.gridy = 7;
         gc.gridx = 0;
-        innerFilterPanel.add(pTomt, gc);
-      
-    
-        gc.gridy = 9;
-        gc.gridx = 0;
-        innerFilterPanel.add(SjekkboksTilegg, gc);
+        innerFilterPanel.add(pEneRekke, gc);
+        innerFilterPanel.add(pLeilighet, gc);
         
-
-        innerFilterPanel.setBorder(BorderFactory.createTitledBorder("Sokefilter"));
-        
-		
-		JScrollPane filterPanel = new JScrollPane(innerFilterPanel);
-		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hoyde)
-	
+		filterPanel = new JScrollPane(innerFilterPanel);
+        filterPanel.setBorder(BorderFactory.createTitledBorder("Sokefilter"));
+		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 280)); // (bredde, hoyde)
 		
 		JPanel knappePanel = new JPanel(new BorderLayout());
 		knappePanel.add(sok, BorderLayout.WEST);
 		knappePanel.add(registrer, BorderLayout.EAST);
-		
+
+		JPanel nordPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc2 = new GridBagConstraints();
 		gc2.anchor = GridBagConstraints.CENTER;
 		gc2.gridx = 0;
@@ -250,125 +209,10 @@ public class Boligpanel extends JPanel
 		nordPanel.add(knappePanel, gc2);
 		
 		add(nordPanel, BorderLayout.NORTH);
+	    /******** SETTE FILTERFELTER INN I VINDU SLUTT ********/
 		
-		/* LISTEPANEL 
-		 =========================================================================== */
 		
 		listBoliger(false);
-	}
-	
-	private class cLytter implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-        	if (e.getSource() == Enebolig && Enebolig.isSelected())
-        	{
-        		Leilighet.setSelected(false);
-        		Rekkehus.setSelected(false);
-        	}
-        	else if (e.getSource() == Leilighet && Leilighet.isSelected())
-        	{
-        		Enebolig.setSelected(false);
-        		Rekkehus.setSelected(false);
-        	}
-        	else if (e.getSource() == Rekkehus && Rekkehus.isSelected())
-        	{
-        		Enebolig.setSelected(false);
-        		Leilighet.setSelected(false);
-        	}
-        	
-        	if(Enebolig.isSelected())
-			{
-				Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(true);
-				pEtasje.setVisible(false);
-				Heis.setVisible(false);
-				Garasje.setVisible(false);
-				Balkong.setVisible(false);
-				Vask.setVisible(false);
-			}
-			else if(Leilighet.isSelected())
-			{
-				Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(false);
-				pEtasje.setVisible(true);
-				Heis.setVisible(true);
-				Garasje.setVisible(true);
-				Balkong.setVisible(true);
-				Vask.setVisible(true);
-			}
-			else if(Rekkehus.isSelected())
-			{
-				Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(false);
-				pEtasje.setVisible(true);
-				Heis.setVisible(true);
-				Garasje.setVisible(true);
-				Balkong.setVisible(true);
-				Vask.setVisible(false);
-			}
-        	else if(Enebolig.isSelected() && Rekkehus.isSelected())
-        	{
-        		Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(false);
-				pEtasje.setVisible(true);
-				Heis.setVisible(true);
-				Garasje.setVisible(true);
-				Balkong.setVisible(true);
-				Vask.setVisible(false);
-        	}
-        	else if(Enebolig.isSelected() && Leilighet.isSelected())
-			{
-				Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(true);
-				Garasje.setVisible(true);
-				pEtasje.setVisible(true);
-				Heis.setVisible(true);
-				Balkong.setVisible(true);
-				Vask.setVisible(true);
-			}
-			else if(Leilighet.isSelected() && Rekkehus.isSelected())
-			{
-				Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(true);
-				Garasje.setVisible(true);
-				pEtasje.setVisible(true);
-				Heis.setVisible(true);
-				Garasje.setVisible(true);
-				Balkong.setVisible(true);
-				Vask.setVisible(true);
-			}
-			else if(Enebolig.isSelected() && Rekkehus.isSelected() && Leilighet.isSelected())
-        	{
-        		Kjeller.setVisible(true);
-				pAntetasje.setVisible(true);
-				pTomt.setVisible(true);
-				Garasje.setVisible(true);
-				pEtasje.setVisible(true);
-				Heis.setVisible(true);
-				Garasje.setVisible(true);
-				Balkong.setVisible(true);
-				Vask.setVisible(true);
-        	}
-			else
-			{
-				Kjeller.setVisible(false);
-				pAntetasje.setVisible(false);
-				pTomt.setVisible(false);
-				Garasje.setVisible(false);
-				pEtasje.setVisible(false);
-				Heis.setVisible(false);
-				Garasje.setVisible(false);
-				Vask.setVisible(false);
-				Balkong.setVisible(false);
-			}
-		}
 	}
 	
 	public void listBoliger(boolean medFilter)
@@ -386,7 +230,8 @@ public class Boligpanel extends JPanel
 				!medFilter ||
 				(
 					medFilter &&
-					b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())
+					(b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())) &&
+					(b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase()))
 				)
 			)
 			{
@@ -437,7 +282,6 @@ public class Boligpanel extends JPanel
 						{
 							Bildevindu bv = new Bildevindu(mittBilde1);
 						}
-						
 					});
 					
 					gc4.gridheight = 5;
@@ -473,24 +317,43 @@ public class Boligpanel extends JPanel
 		
 		revalidate();
 	}
-	public static BufferedImage toBufferedImage(Image img)
-    {
-        if (img instanceof BufferedImage)
-        {
-            return (BufferedImage) img;
-        }
-
-        BufferedImage bimage = new BufferedImage(img.getWidth(null),img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-        bimage.getGraphics().drawImage(img, 5, 5 , null);
-        return bimage;
-      }
 	
-	
-        private class Lytter implements ActionListener
+	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+        	if (e.getSource() == enebolig && enebolig.isSelected())
+        	{
+        		leilighet.setSelected(false);
+        		rekkehus.setSelected(false);
+        	}
+        	else if (e.getSource() == leilighet && leilighet.isSelected())
+        	{
+        		enebolig.setSelected(false);
+        		rekkehus.setSelected(false);
+        	}
+        	else if (e.getSource() == rekkehus && rekkehus.isSelected())
+        	{
+        		enebolig.setSelected(false);
+        		leilighet.setSelected(false);
+        	}
+        	
+        	if (enebolig.isSelected() || rekkehus.isSelected())
+        	{
+        		pEneRekke.setVisible(true);
+        		pLeilighet.setVisible(false);
+        	}
+        	else if (leilighet.isSelected())
+        	{
+        		pEneRekke.setVisible(false);
+        		pLeilighet.setVisible(true);
+        	}
+        	else
+        	{
+        		pEneRekke.setVisible(false);
+        		pLeilighet.setVisible(false);
+        	}
+			
 			Boligskjemavindu bsv;
 			
 			if (e.getSource() == registrer)
@@ -501,8 +364,6 @@ public class Boligpanel extends JPanel
 			{
 				listBoliger(true);
 			}
-			
-			
 		}
 	}
 	
