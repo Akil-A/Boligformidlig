@@ -273,9 +273,9 @@ public class Personskjemavindu extends JFrame
 
         gc.insets.left = 0;
         gc.gridx = 0;
-        c.add(email, gc);
+        c.add(postnr, gc);
         gc.gridx = 1;
-        c.add(emailfelt, gc);
+        c.add(postnrfelt, gc);
 
         gc.insets.left = 20;
         gc.gridx = 2;
@@ -287,9 +287,9 @@ public class Personskjemavindu extends JFrame
 
         gc.insets.left = 0;
         gc.gridx = 0;
-        c.add(postnr, gc);
+        c.add(email, gc);
         gc.gridx = 1;
-        c.add(postnrfelt, gc);
+        c.add(emailfelt, gc);
 
 
 
@@ -458,7 +458,7 @@ public class Personskjemavindu extends JFrame
         c.add(utleierpanel, gc);
         c.add(boligsokerpanel, gc);
 
-        setSize(700, 600);
+        setSize(600, 300);
         setLocationRelativeTo(null);
         setVisible( true);
     }
@@ -469,11 +469,15 @@ public class Personskjemavindu extends JFrame
         {
             if(utleier.isSelected())
             {
+                setSize(600, 400);
+                setLocationRelativeTo(null);
                 utleierpanel.setVisible(true);
                 boligsokerpanel.setVisible(false);
             }
             else if(boligsoker.isSelected())
             {
+                setSize(600, 600);
+                setLocationRelativeTo(null);
                 utleierpanel.setVisible(false);
                 boligsokerpanel.setVisible(true);
             }
