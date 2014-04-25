@@ -672,7 +672,14 @@ public class Boligskjemavindu extends JFrame
 	            		registret.settInnBolig(b);
 	            }
 	            
-	            JOptionPane.showMessageDialog( null, "Boligen er registrert.", "Melding",
+	            String lagremelding;
+	            
+	            if (boligen == null)
+	            	lagremelding = "Boligen er registrert.";
+	            else
+	            	lagremelding = "Boligen er oppdatert.";
+	            	
+	            JOptionPane.showMessageDialog( null, lagremelding, "Melding",
             			JOptionPane.PLAIN_MESSAGE);
 	            
     			if (boligpanelet != null)
