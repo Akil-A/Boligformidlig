@@ -1,5 +1,5 @@
 /*
- * Klassen som holder rede på lister av Personer, Boliger og Kontrakter. 
+ * Klassen som holder rede pÃ¥ lister av Personer, Boliger og Kontrakter. 
  */
 
 import java.io.Serializable;
@@ -9,14 +9,12 @@ import java.util.Date;
 public class Boligregister implements Serializable
 {
 	private ArrayList<Person> personer;
-	private ArrayList<Bolig> boliger;
 	private ArrayList<Kontrakt> kontrakter;
 	private ArrayList<Interesse> interesser;
 	
-	public Boligregister(ArrayList<Person> p, ArrayList<Bolig> b, ArrayList<Kontrakt> k, ArrayList<Interesse> i)
+	public Boligregister(ArrayList<Person> p, ArrayList<Kontrakt> k, ArrayList<Interesse> i)
 	{
 		personer = p;
-		boliger = b;
 		kontrakter = k;
 		interesser = i;
 	}
@@ -39,15 +37,6 @@ public class Boligregister implements Serializable
 	public void settInnPerson(Person p)
 	{
 		personer.add(p);
-	}
-	
-	public boolean utleierHarBoliger(int personNr)
-	{
-		for (Bolig b : boliger)
-			if (b.getUtleierId() == personNr)
-				return true;
-		
-		return false;
 	}
 
 	public Person slettPerson(int personNr)
@@ -108,45 +97,42 @@ public class Boligregister implements Serializable
 	
 	public Bolig finnBolig( int boligNr )
 	{
-		for (Bolig b : boliger)
-			if (b.getBoligNr() == boligNr)
-				return b;
+		for (Utleier u : getUtleiere())
+			for (Bolig b : u.getBoliger())
+				if (b.getBoligNr() == boligNr)
+					return b;
 		
 		return null;
 	}
 	
 	public ArrayList<Bolig> getBoliger()
 	{
-		return boliger;
-	}
-	
-	
-	public void settInnBolig(Bolig b)
-	{
-		boliger.add(b);
-	}
-	
-	public void oppdaterBolig(int boligNr, Bolig nyBolig)
-	{
-		boliger.set(boliger.indexOf(finnBolig(boligNr)), nyBolig);
-	}
-	
-	public Bolig slettBolig(int boligNr)
-	{
-		Bolig bol = null;
+		ArrayList<Bolig> bl = new ArrayList<>();
 		
-		for (Bolig b : boliger)
-			if (b.getBoligNr() == boligNr)
-			{
-				bol = b;
-				break;
-			}
+		for (Utleier u : getUtleiere())
+			for (Bolig b : u.getBoliger())
+				bl.add(b);
 		
-		if (bol != null)
-			boliger.remove(bol);
-		
-		return bol;
+		return bl;
 	}
+	
+	public ArrayList<Bolig> sokBoliger( String adr, String stasjon, int postnr, String poststed, Date annonsedatoFra, int byggeaar,
+			int boarealfra, int boarealtil, int tomtestrfra, int tomtestrtil, int prisfra, int pristil, boolean rekkehus,
+			boolean enebolig, boolean leilighet, boolean balkong, boolean heis, boolean garasje, boolean kjeller, boolean vask)
+	{
+		ArrayList<Bolig> resultat = new ArrayList<>();
+		
+		for (Bolig b : getBoliger())
+		{
+			
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
 	
 	
 	
