@@ -419,15 +419,19 @@ public class Boligskjemavindu extends JFrame
 	{
 	    public void stateChanged(ChangeEvent e)
 	    {
-	        if (enebolig.isSelected() || rekkehus.isSelected())
+	    	if (enebolig.isSelected() || rekkehus.isSelected())
 	        {
 	        	eneboligrekkehusfelt.setVisible(true);
 	        	leilighetfelt.setVisible(false);
+	    		setSize(600, 450);
+	            setLocationRelativeTo(null);
 	        }
 	        else if (leilighet.isSelected())
 	        {
 	        	eneboligrekkehusfelt.setVisible(false);
 	        	leilighetfelt.setVisible(true);
+	    		setSize(600, 450);
+	            setLocationRelativeTo(null);
 	        }
 	    }
 	}
