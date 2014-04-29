@@ -17,11 +17,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Boligskjemavindu extends JFrame
 {
 	final private String BILDEMAPPE = "bilder" + File.separator;
+	private JComboBox<String> harKjeller, harGarasje, harVaskeri;
+	private String[] combovalg = { "Ikke oppgitt", "Ja", "Nei" };
 	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
 	private JTextField tittel, adresse, postnr, poststed, togst, boareal, antrom, byggeaar, pris, antetasjer, tomtestr,
 							liggerietasje, bildeSti;
-	private JCheckBox harkjeller, hargarasje, harvaskeri;
 	private CLytter clytter;
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
@@ -82,12 +83,18 @@ public class Boligskjemavindu extends JFrame
 			
 			Enebolig c = (Enebolig)b;
 			
-			String sTomteStr = (c.getTomtestr() == 0) ? "" : c.getTomtestr() + "";
-			String sAntEtasjer = (c.getAntetasjer() == 0) ? "" : c.getAntetasjer() + "";
+			if (c.getTomtestr() != null)
+				tomtestr.setText(c.getTomtestr() + "");
+
+			if (c.getAntetasjer() != null)
+				antetasjer.setText(c.getAntetasjer() + "");
 			
-			tomtestr.setText(sTomteStr);
-			antetasjer.setText(sAntEtasjer);
-			harkjeller.setSelected(c.isKjeller());
+			if (c.isKjeller() == null)
+				harKjeller.setSelectedIndex(0);
+			else if (c.isKjeller())
+				harKjeller.setSelectedIndex(1);
+			else if (!c.isKjeller())
+				harKjeller.setSelectedIndex(2);
 		}
 		else if (b instanceof Rekkehus)
 		{
@@ -95,12 +102,18 @@ public class Boligskjemavindu extends JFrame
 			
 			Rekkehus c = (Rekkehus)b;
 			
-			String sTomteStr = (c.getTomtestr() == 0) ? "" : c.getTomtestr() + "";
-			String sAntEtasjer = (c.getAntetasjer() == 0) ? "" : c.getAntetasjer() + "";
+			if (c.getTomtestr() != null)
+				tomtestr.setText(c.getTomtestr() + "");
+
+			if (c.getAntetasjer() != null)
+				antetasjer.setText(c.getAntetasjer() + "");
 			
-			tomtestr.setText(sTomteStr);
-			antetasjer.setText(sAntEtasjer);
-			harkjeller.setSelected(c.isKjeller());
+			if (c.isKjeller() == null)
+				harKjeller.setSelectedIndex(0);
+			else if (c.isKjeller())
+				harKjeller.setSelectedIndex(1);
+			else if (!c.isKjeller())
+				harKjeller.setSelectedIndex(2);
 		}
 		else if (b instanceof Leilighet)
 		{
@@ -108,11 +121,23 @@ public class Boligskjemavindu extends JFrame
 			
 			Leilighet c = (Leilighet)b;
 			
-			String sEtasje = (c.getEtasje() == 0) ? "" : c.getEtasje() + "";
+			if (c.getEtasje() != null)
+				liggerietasje.setText(c.getEtasje() + "");
 			
-			liggerietasje.setText(sEtasje);
-			hargarasje.setSelected(c.getGarasje());
-			harvaskeri.setSelected(c.getVaskeri());
+			if (c.getGarasje() == null)
+				harGarasje.setSelectedIndex(0);
+			else if (c.getGarasje())
+				harGarasje.setSelectedIndex(1);
+			else if (!c.getGarasje())
+				harGarasje.setSelectedIndex(2);
+			
+			
+			if (c.getVaskeri() == null)
+				harVaskeri.setSelectedIndex(0);
+			else if (c.getVaskeri())
+				harVaskeri.setSelectedIndex(1);
+			else if (!c.getVaskeri())
+				harVaskeri.setSelectedIndex(2);
 		}
 	}
 	
@@ -308,8 +333,10 @@ public class Boligskjemavindu extends JFrame
 
 		JPanel elinje2 = new JPanel();
 		
-		harkjeller = new JCheckBox("Er det kjeller?");
-		elinje2.add(harkjeller);
+		harKjeller = new JComboBox<>(combovalg);
+		
+		elinje2.add(new JLabel("Kjeller: "));
+		elinje2.add(harKjeller);
 
 		eneboligrekkehusfelt.add(elinje1, erGc);
 		erGc.gridy = 1;
@@ -334,12 +361,14 @@ public class Boligskjemavindu extends JFrame
 		leilighetfelt.add(llinje1, lhGc);
 
 		JPanel llinje2 = new JPanel();
-
-		hargarasje = new JCheckBox("Garasje");
-		harvaskeri = new JCheckBox("Fellesvaskeri");
 		
-		llinje2.add(hargarasje);
-		llinje2.add(harvaskeri);
+		harGarasje = new JComboBox<>(combovalg);
+		harVaskeri = new JComboBox<>(combovalg);
+
+		llinje2.add(new JLabel("Garasje: "));
+		llinje2.add(harGarasje);
+		llinje2.add(new JLabel("Vaskeri: "));
+		llinje2.add(harVaskeri);
 
 		lhGc.gridy = 1;
 		leilighetfelt.add(llinje2, lhGc);
@@ -424,14 +453,12 @@ public class Boligskjemavindu extends JFrame
 	        	eneboligrekkehusfelt.setVisible(true);
 	        	leilighetfelt.setVisible(false);
 	    		setSize(600, 450);
-	            setLocationRelativeTo(null);
 	        }
 	        else if (leilighet.isSelected())
 	        {
 	        	eneboligrekkehusfelt.setVisible(false);
 	        	leilighetfelt.setVisible(true);
 	    		setSize(600, 450);
-	            setLocationRelativeTo(null);
 	        }
 	    }
 	}
@@ -458,10 +485,7 @@ public class Boligskjemavindu extends JFrame
     			boolean bleilighet = leilighet.isSelected();
     			String stomtestr = tomtestr.getText();
     			String santetasjer = antetasjer.getText();
-    			boolean bkjeller = harkjeller.isSelected();
     			String sliggerietasje = liggerietasje.getText();
-    			boolean bgarasje = hargarasje.isSelected();
-    			boolean bvaskeri = harvaskeri.isSelected();
     			
     			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || stittel.isEmpty() ||
     					sadresse.isEmpty() || spoststed.isEmpty() || sboareal.isEmpty() ||
@@ -498,32 +522,31 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
-	            	
-	            	if (!santrom.isEmpty())
-	            		b.setAntrom(Integer.parseInt(santrom));
-	            	
-	            	if (!sboareal.isEmpty())
-	            		b.setBoareal(Integer.parseInt(sboareal));
-	            	
-	            	if (!sbyggeaar.isEmpty())
-	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
-	            	
-	            	if (!stogst.isEmpty())
-	            		b.setTogst(stogst);
-	            	
+	            	b.setAntrom(Integer.parseInt(santrom));
+	            	b.setBoareal(Integer.parseInt(sboareal));
+	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	b.setTogst(stogst);
 	            	
 	            	// Under: enebolig-spesifikke felt
 	            	
-	            	if (!santetasjer.isEmpty())
-	            		b.setAntetasjer(Integer.parseInt(santetasjer));
-	            	
-	            	if (!stomtestr.isEmpty())
+	            	if (stomtestr.isEmpty())
+	            		b.setTomtestr(null);
+	            	else
 	            		b.setTomtestr(Integer.parseInt(stomtestr));
 	            	
-	            	if (!santetasjer.isEmpty())
+	            	if (santetasjer.isEmpty())
+	            		b.setAntetasjer(null);
+	            	else
 	            		b.setAntetasjer(Integer.parseInt(santetasjer));
 	            	
-	            	b.setKjeller(bkjeller);
+	            	
+	            	if (harKjeller.getSelectedIndex() == 0)
+	            		b.setKjeller(null);
+	            	else if (harKjeller.getSelectedIndex() == 1)
+	            		b.setKjeller(true);
+	            	else if (harKjeller.getSelectedIndex() == 2)
+	            		b.setKjeller(false);
+	            	
 	            	
 	            	if (bildet != null)
 	            	{
@@ -561,32 +584,31 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
+	            	b.setAntrom(Integer.parseInt(santrom));
+	            	b.setBoareal(Integer.parseInt(sboareal));
+	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	b.setTogst(stogst);
 	            	
-	            	if (!santrom.isEmpty())
-	            		b.setAntrom(Integer.parseInt(santrom));
+	            	// Under: enebolig-spesifikke felt
 	            	
-	            	if (!sboareal.isEmpty())
-	            		b.setBoareal(Integer.parseInt(sboareal));
-	            	
-	            	if (!sbyggeaar.isEmpty())
-	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
-	            	
-	            	if (!stogst.isEmpty())
-	            		b.setTogst(stogst);
-	            	
-	            	
-	            	// Under: rekkehus-spesifikke felt
-	            	
-	            	if (!santetasjer.isEmpty())
-	            		b.setAntetasjer(Integer.parseInt(santetasjer));
-	            	
-	            	if (!stomtestr.isEmpty())
+	            	if (stomtestr.isEmpty())
+	            		b.setTomtestr(null);
+	            	else
 	            		b.setTomtestr(Integer.parseInt(stomtestr));
 	            	
-	            	if (!santetasjer.isEmpty())
+	            	if (santetasjer.isEmpty())
+	            		b.setAntetasjer(null);
+	            	else
 	            		b.setAntetasjer(Integer.parseInt(santetasjer));
 	            	
-	            	b.setKjeller(bkjeller);
+	            	
+	            	if (harKjeller.getSelectedIndex() == 0)
+	            		b.setKjeller(null);
+	            	else if (harKjeller.getSelectedIndex() == 1)
+	            		b.setKjeller(true);
+	            	else if (harKjeller.getSelectedIndex() == 2)
+	            		b.setKjeller(false);
+	            	
 	            	
 	            	if (bildet != null)
 	            	{
@@ -624,26 +646,34 @@ public class Boligskjemavindu extends JFrame
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
-	            	
-	            	if (!santrom.isEmpty())
-	            		b.setAntrom(Integer.parseInt(santrom));
-	            	
-	            	if (!sboareal.isEmpty())
-	            		b.setBoareal(Integer.parseInt(sboareal));
-	            	
-	            	if (!sbyggeaar.isEmpty())
-	            		b.setByggeaar(Integer.parseInt(sbyggeaar));
-	            	
-	            	if (!stogst.isEmpty())
-	            		b.setTogst(stogst);
+	            	b.setAntrom(Integer.parseInt(santrom));
+	            	b.setBoareal(Integer.parseInt(sboareal));
+	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
+	            	b.setTogst(stogst);
 	            	
 	            	// Under: leilighet-spesifikke felt
 	            	
-	            	if (!sliggerietasje.isEmpty())
+	            	if (sliggerietasje.isEmpty())
+	            		b.setEtasje(null);
+	            	else
 	            		b.setEtasje(Integer.parseInt(sliggerietasje));
 	            	
-	            	b.setGarasje(bgarasje);
-	            	b.setVaskeri(bvaskeri);
+	            	
+	            	if (harGarasje.getSelectedIndex() == 0)
+	            		b.setGarasje(null);
+	            	else if (harGarasje.getSelectedIndex() == 1)
+	            		b.setGarasje(true);
+	            	else if (harGarasje.getSelectedIndex() == 2)
+	            		b.setGarasje(false);
+	            	
+	            	
+	            	if (harVaskeri.getSelectedIndex() == 0)
+	            		b.setVaskeri(null);
+	            	else if (harVaskeri.getSelectedIndex() == 1)
+	            		b.setVaskeri(true);
+	            	else if (harVaskeri.getSelectedIndex() == 2)
+	            		b.setVaskeri(false);
+	            	
 	            	
 	            	if (bildet != null)
 	            	{
