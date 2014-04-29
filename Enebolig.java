@@ -2,55 +2,42 @@ import java.io.Serializable;
 
 public class Enebolig extends Bolig implements Serializable
 {
-	private int antetasjer;
-	private boolean kjeller;
-	private int tomtestr;
+	private Integer tomtestr;
+	private Integer antetasjer;
+	private Boolean kjeller;
 
 	public Enebolig(String adresse, int postnr, String poststed, int utleiepris)
 	{
 		super(adresse, postnr, poststed, utleiepris);
 	}
 	
-	public void setAntetasjer(int antetasjer)
-	{
-		this.antetasjer = antetasjer;
-	}
-	public int getAntetasjer()
-	{
-		return antetasjer;
-	}
-	
-	public void setKjeller(boolean kjeller)
-	
-	{
-		this.kjeller = kjeller;
-	}
-	
-	public boolean isKjeller() 
-	
-	{
-		return kjeller;
-	}
-	
-	public void setTomtestr(int tomtestr)
-	
+	public void setTomtestr(Integer tomtestr)
 	{
 		this.tomtestr = tomtestr;
 	}
 	
-	public int getTomtestr() 
+	public Integer getTomtestr() 
 	{
 		return tomtestr;
 	}
 	
-	
-	public String toString()
+	public void setAntetasjer(Integer antetasjer)
 	{
-		return super.toString() +
-				"\nAntall etasjer: " + antetasjer +
-				"\nKjeller: " + (kjeller ? "ja" : "nei") +
-				"\nTomtestr.: " + tomtestr + " kvm";
+		this.antetasjer = antetasjer;
 	}
-
+	public Integer getAntetasjer()
+	{
+		return antetasjer;
+	}
+	
+	public void setKjeller(Boolean kjeller)
+	{
+		this.kjeller = kjeller;
+	}
+	
+	public Boolean isKjeller() 
+	{
+		return kjeller;
+	}
 }
 
