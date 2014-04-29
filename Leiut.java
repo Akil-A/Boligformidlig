@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -105,18 +106,7 @@ public class Leiut extends JFrame
 		setVisible(true);
 	}
 	
-	public boolean erTall( String s )
-	{
-		try
-		{
-			Integer.parseInt( s );
-			return true;
-		}
-		catch( Exception e )
-		{
-			return false;
-		}
-	}
+
 	
 	private class Lytter implements ActionListener
 	{
@@ -142,48 +132,44 @@ public class Leiut extends JFrame
 				}
 				
 				else
-				{
-					String sStartDato = startDato.getText();
-					String sSluttDato = sluttDato.getText();
-					
-					String[] aStartDato = sStartDato.split("/");
-					String[] aSluttDato = sSluttDato.split("/");
-					
-					if (aStartDato.length != 3 || aSluttDato.length != 3 || !erTall(aStartDato[0]) || !erTall(aStartDato[1]) ||
-							!erTall(aStartDato[2]) || !erTall(aSluttDato[0]) || !erTall(aSluttDato[1]) || !erTall(aSluttDato[2]) || 
-							Integer.parseInt(aStartDato[0]) > 31 || Integer.parseInt(aStartDato[1]) > 12 || aStartDato[2].length() != 4 ||
-							aSluttDato.length != 3 || Integer.parseInt(aSluttDato[0]) > 31 || Integer.parseInt(aSluttDato[1]) > 12 ||
-							aSluttDato[2].length() != 4)
-					{
-						JOptionPane.showMessageDialog(null,"Feil format!");
-						return;
-					}
-					
-					
-					
-					
-					dStartDato = new Date(Integer.parseInt(aStartDato[2]), Integer.parseInt(aStartDato[1]), Integer.parseInt(aStartDato[0]));
-					dSluttDato = new Date(Integer.parseInt(aSluttDato[2]), Integer.parseInt(aSluttDato[1]), Integer.parseInt(aSluttDato[0]));
-					
-					/*try {
-						dStartDato = new SimpleDateFormat("dd/MM/yyyy").parse(startDato.getText());
-						dSluttDato = new SimpleDateFormat("dd/MM/yyyy").parse(sluttDato.getText());
-						
-					} catch (ParseException | IllegalArgumentException e1) {
-						JOptionPane.showMessageDialog(null,"Feil format!");
-						return;
-					}*/
-					
-					if(dSluttDato.before(dStartDato) || dSluttDato.equals(dStartDato))
+				{		
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				    
+				    Date testStartDato = null;
+				    Date testSluttDato = null;
+				    
+				    try
+				        {
+				    
+				    	testStartDato = sdf.parse(startDato.getText());
+				    	testSluttDato = sdf.parse(sluttDato.getText());
+				
+				        }
+				    catch(ParseException pe)
+				    {
+				    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+				    	return;
+				    }
+				    
+				    if( !sdf.format(testStartDato).equals(startDato.getText()) || !sdf.format(testSluttDato).equals(sluttDato.getText()))
+				    {
+				    	JOptionPane.showMessageDialog(null, "Feil i format");
+				    	return;
+				    }
+				    
+				    if(testSluttDato.before(testStartDato) || testSluttDato.equals(testStartDato))
 					{	
 						
 						JOptionPane.showMessageDialog(null,"Startdatoen maa vaere for sluttdatoen!");
 						return;
 					}
 					
+					
+					
+					
 					Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue().getPersonNr(), boligNr, dStartDato, dSluttDato);
 					register.settInnKontrakt(kontrakten);
-					JOptionPane.showMessageDialog(null,"Test fullført\nstartdato:" + dStartDato + "\nsluttdato:" + dSluttDato);
+					JOptionPane.showMessageDialog(null,"Test fullført\nstartdato:" + testStartDato + "\nsluttdato:" + testSluttDato);
 				}
 			}
 				
@@ -192,4 +178,3 @@ public class Leiut extends JFrame
 		}
 	}
 }
-
