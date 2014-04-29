@@ -2,50 +2,42 @@ import java.io.Serializable;
 
 public class Leilighet extends Bolig implements Serializable
 {
-	 private int etasje;
-	 private boolean garasje;
-	 private boolean vaskeri;
+	 private Integer etasje;
+	 private Boolean garasje;
+	 private Boolean vaskeri;
 	 
 	 public Leilighet(String adresse, int postnr, String poststed, int utleiepris)
 	 {
 		super(adresse, postnr, poststed, utleiepris);
 	 }
 	
-	public int getEtasje()
+	public Integer getEtasje()
 	{
 		return etasje;
 	}
 	
-	public void setEtasje(int etasje) 
+	public void setEtasje(Integer etasje) 
 	{
 		this.etasje = etasje;
 	}
 	
-	public boolean getGarasje() 
+	public Boolean getGarasje() 
 	{
-		return vaskeri;
+		return garasje;
 	}
 	
-	public void setGarasje(boolean g) 
+	public void setGarasje(Boolean g) 
 	{
 		garasje = g;
 	}
 	
-	public boolean getVaskeri() 
+	public Boolean getVaskeri() 
 	{
 		return vaskeri;
 	}
 	
-	public void setVaskeri(boolean v) 
+	public void setVaskeri(Boolean v) 
 	{
 		vaskeri = v;
-	}
-	
-	public String toString()
-	{
-		return super.toString() +
-				"\nEtasje: " + etasje +
-				"\nGarasje: " + (garasje ? "ja" : "nei") +
-				"\nVaskeri: " + (vaskeri ? "ja" : "nei");
 	}
 }
