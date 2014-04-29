@@ -22,6 +22,11 @@ public class Kontrakt implements Serializable
 		this.startdato = startdato;
 		this.sluttdato = sluttdato;
 	}
+	
+	public boolean getFungerer()
+	{
+		return sluttdato.after(new Date()) && (oppsagtDato == null || oppsagtDato.after(new Date()));
+	}
 
 	public int getKontraktNr()
 	{
