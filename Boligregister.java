@@ -1,5 +1,3 @@
-package prosjekttest;
-
 /*
  * Klassen som holder rede på lister av Personer, Boliger og Kontrakter. 
  */
@@ -60,11 +58,10 @@ public class Boligregister implements Serializable
 			if (p.getPersonNr() == personNr)
 			{
 				pers = p;
+				personer.remove(pers);
+				
 				break;
 			}
-		
-		if (pers != null)
-			personer.remove(pers);
 		
 		return pers;
 	}
@@ -141,13 +138,31 @@ public class Boligregister implements Serializable
 			if (b.getBoligNr() == boligNr)
 			{
 				bol = b;
+				boliger.remove(bol);
+				
 				break;
 			}
 		
-		if (bol != null)
-			boliger.remove(bol);
-		
 		return bol;
+	}
+	
+	public ArrayList<Bolig> getUtleide()
+	{
+		ArrayList<Bolig> u = new ArrayList<>();
+		
+		for (Kontrakt k : kontrakter)
+			if (k.getFungerer())
+				u.add(finnBolig(k.getBoligNr()));
+		
+		return u;
+	}
+	
+	public ArrayList<Bolig> getLedige()
+	{
+		ArrayList<Bolig> l = getBoliger();
+		l.removeAll(getUtleide());
+		
+		return l;
 	}
 	
 	
@@ -209,21 +224,11 @@ public class Boligregister implements Serializable
 			{
 				kontr = k;
 				kontrakter.remove(k);
+				
+				break;
 			}
 		
 		return kontr;
-	}
-	
-	public Boolean erLeid(int boligNr)
-	{
-		
-		for (Kontrakt k : kontrakter)
-			if (k.getBoligNr() == boligNr)
-			{
-				return true;
-			}
-		
-		return false;
 	}
 	
 	
@@ -256,6 +261,8 @@ public class Boligregister implements Serializable
 			{
 				inter = i;
 				interesser.remove(i);
+				
+				break;
 			}
 		
 		return inter;
