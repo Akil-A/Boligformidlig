@@ -198,7 +198,7 @@ public class Boligregister implements Serializable
 		ArrayList<Kontrakt> kl = new ArrayList<>();
 		
 		for (Kontrakt k : kontrakter)
-			if (k.getSluttdato().after(new Date()))
+			if (k.getFungerer())
 				kl.add(k);
 				
 		return kl;			
@@ -209,10 +209,10 @@ public class Boligregister implements Serializable
 		ArrayList<Kontrakt> kl = new ArrayList<>();
 		
 		for (Kontrakt k : kontrakter)
-			if (k.getSluttdato().before(new Date()))
+			if (!k.getFungerer())
 				kl.add(k);
 				
-		return kl;			
+		return kl;	
 	}
 	
 	public Kontrakt slettKontrakt(int kontraktNr)
