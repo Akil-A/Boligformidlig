@@ -8,6 +8,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Boligpanel extends JPanel
 {
@@ -19,6 +21,7 @@ public class Boligpanel extends JPanel
 	private JButton sok, registrer;
 	private JScrollPane boligListe;
 	private Boligregister register;
+	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/12/2013";
 	
 	public Boligpanel(Boligregister br)
 	{
@@ -44,7 +47,7 @@ public class Boligpanel extends JPanel
 		{
 			public void focusGained(FocusEvent f)
 			{
-				if(annonsedato.getText().equals("eks: 21/12/2013"))
+				if(annonsedato.getText().equals(ANNONSEDATO_EKS_TEKST))
 				{
 					annonsedato.setText("");
 					annonsedato.setForeground(Color.BLACK);
@@ -54,7 +57,7 @@ public class Boligpanel extends JPanel
 			{
 				if(annonsedato.getText().isEmpty())
 				{
-					annonsedato.setText("eks: 21/12/2013");
+					annonsedato.setText(ANNONSEDATO_EKS_TEKST);
 					annonsedato.setForeground(Color.GRAY);
 				}
 			}
@@ -234,117 +237,136 @@ public class Boligpanel extends JPanel
 		gc3.gridy = 0;
 		int i = 0;
 		
-		for (final Bolig b : register.getBoliger())
+		boolean bVisledige = visledige.isSelected();
+		boolean bVisutleide = visutleide.isSelected();
+		
+		ArrayList<Bolig> sokeliste = new ArrayList<>();
+		
+		if (medFilter)
 		{
-			if
-			(
-				!medFilter ||
-				(
-					medFilter &&
-					(b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())) &&
-					(b.getTogst() != null && b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase()))
-				)
-			)
+			if ((bVisledige && bVisutleide) || (!bVisledige && !bVisutleide))
+				sokeliste = register.getBoliger();
+			else if (bVisledige && !bVisutleide)
+				sokeliste = register.getLedige();
+			else if (bVisutleide && !bVisledige)
+				sokeliste = register.getUtleide();
+			
+			ArrayList<Bolig> sokeliste1 = new ArrayList<>();
+			
+			for (Bolig b : sokeliste)
+				if ((b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())) &&
+							(b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase())) &&
+							(Integer.toString(b.getPostnr()).toLowerCase().contains(postnr.getText().toLowerCase())) &&
+							(b.getPoststed().toLowerCase().contains(poststed.getText().toLowerCase())) &&
+							(annonsedato.getText().equals(ANNONSEDATO_EKS_TEKST) || annonsedato.getText().isEmpty() ||
+									new Date(annonsedato.getText()).before(b.getAnnonsedato())) &&
+							(byggeaar.getText().isEmpty() || Integer.parseInt(byggeaar.getText()) <= b.getByggeaar()) &&
+							(prisfra.getText().isEmpty() || Integer.parseInt(prisfra.getText()) <= b.getUtleiepris()) &&
+							(pristil.getText().isEmpty() || Integer.parseInt(pristil.getText()) >= b.getUtleiepris()) &&
+							(boarealfra.getText().isEmpty() || Integer.parseInt(boarealfra.getText()) <= b.getBoareal()) &&
+							(boarealtil.getText().isEmpty() || Integer.parseInt(boarealtil.getText()) >= b.getBoareal()))
+					sokeliste1.add(b);
+			
+			sokeliste = sokeliste1;
+		}
+		else
+			sokeliste = register.getBoliger();
+		
+		for (final Bolig b : sokeliste)
+		{
+			JPanel Bolig = new JPanel(new GridBagLayout());
+			
+			Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+			
+			JLabel beskrivelse = new JLabel(b.getBeskrivelse());
+			beskrivelse.setFont(f);
+			JLabel boareal = new JLabel(String.valueOf(b.getBoareal()) + "kvm");
+			boareal.setFont(f);
+			JLabel pris = new JLabel(String.valueOf(b.getUtleiepris()) + ",- pr mnd");
+			pris.setFont(f);
+			JLabel adresse = new JLabel(b.getAdresse() + ", " + b.getPostnr() + " " + b.getPoststed());
+			adresse.setFont(f);
+
+			GridBagConstraints gc4 = new GridBagConstraints();
+			
+			gc4.anchor = GridBagConstraints.NORTHWEST;
+			
+			gc4.gridx = 1;
+			gc4.gridy = 0;
+			Bolig.add(beskrivelse, gc4);
+			gc4.gridy = 1;
+			Bolig.add(boareal, gc4);
+			gc4.gridy = 2;
+			Bolig.add(pris, gc4);
+			gc4.gridy = 3;
+			Bolig.add(adresse, gc4);
+			gc4.gridy = 4;
+			
+			JButton detaljer = new JButton("Detaljer");
+			detaljer.setFont(f);
+			detaljer.addActionListener(new ActionListener()
 			{
-				JPanel Bolig = new JPanel(new GridBagLayout());
-				
-				Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-				
-				JLabel beskrivelse = new JLabel(b.getBeskrivelse());
-				beskrivelse.setFont(f);
-				JLabel boareal = new JLabel(String.valueOf(b.getBoareal()) + "kvm");
-				boareal.setFont(f);
-				JLabel pris = new JLabel(String.valueOf(b.getUtleiepris()) + ",- pr mnd");
-				pris.setFont(f);
-				JLabel adresse = new JLabel(b.getAdresse() + ", " + b.getPostnr() + " " + b.getPoststed());
-				adresse.setFont(f);
-
-				GridBagConstraints gc4 = new GridBagConstraints();
-				
-				gc4.anchor = GridBagConstraints.NORTHWEST;
-				
-				gc4.gridx = 1;
-				gc4.gridy = 0;
-				Bolig.add(beskrivelse, gc4);
-				gc4.gridy = 1;
-				Bolig.add(boareal, gc4);
-				gc4.gridy = 2;
-				Bolig.add(pris, gc4);
-				gc4.gridy = 3;
-				Bolig.add(adresse, gc4);
-				gc4.gridy = 4;
-				
-				JButton detaljer = new JButton("Detaljer");
-				detaljer.setFont(f);
-				detaljer.addActionListener(new ActionListener()
+				public void actionPerformed(ActionEvent e)
 				{
-					public void actionPerformed(ActionEvent e)
-					{
-						Boligskjemavindu bsv = new Boligskjemavindu(register, Boligpanel.this, b);
-					}
-				});
-				
-				final JButton leiut = new JButton("Lei ut");
-				leiut.setFont(f);
-				leiut.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						// aapne et vindu hvor man leier ut
-						if(e.getSource() == leiut)
-						{
-							Leiut soker = new Leiut(register,b.getBoligNr());
-							
-						}
-					}
-				});
-				
-				JPanel boligknapper = new JPanel();
-				boligknapper.add(detaljer);
-				boligknapper.add(leiut);
-				boligknapper.setBorder(null);
-				
-				Bolig.add(boligknapper, gc4);
-				
-				JButton bildeknapp = new JButton();
-				bildeknapp.setPreferredSize(new Dimension(130, 110));
-				bildeknapp.setEnabled(false);
-				bildeknapp.setText("<html><center>-mangler<br>bilde-</center></html>");
-				bildeknapp.setFont(f);
-				
-				if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
-				{
-					try
-					{
-						final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
-						Image skalert = mittBilde1.getScaledInstance(130, 110, BufferedImage.SCALE_SMOOTH);
-						
-						bildeknapp.setText(null);
-						bildeknapp.setEnabled(true);
-						bildeknapp.setIcon(new ImageIcon(skalert));
-						bildeknapp.addActionListener(new ActionListener()
-						{
-							public void actionPerformed(ActionEvent e)
-							{
-								Bildevindu bv = new Bildevindu(mittBilde1);
-							}
-						});
-					}
-					catch(IOException ex)
-					{
-					}
+					Boligskjemavindu bsv = new Boligskjemavindu(register, Boligpanel.this, b);
 				}
-
-				gc4.gridheight = 5;
-				gc4.gridx = 0;
-				gc4.gridy = 0;
-				gc4.insets.right = 10;
-		 	   	Bolig.add(bildeknapp, gc4);
-				
-	
-				gc3.gridy = i++;
-				innerListePanel.add(Bolig, gc3);
+			});
+			
+			JButton leiut = new JButton("Lei ut");
+			leiut.setFont(f);
+			leiut.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					Leiut utleievindu = new Leiut(register, b.getBoligNr());
+				}
+			});
+			
+			JPanel boligknapper = new JPanel();
+			boligknapper.add(detaljer);
+			boligknapper.add(leiut);
+			boligknapper.setBorder(null);
+			
+			Bolig.add(boligknapper, gc4);
+			
+			JButton bildeknapp = new JButton();
+			bildeknapp.setPreferredSize(new Dimension(130, 110));
+			bildeknapp.setEnabled(false);
+			bildeknapp.setText("<html><center>-mangler<br>bilde-</center></html>");
+			bildeknapp.setFont(f);
+			
+			if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
+			{
+				try
+				{
+					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
+					Image skalert = mittBilde1.getScaledInstance(130, 110, BufferedImage.SCALE_FAST);
+					
+					bildeknapp.setText(null);
+					bildeknapp.setEnabled(true);
+					bildeknapp.setIcon(new ImageIcon(skalert));
+					bildeknapp.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							Bildevindu bv = new Bildevindu(mittBilde1);
+						}
+					});
+				}
+				catch(IOException ex)
+				{
+				}
 			}
+
+			gc4.gridheight = 5;
+			gc4.gridx = 0;
+			gc4.gridy = 0;
+			gc4.insets.right = 10;
+	 	   	Bolig.add(bildeknapp, gc4);
+			
+
+			gc3.gridy = i++;
+			innerListePanel.add(Bolig, gc3);
 		}
 		
 		
