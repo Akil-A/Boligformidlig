@@ -284,13 +284,18 @@ public class Boligpanel extends JPanel
 					}
 				});
 				
-				JButton leiut = new JButton("Lei ut");
+				final JButton leiut = new JButton("Lei ut");
 				leiut.setFont(f);
 				leiut.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
 						// aapne et vindu hvor man leier ut
+						if(e.getSource() == leiut)
+						{
+							Leiut soker = new Leiut(register,b.getBoligNr());
+							
+						}
 					}
 				});
 				
