@@ -1,8 +1,12 @@
+package prosjekttest;
+
 
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +16,7 @@ public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
 	private String DATAFIL = "register.dta";
+	private Personpanel personpanel;
 	
 	public Hovedvindu()
 	{
@@ -25,7 +30,7 @@ public class Hovedvindu extends JFrame
 		
 		JComponent boligpanel = new Boligpanel(br);
 		tabbedPane.addTab("Boliger", boligpanel);
-		JComponent personpanel = new Personpanel(br);
+		personpanel = new Personpanel(br);
 		tabbedPane.addTab("Personer", personpanel);
 		JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
@@ -41,6 +46,14 @@ public class Hovedvindu extends JFrame
 		lDatafil.setFont(font);
 		
 		c.add(lDatafil, BorderLayout.SOUTH);
+		
+		 tabbedPane.addChangeListener(new ChangeListener()
+		    {
+		      public void stateChanged(ChangeEvent e)
+		      {	
+		    	  personpanel.oppdaterUtleierliste();	
+		      }
+		    });
 	}
 	
 	private boolean erLong(String s)
