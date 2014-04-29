@@ -2,57 +2,41 @@ import java.io.Serializable;
 
 public class Rekkehus extends Bolig implements Serializable
 {
-	private int antetasjer;
-	private boolean kjeller;
-	private int tomtestr;
+	private Integer tomtestr;
+	private Integer antetasjer;
+	private Boolean kjeller;
 	
 	public Rekkehus(String adresse, int postnr, String poststed, int utleiepris)
 	{
 		super(adresse, postnr, poststed, utleiepris);
 	}
 	
-	public int getAntetasjer() 
-	{
-		return antetasjer;
-	}
-	
-	public void setAntetasjer(int antetasjer) 
-	{
-		this.antetasjer = antetasjer;
-	}
-	
-	public boolean isKjeller() 
-	
-	{
-		return kjeller;
-	}
-	
-	public void setKjeller(boolean kjeller) 
-	
-	{
-		this.kjeller = kjeller;
-	}
-	
-	public int getTomtestr() 
-	
-	{
-		return tomtestr;
-	}
-	
-	public void setTomtestr(int tomtestr) 
-	
+	public void setTomtestr(Integer tomtestr)
 	{
 		this.tomtestr = tomtestr;
 	}
 	
-	
-	public String toString()
-	
+	public Integer getTomtestr() 
 	{
-		return super.toString() +
-			"\nAntall etasjer: " + antetasjer +
-			"\nKjeller: " + (kjeller ? "ja" : "nei") +
-			"\nTomtestr.: " + tomtestr + " kvm";
+		return tomtestr;
 	}
-
+	
+	public void setAntetasjer(Integer antetasjer)
+	{
+		this.antetasjer = antetasjer;
+	}
+	public Integer getAntetasjer()
+	{
+		return antetasjer;
+	}
+	
+	public void setKjeller(Boolean kjeller)
+	{
+		this.kjeller = kjeller;
+	}
+	
+	public Boolean isKjeller() 
+	{
+		return kjeller;
+	}
 }
