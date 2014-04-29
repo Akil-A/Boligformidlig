@@ -150,16 +150,4 @@ abstract public class Bolig implements Serializable
 	{
 		return utleiepris;
 	}
-	
-	public String toString()
-	{
-		String s = "Naermeste togstasjon: " + togst +
-					"\nBoareal: " + boareal +
-					"\nAntall rom: " + antrom +
-					"\nByggeår: " + byggeaar +
-					"\nTittel: " + tittel +
-					"\nUtleiepris: " + utleiepris +
-					"\nAnnonsen lagt ut: " + annonsedato;
-		return s;
-	}
 }
