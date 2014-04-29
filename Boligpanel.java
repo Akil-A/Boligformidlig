@@ -13,7 +13,7 @@ public class Boligpanel extends JPanel
 {
 	private JTextField adr, postnr, poststed, beliggenhet, prisfra, pristil, boarealfra, boarealtil, byggeaar, annonsedato,
 							tomtfra, tomttil, antetgfra, antetgtil;
-	private JCheckBox enebolig, rekkehus, leilighet, kjeller, garasje, vask;
+	private JCheckBox visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask;
 	private JPanel pEneRekke, pLeilighet;
 	private JScrollPane filterPanel;
 	private JButton sok, registrer;
@@ -52,17 +52,14 @@ public class Boligpanel extends JPanel
 			}
 			public void focusLost(FocusEvent f)
 			{
-				if(annonsedato.getText().equals(""))
+				if(annonsedato.getText().isEmpty())
 				{
 					annonsedato.setText("eks: 21/12/2013");
 					annonsedato.setForeground(Color.GRAY);
 				}
 			}
 		});
-		sok = new JButton("Sok bolig");
-		sok.addActionListener(lytter);
-		registrer = new JButton("Registrer ny");
-		registrer.addActionListener(lytter);
+		visutleide = new JCheckBox("Vis utleide");
 		enebolig = new JCheckBox("Enebolig");
 		enebolig.addActionListener(lytter);
 		rekkehus = new JCheckBox("Rekkehus");
@@ -76,6 +73,10 @@ public class Boligpanel extends JPanel
 		kjeller = new JCheckBox("Kjeller");
 		vask = new JCheckBox("Vask");
 		garasje = new JCheckBox("Garasje");
+		sok = new JButton("Sok bolig");
+		sok.addActionListener(lytter);
+		registrer = new JButton("Registrer ny");
+		registrer.addActionListener(lytter);
 		
 		JPanel pAdresse = new JPanel();
 		pAdresse.add(new JLabel("Adresse: "));
@@ -90,13 +91,12 @@ public class Boligpanel extends JPanel
 		pPost.add(postnr);
 		pPost.add(new JLabel("Poststed: "));
 		pPost.add(poststed);
-	   
-	    JPanel pBoareal = new JPanel();
-	    pBoareal.add(new JLabel("Boareal (kvm)"));
-	    pBoareal.add(new JLabel("fra: "));
-	    pBoareal.add(boarealfra);
-	    pBoareal.add(new JLabel("til: "));
-	    pBoareal.add(boarealtil);
+	
+		JPanel pAnnonsedato = new JPanel();
+		pAnnonsedato.add(new JLabel("Annonsedato fra: "));
+		pAnnonsedato.add(annonsedato);
+		pAnnonsedato.add(new JLabel("Byggeaar fra: "));
+		pAnnonsedato.add(byggeaar);
 	    
 		JPanel pPrisen = new JPanel();
 		pPrisen.add(new JLabel("Pris/mnd"));
@@ -104,21 +104,20 @@ public class Boligpanel extends JPanel
 		pPrisen.add(prisfra);
 		pPrisen.add(new JLabel("til: "));
 		pPrisen.add(pristil);
-	
-		JPanel pDato = new JPanel();
-		pDato.add(new JLabel("Annonsedato: "));
-		pDato.add(annonsedato);
-		pDato.add(new JLabel("Byggeaar: "));
-		pDato.add(byggeaar);
+	   
+	    JPanel pBoareal = new JPanel();
+	    pBoareal.add(new JLabel("Boareal (kvm)"));
+	    pBoareal.add(new JLabel("fra: "));
+	    pBoareal.add(boarealfra);
+	    pBoareal.add(new JLabel("til: "));
+	    pBoareal.add(boarealtil);
+	    pBoareal.add(visutleide);
 		
 		JPanel pType = new JPanel();
 		pType.add(new JLabel("Type: "));
 		pType.add(enebolig);
 		pType.add(rekkehus);
 		pType.add(leilighet);
-		
-		pEneRekke = new JPanel(new GridBagLayout());
-		GridBagConstraints enerekkeGC = new GridBagConstraints();
 
 	    JPanel pTomt = new JPanel();
 	    pTomt.add(new JLabel("Tomtestørrelse (kvm)"));
@@ -133,6 +132,9 @@ public class Boligpanel extends JPanel
 	    pAntEtg.add(antetgfra);
 	    pAntEtg.add(new JLabel("til: "));
 	    pAntEtg.add(antetgtil);
+	    
+		pEneRekke = new JPanel(new GridBagLayout());
+		GridBagConstraints enerekkeGC = new GridBagConstraints();
 	    
 	    enerekkeGC.anchor = GridBagConstraints.CENTER;
 	    pEneRekke.add(pTomt, enerekkeGC);
@@ -179,7 +181,7 @@ public class Boligpanel extends JPanel
         innerFilterPanel.add(pPost, gc);
       
         gc.gridy = 5;
-        innerFilterPanel.add(pDato,gc);
+        innerFilterPanel.add(pAnnonsedato,gc);
         
         gc.gridy = 6;
         innerFilterPanel.add(pPrisen, gc);
@@ -242,10 +244,16 @@ public class Boligpanel extends JPanel
 			{
 				JPanel Bolig = new JPanel(new GridBagLayout());
 				
+				Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+				
 				JLabel beskrivelse = new JLabel(b.getBeskrivelse());
+				beskrivelse.setFont(f);
 				JLabel boareal = new JLabel(String.valueOf(b.getBoareal()) + "kvm");
+				boareal.setFont(f);
 				JLabel pris = new JLabel(String.valueOf(b.getUtleiepris()) + ",- pr mnd");
-				JLabel adresse = new JLabel(b.getAdresse());
+				pris.setFont(f);
+				JLabel adresse = new JLabel(b.getAdresse() + ", " + b.getPostnr() + " " + b.getPoststed());
+				adresse.setFont(f);
 
 				GridBagConstraints gc4 = new GridBagConstraints();
 				
@@ -263,6 +271,7 @@ public class Boligpanel extends JPanel
 				gc4.gridy = 4;
 				
 				JButton detaljer = new JButton("Detaljer");
+				detaljer.setFont(f);
 				
 				Bolig.add(detaljer, gc4);
 				
@@ -275,17 +284,17 @@ public class Boligpanel extends JPanel
 				});
 				
 				JButton bilde = new JButton();
-				bilde.setPreferredSize(new Dimension(90, 90));
-				bilde.setForeground(Color.BLACK); ////////////??????????????????? funker ikke
-				bilde.setText("<html><font color=black>-mangler<br>bilde-</font></html>");
+				bilde.setPreferredSize(new Dimension(130, 110));
 				bilde.setEnabled(false);
+				bilde.setText("<html><center>-mangler<br>bilde-</center></html>");
+				bilde.setFont(f);
 				
 				if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 				{
 					try
 					{
 						final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
-						Image skalert = mittBilde1.getScaledInstance(90, 90, BufferedImage.SCALE_SMOOTH);
+						Image skalert = mittBilde1.getScaledInstance(130, 110, BufferedImage.SCALE_SMOOTH);
 						
 						bilde.setText(null);
 						bilde.setEnabled(true);
