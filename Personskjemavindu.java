@@ -1,4 +1,8 @@
 
+/* Vindu som tar seg av registrering av utleiere og boligsokere.
+ * Laget av Akil og Joakim
+ */
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
