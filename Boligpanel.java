@@ -13,7 +13,7 @@ public class Boligpanel extends JPanel
 {
 	private JTextField adr, postnr, poststed, beliggenhet, prisfra, pristil, boarealfra, boarealtil, byggeaar, annonsedato,
 							tomtfra, tomttil, antetgfra, antetgtil;
-	private JCheckBox visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask;
+	private JCheckBox visledige, visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask;
 	private JPanel pEneRekke, pLeilighet;
 	private JScrollPane filterPanel;
 	private JButton sok, registrer;
@@ -59,7 +59,10 @@ public class Boligpanel extends JPanel
 				}
 			}
 		});
+		visledige = new JCheckBox("Vis ledige");
+		visledige.setSelected(true);
 		visutleide = new JCheckBox("Vis utleide");
+		visutleide.setSelected(true);
 		enebolig = new JCheckBox("Enebolig");
 		enebolig.addActionListener(lytter);
 		rekkehus = new JCheckBox("Rekkehus");
@@ -111,6 +114,7 @@ public class Boligpanel extends JPanel
 	    pBoareal.add(boarealfra);
 	    pBoareal.add(new JLabel("til: "));
 	    pBoareal.add(boarealtil);
+	    pBoareal.add(visledige);
 	    pBoareal.add(visutleide);
 		
 		JPanel pType = new JPanel();
@@ -238,7 +242,7 @@ public class Boligpanel extends JPanel
 				(
 					medFilter &&
 					(b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())) &&
-					(b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase()))
+					(b.getTogst() != null && b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase()))
 				)
 			)
 			{
@@ -272,9 +276,6 @@ public class Boligpanel extends JPanel
 				
 				JButton detaljer = new JButton("Detaljer");
 				detaljer.setFont(f);
-				
-				Bolig.add(detaljer, gc4);
-				
 				detaljer.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
@@ -283,11 +284,28 @@ public class Boligpanel extends JPanel
 					}
 				});
 				
-				JButton bilde = new JButton();
-				bilde.setPreferredSize(new Dimension(130, 110));
-				bilde.setEnabled(false);
-				bilde.setText("<html><center>-mangler<br>bilde-</center></html>");
-				bilde.setFont(f);
+				JButton leiut = new JButton("Lei ut");
+				leiut.setFont(f);
+				leiut.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						// aapne et vindu hvor man leier ut
+					}
+				});
+				
+				JPanel boligknapper = new JPanel();
+				boligknapper.add(detaljer);
+				boligknapper.add(leiut);
+				boligknapper.setBorder(null);
+				
+				Bolig.add(boligknapper, gc4);
+				
+				JButton bildeknapp = new JButton();
+				bildeknapp.setPreferredSize(new Dimension(130, 110));
+				bildeknapp.setEnabled(false);
+				bildeknapp.setText("<html><center>-mangler<br>bilde-</center></html>");
+				bildeknapp.setFont(f);
 				
 				if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 				{
@@ -296,10 +314,10 @@ public class Boligpanel extends JPanel
 						final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
 						Image skalert = mittBilde1.getScaledInstance(130, 110, BufferedImage.SCALE_SMOOTH);
 						
-						bilde.setText(null);
-						bilde.setEnabled(true);
-						bilde.setIcon(new ImageIcon(skalert));
-						bilde.addActionListener(new ActionListener()
+						bildeknapp.setText(null);
+						bildeknapp.setEnabled(true);
+						bildeknapp.setIcon(new ImageIcon(skalert));
+						bildeknapp.addActionListener(new ActionListener()
 						{
 							public void actionPerformed(ActionEvent e)
 							{
@@ -316,7 +334,7 @@ public class Boligpanel extends JPanel
 				gc4.gridx = 0;
 				gc4.gridy = 0;
 				gc4.insets.right = 10;
-		 	   	Bolig.add(bilde, gc4);
+		 	   	Bolig.add(bildeknapp, gc4);
 				
 	
 				gc3.gridy = i++;
