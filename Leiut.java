@@ -158,6 +158,7 @@ public class Leiut extends JFrame
 					Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue().getPersonNr(), boligNr, testStartDato, testSluttDato);
 					register.settInnKontrakt(kontrakten);
 					JOptionPane.showMessageDialog(null,"Test fullfort\nstartdato:" + testStartDato + "\nsluttdato:" + testSluttDato);
+					dispose();
 				}
 			}
 				
