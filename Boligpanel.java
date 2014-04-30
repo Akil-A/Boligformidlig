@@ -449,3 +449,6 @@ public class Boligpanel extends JPanel
 	}
 	
 }
+
+
+
