@@ -737,9 +737,7 @@ public class Boligskjemavindu extends JFrame
     			}
     		}
     		else if(e.getSource() == fjernBilde)
-    		{
     			bildeSti.setText("");
-    		}
     		else if(e.getSource() == utleiere && ((JComboBox)e.getSource()).getSelectedIndex() == 1)
     			new Personskjemavindu(registret, Boligskjemavindu.this);
     		else if(e.getSource() == avbryt)
