@@ -1,5 +1,5 @@
 /*
- * Klassen som holder rede p�� lister av Personer, Boliger og Kontrakter. 
+ * Klassen som holder rede pï¿½ï¿½ lister av Personer, Boliger og Kontrakter. 
  */
 
 import java.io.Serializable;
@@ -163,7 +163,7 @@ public class Boligregister implements Serializable
 	public int getUtleideiAAr()
 	{	
 		int counter = 0;
-
+		
 		for (Kontrakt k : kontrakter)
 		{
 			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
@@ -194,6 +194,11 @@ public class Boligregister implements Serializable
 	{
 		kontrakter.add(k);
 	}	
+	
+	public void oppdaterKontrakt(int kontraktNr, Kontrakt nyKontrakt)
+	{
+		kontrakter.set(kontrakter.indexOf(finnKontrakt(kontraktNr)), nyKontrakt);
+	}
 	
 	public Kontrakt finnKontrakt( int kontraktNr )
 	{
