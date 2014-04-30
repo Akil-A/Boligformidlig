@@ -35,6 +35,7 @@ public class Hovedvindu extends JFrame
 		tabbedPane.addTab("Personer", personpanel);
 		final JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
+		kontraktpanel.setName("kontraktpanel");
 		JComponent statistikkpanel = new Statistikkpanel(br);
 		tabbedPane.addTab("Statistikk", statistikkpanel);
 		
@@ -47,7 +48,7 @@ public class Hovedvindu extends JFrame
 					((Personpanel)personpanel).oppdaterBoligsokerliste();
 					((Personpanel)personpanel).oppdaterUtleierliste();
 				}
-				if (tabbedPane.getSelectedComponent().getName() == "kontrakter")
+				if (tabbedPane.getSelectedComponent().getName() == "kontraktpanel")
 				{
 					((Kontraktpanel)kontraktpanel).oppdaterFungerendeListe();
 					((Kontraktpanel)kontraktpanel).oppdaterUtgaattListe();
