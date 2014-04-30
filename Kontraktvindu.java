@@ -36,7 +36,7 @@ public class Kontraktvindu extends JFrame
 			lLeietaker = new JLabel("Leietaker: ");
 			lUtleier = new JLabel("Utleier: ");
 			lEmail = new JLabel("email: ");
-			lEmail1: new JLabel("email: ");
+			lEmail1 = new JLabel("email: ");
 			lTelefon = new JLabel("Tlf: ");
 			lTelefon1 = new JLabel("Tlf: ");
 
