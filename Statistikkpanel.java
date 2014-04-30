@@ -16,7 +16,7 @@ public class Statistikkpanel extends JPanel
 		gc.gridy = 1;
 		
 		int antBoligerTotalt = br.getBoliger().size();
-		int antUtleide = br.getKontrakter().size();
+		int antUtleide = br.getUtleide().size();
 		
 		add(new JLabel("Det er " + antBoligerTotalt + " ledige boliger for utleie. " + antUtleide + " boliger er leid ut."), gc);
 		
