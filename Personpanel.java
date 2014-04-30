@@ -17,7 +17,7 @@ public class Personpanel extends JPanel
     private Boligregister register;
 
     public Personpanel(Boligregister br)
-    {	
+    {
         register = br;
         
 
