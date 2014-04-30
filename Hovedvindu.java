@@ -33,7 +33,7 @@ public class Hovedvindu extends JFrame
 		final JComponent personpanel = new Personpanel(br);
 		personpanel.setName("personpanelet");
 		tabbedPane.addTab("Personer", personpanel);
-		JComponent kontraktpanel = new Kontraktpanel(br);
+		final JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
 		JComponent statistikkpanel = new Statistikkpanel(br);
 		tabbedPane.addTab("Statistikk", statistikkpanel);
@@ -46,6 +46,11 @@ public class Hovedvindu extends JFrame
 				{
 					((Personpanel)personpanel).oppdaterBoligsokerliste();
 					((Personpanel)personpanel).oppdaterUtleierliste();
+				}
+				if (tabbedPane.getSelectedComponent().getName() == "kontrakter")
+				{
+					((Kontraktpanel)kontraktpanel).oppdaterFungerendeListe();
+					((Kontraktpanel)kontraktpanel).oppdaterUtgaattListe();
 				}
 			}
 		});
@@ -205,7 +210,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch( IOException ioe )
 		{
-			visMelding("Problem med å skrive til fil.");
+			visMelding("Problem med �� skrive til fil.");
 		}
 	}
 
