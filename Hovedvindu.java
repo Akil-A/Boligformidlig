@@ -1,6 +1,3 @@
-package prosjekttest;
-
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -16,7 +13,6 @@ public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
 	private String DATAFIL = "register.dta";
-	private Personpanel personpanel;
 	
 	public Hovedvindu()
 	{
@@ -26,16 +22,29 @@ public class Hovedvindu extends JFrame
 		
 		lesFil();
 		
-		JTabbedPane tabbedPane = new JTabbedPane();
+		final JTabbedPane tabbedPane = new JTabbedPane();
 		
 		JComponent boligpanel = new Boligpanel(br);
 		tabbedPane.addTab("Boliger", boligpanel);
-		personpanel = new Personpanel(br);
+		final JComponent personpanel = new Personpanel(br);
+		personpanel.setName("personpanelet");
 		tabbedPane.addTab("Personer", personpanel);
 		JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
 		JComponent statistikkpanel = new Statistikkpanel(br);
 		tabbedPane.addTab("Statistikk", statistikkpanel);
+		
+		tabbedPane.addChangeListener(new ChangeListener()
+	    {
+			  public void stateChanged(ChangeEvent e)
+			  {	
+				  if (tabbedPane.getSelectedComponent().getName() == "personpanelet")
+				  {
+					  ((Personpanel)personpanel).oppdaterBoligsokerliste();
+					  ((Personpanel)personpanel).oppdaterUtleierliste();
+				  }
+			  }
+	    });
 		
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
@@ -46,14 +55,6 @@ public class Hovedvindu extends JFrame
 		lDatafil.setFont(font);
 		
 		c.add(lDatafil, BorderLayout.SOUTH);
-		
-		 tabbedPane.addChangeListener(new ChangeListener()
-		    {
-		      public void stateChanged(ChangeEvent e)
-		      {	
-		    	  personpanel.oppdaterUtleierliste();	
-		      }
-		    });
 	}
 	
 	private boolean erLong(String s)
@@ -84,8 +85,8 @@ public class Hovedvindu extends JFrame
 			{
 				// for hver fil i mappen
 				// sjekk at filnavnet
-				// begynner på "register_"
-				// slutter på ".dta"
+				// begynner pÃ¥ "register_"
+				// slutter pÃ¥ ".dta"
 				// og inneholder en long-verdi imellom
 				if (s.length() > 14 &&
 						s.substring(0, 9).equals("register_") &&
@@ -117,7 +118,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch(ClassNotFoundException cnfe)
 		{
-			visMelding( "Feil:\n\n" + cnfe.getMessage() + "\n\nOppretter tom datafil. Tar vare på gammel datafil." );
+			visMelding( "Feil:\n\n" + cnfe.getMessage() + "\n\nOppretter tom datafil. Tar vare pÃ¥ gammel datafil." );
 			tomtRegister();
 			DATAFIL = datafil(true);
 			skrivTilFil(false);
@@ -130,7 +131,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch(IOException ioe)
 		{
-			visMelding( "Innlesingsfeil. Oppretter tom datafil. Tar vare på gammel datafil." );
+			visMelding( "Innlesingsfeil. Oppretter tom datafil. Tar vare pÃ¥ gammel datafil." );
 			tomtRegister();
 			DATAFIL = datafil(true);
 			skrivTilFil(false);
@@ -177,7 +178,7 @@ public class Hovedvindu extends JFrame
 				final Hovedvindu hv = new Hovedvindu();
 				hv.setSize(700, 700);
 				hv.setVisible(true);
-				hv.setLocationRelativeTo( null ); // Vinduet starter på midten av skjermen.
+				hv.setLocationRelativeTo( null ); // Vinduet starter pÃ¥ midten av skjermen.
 				
 				hv.addWindowListener(new WindowAdapter()
 				{
