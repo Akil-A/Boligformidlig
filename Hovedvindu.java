@@ -5,14 +5,18 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
+import java.util.Timer;
 import java.io.*;
 
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
 	private String DATAFIL = "register.dta";
+	private JButton lagre;
+	private TimerHandling timerHandling;
+	private Timer timer;
+	private Color standardKnappebakgrunn;
 	
 	public Hovedvindu()
 	{
@@ -51,10 +55,52 @@ public class Hovedvindu extends JFrame
 		c.add(tabbedPane, BorderLayout.CENTER);
 		
 		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+		
 		JLabel lDatafil = new JLabel("Gjeldende datafil: " + DATAFIL);
 		lDatafil.setFont(font);
 		
-		c.add(lDatafil, BorderLayout.SOUTH);
+		lagre = new JButton("Lagre");
+		lagre.addActionListener(new Lytter());
+		lagre.setFont(font);
+		lagre.setFocusPainted(false);
+		
+		standardKnappebakgrunn = lagre.getBackground();
+		
+		JPanel bunnlinje = new JPanel(new BorderLayout());
+		bunnlinje.add(lDatafil, BorderLayout.WEST);
+		bunnlinje.add(lagre, BorderLayout.EAST);
+		
+		c.add(bunnlinje, BorderLayout.SOUTH);
+	}
+	
+	private class Lytter implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			if (e.getSource() == lagre)
+			{
+				skrivTilFil(false);
+
+				lagre.setBackground(Color.YELLOW);
+				lagre.setText("Lagret");
+				
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.SECOND, 2);
+				
+				timerHandling = new TimerHandling();
+				timer = new Timer();
+				timer.schedule(timerHandling, c.getTime());
+			}
+		}
+	}
+	
+	private class TimerHandling extends TimerTask
+	{
+		public void run()
+		{
+			lagre.setBackground(standardKnappebakgrunn);
+			lagre.setText("Lagre");
+		}
 	}
 	
 	private boolean erLong(String s)
@@ -151,7 +197,7 @@ public class Hovedvindu extends JFrame
 			utfil.writeObject( br );
 			
 			if (visMelding)
-				visMelding("Data er skrevet til fil.");
+				visMelding("Data er lagret.");
 		}
 		catch( NotSerializableException nse )
 		{
@@ -159,7 +205,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch( IOException ioe )
 		{
-			visMelding("Problem med utskrift til fil.");
+			visMelding("Problem med å skrive til fil.");
 		}
 	}
 
