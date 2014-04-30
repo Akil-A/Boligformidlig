@@ -35,16 +35,16 @@ public class Hovedvindu extends JFrame
 		tabbedPane.addTab("Statistikk", statistikkpanel);
 		
 		tabbedPane.addChangeListener(new ChangeListener()
-	    {
-			  public void stateChanged(ChangeEvent e)
-			  {	
-				  if (tabbedPane.getSelectedComponent().getName() == "personpanelet")
-				  {
-					  ((Personpanel)personpanel).oppdaterBoligsokerliste();
-					  ((Personpanel)personpanel).oppdaterUtleierliste();
-				  }
-			  }
-	    });
+		{
+			public void stateChanged(ChangeEvent e)
+			{	
+				if (tabbedPane.getSelectedComponent().getName() == "personpanelet")
+				{
+					((Personpanel)personpanel).oppdaterBoligsokerliste();
+					((Personpanel)personpanel).oppdaterUtleierliste();
+				}
+			}
+		});
 		
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
@@ -85,8 +85,8 @@ public class Hovedvindu extends JFrame
 			{
 				// for hver fil i mappen
 				// sjekk at filnavnet
-				// begynner pÃ¥ "register_"
-				// slutter pÃ¥ ".dta"
+				// begynner paa "register_"
+				// slutter paa ".dta"
 				// og inneholder en long-verdi imellom
 				if (s.length() > 14 &&
 						s.substring(0, 9).equals("register_") &&
@@ -118,7 +118,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch(ClassNotFoundException cnfe)
 		{
-			visMelding( "Feil:\n\n" + cnfe.getMessage() + "\n\nOppretter tom datafil. Tar vare pÃ¥ gammel datafil." );
+			visMelding( "Feil:\n\n" + cnfe.getMessage() + "\n\nOppretter tom datafil. Tar vare paa gammel datafil." );
 			tomtRegister();
 			DATAFIL = datafil(true);
 			skrivTilFil(false);
@@ -131,7 +131,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch(IOException ioe)
 		{
-			visMelding( "Innlesingsfeil. Oppretter tom datafil. Tar vare pÃ¥ gammel datafil." );
+			visMelding( "Innlesingsfeil. Oppretter tom datafil. Tar vare paa gammel datafil." );
 			tomtRegister();
 			DATAFIL = datafil(true);
 			skrivTilFil(false);
@@ -178,7 +178,7 @@ public class Hovedvindu extends JFrame
 				final Hovedvindu hv = new Hovedvindu();
 				hv.setSize(700, 700);
 				hv.setVisible(true);
-				hv.setLocationRelativeTo( null ); // Vinduet starter pÃ¥ midten av skjermen.
+				hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
 				
 				hv.addWindowListener(new WindowAdapter()
 				{
