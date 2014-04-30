@@ -163,7 +163,7 @@ public class Boligregister implements Serializable
 	public int getUtleideiAAr()
 	{	
 		int counter = 0;
-		
+
 		for (Kontrakt k : kontrakter)
 		{
 			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
