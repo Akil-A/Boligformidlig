@@ -741,15 +741,9 @@ public class Boligskjemavindu extends JFrame
     			bildeSti.setText("");
     		}
     		else if(e.getSource() == utleiere && ((JComboBox)e.getSource()).getSelectedIndex() == 1)
-    		{
-    			Personskjemavindu psv1 = new Personskjemavindu(registret, Boligskjemavindu.this);
-    			psv1.setSize(550, 350);
-    			psv1.setLocationRelativeTo(null);
-    		}
+    			new Personskjemavindu(registret, Boligskjemavindu.this);
     		else if(e.getSource() == avbryt)
-    		{
     			dispose();
-    		}
     	}
     }
 }
