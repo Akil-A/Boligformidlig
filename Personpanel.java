@@ -1,4 +1,4 @@
-/* Panel som vcciser liste over alle utleiere og boligsokere.
+/* Panel som viser liste over alle utleiere og boligsokere.
  */
 
 import java.awt.*;
