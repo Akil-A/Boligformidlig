@@ -95,8 +95,6 @@ public class Personpanel extends JPanel
     	
         while(iterator.hasNext())
         	utleiermodell.addElement(iterator.next());
-        
-        utleierliste.repaint();
     }
     
     public void oppdaterBoligsokerliste()
@@ -107,8 +105,6 @@ public class Personpanel extends JPanel
     	
         while(iterator.hasNext())
         	boligsokermodell.addElement(iterator.next());
-        
-        boligsokerliste.repaint();  
     }
     
     private class Lytter implements ActionListener
