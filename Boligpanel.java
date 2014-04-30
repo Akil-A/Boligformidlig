@@ -127,7 +127,7 @@ public class Boligpanel extends JPanel
 		pType.add(leilighet);
 
 	    JPanel pTomt = new JPanel();
-	    pTomt.add(new JLabel("Tomtestørrelse (kvm)"));
+	    pTomt.add(new JLabel("Tomtestorrelse (kvm)"));
 	    pTomt.add(new JLabel("fra:"));
 	    pTomt.add(tomtfra);
 	    pTomt.add(new JLabel("til: "));
@@ -229,6 +229,19 @@ public class Boligpanel extends JPanel
 		listBoliger(false);
 	}
 	
+	public boolean erTall( String s )
+	{
+		try
+		{
+			Integer.parseInt( s );
+			return true;
+		}
+		catch( Exception e )
+		{
+			return false;
+		}
+	}
+	
 	public void listBoliger(boolean medFilter)
 	{
 		JPanel innerListePanel = new JPanel(new GridBagLayout());
@@ -240,37 +253,37 @@ public class Boligpanel extends JPanel
 		boolean bVisledige = visledige.isSelected();
 		boolean bVisutleide = visutleide.isSelected();
 		
-		ArrayList<Bolig> sokeliste = new ArrayList<>();
+		ArrayList<Bolig> sokeliste = register.getBoliger();
 		
 		if (medFilter)
 		{
-			if ((bVisledige && bVisutleide) || (!bVisledige && !bVisutleide))
-				sokeliste = register.getBoliger();
-			else if (bVisledige && !bVisutleide)
-				sokeliste = register.getLedige();
+			if (bVisledige && !bVisutleide)
+				sokeliste.removeAll(register.getUtleide());
 			else if (bVisutleide && !bVisledige)
-				sokeliste = register.getUtleide();
+				sokeliste.removeAll(register.getLedige());
 			
 			ArrayList<Bolig> sokeliste1 = new ArrayList<>();
+			
+			String sAnnonsedato = annonsedato.getText();
+			boolean annonsedatoErDato = sAnnonsedato.matches("^[\\d]{1,2}/[\\d]{1,2}/[\\d]{4}$");
 			
 			for (Bolig b : sokeliste)
 				if ((b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())) &&
 							(b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase())) &&
-							(Integer.toString(b.getPostnr()).toLowerCase().contains(postnr.getText().toLowerCase())) &&
+							(!erTall(postnr.getText()) || Integer.toString(b.getPostnr()).toLowerCase().contains(postnr.getText().toLowerCase())) &&
 							(b.getPoststed().toLowerCase().contains(poststed.getText().toLowerCase())) &&
-							(annonsedato.getText().equals(ANNONSEDATO_EKS_TEKST) || annonsedato.getText().isEmpty() ||
+							(sAnnonsedato.equals(ANNONSEDATO_EKS_TEKST) ||
+									sAnnonsedato.isEmpty() || !annonsedatoErDato ||
 									new Date(annonsedato.getText()).before(b.getAnnonsedato())) &&
-							(byggeaar.getText().isEmpty() || Integer.parseInt(byggeaar.getText()) <= b.getByggeaar()) &&
-							(prisfra.getText().isEmpty() || Integer.parseInt(prisfra.getText()) <= b.getUtleiepris()) &&
-							(pristil.getText().isEmpty() || Integer.parseInt(pristil.getText()) >= b.getUtleiepris()) &&
-							(boarealfra.getText().isEmpty() || Integer.parseInt(boarealfra.getText()) <= b.getBoareal()) &&
-							(boarealtil.getText().isEmpty() || Integer.parseInt(boarealtil.getText()) >= b.getBoareal()))
+							(byggeaar.getText().isEmpty() || !erTall(byggeaar.getText()) || Integer.parseInt(byggeaar.getText()) <= b.getByggeaar()) &&
+							(prisfra.getText().isEmpty() || !erTall(prisfra.getText()) || Integer.parseInt(prisfra.getText()) <= b.getUtleiepris()) &&
+							(pristil.getText().isEmpty() || !erTall(pristil.getText()) || Integer.parseInt(pristil.getText()) >= b.getUtleiepris()) &&
+							(boarealfra.getText().isEmpty() || !erTall(boarealfra.getText()) || Integer.parseInt(boarealfra.getText()) <= b.getBoareal()) &&
+							(boarealtil.getText().isEmpty() || !erTall(boarealtil.getText()) || Integer.parseInt(boarealtil.getText()) >= b.getBoareal()))
 					sokeliste1.add(b);
 			
 			sokeliste = sokeliste1;
 		}
-		else
-			sokeliste = register.getBoliger();
 		
 		for (final Bolig b : sokeliste)
 		{
@@ -436,6 +449,3 @@ public class Boligpanel extends JPanel
 	}
 	
 }
-
-
-
