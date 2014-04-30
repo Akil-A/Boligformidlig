@@ -1,10 +1,13 @@
 /*
- * Klassen som holder rede på lister av Personer, Boliger og Kontrakter. 
+ * Klassen som holder rede p�� lister av Personer, Boliger og Kontrakter. 
  */
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+
+import javax.swing.JOptionPane;
 
 public class Boligregister implements Serializable
 {
@@ -155,6 +158,19 @@ public class Boligregister implements Serializable
 				u.add(finnBolig(k.getBoligNr()));
 		
 		return u;
+	}
+	
+	public int getUtleideiAAr()
+	{	
+		int counter = 0;
+		
+		for (Kontrakt k : kontrakter)
+		{
+			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
+				counter++;
+		}
+		
+		return counter;
 	}
 	
 	public ArrayList<Bolig> getLedige()
