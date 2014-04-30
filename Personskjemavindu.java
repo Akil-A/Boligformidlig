@@ -1,6 +1,6 @@
 
 /* Vindu som tar seg av registrering av utleiere og boligsokere.
- * Laget av Akil og Joakim
+ * Laget av Akil
  */
 
 import java.awt.*;
@@ -291,7 +291,7 @@ public class Personskjemavindu extends JFrame
 
 
 
-        //ulp = utleierpanel, bsp = boligsokerpanel
+        //ulp er utleierpanel, bsp er boligsokerpanel
         ulpKnapper = new JPanel();
         bspKnapper = new JPanel();
         bspKrav1 = new JPanel();
@@ -529,9 +529,9 @@ public class Personskjemavindu extends JFrame
                 register.slettPerson(personNr);
                 
                 if (e.getSource() == uSlett)
-                	pl.slettUtleier(personen);
+                	pl.oppdaterUtleierliste();
                 else
-                	pl.slettBoligsoker(personen);
+                	pl.oppdaterBoligsokerliste();
                 
                 dispose();
             }
@@ -662,18 +662,10 @@ public class Personskjemavindu extends JFrame
 
 
                     if (e.getSource() == bRegPerson)
-                    {
-                        register.settInnPerson(b);
-                        
-                        if (pl != null)
-                        	pl.addBoligsoker(b);
-                    }
+                    	register.settInnPerson(b);
 
                     if (pl != null)
-                    	pl.oppdaterBoligsokerliste();
-                    
-                    
-                    
+                    	pl.oppdaterBoligsokerliste();                    
                 }
                 else if (butleier)
                 {
@@ -696,13 +688,7 @@ public class Personskjemavindu extends JFrame
                     u.setFirma(firma);
 
                     if (e.getSource() == uRegPerson)
-                    {
-                        register.settInnPerson(u);
-                        
-                        if (pl != null)
-                        	pl.addUtleier(u);
-                    }
-                                    
+                    	register.settInnPerson(u);
 
                     if (pl != null)
                     	pl.oppdaterUtleierliste();
