@@ -1,5 +1,12 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -8,9 +15,13 @@ public class Kontraktvindu extends JFrame
 	
 		private Kontraktpanel kontraktpanelet;
 		private Bolig boligen;
-		private JTextField adresse, postnr, poststed,utleiepris,utleier,email,email1,telefon,telefon1,leietaker;
-		private JLabel lAdresse,lPostNr,lPoststed,lUtleiepris,lUtleier,lLeietaker,lEmail,lEmail1,lTelefon,lTelefon1;
-		private JPanel pAdresse,pUtleiepris,pUtleier,pLeietaker;
+		private Lytter lytter;
+		private JButton siopp,avbryt,endre,lagre;
+		private JTextField adresse, postnr, poststed,utleiepris,utleier,email,email1,telefon,telefon1,leietaker,startdato,sluttdato,
+		oppsigelsesdato,oppsigelsesgrunn;
+		private JLabel lAdresse,lPostNr,lPoststed,lUtleiepris,lUtleier,lLeietaker,lEmail,lEmail1,lTelefon,lTelefon1,lStartdato,lSluttdato,
+		lOppsigelsesdato,lOppsigelsesgrunn;
+		private JPanel pAdresse,pUtleiepris,pUtleier,pLeietaker,pDato,pKnapp,pOppsigelse;
 		private Kontrakt kontrakten;
 		private Boligregister registret;
 		private Utleier utleieren;
@@ -18,13 +29,13 @@ public class Kontraktvindu extends JFrame
 		public Kontraktvindu(Boligregister b, Kontrakt k,Kontraktpanel kp)
 		{
 			super("Kontraktvindu");
-			setSize(800,600);
+			setSize(750,450);
 			 /********* LAYOUT START *********/
 			
 			registret = b;
 			kontraktpanelet = kp;
 			kontrakten = k;
-			
+			lytter = new Lytter();
 			boligen = registret.finnBolig(kontrakten.getBoligNr());
 			utleieren = (Utleier) registret.finnPerson(boligen.getUtleierId());
 			boligsokeren = (Boligsoker) registret.finnPerson(kontrakten.getLeietakerNr());
@@ -39,28 +50,65 @@ public class Kontraktvindu extends JFrame
 			lEmail1 = new JLabel("email: ");
 			lTelefon = new JLabel("Tlf: ");
 			lTelefon1 = new JLabel("Tlf: ");
-
-
-			adresse = new JTextField();
+			lStartdato = new JLabel("Startdato: ");
+			lSluttdato = new JLabel("Sluttdato: ");
+			lOppsigelsesdato = new JLabel("Oppsigelsesdato: ");
+			oppsigelsesdato = new JTextField(10);
+			lOppsigelsesgrunn = new JLabel("Oppsigelses grunn: ");
+			oppsigelsesgrunn = new JTextField(30);
+			
+			adresse = new JTextField(10);
 			adresse.setEditable(false);
-			postnr = new JTextField();
+			postnr = new JTextField(4);
 			postnr.setEditable(false);
-			poststed = new JTextField();
+			poststed = new JTextField(10);
 			poststed.setEditable(false);
-			utleiepris = new JTextField();
+			utleiepris = new JTextField(10);
 			utleiepris.setEditable(false);
-			utleier = new JTextField();
+			utleier = new JTextField(10);
 			utleier.setEditable(false);
-			leietaker = new JTextField();
+			leietaker = new JTextField(10);
 			leietaker.setEditable(false);
-			email = new JTextField();
+			email = new JTextField(10);
 			email.setEditable(false);
-			email1 = new JTextField();
+			email1 = new JTextField(10);
 			email1.setEditable(false);
-			telefon = new JTextField();
+			telefon = new JTextField(10);
 			telefon.setEditable(false);
-			telefon1 = new JTextField();
+			telefon1 = new JTextField(10);
 			telefon1.setEditable(false);
+			startdato = new JTextField(15);
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");      
+			String sStartdato = df.format(k.getStartdato());
+			startdato.setEditable(false);
+			startdato.setText(sStartdato);
+			startdato.setEditable(false);
+			sluttdato = new JTextField(15);
+			String sSluttdato = df.format(k.getSluttdato());
+			sluttdato.setText(sSluttdato);
+			sluttdato.setEditable(false);
+			
+			siopp = new JButton("Si opp");
+			siopp.addActionListener(lytter);
+			avbryt= new JButton("Avbryt");
+			avbryt.addActionListener(lytter);
+			endre = new JButton("Endre Oppsigelsesdato");
+			endre.addActionListener(lytter);
+			endre.setVisible(false);
+			lagre = new JButton("Lagre");
+			lagre.addActionListener(lytter);
+			lagre.setVisible(false);
+			pOppsigelse = new JPanel();
+			pOppsigelse.add(lOppsigelsesdato);
+			pOppsigelse.add(oppsigelsesdato);
+			pOppsigelse.add(lOppsigelsesgrunn);
+			pOppsigelse.add(oppsigelsesgrunn);
+			
+			pKnapp = new JPanel();
+			pKnapp.add(lagre);
+			pKnapp.add(siopp);
+			pKnapp.add(endre);
+			pKnapp.add(avbryt);
 	        setLayout(new GridBagLayout());
 			
 	        adresse.setText(boligen.getAdresse());
@@ -100,11 +148,17 @@ public class Kontraktvindu extends JFrame
 	        pLeietaker.add(lEmail1);
 	        pLeietaker.add(email1);
 	        pLeietaker.add(lTelefon1);
-	        pLeietaker.add(telefon);
+	        pLeietaker.add(telefon1);
+	        
+	        pDato = new JPanel();
+	        pDato.add(lStartdato);
+	        pDato.add(startdato);
+	        pDato.add(lSluttdato);
+	        pDato.add(sluttdato);
 	        
 	        
 
-	        
+    		
 	        
 			GridBagConstraints gc = new GridBagConstraints();
 			gc.anchor = GridBagConstraints.CENTER;
@@ -127,11 +181,151 @@ public class Kontraktvindu extends JFrame
 			
 			gc.anchor = GridBagConstraints.CENTER;
 			gc.insets.top = 10;
-			gc.gridy = 2;
+			gc.gridy = 3;
 			add(pLeietaker, gc);
+			
+			gc.anchor = GridBagConstraints.CENTER;
+			gc.insets.top = 10;
+			gc.gridy = 4;
+			add(pDato, gc);
+			
+			gc.anchor = GridBagConstraints.CENTER;
+			gc.insets.top = 10;
+			gc.gridy = 5;
+			add(pOppsigelse, gc);
+			
+			gc.anchor = GridBagConstraints.CENTER;
+			gc.insets.top = 10;
+			gc.gridy = 6;
+			add(pKnapp, gc);
+			
+
+		    if(kontrakten.getOppsagtDato() != null)
+		    {
+		    	DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+		    	String oppsagtdato = f.format(kontrakten.getOppsagtDato());
+		    	oppsigelsesdato.setText(oppsagtdato);
+		    	oppsigelsesdato.setEditable(false);
+		    	oppsigelsesgrunn.setText(kontrakten.getOppsigelsesgrunn());
+		    	oppsigelsesgrunn.setEditable(false);
+		    	siopp.setVisible(false);
+		    	endre.setVisible(true);
+		    }
+		    if(kontrakten.getSluttdato().before(new Date()) ||
+		    		(kontrakten.getOppsagtDato() != null && kontrakten.getOppsagtDato().before(new Date())))
+			{
+    			oppsigelsesdato.setEditable(false);
+    			oppsigelsesgrunn.setEditable(false);
+    			siopp.setVisible(false);
+		    	endre.setVisible(false);
+    		}
+			
 			setLocationRelativeTo(null);
 			setVisible(true);
 		}
 		 /********* LAYOUT SLUTT *********/
+private class Lytter implements ActionListener
+{
+	public void actionPerformed(ActionEvent e)
+	{	
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    
+	    Date testOppsigelsesdato = null;
+	    Date testStartdato = null;
+	    Date testSluttdato = null;
+	    
+		if(e.getSource() == siopp)
+		{
+			
+		    
+		    try
+		        {
+		    
+		    		testOppsigelsesdato = sdf.parse(oppsigelsesdato.getText());
+		    		testStartdato = sdf.parse(startdato.getText());
+		    		testSluttdato = sdf.parse(sluttdato.getText());
 
+		
+		        }
+		    catch(ParseException pe)
+		    {
+		    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+		    	return;
+		    }
+		    
+		    if( !sdf.format(testOppsigelsesdato).equals(oppsigelsesdato.getText()))
+		    {
+		    	JOptionPane.showMessageDialog(null, "Feil i format");
+		    	return;
+		    }
+		    
+		    if(testOppsigelsesdato.before(testStartdato) || testOppsigelsesdato.after(testSluttdato) || testOppsigelsesdato.equals(testStartdato)
+		    		|| testOppsigelsesdato.equals(testSluttdato))
+			{	
+				
+				JOptionPane.showMessageDialog(null,"Oppsigelsestiden maa vaere mellom start og sluttdato, og ikke lik start eller sluttdato!");
+				return;
+			}
+			kontrakten.setOppsagtDato(testOppsigelsesdato);
+			kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
+			registret.oppdaterKontrakt(kontrakten.getKontraktNr(), kontrakten);
+			kontraktpanelet.oppdaterFungerendeListe();
+			kontraktpanelet.oppdaterUtgaattListe();
+			JOptionPane.showMessageDialog(null,"Kontrakten er sagt opp!");
+			dispose();
+		}
+		else if(e.getSource() == endre)
+		{
+			oppsigelsesdato.setEditable(true);
+			oppsigelsesgrunn.setEditable(true);
+			endre.setVisible(false);
+			siopp.setVisible(false);
+			lagre.setVisible(true);			
+		}
+		else if(e.getSource() == lagre)
+		{
+				
+			    
+			    try
+			        {
+			    
+			    		testOppsigelsesdato = sdf.parse(oppsigelsesdato.getText());
+			    		testStartdato = sdf.parse(startdato.getText());
+			    		testSluttdato = sdf.parse(sluttdato.getText());
+
+			
+			        }
+			    catch(ParseException pe)
+			    {
+			    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+			    	return;
+			    }
+			    
+			    if( !sdf.format(testOppsigelsesdato).equals(oppsigelsesdato.getText()))
+			    {
+			    	JOptionPane.showMessageDialog(null, "Feil i format");
+			    	return;
+			    }
+			    
+			    if(testOppsigelsesdato.before(testStartdato) || testOppsigelsesdato.after(testSluttdato) || testOppsigelsesdato.equals(testStartdato)
+			    		|| testOppsigelsesdato.equals(testSluttdato))
+				{	
+					
+					JOptionPane.showMessageDialog(null,"Oppsigelsestiden maa vaere mellom start og sluttdato, og ikke lik start eller sluttdato!");
+					return;
+				}
+				kontrakten.setOppsagtDato(testOppsigelsesdato);
+				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
+				registret.oppdaterKontrakt(kontrakten.getKontraktNr(), kontrakten);
+				kontraktpanelet.oppdaterFungerendeListe();
+				kontraktpanelet.oppdaterUtgaattListe();
+				JOptionPane.showMessageDialog(null,"Oppsigelses detaljer er endret!");
+				dispose();
+		}
+		else if(e.getSource() == avbryt)
+		{
+			dispose();
+		}
+	}
+}
 		}
