@@ -31,8 +31,6 @@ public class Kontraktpanel extends JPanel
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		Font font = new Font("System", Font.PLAIN, 12);
 		
-		// JList m�� bindes til en egen liste som skriver ut en passende toString
-		
 		/********* POPULERING AV LISTER START *********/
         fungerendemodell = new DefaultListModel<Kontrakt>();
         fungerendeListe = new JList<Kontrakt>(fungerendemodell);
@@ -43,9 +41,7 @@ public class Kontraktpanel extends JPanel
         oppdaterUtgaattListe();
         /********* POPULERING AV LISTER SLUTT *********/
 		
-		fungerendeListe.setBorder(border);
 		fungerendeListe.setFont(font);
-		utgaatteListe.setBorder(border);
 		utgaatteListe.setFont(font);
 
 		fungerendeKnapp = new JButton("Detaljer");
