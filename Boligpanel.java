@@ -8,6 +8,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,13 +16,16 @@ public class Boligpanel extends JPanel
 {
 	private JTextField adr, postnr, poststed, beliggenhet, prisfra, pristil, boarealfra, boarealtil, byggeaar, annonsedato,
 							tomtfra, tomttil, antetgfra, antetgtil;
-	private JCheckBox visledige, visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask;
-	private JPanel pEneRekke, pLeilighet;
-	private JScrollPane filterPanel;
-	private JButton sok, registrer;
-	private JScrollPane boligListe;
+	private JCheckBox visledige, visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask, maaliggeiforste,
+							vismatch, visinteresser;
+	private JComboBox<Boligsoker> boligsokere;
+	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel, venstreFilterPanel;
+	private JScrollPane filterPanel, boligListe;
+	private JButton sok, nullstill, registrer;
 	private Boligregister register;
 	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/12/2013";
+	private final Font LITENKURSIVFONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
+	private boolean venstreFilterErValgt;
 	
 	public Boligpanel(Boligregister br)
 	{
@@ -29,20 +33,40 @@ public class Boligpanel extends JPanel
 		
 		setLayout(new BorderLayout());
  	   	Lytter lytter = new Lytter();
+ 	   	
+		sok = new JButton("<html>S&Oslash;K BOLIGER</html>");
+		sok.addActionListener(lytter);
+		nullstill = new JButton("NULLSTILL");
+		nullstill.addActionListener(lytter);
+		registrer = new JButton("REGISTRER NY");
+		registrer.addActionListener(lytter);
 
-	    /******** DEFINERING AV FILTERFELTER START ********/
+		
+		// #####################################################
+		// VENSTRE FILTERPANEL START
+		// #####################################################
 		adr = new JTextField(20);
+		adr.addFocusListener(new VenstreFilterFokuslytter());
 		postnr = new JTextField(4);
+		postnr.addFocusListener(new VenstreFilterFokuslytter());
 		poststed = new JTextField(10);
+		poststed.addFocusListener(new VenstreFilterFokuslytter());
 		prisfra = new JTextField(7);
+		prisfra.addFocusListener(new VenstreFilterFokuslytter());
 		pristil = new JTextField(7);
+		pristil.addFocusListener(new VenstreFilterFokuslytter());
 		boarealfra = new JTextField(3);
+		boarealfra.addFocusListener(new VenstreFilterFokuslytter());
 		boarealtil = new JTextField(3);
+		boarealtil.addFocusListener(new VenstreFilterFokuslytter());
 		byggeaar = new JTextField(4);
+		byggeaar.addFocusListener(new VenstreFilterFokuslytter());
 		beliggenhet = new JTextField(14);
+		beliggenhet.addFocusListener(new VenstreFilterFokuslytter());
 		annonsedato = new JTextField(9);
 		annonsedato.setText("eks: 21/12/2013");
 		annonsedato.setForeground(Color.GRAY);
+		annonsedato.addFocusListener(new VenstreFilterFokuslytter());
 		annonsedato.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent f)
@@ -63,26 +87,36 @@ public class Boligpanel extends JPanel
 			}
 		});
 		visledige = new JCheckBox("Vis ledige");
+		visledige.addFocusListener(new VenstreFilterFokuslytter());
 		visledige.setSelected(true);
 		visutleide = new JCheckBox("Vis utleide");
+		visutleide.addFocusListener(new VenstreFilterFokuslytter());
 		visutleide.setSelected(true);
 		enebolig = new JCheckBox("Enebolig");
+		enebolig.addFocusListener(new VenstreFilterFokuslytter());
 		enebolig.addActionListener(lytter);
 		rekkehus = new JCheckBox("Rekkehus");
+		rekkehus.addFocusListener(new VenstreFilterFokuslytter());
 		rekkehus.addActionListener(lytter);
 		leilighet = new JCheckBox("Leilighet");
+		leilighet.addFocusListener(new VenstreFilterFokuslytter());
 		leilighet.addActionListener(lytter);
 		tomtfra = new JTextField(3);
+		tomtfra.addFocusListener(new VenstreFilterFokuslytter());
 		tomttil = new JTextField(3);
+		tomttil.addFocusListener(new VenstreFilterFokuslytter());
 		antetgfra = new JTextField(3);
+		antetgfra.addFocusListener(new VenstreFilterFokuslytter());
 		antetgtil = new JTextField(3);
+		antetgtil.addFocusListener(new VenstreFilterFokuslytter());
 		kjeller = new JCheckBox("Kjeller");
-		vask = new JCheckBox("Vask");
+		kjeller.addFocusListener(new VenstreFilterFokuslytter());
 		garasje = new JCheckBox("Garasje");
-		sok = new JButton("Sok bolig");
-		sok.addActionListener(lytter);
-		registrer = new JButton("Registrer ny");
-		registrer.addActionListener(lytter);
+		garasje.addFocusListener(new VenstreFilterFokuslytter());
+		vask = new JCheckBox("Felles vaskeri");
+		vask.addFocusListener(new VenstreFilterFokuslytter());
+		maaliggeiforste = new JCheckBox("Maa ligge i forste etasje");
+		maaliggeiforste.addFocusListener(new VenstreFilterFokuslytter());
 		
 		JPanel pAdresse = new JPanel();
 		pAdresse.add(new JLabel("Adresse: "));
@@ -150,66 +184,170 @@ public class Boligpanel extends JPanel
 	    enerekkeGC.gridy = 2;
 	    pEneRekke.add(kjeller, enerekkeGC);
 	    
-	    pLeilighet = new JPanel();
-		
-		pLeilighet.add(garasje);
-		pLeilighet.add(vask);
+	    pLeilighet = new JPanel(new GridBagLayout());
+	    GridBagConstraints plgc = new GridBagConstraints();
+
+	    plgc.anchor = GridBagConstraints.CENTER;
+	    plgc.gridx = 0;
+		plgc.gridy = 0;
+		JPanel plLinje1 = new JPanel();
+		plLinje1.add(garasje);
+		plLinje1.add(vask);
+		pLeilighet.add(plLinje1, plgc);
+		plgc.gridy = 1;
+		JPanel plLinje2 = new JPanel();
+		plLinje2.add(maaliggeiforste);
+		pLeilighet.add(plLinje2, plgc);
 		
 		pEneRekke.setVisible(false);
 		pLeilighet.setVisible(false);
-	    /******** DEFINERING AV FILTERFELTER SLUTT ********/
 		
-
-	    /******** SETTE FILTERFELTER INN I VINDU START ********/
-		JComponent innerFilterPanel = new JPanel(new GridBagLayout());
+		
+		venstreFilterPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.CENTER;
         
 
         gc.gridy = 0;
-        JLabel tips = new JLabel("Skriv hele eller deler av teksten du vil soke paa og trykk Sok.");
-        tips.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, this.getFont().getSize() - 1));
-        innerFilterPanel.add(tips, gc);
-        
-        gc.gridy = 1;
-        JLabel tips2 = new JLabel("La feltene staa tomme for aa vise alle.");
-        tips2.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, this.getFont().getSize() - 1));
+        JLabel tips = new JLabel("<html><center>Skriv hele eller deler av teksten du vil soke p&aring; og trykk S&Oslash;K.<br>" +
+        						 "La feltene st&aring; tomme for &aring; vise alle.</center></html>");
+        tips.setFont(LITENKURSIVFONT);
         gc.insets.bottom = 5;
-        innerFilterPanel.add(tips2, gc);
+        venstreFilterPanel.add(tips, gc);
         gc.insets.bottom = 0;
         
+        gc.gridy = 1;
+        venstreFilterPanel.add(pAdresse, gc);
+        
         gc.gridy = 2;
-        innerFilterPanel.add(pAdresse, gc);
+        venstreFilterPanel.add(pBeliggenhet, gc);
         
         gc.gridy = 3;
-        innerFilterPanel.add(pBeliggenhet, gc);
-        
-        gc.gridy = 4;
-        innerFilterPanel.add(pPost, gc);
+        venstreFilterPanel.add(pPost, gc);
       
+        gc.gridy = 4;
+        venstreFilterPanel.add(pAnnonsedato,gc);
+        
         gc.gridy = 5;
-        innerFilterPanel.add(pAnnonsedato,gc);
+        venstreFilterPanel.add(pPrisen, gc);
         
         gc.gridy = 6;
-        innerFilterPanel.add(pPrisen, gc);
-        
+        venstreFilterPanel.add(pBoareal, gc);
+       
         gc.gridy = 7;
-        innerFilterPanel.add(pBoareal, gc);
+        venstreFilterPanel.add(pType, gc);
        
         gc.gridy = 8;
-        innerFilterPanel.add(pType, gc);
-       
-        gc.gridy = 9;
-        innerFilterPanel.add(pEneRekke, gc);
-        innerFilterPanel.add(pLeilighet, gc);
+        venstreFilterPanel.add(pEneRekke, gc);
+        venstreFilterPanel.add(pLeilighet, gc);
+        venstreFilterPanel.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e)
+			{
+				velgVenstreFilterPanel();
+				venstreFilterPanel.requestFocus();
+			}
+			public void mouseEntered(MouseEvent e)
+			{
+			}
+			public void mouseExited(MouseEvent e)
+			{
+			}
+			public void mousePressed(MouseEvent e)
+			{
+			}
+			public void mouseReleased(MouseEvent e)
+			{
+			}
+        });
+		// #####################################################
+		// VENSTRE FILTERPANEL SLUTT
+		// #####################################################
+        
+
+		// #####################################################
+		// HOYRE FILTERPANEL START
+		// #####################################################
+
+        boligsokere = new JComboBox<>();
+        boligsokere.addFocusListener(new HoyreFilterFokuslytter());
+        boligsokere.addActionListener(lytter);
+		oppdaterBoligsokerliste(null);
+		
+		vismatch = new JCheckBox("Vis boliger som matcher krav");
+		vismatch.addFocusListener(new HoyreFilterFokuslytter());
+		vismatch.setSelected(true);
+		visinteresser = new JCheckBox("Vis boliger som denne boligsoker har vist interesse for");
+		visinteresser.addFocusListener(new HoyreFilterFokuslytter());
+		visinteresser.setSelected(true);
+		
+		GridBagConstraints hfGc = new GridBagConstraints();
+		hoyreFilterPanel = new JPanel(new GridBagLayout());
+		hfGc.insets.bottom = 6;
+		hfGc.anchor = GridBagConstraints.NORTH;
+		hfGc.gridy = 0;
+		JLabel hfTips = new JLabel("<html><center>Velg en boligs&oslash;ker for &aring; finne boliger som matcher<br>vedkommendes &oslash;nsker</center></html>");
+		hfTips.setFont(LITENKURSIVFONT);
+		hoyreFilterPanel.add(hfTips, hfGc);
+		hfGc.gridy = 1;
+		hoyreFilterPanel.add(boligsokere, hfGc);
+		hfGc.gridy = 2;
+		hoyreFilterPanel.add(vismatch, hfGc);
+		hfGc.gridy = 3;
+		hoyreFilterPanel.add(visinteresser, hfGc);
+		hoyreFilterPanel.setPreferredSize(new Dimension(400, hoyreFilterPanel.getHeight()));
+		hoyreFilterPanel.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e)
+			{
+				velgHoyreFilterPanel();
+				hoyreFilterPanel.requestFocus();
+			}
+			public void mouseEntered(MouseEvent e)
+			{
+			}
+			public void mouseExited(MouseEvent e)
+			{
+			}
+			public void mousePressed(MouseEvent e)
+			{
+			}
+			public void mouseReleased(MouseEvent e)
+			{
+			}
+        });
+
+		// #####################################################
+		// HOYRE FILTERPANEL SLUTT
+		// #####################################################
+        
+        
+        JComponent innerFilterPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gc1 = new GridBagConstraints();
+        gc1.anchor = GridBagConstraints.NORTH;
+        gc1.gridx = 1;
+        innerFilterPanel.add(new JLabel(" -eller- "), gc1);
+        gc1.weightx = 1.0;
+        gc1.weighty = 1.0;
+        gc1.fill = GridBagConstraints.BOTH;
+        gc1.gridx = 0;
+        innerFilterPanel.add(venstreFilterPanel, gc1);
+        gc1.gridx = 2;
+        innerFilterPanel.add(hoyreFilterPanel, gc1);
+        
         
 		filterPanel = new JScrollPane(innerFilterPanel);
-        filterPanel.setBorder(BorderFactory.createTitledBorder("Sokefilter"));
+        filterPanel.setBorder(BorderFactory.createTitledBorder("<html>S&oslash;kefilter</html>"));
 		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hoyde)
 		
+		JPanel sokeknapper = new JPanel(new GridBagLayout());
+		sokeknapper.add(sok);
+		GridBagConstraints gcsk = new GridBagConstraints();
+		gcsk.insets.left = 5;
+		sokeknapper.add(nullstill, gcsk);
+		
 		JPanel knappePanel = new JPanel(new BorderLayout());
-		knappePanel.add(sok, BorderLayout.WEST);
+		knappePanel.add(sokeknapper, BorderLayout.WEST);
 		knappePanel.add(registrer, BorderLayout.EAST);
+		knappePanel.setBorder(BorderFactory.createEmptyBorder(3, 2, 5, 2));
 
 		JPanel nordPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc2 = new GridBagConstraints();
@@ -223,10 +361,63 @@ public class Boligpanel extends JPanel
 		nordPanel.add(knappePanel, gc2);
 		
 		add(nordPanel, BorderLayout.NORTH);
-	    /******** SETTE FILTERFELTER INN I VINDU SLUTT ********/
-		
 		
 		listBoliger(false);
+        
+        velgVenstreFilterPanel();
+	}
+	
+	private class VenstreFilterFokuslytter implements FocusListener
+	{
+		public void focusGained(FocusEvent e)
+		{
+			velgVenstreFilterPanel();
+		}
+		public void focusLost(FocusEvent e)
+		{
+		}
+	}
+	
+	private class HoyreFilterFokuslytter implements FocusListener
+	{
+		public void focusGained(FocusEvent e)
+		{
+			velgHoyreFilterPanel();
+		}
+		public void focusLost(FocusEvent e)
+		{
+		}
+	}
+	
+	private void velgVenstreFilterPanel()
+	{
+		venstreFilterErValgt = true;
+		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+		hoyreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+	}
+	
+	private void velgHoyreFilterPanel()
+	{
+		venstreFilterErValgt = false;
+		hoyreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+	}
+	
+	// FYLLER UT BOLIGSOKERBOKSEN
+	public void oppdaterBoligsokerliste(Object valgtBoligsoker)
+	{
+		boligsokere.removeAllItems();
+		for (Boligsoker b : register.getBoligsokere())
+		{
+			boligsokere.addItem(b);
+		}
+		boligsokere.insertItemAt(new Boligsoker("<Velg boligsoker>", "", "", 0, "", "", ""), 0);
+		boligsokere.insertItemAt(new Boligsoker("<Ny boligsoker ...>", "", "", 0, "", "", ""), 1);
+        
+        if (valgtBoligsoker == null)
+        	boligsokere.setSelectedIndex(0);
+        else
+        	boligsokere.setSelectedItem(valgtBoligsoker);
 	}
 	
 	public boolean erTall( String s )
@@ -257,33 +448,87 @@ public class Boligpanel extends JPanel
 		
 		if (medFilter)
 		{
-			if (bVisledige && !bVisutleide)
-				sokeliste.removeAll(register.getUtleide());
-			else if (bVisutleide && !bVisledige)
-				sokeliste.removeAll(register.getLedige());
-			
-			ArrayList<Bolig> sokeliste1 = new ArrayList<>();
-			
-			String sAnnonsedato = annonsedato.getText();
-			boolean annonsedatoErDato = sAnnonsedato.matches("^[\\d]{1,2}/[\\d]{1,2}/[\\d]{4}$");
-			
-			for (Bolig b : sokeliste)
-				if ((b.getAdresse().toLowerCase().contains(adr.getText().toLowerCase())) &&
-							(b.getTogst().toLowerCase().contains(beliggenhet.getText().toLowerCase())) &&
-							(!erTall(postnr.getText()) || Integer.toString(b.getPostnr()).toLowerCase().contains(postnr.getText().toLowerCase())) &&
-							(b.getPoststed().toLowerCase().contains(poststed.getText().toLowerCase())) &&
-							(sAnnonsedato.equals(ANNONSEDATO_EKS_TEKST) ||
-									sAnnonsedato.isEmpty() || !annonsedatoErDato ||
-									new Date(annonsedato.getText()).before(b.getAnnonsedato())) &&
-							(byggeaar.getText().isEmpty() || !erTall(byggeaar.getText()) || Integer.parseInt(byggeaar.getText()) <= b.getByggeaar()) &&
-							(prisfra.getText().isEmpty() || !erTall(prisfra.getText()) || Integer.parseInt(prisfra.getText()) <= b.getUtleiepris()) &&
-							(pristil.getText().isEmpty() || !erTall(pristil.getText()) || Integer.parseInt(pristil.getText()) >= b.getUtleiepris()) &&
-							(boarealfra.getText().isEmpty() || !erTall(boarealfra.getText()) || Integer.parseInt(boarealfra.getText()) <= b.getBoareal()) &&
-							(boarealtil.getText().isEmpty() || !erTall(boarealtil.getText()) || Integer.parseInt(boarealtil.getText()) >= b.getBoareal()))
-					sokeliste1.add(b);
-			
-			sokeliste = sokeliste1;
+			if (venstreFilterErValgt)
+			{
+				if (bVisledige && !bVisutleide)
+					sokeliste.removeAll(register.getUtleide());
+				else if (bVisutleide && !bVisledige)
+					sokeliste.removeAll(register.getLedige());
+				
+				ArrayList<Bolig> sokeliste1 = new ArrayList<>();
+				
+				String sAdresse = adr.getText();
+				String sTogst = beliggenhet.getText();
+				String sPostnr = postnr.getText();
+				String sPoststed = poststed.getText();
+				String sAnnonsedato = annonsedato.getText();
+				boolean annonsedatoErDato = sAnnonsedato.matches("^[\\d]{1,2}/[\\d]{1,2}/[\\d]{4}$");
+				String sByggeaar = byggeaar.getText();
+				String sPrisfra = prisfra.getText();
+				String sPristil = pristil.getText();
+				String sBoarealfra = boarealfra.getText();
+				String sBoarealtil = boarealtil.getText();
+				boolean bEnebolig = enebolig.isSelected();
+				boolean bRekkehus = rekkehus.isSelected();
+				boolean bLeilighet = leilighet.isSelected();
+				String sTomtfra = tomtfra.getText();
+				String sTomttil = tomttil.getText();
+				String sAntetgfra = antetgfra.getText();
+				String sAntetgtil = antetgtil.getText();
+				boolean bKjeller = kjeller.isSelected();
+				boolean bGarasje = garasje.isSelected();
+				boolean bVaskeri = vask.isSelected();
+				boolean bMaaliggeiforste = maaliggeiforste.isSelected();
+				
+				for (Bolig b : sokeliste)
+					if ((b.getAdresse().toLowerCase().contains(sAdresse.toLowerCase())) &&
+								(b.getTogst().toLowerCase().contains(sTogst.toLowerCase())) &&
+								(!erTall(sPostnr) || Integer.toString(b.getPostnr()).toLowerCase().contains(sPostnr.toLowerCase())) &&
+								(b.getPoststed().toLowerCase().contains(sPoststed.toLowerCase())) &&
+								(sAnnonsedato.equals(ANNONSEDATO_EKS_TEKST) ||
+										sAnnonsedato.isEmpty() || !annonsedatoErDato ||
+										new Date(sAnnonsedato).before(b.getAnnonsedato())) &&
+								(sByggeaar.isEmpty() || !erTall(sByggeaar) || Integer.parseInt(sByggeaar) <= b.getByggeaar()) &&
+								(sPrisfra.isEmpty() || !erTall(sPrisfra) || Integer.parseInt(sPrisfra) <= b.getUtleiepris()) &&
+								(sPristil.isEmpty() || !erTall(sPristil) || Integer.parseInt(sPristil) >= b.getUtleiepris()) &&
+								(sBoarealfra.isEmpty() || !erTall(sBoarealfra) || Integer.parseInt(sBoarealfra) <= b.getBoareal()) &&
+								(sBoarealtil.isEmpty() || !erTall(sBoarealtil) || Integer.parseInt(sBoarealtil) >= b.getBoareal()) &&
+								(
+										(!bEnebolig && !bRekkehus && !bLeilighet) ||
+										(bEnebolig && b instanceof Enebolig &&
+												(
+														(sTomtfra.isEmpty() || !erTall(sTomtfra) || Integer.parseInt(sTomtfra) <= ((Enebolig)b).getTomtestr()) &&
+														(sTomttil.isEmpty() || !erTall(sTomttil) || Integer.parseInt(sTomttil) >= ((Enebolig)b).getTomtestr()) &&
+														(sAntetgfra.isEmpty() || !erTall(sAntetgfra) || Integer.parseInt(sAntetgfra) <= ((Enebolig)b).getAntetasjer()) &&
+														(sAntetgtil.isEmpty() || !erTall(sAntetgtil) || Integer.parseInt(sAntetgtil) >= ((Enebolig)b).getAntetasjer()) &&
+														(!bKjeller || (bKjeller && ((Enebolig)b).isKjeller())
+												)) ||
+										(bRekkehus && b instanceof Rekkehus &&
+												(
+														(sTomtfra.isEmpty() || !erTall(sTomtfra) || Integer.parseInt(sTomtfra) <= ((Rekkehus)b).getTomtestr()) &&
+														(sTomttil.isEmpty() || !erTall(sTomttil) || Integer.parseInt(sTomttil) >= ((Rekkehus)b).getTomtestr()) &&
+														(sAntetgfra.isEmpty() || !erTall(sAntetgfra) || Integer.parseInt(sAntetgfra) <= ((Rekkehus)b).getAntetasjer()) &&
+														(sAntetgtil.isEmpty() || !erTall(sAntetgtil) || Integer.parseInt(sAntetgtil) >= ((Rekkehus)b).getAntetasjer()) &&
+														(!bKjeller || (bKjeller && ((Enebolig)b).isKjeller())
+												)) ||
+										(bLeilighet && b instanceof Leilighet &&
+												(
+														(!bGarasje || (bGarasje && ((Leilighet)b).getGarasje())) &&
+														(!bVaskeri || (bVaskeri && ((Leilighet)b).getVaskeri())) &&
+														(!bMaaliggeiforste || (bMaaliggeiforste && ((Leilighet)b).getEtasje() == 1))
+												))
+								))))
+						sokeliste1.add(b);
+				
+				sokeliste = sokeliste1;
+			}
+			else if (boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
+			{
+				
+			}
 		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		
 		for (final Bolig b : sokeliste)
 		{
@@ -291,8 +536,11 @@ public class Boligpanel extends JPanel
 			
 			Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 			
-			JLabel beskrivelse = new JLabel(b.getBeskrivelse());
+			JLabel beskrivelse = new JLabel(b.getBeskrivelse().toUpperCase() + "   ");
 			beskrivelse.setFont(f);
+			JLabel dato = new JLabel(sdf.format(b.getAnnonsedato()));
+			dato.setFont(f);
+			dato.setForeground(Color.GRAY);
 			JLabel boareal = new JLabel(String.valueOf(b.getBoareal()) + "kvm");
 			boareal.setFont(f);
 			JLabel pris = new JLabel(String.valueOf(b.getUtleiepris()) + ",- pr mnd");
@@ -304,9 +552,13 @@ public class Boligpanel extends JPanel
 			
 			gc4.anchor = GridBagConstraints.NORTHWEST;
 			
+			JPanel boligLinje1 = new JPanel(new GridBagLayout());
+			boligLinje1.add(beskrivelse);
+			boligLinje1.add(dato);
+			
 			gc4.gridx = 1;
 			gc4.gridy = 0;
-			Bolig.add(beskrivelse, gc4);
+			Bolig.add(boligLinje1, gc4);
 			gc4.gridy = 1;
 			Bolig.add(boareal, gc4);
 			gc4.gridy = 2;
@@ -321,7 +573,7 @@ public class Boligpanel extends JPanel
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					Boligskjemavindu bsv = new Boligskjemavindu(register, Boligpanel.this, b);
+					new Boligskjemavindu(register, Boligpanel.this, b);
 				}
 			});
 			
@@ -331,7 +583,7 @@ public class Boligpanel extends JPanel
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					Leiut utleievindu = new Leiut(register, b.getBoligNr());
+					new Leiut(register, b.getBoligNr());
 				}
 			});
 			
@@ -362,7 +614,7 @@ public class Boligpanel extends JPanel
 					{
 						public void actionPerformed(ActionEvent e)
 						{
-							Bildevindu bv = new Bildevindu(mittBilde1);
+							new Bildevindu(mittBilde1);
 						}
 					});
 				}
@@ -435,17 +687,43 @@ public class Boligpanel extends JPanel
         		pLeilighet.setVisible(false);
         	}
 			
-			Boligskjemavindu bsv;
-			
 			if (e.getSource() == registrer)
-			{
-				bsv = new Boligskjemavindu(register, Boligpanel.this);
-			}
+				new Boligskjemavindu(register, Boligpanel.this);
 			else if (e.getSource() == sok)
-			{
 				listBoliger(true);
-			}
+			else if(e.getSource() == boligsokere && boligsokere.getSelectedIndex() == 1)
+    			new Personskjemavindu(register, Boligpanel.this);
+			else if (e.getSource() == nullstill)
+				nullstill();
 		}
+	}
+
+	public void nullstill()
+	{
+		adr.setText("");
+		beliggenhet.setText("");
+		postnr.setText("");
+		poststed.setText("");
+		annonsedato.setForeground(Color.GRAY);
+		annonsedato.setText(ANNONSEDATO_EKS_TEKST);
+		byggeaar.setText("");
+		prisfra.setText("");
+		pristil.setText("");
+		boarealfra.setText("");
+		boarealtil.setText("");
+		visledige.setSelected(true);
+		visutleide.setSelected(true);
+		enebolig.setSelected(false);
+		rekkehus.setSelected(false);
+		leilighet.setSelected(false);
+		tomtfra.setText("");
+		tomttil.setText("");
+		antetgfra.setText("");
+		antetgtil.setText("");
+		kjeller.setSelected(false);
+		garasje.setSelected(false);
+		vask.setSelected(false);
+		maaliggeiforste.setSelected(false);
 	}
 	
 }
