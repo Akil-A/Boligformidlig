@@ -33,9 +33,8 @@ public class Hovedvindu extends JFrame
 		final JComponent personpanel = new Personpanel(br);
 		personpanel.setName("personpanelet");
 		tabbedPane.addTab("Personer", personpanel);
-		final JComponent kontraktpanel = new Kontraktpanel(br);
+		JComponent kontraktpanel = new Kontraktpanel(br);
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
-		kontraktpanel.setName("kontraktpanel");
 		JComponent statistikkpanel = new Statistikkpanel(br);
 		tabbedPane.addTab("Statistikk", statistikkpanel);
 		
@@ -47,11 +46,6 @@ public class Hovedvindu extends JFrame
 				{
 					((Personpanel)personpanel).oppdaterBoligsokerliste();
 					((Personpanel)personpanel).oppdaterUtleierliste();
-				}
-				if (tabbedPane.getSelectedComponent().getName() == "kontraktpanel")
-				{
-					((Kontraktpanel)kontraktpanel).oppdaterFungerendeListe();
-					((Kontraktpanel)kontraktpanel).oppdaterUtgaattListe();
 				}
 			}
 		});
@@ -211,7 +205,7 @@ public class Hovedvindu extends JFrame
 		}
 		catch( IOException ioe )
 		{
-			visMelding("Problem med �� skrive til fil.");
+			visMelding("Problem med Ã¥ skrive til fil.");
 		}
 	}
 
@@ -228,7 +222,7 @@ public class Hovedvindu extends JFrame
 			public void run()
 			{
 				final Hovedvindu hv = new Hovedvindu();
-				hv.setSize(700, 700);
+				hv.setSize(900, 700);
 				hv.setVisible(true);
 				hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
 				
