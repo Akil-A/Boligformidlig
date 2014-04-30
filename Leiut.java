@@ -1,30 +1,18 @@
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.text.*;
+import java.util.*;
 import javax.swing.*;
 
 
 public class Leiut extends JFrame
 {
 	 private JList<Person> bList;
-	    private JList<Person> uList;
 	    private Lytter lytter;
 	    private JButton leiut, avbryt;
 	    private Boligregister register;
-	    private DefaultListModel<Person> uModel, bModel;
+	    private DefaultListModel<Person> bModel;
 	    private ArrayList<Boligsoker>boligsokerliste;
 	    private JTextField startDato, sluttDato;
 	    private JLabel lstartDato, lsluttDato,ldato;
@@ -45,7 +33,7 @@ public class Leiut extends JFrame
         avbryt.addActionListener(lytter);
         lstartDato = new JLabel("Start dato: ");
         lsluttDato = new JLabel("Slutt dato: ");
-        ldato = new JLabel("<html>Dato format: dd/MM/yyyy <br> eks: 21/12/2010</html>");
+        ldato = new JLabel("<html>Dato format: dd/MM/yyyy<br>eks: 21/12/2010</html>");
         startDato = new JTextField(9);
         sluttDato = new JTextField(9);
        
@@ -169,7 +157,7 @@ public class Leiut extends JFrame
 					
 					Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue().getPersonNr(), boligNr, dStartDato, dSluttDato);
 					register.settInnKontrakt(kontrakten);
-					JOptionPane.showMessageDialog(null,"Test fullført\nstartdato:" + testStartDato + "\nsluttdato:" + testSluttDato);
+					JOptionPane.showMessageDialog(null,"Test fullfÃ¸rt\nstartdato:" + testStartDato + "\nsluttdato:" + testSluttDato);
 				}
 			}
 				
