@@ -22,6 +22,6 @@ public class Statistikkpanel extends JPanel
 		
 		gc.gridy = 2;
 		
-		add(new JLabel("Hvor mange leiekontrakter har firmaet formidlet hittil i år?"), gc);
+		add(new JLabel("Hvor mange leiekontrakter har firmaet formidlet hittil i aar?"), gc);
 	}
 }
