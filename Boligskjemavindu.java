@@ -257,7 +257,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 4;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("* Postnr"), gc);
+		toppanel.add(new JLabel("* Postnummer"), gc);
 		gc.gridx = 1;
 		toppanel.add(postnr, gc);
 		gc.gridx = 2;
@@ -274,7 +274,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		toppanel.add(poststed, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("* Byggeaar"), gc);
+		toppanel.add(new JLabel("<html>* Bygge&aring;r</html>"), gc);
 		gc.gridx = 3;
 		gc.anchor = GridBagConstraints.WEST;
 		toppanel.add(byggeaar, gc);
@@ -283,7 +283,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 6;
 		
 		gc.gridx = 0;
-		toppanel.add(new JLabel("Naermeste togstasjon"), gc);
+		toppanel.add(new JLabel("<html>N&aelig;rmeste togstasjon</html>"), gc);
 		gc.gridx = 1;
 		toppanel.add(togst, gc);
 		gc.gridx = 2;
@@ -324,7 +324,7 @@ public class Boligskjemavindu extends JFrame
 		JPanel elinje1 = new JPanel();
 		
 		tomtestr = new JTextField(3);
-		elinje1.add(new JLabel("Tomtestorrelse (kvm):"));
+		elinje1.add(new JLabel("<html>Tomtest&oslash;rrelse (kvm):</html>"));
 		elinje1.add(tomtestr);
 
 		antetasjer = new JTextField(3);
@@ -490,10 +490,12 @@ public class Boligskjemavindu extends JFrame
     			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || stittel.isEmpty() ||
     					sadresse.isEmpty() || spoststed.isEmpty() || sboareal.isEmpty() ||
     					sbyggeaar.isEmpty() || spris.isEmpty())
-    				feilmelding += "- Du maa fylle inn alle paakrevde felter.\n";
+    				feilmelding += "&bull; Du m&aring; fylle inn alle obligatoriske felter.<br>";
     			
-    			if (!erTall(spostnr) || spostnr.length() != 4 || !erTall(sboareal) || 
-    					!erTall(santrom) || !erTall(sbyggeaar) || !erTall(spris) || 
+    			if (!erTall(spostnr) || spostnr.length() != 4)
+    				feilmelding += "&bull; Postnummer m&aring; ha fire siffer.<br>";
+    			
+    			if (!erTall(sboareal) || !erTall(santrom) || !erTall(sbyggeaar) || !erTall(spris) || 
     					(
     							(benebolig || brekkehus) &&
     							(!erTall(stomtestr) || !erTall(santetasjer))
@@ -504,15 +506,15 @@ public class Boligskjemavindu extends JFrame
     							!erTall(sliggerietasje)
     					)
     				)
-    				feilmelding += "- Feil i tallformat.\n";
+    				feilmelding += "&bull; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
     			
     			if (!benebolig && !brekkehus && !bleilighet)
-    				feilmelding += "- Du maa velge en boligtype (enebolig, rekkehus, leilighet)\n";
+    				feilmelding += "&bull; Du m&aring; velge en boligtype (enebolig, rekkehus, leilighet)<br>";
     			
 	            if (!feilmelding.isEmpty())
 	            {	            	
-	            	JOptionPane.showMessageDialog( null, "Vennligst rett folgende feil for du gaar videre:\n\n" + feilmelding, "Problem",
-	            			JOptionPane.PLAIN_MESSAGE);
+	            	JOptionPane.showMessageDialog( null, "<html>Vennligst rett f&oslash;lgende feil f&oslash;r du g&aring;r videre:<br><br>"
+	            			+ feilmelding + "</html>", "Problem", JOptionPane.PLAIN_MESSAGE);
 	            	return;
 	            }
 	            
@@ -717,7 +719,7 @@ public class Boligskjemavindu extends JFrame
             			JOptionPane.PLAIN_MESSAGE);
 	            
     			if (boligpanelet != null)
-    				boligpanelet.listBoliger(false);
+    				boligpanelet.utforBlanktSok();
     			
     			dispose();
     		}
