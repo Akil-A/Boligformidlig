@@ -6,18 +6,18 @@ public class Kontrakt implements Serializable
 	private int kontraktNr;
 	private static int kontraktTeller = 0;
 	
-	private int leietakerNr; // leietaker er det samme som boligsoker
+	private Boligsoker leietaker;
 	private int boligNr;
 	private Date startdato;
 	private Date sluttdato;
 	private Date oppsagtDato;
 	private String oppsigelsesgrunn;
 	
-	public Kontrakt(int leietakerNr, int boligNr, Date startdato, Date sluttdato)
+	public Kontrakt(Boligsoker leietaker, int boligNr, Date startdato, Date sluttdato)
 	{
 		kontraktNr = kontraktTeller++;
 		
-		this.leietakerNr = leietakerNr;
+		this.leietaker = leietaker;
 		this.boligNr = boligNr;
 		this.startdato = startdato;
 		this.sluttdato = sluttdato;
@@ -33,14 +33,14 @@ public class Kontrakt implements Serializable
 		return kontraktNr;
 	}
 
-	public int getLeietakerNr()
+	public Boligsoker getLeietaker()
 	{
-		return leietakerNr;
+		return leietaker;
 	}
 
-	public void setLeietakerNr(int leietakerNr)
+	public void setLeietaker(Boligsoker b)
 	{
-		this.leietakerNr = leietakerNr;
+		this.leietaker = b;
 	}
 
 	public int getBoligNr()
