@@ -73,6 +73,20 @@ public class Personskjemavindu extends JFrame
         utleier.setEnabled(false);
         boligsoker.setEnabled(false);
     }
+    
+
+    public Personskjemavindu(Boligregister br, Boligpanel bp, Person p)
+    {
+    	super("Oppdater boligsoker");
+    	register = br;
+    	boligpanelet = bp;
+    	lagVindu();
+    	fyllutfelter(p);
+        
+        personen = p;
+        
+        uRegPerson.setVisible(false);
+    }
 
 
     public Personskjemavindu(Boligregister br, Personpanel pl)
@@ -94,11 +108,17 @@ public class Personskjemavindu extends JFrame
         register = br;
         personpanelet = pl;
         lagVindu();
+    	fyllutfelter(p);
         
         personen = p;
         
         uRegPerson.setVisible(false);
-        fornavnfelt.setText(p.getFornavn());
+    }
+    
+    
+    public void fyllutfelter(Person p)
+    {
+    	fornavnfelt.setText(p.getFornavn());
         etternavnfelt.setText(p.getEtternavn());
         emailfelt.setText(p.getEmail());
         adressefelt.setText(p.getAdresse());
@@ -154,7 +174,6 @@ public class Personskjemavindu extends JFrame
             firmafelt.setText(ulo.getFirma());
             utleier.setSelected(true);
         }
-
     }
 
     public void lagVindu()
