@@ -16,6 +16,7 @@ public class Kontraktpanel extends JPanel
     private DefaultListModel<Kontrakt> fungerendemodell, utgaattmodell;
 	private Lytter lytter;
     private Boligregister register;
+	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 		
 	public Kontraktpanel(Boligregister br)
 	{	
@@ -31,16 +32,14 @@ public class Kontraktpanel extends JPanel
 		/********* POPULERING AV LISTER START *********/
         fungerendemodell = new DefaultListModel<Kontrakt>();
         fungerendeListe = new JList<Kontrakt>(fungerendemodell);
+		fungerendeListe.setFont(IKKEFET);
         oppdaterFungerendeListe();
 
         utgaattmodell = new DefaultListModel<Kontrakt>();
         utgaatteListe = new JList<Kontrakt>(utgaattmodell);
+		utgaatteListe.setFont(IKKEFET);
         oppdaterUtgaattListe();
         /********* POPULERING AV LISTER SLUTT *********/
-
-		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-		fungerendeListe.setFont(font);
-		utgaatteListe.setFont(font);
 
 		fungerendeKnapp = new JButton("Detaljer");
 		fungerendeKnapp.addActionListener(lytter);
@@ -110,11 +109,9 @@ public class Kontraktpanel extends JPanel
     	public void actionPerformed(ActionEvent e)
     	{
     		if (e.getSource() == fungerendeKnapp && fungerendeListe.getSelectedIndex() != -1)  		
-    			new Kontraktvindu(register, fungerendeListe.getSelectedValue(), Kontraktpanel.this);
-    		
+    			new Kontraktvindu(register, Kontraktpanel.this, fungerendeListe.getSelectedValue());
     		else if (e.getSource() == utgaatteKnapp && utgaatteListe.getSelectedIndex() != -1)
-    			new Kontraktvindu(register, utgaatteListe.getSelectedValue(), Kontraktpanel.this);
-
+    			new Kontraktvindu(register, Kontraktpanel.this, utgaatteListe.getSelectedValue());
     	}
     }
 }
