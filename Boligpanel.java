@@ -22,7 +22,7 @@ public class Boligpanel extends JPanel
 	private JComboBox<String> sortering;
 	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel, venstreFilterPanel;
 	private JScrollPane filterPanel, boligListe;
-	private JButton sok, nullstill, registrer;
+	private JButton boligsokerdetaljer = new JButton("Detaljer"), sok, nullstill, registrer;
 	private JLabel antallresultater;
 	private Boligregister register;
 	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/12/2013";
@@ -262,7 +262,12 @@ public class Boligpanel extends JPanel
 		hfTips.setFont(LITENKURSIVFONT);
 		hoyreFilterPanel.add(hfTips, hfGc);
 		hfGc.gridy = 1;
-		hoyreFilterPanel.add(boligsokere, hfGc);
+		JPanel boligsokerpanel = new JPanel();
+		boligsokerpanel.add(boligsokere);
+		boligsokerdetaljer.addActionListener(lytter);
+		boligsokerpanel.add(boligsokerdetaljer);
+		boligsokerdetaljer.setEnabled(false);
+		hoyreFilterPanel.add(boligsokerpanel, hfGc);
 		hfGc.gridy = 2;
 		hoyreFilterPanel.add(vismatch, hfGc);
 		hfGc.gridy = 3;
@@ -421,16 +426,17 @@ public class Boligpanel extends JPanel
 	{
 		boligsokere.removeAllItems();
 		for (Boligsoker b : register.getBoligsokere())
-		{
 			boligsokere.addItem(b);
-		}
-		boligsokere.insertItemAt(new Boligsoker("<Velg boligsoker>", "", "", 0, "", "", ""), 0);
-		boligsokere.insertItemAt(new Boligsoker("<Ny boligsoker ...>", "", "", 0, "", "", ""), 1);
+		boligsokere.insertItemAt(new Boligsoker("<html>&lt;Velg boligs&oslash;ker&gt;</html>", "", "", 0, "", "", ""), 0);
+		boligsokere.insertItemAt(new Boligsoker("<html>&lt;Ny boligs&oslash;ker ...&gt;</html>", "", "", 0, "", "", ""), 1);
         
         if (valgtBoligsoker == null)
         	boligsokere.setSelectedIndex(0);
         else
+        {
         	boligsokere.setSelectedItem(valgtBoligsoker);
+        	boligsokerdetaljer.setEnabled(true);
+        }
 	}
 	
 	public boolean erTall( String s )
@@ -721,47 +727,63 @@ public class Boligpanel extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-        	if (e.getSource() == enebolig && enebolig.isSelected())
-        	{
-        		leilighet.setSelected(false);
-        		rekkehus.setSelected(false);
-        	}
-        	else if (e.getSource() == leilighet && leilighet.isSelected())
-        	{
-        		enebolig.setSelected(false);
-        		rekkehus.setSelected(false);
-        	}
-        	else if (e.getSource() == rekkehus && rekkehus.isSelected())
-        	{
-        		enebolig.setSelected(false);
-        		leilighet.setSelected(false);
-        	}
-        	
-        	if (enebolig.isSelected() || rekkehus.isSelected())
-        	{
-        		pEneRekke.setVisible(true);
-        		pLeilighet.setVisible(false);
-        	}
-        	else if (leilighet.isSelected())
-        	{
-        		pEneRekke.setVisible(false);
-        		pLeilighet.setVisible(true);
-        	}
-        	else
-        	{
-        		pEneRekke.setVisible(false);
-        		pLeilighet.setVisible(false);
-        	}
-			
-			if (e.getSource() == registrer)
+			if (e.getSource() == enebolig || e.getSource() == leilighet || e.getSource() == rekkehus)
+			{
+	        	if (e.getSource() == enebolig && enebolig.isSelected())
+	        	{
+	        		leilighet.setSelected(false);
+	        		rekkehus.setSelected(false);
+	        	}
+	        	else if (e.getSource() == leilighet && leilighet.isSelected())
+	        	{
+	        		enebolig.setSelected(false);
+	        		rekkehus.setSelected(false);
+	        	}
+	        	else if (e.getSource() == rekkehus && rekkehus.isSelected())
+	        	{
+	        		enebolig.setSelected(false);
+	        		leilighet.setSelected(false);
+	        	}
+	        	
+	        	if (enebolig.isSelected() || rekkehus.isSelected())
+	        	{
+	        		pEneRekke.setVisible(true);
+	        		pLeilighet.setVisible(false);
+	        	}
+	        	else if (leilighet.isSelected())
+	        	{
+	        		pEneRekke.setVisible(false);
+	        		pLeilighet.setVisible(true);
+	        	}
+	        	else
+	        	{
+	        		pEneRekke.setVisible(false);
+	        		pLeilighet.setVisible(false);
+	        	}
+			}
+			else if (e.getSource() == registrer)
 				new Boligskjemavindu(register, Boligpanel.this);
 			else if (e.getSource() == sok)
 			{
 				lagSok();
 				listBoliger();
 			}
-			else if(e.getSource() == boligsokere && boligsokere.getSelectedIndex() == 1)
-    			new Personskjemavindu(register, Boligpanel.this);
+			else if(e.getSource() == boligsokere)
+			{
+				if (boligsokere.getSelectedIndex() == 0 || boligsokere.getSelectedIndex() == 1)
+				{
+					boligsokerdetaljer.setEnabled(false);
+					
+					if (boligsokere.getSelectedIndex() == 1)
+						new Personskjemavindu(register, Boligpanel.this);
+				}
+				else
+					boligsokerdetaljer.setEnabled(true);
+			}
+			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 || boligsokere.getSelectedIndex() != 1)
+				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
+			else if (e.getSource() == sortering)
+				listBoliger();
 			else if (e.getSource() == nullstill)
 				nullstill();
 		}
