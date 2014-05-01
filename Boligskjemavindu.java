@@ -715,7 +715,7 @@ public class Boligskjemavindu extends JFrame
 	            else
 	            	lagremelding = "Boligen er oppdatert.";
 	            	
-	            JOptionPane.showMessageDialog( null, lagremelding, "Melding",
+	            JOptionPane.showMessageDialog( null, lagremelding, "",
             			JOptionPane.PLAIN_MESSAGE);
 	            
     			if (boligpanelet != null)
