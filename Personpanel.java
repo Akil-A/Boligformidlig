@@ -15,6 +15,7 @@ public class Personpanel extends JPanel
     private Lytter lytter;
     private JButton utleierknapp, boligsokerknapp, nypersonknapp;
     private Boligregister register;
+	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
     public Personpanel(Boligregister br)
     {
@@ -35,10 +36,12 @@ public class Personpanel extends JPanel
         /********* POPULERING AV LISTER START *********/
         utleiermodell = new DefaultListModel<Person>();
         utleierliste = new JList<Person>(utleiermodell);
+        utleierliste.setFont(IKKEFET);
         oppdaterUtleierliste();
 
         boligsokermodell = new DefaultListModel<Person>();
         boligsokerliste = new JList<Person>(boligsokermodell);
+        boligsokerliste.setFont(IKKEFET);
         oppdaterBoligsokerliste();
         /********* POPULERING AV LISTER SLUTT *********/
         
