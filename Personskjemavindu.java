@@ -193,28 +193,28 @@ public class Personskjemavindu extends JFrame
         postnr = new JLabel("* Postnummer: ");
         antPersoner = new JLabel("Antall personer: ");
         beliggenhet = new JLabel("Beliggenhet: ");
-        fraStorrelse = new JLabel("Fra storrelse: ");
-        tilStorrelse = new JLabel("Til storrelse: ");
+        fraStorrelse = new JLabel("<html>Fra st&oslash;rrelse: </html>");
+        tilStorrelse = new JLabel("<html>Til st&oslash;rrelse: </html>");
         antRom = new JLabel("Antall rom: ");
         utleiepris = new JLabel("Utleiepris: ");
         firma = new JLabel("Firma: ");
         test = new JLabel("Hva er " + randNr1 + " + " + randNr2);
-        byggeaar = new JLabel("Byggeaar");
+        byggeaar = new JLabel("<html>Bygge&aring;r</html>");
 
 
         sivilstatus = new JComboBox<>();
         arbeidsforhold = new JComboBox<>();
 
-        sivilstatus.addItem("<Velg Sivilstatus>");
+        sivilstatus.addItem("<Velg sivilstatus>");
         sivilstatus.addItem("Gift");
         sivilstatus.addItem("Ugift");
         sivilstatus.addItem("Enke");
         sivilstatus.addItem("Enkemann");
 
-        arbeidsforhold.addItem("<Velg Arbeidsforhold>");
+        arbeidsforhold.addItem("<Velg arbeidsforhold>");
         arbeidsforhold.addItem("Arbeider");
         arbeidsforhold.addItem("Student");
-        arbeidsforhold.addItem("Arbeidslos");
+        arbeidsforhold.addItem("<html>Arbeidsl&oslash;s</html>");
         arbeidsforhold.addItem("Pensjonist");
 
         utleier = new JRadioButton("Utleier");
@@ -236,7 +236,7 @@ public class Personskjemavindu extends JFrame
         uRegPerson.addActionListener(lytter);
         uSlett = new JButton("Slett");
         uSlett.addActionListener(lytter);
-        uRegBolig = new JButton("Registrer ny bolig paa meg");
+        uRegBolig = new JButton("<html>Registrer ny bolig p&aring; meg</html>");
         uRegBolig.addActionListener(lytter);
         bSlett = new JButton("Slett");
         bSlett.addActionListener(lytter);
@@ -590,7 +590,7 @@ public class Personskjemavindu extends JFrame
 
 
                 if (erTom(fornavn) || erTom(etternavn) || erTom(adresse) || erTom(postnr) || erTom(poststed) || erTom(telefon))
-                    feilmelding += "Du maa fylle inn alle felter som er merket med stjerne.\n";
+                    feilmelding += "Du m&aring; fylle inn alle felter som er merket med stjerne.<br>";
 
 
                 if (butleier)
@@ -600,30 +600,30 @@ public class Personskjemavindu extends JFrame
                 else if (bboligsoker)
                 {
                     if (!erTall(postnr))
-                        feilmelding1 += "Postnr\n";
+                        feilmelding1 += "Postnummer<br>";
                     if (!erTom(antpersoner) && !erTall(antpersoner))
-                        feilmelding1 += "Antall personer\n";
+                        feilmelding1 += "Antall personer<br>";
                     if  (!erTom(frastr) && !erTall(frastr))
-                        feilmelding1 += "Fra storrelse\n";
+                        feilmelding1 += "Fra st&oslash;rrelse<br>";
                     if (!erTom(tilstr) && !erTall(tilstr))
-                        feilmelding1 += "Til storrelse\n";
+                        feilmelding1 += "Til st&oslash;rrelse<br>";
                     if (!erTom(antrom) && !erTall(antrom))
-                        feilmelding1 += "Antall rom\n";
+                        feilmelding1 += "Antall rom<br>";
                     if(!erTom(pris) && !erTall(pris))
-                        feilmelding1 += "Utleiepris\n";
+                        feilmelding1 += "Utleiepris<br>";
                     if(!erTom(byggeaar) && !erTall(byggeaar))
-                        feilmelding1 += "Byggeaar\n";
+                        feilmelding1 += "Bygge&aring;r<br>";
                 }
                 String s = "";
                 if(!erTom(feilmelding1))
                 {
-                    s = "\n\nFeltene som er nevnt nedenfor maa inneholde tall, vennligst rett disse feltene:\n\n";
+                    s = "<br><br>Feltene som er nevnt nedenfor m&aring; inneholde tall, vennligst rett disse feltene:<br><br>";
                     s += feilmelding1;
                 }
 
                 if (!erTom(feilmelding) || !erTom(s))
                 {
-                        JOptionPane.showMessageDialog(null, feilmelding + s, "Problem",
+                        JOptionPane.showMessageDialog(null, "<html>" + feilmelding + s + "</html>", "Problem",
                                 JOptionPane.PLAIN_MESSAGE);
                         return;
                 }
