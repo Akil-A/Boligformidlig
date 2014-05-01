@@ -65,7 +65,7 @@ public class Hovedvindu extends JFrame
 		JLabel lDatafil = new JLabel("Gjeldende datafil: " + DATAFIL);
 		lDatafil.setFont(font);
 		
-		lagre = new JButton("Lagre");
+		lagre = new JButton("LAGRE");
 		lagre.addActionListener(new Lytter());
 		lagre.setFont(font);
 		lagre.setFocusPainted(false);
@@ -85,17 +85,18 @@ public class Hovedvindu extends JFrame
 		{
 			if (e.getSource() == lagre)
 			{
-				skrivTilFil(false);
-
-				lagre.setBackground(Color.YELLOW);
-				lagre.setText("Lagret");
-				
-				Calendar c = Calendar.getInstance();
-				c.add(Calendar.SECOND, 2);
-				
-				timerHandling = new TimerHandling();
-				timer = new Timer();
-				timer.schedule(timerHandling, c.getTime());
+				if (skrivTilFil(false))
+				{
+					lagre.setBackground(Color.YELLOW);
+					lagre.setText("LAGRET");
+					
+					Calendar c = Calendar.getInstance();
+					c.add(Calendar.SECOND, 2);
+					
+					timerHandling = new TimerHandling();
+					timer = new Timer();
+					timer.schedule(timerHandling, c.getTime());
+				}
 			}
 		}
 	}
@@ -105,7 +106,7 @@ public class Hovedvindu extends JFrame
 		public void run()
 		{
 			lagre.setBackground(standardKnappebakgrunn);
-			lagre.setText("Lagre");
+			lagre.setText("LAGRE");
 		}
 	}
 	
@@ -196,28 +197,34 @@ public class Hovedvindu extends JFrame
 	}
 
 	
-	private void skrivTilFil(boolean visMelding)
+	private boolean skrivTilFil(boolean visMelding)
 	{
 		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( DATAFIL ) ) )
 		{
 			utfil.writeObject( br );
 			
 			if (visMelding)
-				visMelding("Data er lagret.");
+				visMelding("<html>Data er lagret.</html>");
+			
+			return true;
 		}
 		catch( NotSerializableException nse )
 		{
 			visMelding("Objektet er ikke serialisert!");
+			
+			return false;
 		}
 		catch( IOException ioe )
 		{
-			visMelding("Problem med aa skrive til fil.");
+			visMelding("<html>Problem med &aring; skrive til fil.</html>");
+			
+			return false;
 		}
 	}
 
 	private void visMelding(String melding)
 	{
-		JOptionPane.showMessageDialog( this, melding, "Melding", JOptionPane.PLAIN_MESSAGE );
+		JOptionPane.showMessageDialog( this, melding, "", JOptionPane.PLAIN_MESSAGE );
 	}
 	
 	
@@ -236,8 +243,14 @@ public class Hovedvindu extends JFrame
 				{
 					public void windowClosing( WindowEvent e )
 					{
-						hv.skrivTilFil(true);
-						System.exit( 0 );
+						if (hv.skrivTilFil(true))
+							System.exit( 0 );
+						else
+						{
+							int i = JOptionPane.showConfirmDialog(null, "Data kan ikke lagres til fil. Vil du avslutte?", "asdf", JOptionPane.YES_NO_OPTION);
+							if (i == JOptionPane.YES_OPTION)
+								System.exit(0);
+						}
 					}
 				} );
 			}
