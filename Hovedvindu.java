@@ -48,7 +48,7 @@ public class Hovedvindu extends JFrame
 					((Personpanel)personpanel).oppdaterBoligsokerliste();
 					((Personpanel)personpanel).oppdaterUtleierliste();
 				}
-				if (tabbedPane.getSelectedComponent().getName() == "kontraktpanelet")
+				else if (tabbedPane.getSelectedComponent().getName() == "kontraktpanelet")
 				{
 					((Kontraktpanel)kontraktpanel).oppdaterFungerendeListe();
 					((Kontraktpanel)kontraktpanel).oppdaterUtgaattListe();
