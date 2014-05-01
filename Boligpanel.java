@@ -22,10 +22,13 @@ public class Boligpanel extends JPanel
 	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel, venstreFilterPanel;
 	private JScrollPane filterPanel, boligListe;
 	private JButton sok, nullstill, registrer;
+	private JLabel antallresultater;
 	private Boligregister register;
 	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/12/2013";
 	private final Font LITENKURSIVFONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
-	private boolean venstreFilterErValgt;
+	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+	private final Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+	private boolean genereltSok;
 	
 	public Boligpanel(Boligregister br)
 	{
@@ -338,16 +341,27 @@ public class Boligpanel extends JPanel
         filterPanel.setBorder(BorderFactory.createTitledBorder("<html>S&oslash;kefilter</html>"));
 		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hoyde)
 		
+		// #####################################################
+		// KNAPPEPANEL START
+		// #####################################################
+		
 		JPanel sokeknapper = new JPanel(new GridBagLayout());
 		sokeknapper.add(sok);
 		GridBagConstraints gcsk = new GridBagConstraints();
 		gcsk.insets.left = 5;
 		sokeknapper.add(nullstill, gcsk);
+		antallresultater = new JLabel();
+		antallresultater.setFont(LITENFONT);
+		sokeknapper.add(antallresultater, gcsk);
 		
 		JPanel knappePanel = new JPanel(new BorderLayout());
 		knappePanel.add(sokeknapper, BorderLayout.WEST);
 		knappePanel.add(registrer, BorderLayout.EAST);
 		knappePanel.setBorder(BorderFactory.createEmptyBorder(3, 2, 5, 2));
+		
+		// #####################################################
+		// KNAPPEPANEL SLUTT
+		// #####################################################
 
 		JPanel nordPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc2 = new GridBagConstraints();
@@ -391,14 +405,14 @@ public class Boligpanel extends JPanel
 	
 	private void velgVenstreFilterPanel()
 	{
-		venstreFilterErValgt = true;
+		genereltSok = true;
 		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		hoyreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
 	}
 	
 	private void velgHoyreFilterPanel()
 	{
-		venstreFilterErValgt = false;
+		genereltSok = false;
 		hoyreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
 	}
@@ -444,16 +458,18 @@ public class Boligpanel extends JPanel
 		boolean bVisledige = visledige.isSelected();
 		boolean bVisutleide = visutleide.isSelected();
 		
-		ArrayList<Bolig> sokeliste = register.getBoliger();
+		ArrayList<Bolig> sokeliste = null;
 		
 		if (medFilter)
 		{
-			if (venstreFilterErValgt)
+			if (genereltSok)
 			{
 				if (bVisledige && !bVisutleide)
-					sokeliste.removeAll(register.getUtleide());
+					sokeliste = register.getLedige();
 				else if (bVisutleide && !bVisledige)
-					sokeliste.removeAll(register.getLedige());
+					sokeliste = register.getUtleide();
+				else
+					sokeliste = register.getBoliger();
 				
 				ArrayList<Bolig> sokeliste1 = new ArrayList<>();
 				
@@ -527,26 +543,32 @@ public class Boligpanel extends JPanel
 				
 			}
 		}
+		else
+			sokeliste = register.getBoliger();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		int antAnnonser = sokeliste.size();
+		
+		if (!medFilter && antAnnonser == 0)
+			antallresultater.setText("Ingen annonser er lagt inn.");
+		else
+			antallresultater.setText(sokeliste.size() + " annonse(r) funnet.");
 		
 		for (final Bolig b : sokeliste)
 		{
 			JPanel Bolig = new JPanel(new GridBagLayout());
 			
-			Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-			
 			JLabel beskrivelse = new JLabel(b.getBeskrivelse().toUpperCase() + "   ");
-			beskrivelse.setFont(f);
+			beskrivelse.setFont(IKKEFET);
 			JLabel dato = new JLabel(sdf.format(b.getAnnonsedato()));
-			dato.setFont(f);
+			dato.setFont(IKKEFET);
 			dato.setForeground(Color.GRAY);
 			JLabel boareal = new JLabel(String.valueOf(b.getBoareal()) + "kvm");
-			boareal.setFont(f);
+			boareal.setFont(IKKEFET);
 			JLabel pris = new JLabel(String.valueOf(b.getUtleiepris()) + ",- pr mnd");
-			pris.setFont(f);
+			pris.setFont(IKKEFET);
 			JLabel adresse = new JLabel(b.getAdresse() + ", " + b.getPostnr() + " " + b.getPoststed());
-			adresse.setFont(f);
+			adresse.setFont(IKKEFET);
 
 			GridBagConstraints gc4 = new GridBagConstraints();
 			
@@ -568,7 +590,7 @@ public class Boligpanel extends JPanel
 			gc4.gridy = 4;
 			
 			JButton detaljer = new JButton("Detaljer");
-			detaljer.setFont(f);
+			detaljer.setFont(IKKEFET);
 			detaljer.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(ActionEvent e)
@@ -578,7 +600,7 @@ public class Boligpanel extends JPanel
 			});
 			
 			JButton leiut = new JButton("Lei ut");
-			leiut.setFont(f);
+			leiut.setFont(IKKEFET);
 			leiut.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(ActionEvent e)
@@ -598,7 +620,7 @@ public class Boligpanel extends JPanel
 			bildeknapp.setPreferredSize(new Dimension(130, 110));
 			bildeknapp.setEnabled(false);
 			bildeknapp.setText("<html><center>-mangler<br>bilde-</center></html>");
-			bildeknapp.setFont(f);
+			bildeknapp.setFont(IKKEFET);
 			
 			if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 			{
