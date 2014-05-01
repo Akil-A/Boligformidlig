@@ -190,7 +190,7 @@ public class Personskjemavindu extends JFrame
         yrke = new JLabel("Yrke: ");
         email = new JLabel("* Email: ");
         poststed = new JLabel("* Poststed: ");
-        postnr = new JLabel("* Postnr: ");
+        postnr = new JLabel("* Postnummer: ");
         antPersoner = new JLabel("Antall personer: ");
         beliggenhet = new JLabel("Beliggenhet: ");
         fraStorrelse = new JLabel("Fra storrelse: ");
