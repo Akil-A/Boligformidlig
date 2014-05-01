@@ -27,8 +27,6 @@ public class Kontraktpanel extends JPanel
 		utgaatteListe = new JList<>();
 		
 		
-		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-		Font font = new Font("System", Font.PLAIN, 12);
 		
 		/********* POPULERING AV LISTER START *********/
         fungerendemodell = new DefaultListModel<Kontrakt>();
@@ -39,7 +37,8 @@ public class Kontraktpanel extends JPanel
         utgaatteListe = new JList<Kontrakt>(utgaattmodell);
         oppdaterUtgaattListe();
         /********* POPULERING AV LISTER SLUTT *********/
-		
+
+		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 		fungerendeListe.setFont(font);
 		utgaatteListe.setFont(font);
 
