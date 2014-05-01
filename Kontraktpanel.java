@@ -1,5 +1,4 @@
-/* Panel som viser liste over alle utg��tte og fungerende kontrakter.
- * Laget av Joakim
+/* Panel som viser liste over alle utgaatte og fungerende kontrakter.
  */
 
 import java.awt.*;
@@ -61,7 +60,7 @@ public class Kontraktpanel extends JPanel
 		gc.gridy = 0;
 		
 		JScrollPane bScrollPane = new JScrollPane();
-		bScrollPane.setBorder(BorderFactory.createTitledBorder("Fungerendeliste:"));
+		bScrollPane.setBorder(BorderFactory.createTitledBorder("FUNGERENDE KONTRAKTER"));
 		bScrollPane.setViewportView(fungerendeListe);
 		bScrollPane.setPreferredSize(new Dimension(450, 200));   
         add(bScrollPane, gc);
@@ -76,7 +75,7 @@ public class Kontraktpanel extends JPanel
 		gc.insets.left = 0;
 		
 		JScrollPane uScrollPane = new JScrollPane();
-		uScrollPane.setBorder(BorderFactory.createTitledBorder("Utgaattekontrakter:"));
+		uScrollPane.setBorder(BorderFactory.createTitledBorder("<html>UTG&Aring;TTE KONTRAKTER</html>"));
 		uScrollPane.setViewportView(utgaatteListe); 
 		uScrollPane.setPreferredSize(new Dimension(450, 200));   
         add(uScrollPane, gc);
