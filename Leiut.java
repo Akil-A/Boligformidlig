@@ -8,23 +8,21 @@ import javax.swing.*;
 
 public class Leiut extends JFrame
 {
-	 private JList<Person> bList;
-	    private Lytter lytter;
-	    private JButton leiut, avbryt;
-	    private Boligregister register;
-	    private DefaultListModel<Person> bModel;
-	    private ArrayList<Boligsoker>boligsokerliste;
-	    private JTextField startDato, sluttDato;
-	    private JLabel lstartDato, lsluttDato,ldato;
-	    private int boligNr;
-	    private Date dStartDato, dSluttDato;
+	private JList<Boligsoker> bList;
+	private Lytter lytter;
+	private JButton leiut, avbryt;
+	private Boligregister register;
+	private DefaultListModel<Boligsoker> bModel;
+	private JTextField startDato, sluttDato;
+	private JLabel lstartDato, lsluttDato,ldato;
+	private int boligNr;
 	    
-	public Leiut(Boligregister br, int boligNr)
+	public Leiut(Boligregister br, int bnr)
 	{
-		super("Utleie Vindu");
+		super("Utleie");
 		setSize(600,400);
 		register = br;
-		this.boligNr = boligNr;
+		boligNr = bnr;
 		 /********* DEFINERING AV KOMPONENTER START *********/
         lytter = new Lytter();
         leiut = new JButton("Lei ut");
@@ -40,18 +38,16 @@ public class Leiut extends JFrame
         /********* DEFINERING AV KOMPONENTER SLUTT *********/
         
         /********* POPULERING AV LISTER START *********/
-        boligsokerliste = register.getBoligsokere();
-        bModel = new DefaultListModel<Person>();
-        Iterator<Boligsoker> iterator2 = boligsokerliste.iterator();
+        ArrayList<Boligsoker> boligsokere = register.getBoligsokere();
+        bModel = new DefaultListModel<Boligsoker>();
+        Iterator<Boligsoker> iterator2 = boligsokere.iterator();
         while(iterator2.hasNext())
-        {
             bModel.addElement(iterator2.next());
-        }
-        bList = new JList<Person>(bModel);
+        bList = new JList<>(bModel);
         /********* POPULERING AV LISTER SLUTT *********/
         
         JScrollPane bScrollPane = new JScrollPane();
-		bScrollPane.setBorder(BorderFactory.createTitledBorder("Boligsokere:"));
+		bScrollPane.setBorder(BorderFactory.createTitledBorder("<html>BOLIGS&Oslash;KERE</html>"));
 		bScrollPane.setViewportView(bList);
 		bScrollPane.setPreferredSize(new Dimension(450, 200));   
 		 /********* LAYOUT START *********/
@@ -94,14 +90,10 @@ public class Leiut extends JFrame
 		setVisible(true);
 	}
 	
-
-	
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
-		{	
-			
-		
+		{
 			if(e.getSource() == avbryt)
 			{
     			dispose();
@@ -110,12 +102,13 @@ public class Leiut extends JFrame
 			{
 				if(bList.isSelectionEmpty())
 				{
-					JOptionPane.showMessageDialog(null,"Du maa velge en fra listen!");
+					JOptionPane.showMessageDialog(null,"<html>Du m&aring; velge en fra listen!</html>");
 					return;
 				}
+				
 				if(startDato.getText().equals("") || sluttDato.getText().equals(""))
 				{
-					JOptionPane.showMessageDialog(null,"Du maa skrive inn en start og slutt dato!");
+					JOptionPane.showMessageDialog(null,"<html>Du m&aring; skrive inn en start og slutt dato!</html>");
 					return;
 				}
 				
@@ -127,12 +120,10 @@ public class Leiut extends JFrame
 				    Date testSluttDato = null;
 				    
 				    try
-				        {
-				    
+				    {
 				    	testStartDato = sdf.parse(startDato.getText());
 				    	testSluttDato = sdf.parse(sluttDato.getText());
-				
-				        }
+				    }
 				    catch(ParseException pe)
 				    {
 				    	JOptionPane.showMessageDialog(null, "Feil i parsing");
@@ -147,23 +138,16 @@ public class Leiut extends JFrame
 				    
 				    if(testSluttDato.before(testStartDato) || testSluttDato.equals(testStartDato))
 					{	
-						
-						JOptionPane.showMessageDialog(null,"Startdatoen maa vaere for sluttdatoen!");
+						JOptionPane.showMessageDialog(null,"<html>Startdatoen m&aring; v&aelig;re f&oslash;r sluttdatoen!</html>");
 						return;
 					}
 					
-					
-					
-					
-					Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue().getPersonNr(), boligNr, testStartDato, testSluttDato);
+					Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligNr, testStartDato, testSluttDato);
 					register.settInnKontrakt(kontrakten);
-					JOptionPane.showMessageDialog(null,"Test fullfort\nstartdato:" + testStartDato + "\nsluttdato:" + testSluttDato);
+					JOptionPane.showMessageDialog(null,"<html>Test fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
 					dispose();
 				}
 			}
-				
-				
-			
 		}
 	}
 }
