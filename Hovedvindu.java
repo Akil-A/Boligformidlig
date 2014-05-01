@@ -171,20 +171,20 @@ public class Hovedvindu extends JFrame
 		}
 		catch(ClassNotFoundException cnfe)
 		{
-			visMelding( "Feil:\n\n" + cnfe.getMessage() + "\n\nOppretter tom datafil. Tar vare paa gammel datafil." );
+			visMelding( "<html>Feil:<br><br>" + cnfe.getMessage() + "<br><br>Oppretter tom datafil. Tar vare p&aring; gammel datafil.</html>" );
 			tomtRegister();
 			DATAFIL = datafil(true);
 			skrivTilFil(false);
 		}
 		catch(FileNotFoundException fne)
 		{
-			visMelding( "Finner ikke datafil. Oppretter tom datafil." );
+			visMelding( "Ingen datafil funnet. Oppretter tom datafil." );
 			tomtRegister();
 			skrivTilFil(false);
 		}
 		catch(IOException ioe)
 		{
-			visMelding( "Innlesingsfeil. Oppretter tom datafil. Tar vare paa gammel datafil." );
+			visMelding( "<html>Innlesingsfeil. Oppretter tom datafil. Tar vare p&aring; gammel datafil.</html>" );
 			tomtRegister();
 			DATAFIL = datafil(true);
 			skrivTilFil(false);
