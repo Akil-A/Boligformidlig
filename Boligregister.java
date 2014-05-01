@@ -1,5 +1,5 @@
 /*
- * Klassen som holder rede pï¿½ï¿½ lister av Personer, Boliger og Kontrakter. 
+ * Klassen som holder rede paa lister av Personer, Boliger og Kontrakter. 
  */
 
 import java.io.Serializable;
@@ -165,10 +165,8 @@ public class Boligregister implements Serializable
 		int counter = 0;
 		
 		for (Kontrakt k : kontrakter)
-		{
 			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
 				counter++;
-		}
 		
 		return counter;
 	}
