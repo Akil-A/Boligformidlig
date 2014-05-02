@@ -28,7 +28,7 @@ public class Kontraktvindu extends JFrame
 	
 	public Kontraktvindu(Boligregister br, Kontraktpanel kp, Kontrakt k)
 	{
-		super("Kontraktvindu");
+		super("Kontrakt");
 		setSize(750,450);
 
 		registret = br;
