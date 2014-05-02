@@ -520,9 +520,14 @@ public class Boligskjemavindu extends JFrame
 	            
 	            if (benebolig)
 	            {
-	            	Enebolig b = new Enebolig(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	Enebolig b;
 	            	
-	            	b.setTittel(stittel);
+	            	if (boligen == null)
+	            		b = new Enebolig(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	else
+	            		b = (Enebolig)boligen;
+	            	
+            		b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
@@ -574,15 +579,19 @@ public class Boligskjemavindu extends JFrame
 							}
 	            		}
 	            	}
-	            	
-	            	if (boligen != null)
-	            		registret.oppdaterBolig(boligen.getBoligNr(), b);
-	            	else
+            		
+	            	if (boligen == null)
 	            		registret.settInnBolig(b);
+	            	
 	            }
 	            else if (brekkehus)
 	            {
-	            	Rekkehus b = new Rekkehus(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	Rekkehus b;
+	            	
+	            	if (boligen == null)
+	            		b = new Rekkehus(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	else
+	            		b = (Rekkehus)boligen;
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
@@ -637,14 +646,17 @@ public class Boligskjemavindu extends JFrame
 	            		}
 	            	}
 	            	
-	            	if (boligen != null)
-	            		registret.oppdaterBolig(boligen.getBoligNr(), b);
-	            	else
+	            	if (boligen == null)
 	            		registret.settInnBolig(b);
 	            }
 	            else if (bleilighet)
 	            {
-	            	Leilighet b = new Leilighet(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	Leilighet b;
+	            	
+	            	if (boligen == null)
+	            		b = new Leilighet(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            	else
+	            		b = (Leilighet)boligen;
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
@@ -702,9 +714,7 @@ public class Boligskjemavindu extends JFrame
 	            		}
 	            	}
 	            	
-	            	if (boligen != null)
-	            		registret.oppdaterBolig(boligen.getBoligNr(), b);
-	            	else
+	            	if (boligen == null)
 	            		registret.settInnBolig(b);
 	            }
 	            
