@@ -6,7 +6,7 @@ public class Enebolig extends Bolig implements Serializable
 	private Integer antetasjer;
 	private Boolean kjeller;
 
-	public Enebolig(String adresse, int postnr, String poststed, int utleiepris)
+	public Enebolig(String adresse, String postnr, String poststed, int utleiepris)
 	{
 		super(adresse, postnr, poststed, utleiepris);
 	}
