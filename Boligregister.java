@@ -128,11 +128,6 @@ public class Boligregister implements Serializable
 		boliger.add(b);
 	}
 	
-	public void oppdaterBolig(int boligNr, Bolig nyBolig)
-	{
-		boliger.set(boliger.indexOf(finnBolig(boligNr)), nyBolig);
-	}
-	
 	public Bolig slettBolig(int boligNr)
 	{
 		Bolig bol = null;
