@@ -25,7 +25,7 @@ public class Kontrakt implements Serializable
 	
 	public boolean getFungerer()
 	{
-		return startdato.before(new Date()) && sluttdato.after(new Date()) && (oppsagtDato == null || oppsagtDato.after(new Date()));
+		return sluttdato.after(new Date()) && (oppsagtDato == null || oppsagtDato.after(new Date()));
 	}
 
 	public int getKontraktNr()
