@@ -4,38 +4,28 @@
  */
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
-
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
 
 public class Personskjemavindu extends JFrame
 {
-    private JTextField fornavnfelt, etternavnfelt, emailfelt, adressefelt, telefonfelt, yrkefelt, poststedfelt,
-            postnrfelt, antPersonerfelt, beliggenhetfelt, fraStorrelsefelt, tilStorrelsefelt, antRomfelt, utleieprisfelt,
-            firmafelt, testfelt, byggeaarfelt;
-    private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet,
-            fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test, byggeaar;
-    private JButton uSlett, bSlett, uRegPerson, bRegPerson, uLagre, bLagre, avbryt;
-    private JCheckBox husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
+    private JTextField fornavn, etternavn, adresse, poststed, postnr, telefon, email, firma, yrke, 
+            antPersoner, kravFraStr, kravTilStr, kravMinAntRom, kravMaksPris, kravMinByggeaar;
+    private JButton lagre, slett, avbryt;
+    private JCheckBox husdyr, royker, kravEnebolig, kravRekkehus, kravLeilighet;
     private JRadioButton utleier, boligsoker;
     private JComboBox <String> sivilstatus, arbeidsforhold;
     private SjekkboksLytter sjekkboksLytter;
-    private GridBagConstraints gc;
-    private Container c;
-    private JPanel ulpKnapper, bspKnapper, bspKrav1, typepanel, bspKrav2, bspKrav3, testpanel, feltpanel,
-            utleierpanel, boligsokerpanel;
+    private JPanel utleierpanel, boligsokerpanel;
     private Lytter lytter;
-    private Random generator;//////////************************?????????????************************////////////
     private Boligregister register;
     private Personpanel personpanelet;
     private Person personen;
     private Boligskjemavindu boligvinduet;
     private Boligpanel boligpanelet;
-    
+	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
     
     public Personskjemavindu(Boligregister br, Boligskjemavindu bsv)
     {
@@ -43,11 +33,6 @@ public class Personskjemavindu extends JFrame
     	register = br;
     	boligvinduet = bsv;
     	lagVindu();
-    	
-    	uLagre.setVisible(false);
-        bLagre.setVisible(false);
-        uSlett.setVisible(false);
-        bSlett.setVisible(false);
         
         utleier.setSelected(true);
         utleier.setEnabled(false);
@@ -57,15 +42,10 @@ public class Personskjemavindu extends JFrame
 
     public Personskjemavindu(Boligregister br, Boligpanel bp)
     {
-    	super("Registrer boligsoker");
+    	super("Registrer ny boligsoker");
     	register = br;
     	boligpanelet = bp;
     	lagVindu();
-    	
-    	uLagre.setVisible(false);
-        bLagre.setVisible(false);
-        uSlett.setVisible(false);
-        bSlett.setVisible(false);
         
         boligsoker.setSelected(true);
         utleier.setEnabled(false);
@@ -82,22 +62,15 @@ public class Personskjemavindu extends JFrame
     	fyllutfelter(p);
         
         personen = p;
-        
-        uRegPerson.setVisible(false);
     }
 
 
     public Personskjemavindu(Boligregister br, Personpanel pl)
     {
-        super("Registrer person");
+        super("Registrer ny person");
         register = br;
         personpanelet = pl;
         lagVindu();
-        
-        uLagre.setVisible(false);
-        bLagre.setVisible(false);
-        uSlett.setVisible(false);
-        bSlett.setVisible(false);
     }
 
     public Personskjemavindu(Boligregister br, Personpanel pl, Person p)
@@ -109,115 +82,82 @@ public class Personskjemavindu extends JFrame
     	fyllutfelter(p);
         
         personen = p;
-        
-        uRegPerson.setVisible(false);
     }
     
     
     public void fyllutfelter(Person p)
     {
-    	fornavnfelt.setText(p.getFornavn());
-        etternavnfelt.setText(p.getEtternavn());
-        emailfelt.setText(p.getEmail());
-        adressefelt.setText(p.getAdresse());
-        telefonfelt.setText(p.getTelefon());
-        poststedfelt.setText(p.getPoststed());
-        postnrfelt.setText(String.valueOf(p.getPostnr()));
+    	fornavn.setText(p.getFornavn());
+        etternavn.setText(p.getEtternavn());
+        email.setText(p.getEmail());
+        adresse.setText(p.getAdresse());
+        telefon.setText(p.getTelefon());
+        postnr.setText(String.valueOf(p.getPostnr()));
+        poststed.setText(p.getPoststed());
         utleier.setEnabled(false);
         boligsoker.setEnabled(false);
+    	slett.setVisible(true);
 
         if(p instanceof Boligsoker)
         {
-            Boligsoker bso = ((Boligsoker) p);
-
-            String antallRom = (bso.getAntallRom() == 0) ? "" : bso.getAntallRom() + "";
-            String antPersoner = (bso.getAntallPersoner() == 0) ? "" : bso.getAntallPersoner() + "";
-            String fraStorrelse = (bso.getFraStorrelse() == 0) ? "" : bso.getFraStorrelse() + "";
-            String tilStorrelse = (bso.getTilStorrelse() == 0) ? "" : bso.getTilStorrelse() + "";
-            String utleiepris = (bso.getUtleiepris() == 0) ? "" : bso.getUtleiepris() + "";
-            
-            bRegPerson.setVisible(false);
-            
-            antRomfelt.setText(antallRom);
-            antPersonerfelt.setText(antPersoner);
-            fraStorrelsefelt.setText(fraStorrelse);
-            tilStorrelsefelt.setText(tilStorrelse);
-            yrkefelt.setText(bso.getYrke());
-            utleieprisfelt.setText(utleiepris);
-            byggeaarfelt.setText(bso.getByggeaar());
-            beliggenhetfelt.setText(bso.getTogst());
-
-            royker.setSelected(bso.isRoyker());
-            husdyr.setSelected(bso.isHusdyr());
-            balkong.setSelected(bso.isBalkong());
-            hage.setSelected(bso.isHage());
-            heis.setSelected(bso.isHage());
-            parkering.setSelected(bso.isParkering());
-            enebolig.setSelected(bso.isEnebolig());
-            rekkehus.setSelected(bso.isRekkehus());
-            leilighet.setSelected(bso.isLeilighet());
-            
-
-            if (bso.getSivilstatus() != null && !bso.getSivilstatus().isEmpty())
-                sivilstatus.setSelectedItem(bso.getSivilstatus());
-
-            if (bso.getArbeidsforhold() != null && !bso.getArbeidsforhold().isEmpty())
-                arbeidsforhold.setSelectedItem(bso.getArbeidsforhold());
-
+            Boligsoker b = ((Boligsoker) p);
             boligsoker.setSelected(true);
+
+            if (b.getAntallPersoner() != 0)
+            	antPersoner.setText(b.getAntallPersoner() + "");
+            
+            yrke.setText(b.getYrke());
+            husdyr.setSelected(b.getHusdyr());
+            royker.setSelected(b.getRoyker());
+            
+            if (b.getSivilstatus() != null && !b.getSivilstatus().isEmpty())
+                sivilstatus.setSelectedItem(b.getSivilstatus());
+
+            if (b.getArbeidsforhold() != null && !b.getArbeidsforhold().isEmpty())
+                arbeidsforhold.setSelectedItem(b.getArbeidsforhold());
+
+            // kravfelter start
+            kravEnebolig.setSelected(b.getKravEnebolig());
+            kravRekkehus.setSelected(b.getKravRekkehus());
+            kravLeilighet.setSelected(b.getKravLeilighet());
+            
+            if (b.getKravArealFra() != 0)
+            	kravFraStr.setText(b.getKravArealFra() + "");
+            if (b.getKravArealTil() != 0)
+            	kravTilStr.setText(b.getKravArealTil() + "");
+            if (b.getKravMaksUtleiepris() != 0)
+            	kravMaksPris.setText(b.getKravMaksUtleiepris() + "");
+            if (b.getKravMinAntRom() != 0)
+            	kravMinAntRom.setText(b.getKravMinAntRom() + "");
+            if (b.getKravMinByggeaar() != 0)
+            	kravMinAntRom.setText(b.getKravMinByggeaar() + "");
+            // kravfelter slutt
         }
         else
         {
-            Utleier ulo = ((Utleier) p);
-            firmafelt.setText(ulo.getFirma());
+            Utleier u = ((Utleier) p);
             utleier.setSelected(true);
+            firma.setText(u.getFirma());
         }
     }
 
     public void lagVindu()
     {
         lytter = new Lytter();
-        generator = new Random();
-        int randNr1 = generator.nextInt(10);
-        int randNr2 = generator.nextInt(10);
         sjekkboksLytter = new SjekkboksLytter();
+        
+        Container c = getContentPane();
+        c.setLayout(new GridBagLayout());
 
-        fornavnfelt = new JTextField(10);
-        etternavnfelt = new JTextField(10);
-        adressefelt = new JTextField(10);
-        telefonfelt = new JTextField(10);
-        yrkefelt = new JTextField(10);
-        emailfelt = new JTextField(10);
-        poststedfelt = new JTextField(10);
-        postnrfelt = new JTextField(10);
-        antPersonerfelt = new JTextField(10);
-        beliggenhetfelt = new JTextField(10);
-        fraStorrelsefelt = new JTextField(10);
-        tilStorrelsefelt = new JTextField(10);
-        antRomfelt = new JTextField(10);
-        utleieprisfelt = new JTextField(10);
-        firmafelt = new JTextField(10);
-        testfelt = new JTextField(4);
-        byggeaarfelt = new JTextField(10);
+        fornavn = new JTextField(10);
+        etternavn = new JTextField(10);
+        adresse = new JTextField(10);
+        postnr = new JTextField(10);
+        poststed = new JTextField(10);
+        telefon = new JTextField(10);
+        email = new JTextField(10);
 
-        forNavn = new JLabel("* Fornavn: ");
-        etterNavn = new JLabel("* Etternavn: ");
-        adresse = new JLabel("* Adresse: ");
-        telefon = new JLabel("* Telefonnummer: ");
-        yrke = new JLabel("Yrke: ");
-        email = new JLabel("* Email: ");
-        poststed = new JLabel("* Poststed: ");
-        postnr = new JLabel("* Postnummer: ");
-        antPersoner = new JLabel("Antall personer: ");
-        beliggenhet = new JLabel("Beliggenhet: ");
-        fraStorrelse = new JLabel("<html>Fra st&oslash;rrelse: </html>");
-        tilStorrelse = new JLabel("<html>Til st&oslash;rrelse: </html>");
-        antRom = new JLabel("Antall rom: ");
-        utleiepris = new JLabel("Utleiepris: ");
-        firma = new JLabel("Firma: ");
-        test = new JLabel("Hva er " + randNr1 + " + " + randNr2);
-        byggeaar = new JLabel("<html>Bygge&aring;r</html>");
-
+        firma = new JTextField(10);
 
         sivilstatus = new JComboBox<>();
         arbeidsforhold = new JComboBox<>();
@@ -234,253 +174,243 @@ public class Personskjemavindu extends JFrame
         arbeidsforhold.addItem("<html>Arbeidsl&oslash;s</html>");
         arbeidsforhold.addItem("Pensjonist");
 
+        lagre = new JButton("Lagre");
+        lagre.addActionListener(lytter);
+        slett = new JButton("Slett");
+        slett.addActionListener(lytter);
+        slett.setVisible(false);
+        avbryt = new JButton("Avbryt");
+        avbryt.addActionListener(lytter);
+
+
+        // ##############################
+        // FELLES FELTER START
+        // ##############################
+        JPanel personopplysninger = new JPanel(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.anchor = GridBagConstraints.WEST;
+
+        gc.gridy = 0;
+        gc.gridx = 0;
+        personopplysninger.add(new JLabel("* Fornavn: "), gc);
+        gc.gridx = 1;
+        gc.insets.right = 5;
+        personopplysninger.add(fornavn, gc);
+        gc.insets.right = 0;
+        gc.gridx = 2;
+        personopplysninger.add(new JLabel("* Etternavn: "), gc);
+        gc.gridx = 3;
+        personopplysninger.add(etternavn, gc);
+        
+        gc.gridy = 1;
+        gc.gridx = 0;
+        personopplysninger.add(new JLabel("* Adresse: "), gc);
+        gc.gridx = 1;
+        personopplysninger.add(adresse, gc);
+        gc.gridx = 2;
+        personopplysninger.add(new JLabel("* Telefon: "), gc);
+        gc.gridx = 3;
+        personopplysninger.add(telefon, gc);
+        
+        gc.gridy = 2;
+        gc.gridx = 0;
+        personopplysninger.add(new JLabel("* Postnummer: "), gc);
+        gc.gridx = 1;
+        personopplysninger.add(postnr, gc);
+        gc.gridx = 2;
+        personopplysninger.add(new JLabel("* Poststed: "), gc);
+        gc.gridx = 3;
+        personopplysninger.add(poststed, gc);
+        
+        gc.gridy = 3;
+        gc.gridx = 0;
+        personopplysninger.add(new JLabel("* Email: "), gc);
+        gc.gridx = 1;
+        personopplysninger.add(email, gc);
+        
+        gc.gridy = 4;
+        gc.gridx = 0;
+        gc.gridwidth = 4;
+        gc.insets.left = 5;
+        gc.insets.top = 5;
+        JLabel notis = new JLabel("* felter markert med stjerne er obligatoriske");
+        notis.setFont(LITENFONT);
+        personopplysninger.add(notis, gc);
+        
+        GridBagConstraints gc0 = new GridBagConstraints();
+        gc0.anchor = GridBagConstraints.WEST;
+        gc0.gridy = 0;
+        c.add(personopplysninger);
+        
         utleier = new JRadioButton("Utleier");
         utleier.addChangeListener(sjekkboksLytter);
         boligsoker = new JRadioButton("Boligsoker");
         boligsoker.addChangeListener(sjekkboksLytter);
-        husdyr = new JCheckBox("Husdyr");
-        balkong = new JCheckBox("Balkong");
-        royker = new JCheckBox("Royker");
-        hage = new JCheckBox("Hage");
-        heis = new JCheckBox("Heis");
-        parkering = new JCheckBox("Parkering");
-        enebolig = new JCheckBox("Enebolig");
-        leilighet = new JCheckBox("Leilighet");
-        rekkehus = new JCheckBox("Rekkehus");
-
-
-        uRegPerson = new JButton("Registrer ny person");
-        uRegPerson.addActionListener(lytter);
-        uSlett = new JButton("Slett");
-        uSlett.addActionListener(lytter);
-        bSlett = new JButton("Slett");
-        bSlett.addActionListener(lytter);
-        bRegPerson = new JButton("Registrer ny person");
-        bRegPerson.addActionListener(lytter);
-        uLagre = new JButton("Lagre");
-        uLagre.addActionListener(lytter);
-        bLagre = new JButton("Lagre");
-        bLagre.addActionListener(lytter);
-        avbryt = new JButton("Avbryt");
-        avbryt.addActionListener(lytter);
-
         ButtonGroup bg = new ButtonGroup();
         bg.add(utleier);
         bg.add(boligsoker);
-
-        c = getContentPane();
-        c.setLayout(new GridBagLayout());
-
-        gc = new GridBagConstraints();
-        gc.anchor = GridBagConstraints.WEST;
-
-        gc.gridy = 0;
-
-        gc.gridx = 0;
-        c.add(forNavn, gc);
-
-        gc.insets.left = 0;
-        gc.gridx = 1;
-        c.add(fornavnfelt, gc);
-
-        gc.insets.left = 20;
-        gc.gridx = 2;
-        c.add(etterNavn, gc);
-        gc.gridx = 3;
-        c.add(etternavnfelt, gc);
-
-        gc.insets.left = 0;
-        gc.gridy = 1;
-        gc.gridx = 0;
-        c.add(adresse, gc);
-        gc.gridx = 1;
-        c.add(adressefelt, gc);
-
-        gc.insets.left = 20;
-        gc.gridx = 2;
-        c.add(telefon, gc);
-        gc.gridx = 3;
-        c.add(telefonfelt, gc);
-
-        gc.gridy = 2;
-
-        gc.insets.left = 0;
-        gc.gridx = 0;
-        c.add(postnr, gc);
-        gc.gridx = 1;
-        c.add(postnrfelt, gc);
-
-        gc.insets.left = 20;
-        gc.gridx = 2;
-        c.add(poststed, gc);
-        gc.gridx = 3;
-        c.add(poststedfelt, gc);
-
-        gc.gridy = 3;
-
-        gc.insets.left = 0;
-        gc.gridx = 0;
-        c.add(email, gc);
-        gc.gridx = 1;
-        c.add(emailfelt, gc);
-
-
-
-        //ulp er utleierpanel, bsp er boligsokerpanel
-        ulpKnapper = new JPanel();
-        bspKnapper = new JPanel();
-        bspKrav1 = new JPanel();
-        typepanel = new JPanel();
-        bspKrav2 = new JPanel();
-        bspKrav3 = new JPanel();
-        testpanel = new JPanel();
-
+        
+        JPanel typepanel = new JPanel();
         typepanel.add(utleier);
         typepanel.add(boligsoker);
 
-        bspKrav1.add(husdyr);
-        bspKrav1.add(balkong);
-        bspKrav1.add(royker);
-        bspKrav1.add(hage);
-        bspKrav1.add(heis);
-        bspKrav1.add(parkering);
+        gc0.gridy = 1;
+        gc0.insets.top = 10;
+        c.add(typepanel, gc0);        
+        // ##############################
+        // FELLES FELTER SLUTT
+        // ##############################
 
-        bspKrav3.add(enebolig);
-        bspKrav3.add(leilighet);
-        bspKrav3.add(rekkehus);
 
-        bspKrav2.add(sivilstatus);
-        bspKrav2.add(arbeidsforhold);
 
-        ulpKnapper.add(uRegPerson);
-        ulpKnapper.add(uLagre);
-        ulpKnapper.add(uSlett);
-
-        bspKnapper.add(bRegPerson);
-        bspKnapper.add(bLagre);
-        bspKnapper.add(bSlett);
-
-        gc.gridwidth = 4;
-        gc.insets.left = -17;
-        gc.insets.top = 15;
-        gc.gridx = 0;
-        gc.gridy = 15;
-        c.add(typepanel, gc);
-
-        
-        
-        
-        
-        /************ UTLEIERPANEL START *************/
+        // ##############################
+        // UTLEIERPANEL START
+        // ##############################
         utleierpanel = new JPanel(new GridBagLayout());
+        utleierpanel.setVisible(false);
+        
         GridBagConstraints gcUp = new GridBagConstraints();
         gcUp.anchor = GridBagConstraints.WEST;
 
         gcUp.gridy = 0;
         gcUp.gridx = 0;
-        utleierpanel.add(firma, gcUp);
+        utleierpanel.add(new JLabel("Firma: "), gcUp);
 
         gcUp.gridx = 1;
         gcUp.gridwidth = 3;
-        utleierpanel.add(firmafelt, gcUp);
-
-
-        gcUp.gridy = 1;
-        gcUp.gridx = 0;
-        gcUp.insets.top = 15;
-        utleierpanel.add(ulpKnapper, gcUp);
-        /************ UTLEIERPANEL SLUTT *************/
+        utleierpanel.add(firma, gcUp);
+        // ##############################
+        // UTLEIERPANEL SLUTT
+        // ##############################
 
 
 
 
-        /************ BOLIGSOKERPANEL START *************/
+        // ##############################
+        // BOLIGSOKERPANEL START
+        // ##############################
+
+        antPersoner = new JTextField(4);
+        yrke = new JTextField(10);
+        husdyr = new JCheckBox("Husdyr");
+        royker = new JCheckBox("<html>R&oslash;yker</html>");
+        
+        kravEnebolig = new JCheckBox("Enebolig");
+        kravRekkehus = new JCheckBox("Rekkehus");
+        kravLeilighet = new JCheckBox("Leilighet");
+        kravFraStr = new JTextField(5);
+        kravTilStr = new JTextField(5);
+        kravMinAntRom = new JTextField(4);
+        kravMaksPris = new JTextField(6);
+        kravMinByggeaar = new JTextField(6);
+        
+        JPanel bsOpplysninger = new JPanel(new GridBagLayout());
+        bsOpplysninger.setBorder(BorderFactory.createTitledBorder("OPPLYSNINGER"));
+        GridBagConstraints gcOpplysninger = new GridBagConstraints();
+        gcOpplysninger.gridy = 0;
+        gcOpplysninger.anchor = GridBagConstraints.WEST;
+        
+        JPanel bsOpplLinje1 = new JPanel(new GridBagLayout());
+        bsOpplLinje1.add(new JLabel("Antall personer: "));
+        bsOpplLinje1.add(antPersoner);
+        GridBagConstraints gcbso = new GridBagConstraints();
+        gcbso.insets.left = 5;
+        gcbso.insets.bottom = 5;
+        bsOpplLinje1.add(new JLabel("Yrke: "), gcbso);
+        bsOpplLinje1.add(yrke);
+        bsOpplysninger.add(bsOpplLinje1, gcOpplysninger);
+        
+        gcOpplysninger.gridy = 1;
+        JPanel bsOpplLinje2 = new JPanel(new GridBagLayout());
+        bsOpplLinje2.add(husdyr);
+        bsOpplLinje2.add(royker);
+        bsOpplysninger.add(bsOpplLinje2, gcOpplysninger);
+        
+        gcOpplysninger.gridy = 2;
+        gcOpplysninger.insets.top = 5;
+        JPanel bsOpplLinje3 = new JPanel(new GridBagLayout());
+        GridBagConstraints gcbsoL3 = new GridBagConstraints();
+        gcbsoL3.insets.right = 10;
+        bsOpplLinje3.add(sivilstatus, gcbsoL3);
+        bsOpplLinje3.add(arbeidsforhold);
+        bsOpplysninger.add(bsOpplLinje3, gcOpplysninger);
+        
+        JPanel bsKrav = new JPanel(new GridBagLayout());
+        bsKrav.setBorder(BorderFactory.createTitledBorder("KRAV TIL BOLIG"));
+        
+        JPanel bsKravLinje1 = new JPanel();
+        bsKravLinje1.add(kravEnebolig);
+        bsKravLinje1.add(kravRekkehus);
+        bsKravLinje1.add(kravLeilighet);
+        
+        JPanel bsKravLinje2 = new JPanel();
+        bsKravLinje2.add(new JLabel("Boareal fra (kvm): "));
+        bsKravLinje2.add(kravFraStr);
+        bsKravLinje2.add(new JLabel("til: "));
+        bsKravLinje2.add(kravTilStr);
+        
+        JPanel bsKravLinje3 = new JPanel();
+        bsKravLinje3.add(new JLabel("Maks pris kr/mnd: "));
+        bsKravLinje3.add(kravMaksPris);
+        bsKravLinje3.add(new JLabel("Min.ant. rom: "));
+        bsKravLinje3.add(kravMinAntRom);
+        
+        JPanel bsKravLinje4 = new JPanel();
+        bsKravLinje4.add(new JLabel("<html>Minimum bygge&aring;r: </html>"));
+        bsKravLinje4.add(kravMinByggeaar);
+
+        GridBagConstraints gcKrav = new GridBagConstraints();
+        gcKrav.anchor = GridBagConstraints.WEST;
+        gcKrav.gridy = 0;
+        bsKrav.add(bsKravLinje1, gcKrav);
+        gcKrav.gridy = 1;
+        bsKrav.add(bsKravLinje2, gcKrav);
+        gcKrav.gridy = 2;
+        bsKrav.add(bsKravLinje3, gcKrav);
+        gcKrav.gridy = 3;
+        bsKrav.add(bsKravLinje4, gcKrav);
+        
         boligsokerpanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gcBsp = new GridBagConstraints();
-        gcBsp.anchor = GridBagConstraints.WEST;
-
-
-        gcBsp.gridy = 0;
-
-        gcBsp.gridx = 0;
-        boligsokerpanel.add(antPersoner, gcBsp);
-        gcBsp.gridx = 1;
-        boligsokerpanel.add(antPersonerfelt, gcBsp);
-        gcBsp.insets.left = 20;
-        gcBsp.gridx = 2;
-        boligsokerpanel.add(beliggenhet, gcBsp);
-        gcBsp.gridx = 3;
-        boligsokerpanel.add(beliggenhetfelt, gcBsp);
-
-        gcBsp.gridy = 1;
-
-        gcBsp.insets.left = 0;
-        gcBsp.gridx = 0;
-        boligsokerpanel.add(fraStorrelse, gcBsp);
-        gcBsp.gridx = 1;
-        boligsokerpanel.add(fraStorrelsefelt, gcBsp);
-        gcBsp.insets.left = 20;
-        gcBsp.gridx = 2;
-        boligsokerpanel.add(tilStorrelse, gcBsp);
-        gcBsp.gridx = 3;
-        boligsokerpanel.add(tilStorrelsefelt, gcBsp);
-
-        gcBsp.gridy = 2;
-
-        gcBsp.insets.left = 0;
-        gcBsp.gridx = 0;
-        boligsokerpanel.add(antRom, gcBsp);
-        gcBsp.gridx = 1;
-        boligsokerpanel.add(antRomfelt, gcBsp);
-        gcBsp.insets.left = 20;
-        gcBsp.gridx = 2;
-        boligsokerpanel.add(utleiepris, gcBsp);
-        gcBsp.gridx = 3;
-        boligsokerpanel.add(utleieprisfelt, gcBsp);
-
-        gcBsp.gridy = 3;
-
-        gcBsp.insets.left = 0;
-        gcBsp.gridx = 0;
-        boligsokerpanel.add(byggeaar, gcBsp);
-        gcBsp.gridx = 1;
-        boligsokerpanel.add(byggeaarfelt, gcBsp);
-        gcBsp.insets.left = 20;
-        gcBsp.gridx = 2;
-        boligsokerpanel.add(yrke, gcBsp);
-        gcBsp.gridx = 3;
-        boligsokerpanel.add(yrkefelt, gcBsp);
-
-        gcBsp.gridy = 4;
-
-        gcBsp.insets.left = 0;
-        gcBsp.gridx = 0;
-        gcBsp.gridwidth = 4;
-        gcBsp.insets.top = 5;
-        boligsokerpanel.add(bspKrav1, gcBsp);
-
-        gcBsp.gridy = 5;
-        boligsokerpanel.add(bspKrav3, gcBsp);
-
-        gcBsp.gridy = 6;
-        gcBsp.insets.top = 5;
-        boligsokerpanel.add(bspKrav2, gcBsp);
-
-        gcBsp.insets.top = 15;
-        gcBsp.gridy = 7;
-        boligsokerpanel.add(bspKnapper, gcBsp);
-        /************ BOLIGSOKERPANEL SLUTT *************/
-
-        utleierpanel.setVisible(false);
         boligsokerpanel.setVisible(false);
+        GridBagConstraints bsgc = new GridBagConstraints();
+        bsgc.anchor = GridBagConstraints.WEST;
+        bsgc.gridy = 0;
+        boligsokerpanel.add(bsOpplysninger, bsgc);
+        bsgc.gridy = 1;
+        bsgc.insets.top = 15;
+        boligsokerpanel.add(bsKrav, bsgc);
+        // ##############################
+        // BOLIGSOKERPANEL SLUTT
+        // ##############################
 
-        gc.gridx = 0;
-        gc.gridy = 16;
-        gc.gridwidth = 4;
-        c.add(utleierpanel, gc);
-        c.add(boligsokerpanel, gc);
-        gc.gridy = 17;
-        c.add(avbryt, gc);
+
+
+        // ##############################
+        // KNAPPEPANEL START
+        // ##############################
+
+        JPanel venstreknapper = new JPanel(new GridBagLayout());
+        venstreknapper.add(lagre);
+        GridBagConstraints gck = new GridBagConstraints();
+        gck.insets.left = 5;
+        venstreknapper.add(slett, gck);
+        
+        JPanel knappepanel = new JPanel(new BorderLayout());
+        knappepanel.add(venstreknapper, BorderLayout.WEST);
+        knappepanel.add(avbryt, BorderLayout.EAST);
+
+        // ##############################
+        // KNAPPEPANEL SLUTT
+        // ##############################
+        
+
+        gc0.gridy = 2;
+        c.add(utleierpanel, gc0);
+        c.add(boligsokerpanel, gc0);
+        gc0.gridy = 3;
+        gc0.insets.top = 10;
+        gc0.fill = GridBagConstraints.HORIZONTAL;
+        c.add(knappepanel, gc0);
 
         setSize(600, 300);
         setLocationRelativeTo(null);
@@ -508,16 +438,8 @@ public class Personskjemavindu extends JFrame
         }
     }
 
-    public boolean erTom( String s )
-    {
-        return s.equals("");
-    }
-
     public boolean erTall( String s )
     {
-        if (erTom(s))
-            return true;
-
         try
         {
             Integer.parseInt( s );
@@ -540,196 +462,207 @@ public class Personskjemavindu extends JFrame
         {
             if (e.getSource() == avbryt)
                 dispose();
-            else if(e.getSource() == uSlett || e.getSource() == bSlett)
-            {
-            	if (e.getSource() == uSlett)
-            		if (register.utleierHarBoliger(personen.getPersonNr()))
-            		{
-            			visMelding("Kan ikke slette, denne utleier har boliger.", "");
-            			return;
-            		}
-            	
-            	
-            	///////  kontrollsporsmaal
-            	
-            	
-                int personNr = personen.getPersonNr();
-                register.slettPerson(personNr);
-                
-                if (personpanelet != null)
-	                if (e.getSource() == uSlett)
-	                	personpanelet.oppdaterUtleierliste();
-	                else
-	                	personpanelet.oppdaterBoligsokerliste();
-                
-                dispose();
-            }
             else
             {
-                String feilmelding = "";
-                String feilmelding1 = "";
-
-                String fornavn = fornavnfelt.getText();
-                String etternavn = etternavnfelt.getText();
-                String email = emailfelt.getText();
-                String adresse = adressefelt.getText();
-                String postnr = postnrfelt.getText();
-                String poststed = poststedfelt.getText();
-                String telefon = telefonfelt.getText();
-                String yrke = yrkefelt.getText();
-                String firma = firmafelt.getText();
-                String togst = beliggenhetfelt.getText(); // endre navn
-                String antpersoner = antPersonerfelt.getText();
-                String frastr = fraStorrelsefelt.getText();
-                String tilstr = tilStorrelsefelt.getText();
-                String antrom = antRomfelt.getText();
-                String pris = utleieprisfelt.getText();
-                String byggeaar = byggeaarfelt.getText();
-                boolean bhusdyr = husdyr.isSelected();
-                boolean bbalkong = balkong.isSelected();
-                boolean broyker = royker.isSelected();
-                boolean bhage = hage.isSelected();
-                boolean bheis = heis.isSelected();
-                boolean bparkering = parkering.isSelected();
-                boolean benebolig = enebolig.isSelected();
-                boolean brekkehus = rekkehus.isSelected();
-                boolean bleilighet = leilighet.isSelected();
-                boolean butleier = utleier.isSelected();
-                boolean bboligsoker = boligsoker.isSelected();
-
-
-                if (erTom(fornavn) || erTom(etternavn) || erTom(adresse) || erTom(postnr) || erTom(poststed) || erTom(telefon))
-                    feilmelding += "Du m&aring; fylle inn alle felter som er merket med stjerne.<br>";
-
-
-                if (butleier)
-                {
-                    // validering for utleier hvis det trengs
-                }
-                else if (bboligsoker)
-                {
-                    if (!erTall(postnr))
-                        feilmelding1 += "Postnummer<br>";
-                    if (!erTom(antpersoner) && !erTall(antpersoner))
-                        feilmelding1 += "Antall personer<br>";
-                    if  (!erTom(frastr) && !erTall(frastr))
-                        feilmelding1 += "Fra st&oslash;rrelse<br>";
-                    if (!erTom(tilstr) && !erTall(tilstr))
-                        feilmelding1 += "Til st&oslash;rrelse<br>";
-                    if (!erTom(antrom) && !erTall(antrom))
-                        feilmelding1 += "Antall rom<br>";
-                    if(!erTom(pris) && !erTall(pris))
-                        feilmelding1 += "Utleiepris<br>";
-                    if(!erTom(byggeaar) && !erTall(byggeaar))
-                        feilmelding1 += "Bygge&aring;r<br>";
-                }
-                String s = "";
-                if(!erTom(feilmelding1))
-                {
-                    s = "<br><br>Feltene som er nevnt nedenfor m&aring; inneholde tall, vennligst rett disse feltene:<br><br>";
-                    s += feilmelding1;
-                }
-
-                if (!erTom(feilmelding) || !erTom(s))
-                {
-                        JOptionPane.showMessageDialog(null, "<html>" + feilmelding + s + "</html>", "Problem",
-                                JOptionPane.PLAIN_MESSAGE);
-                        return;
-                }
-
-
-
-
-                if (bboligsoker)
-                {
-                    Boligsoker b;
-
-                    if (e.getSource() == bRegPerson)
-                        b = new Boligsoker(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
-                    else
-                    {
-                        b = (Boligsoker)personen;
-                        b.setFornavn(fornavn);
-                        b.setEtternavn(etternavn);
-                        b.setAdresse(adresse);
-                        b.setPostnr(Integer.parseInt(postnr));
-                        b.setPoststed(poststed);
-                        b.setTelefon(telefon);
-                        b.setEmail(email);
-                    }
-
-
-                    if (!erTom(antpersoner))
-                        b.setAntallPersoner(Integer.parseInt(antpersoner));
-                    if (!erTom(frastr))
-                        b.setFraStorrelse(Integer.parseInt(frastr));
-                    if (!erTom(tilstr))
-                        b.setTilStorrelse(Integer.parseInt(tilstr));
-                    if (!erTom(antrom))
-                        b.setAntallRom(Integer.parseInt(antrom));
-                    if (!erTom(pris))
-                        b.setUtleiepris(Integer.parseInt(pris));
-
-
-              
-                    b.setHusdyr(bhusdyr);
-                    b.setBalkong(bbalkong);
-                    b.setParkering(bparkering);
-                    b.setRoyker(broyker);
-                    b.setHage(bhage);
-                    b.setHeis(bheis);
-                    b.setEnebolig(benebolig);
-                    b.setLeilighet(bleilighet);
-                    b.setRekkehus(brekkehus);            
-                    b.setTogst(togst); // endre navn
-                    b.setByggeaar(byggeaar);
-                    b.setYrke(yrke);
-                    if(sivilstatus.getSelectedIndex() != 0)
-                    b.setSivilstatus(String.valueOf(sivilstatus.getSelectedItem()));
-                    if(arbeidsforhold.getSelectedIndex() != 0)
-                    b.setArbeidsforhold(String.valueOf(arbeidsforhold.getSelectedItem()));
-
-
-                    if (e.getSource() == bRegPerson)
-                    	register.settInnPerson(b);
-
-                    if (personpanelet != null)
-                    	personpanelet.oppdaterBoligsokerliste();
-                    
+            	boolean bUtleier = utleier.isSelected();
+            	boolean bBoligsoker = boligsoker.isSelected();
+            	
+            	if(e.getSource() == slett)
+	            {
+	            	if (bUtleier)
+	            		if (register.utleierHarBoliger(personen.getPersonNr()))
+	            		{
+	            			visMelding("Kan ikke slette, denne utleier har boliger.", "");
+	            			return;
+	            		}
+	            	
+	            	
+	            	///////  kontrollsporsmaal
+	            	
+	            	
+	                int personNr = personen.getPersonNr();
+	                register.slettPerson(personNr);
+	                
+	                if (personpanelet != null)
+		                if (bUtleier)
+		                	personpanelet.oppdaterUtleierliste();
+		                else
+		                	personpanelet.oppdaterBoligsokerliste();
+	                
                     if (boligpanelet != null)
-                    	boligpanelet.oppdaterBoligsokerliste(b);
-                }
-                else if (butleier)
-                {
-                    Utleier u;
+                    	boligpanelet.oppdaterBoligsokerliste(null);
 
-                    if(e.getSource() == uRegPerson)
-                        u = new Utleier(fornavn, etternavn, adresse, Integer.parseInt(postnr), poststed, email, telefon);
-                    else
-                    {
-                        u = (Utleier)personen;
-                        u.setFornavn(fornavn);
-                        u.setEtternavn(etternavn);
-                        u.setAdresse(adresse);
-                        u.setPostnr(Integer.parseInt(postnr));
-                        u.setPoststed(poststed);
-                        u.setTelefon(telefon);
-                        u.setEmail(email);
-                    }
-
-                    u.setFirma(firma);
-
-                    if (e.getSource() == uRegPerson)
-                    	register.settInnPerson(u);
-
-                    if (personpanelet != null)
-                    	personpanelet.oppdaterUtleierliste();
+                    visMelding("Personen er slettet.", "");
                     
-                    if (boligvinduet != null)
-                    	boligvinduet.oppdaterUtleierliste(u);
-                }
-                
-                dispose();
+	                dispose();
+	            }
+            	else if(e.getSource() == lagre)
+            	{
+            		String sFornavn = fornavn.getText();
+                    String sEtternavn = etternavn.getText();
+                    String sAdresse = adresse.getText();
+                    String sPostnr = postnr.getText();
+                    String sPoststed = poststed.getText();
+                    String sTelefon = telefon.getText();
+                    String sEmail = email.getText();
+                    String sFirma = firma.getText();
+                    String sYrke = yrke.getText();
+                    String sAntpersoner = antPersoner.getText();
+                    boolean bHusdyr = husdyr.isSelected();
+                    boolean bRoyker = royker.isSelected();
+                    boolean bKravEnebolig = kravEnebolig.isSelected();
+                    boolean bKravRekkehus = kravRekkehus.isSelected();
+                    boolean bKravLeilighet = kravLeilighet.isSelected();
+                    String sKravFraStr = kravFraStr.getText();
+                    String sKravTilStr = kravTilStr.getText();
+                    String sKravMinAntRom = kravMinAntRom.getText();
+                    String sKravMaksPris = kravMaksPris.getText();
+                    String sKravMinByggeaar = kravMinByggeaar.getText();
+                    
+                    String feilmelding = "";
+                    
+                    if (sFornavn.isEmpty() || sEtternavn.isEmpty() || sAdresse.isEmpty() || sPostnr.isEmpty() ||
+                    		sPoststed.isEmpty() || sTelefon.isEmpty())
+                        feilmelding += "&bull; Du m&aring; fylle inn alle felter som er merket med stjerne.<br>";
+                    
+                    if (!erTall(sPostnr) || sPostnr.length() != 4)
+                    	feilmelding += "&bull; Postnummer m&aring; v&aelig;re et tall p&aring; 4 siffer.<br>";
+                    
+                    if (bBoligsoker)
+                    {
+                    	if ((!sAntpersoner.isEmpty() && !erTall(sAntpersoner)) ||
+                    			(!sKravFraStr.isEmpty() && !erTall(sKravFraStr)) ||
+                    			(!sKravTilStr.isEmpty() && !erTall(sKravTilStr)) ||
+                    			(!sKravMinAntRom.isEmpty() && !erTall(sKravMinAntRom)) ||
+                    			(!sKravMaksPris.isEmpty() && !erTall(sKravMaksPris)) ||
+                    			(!sKravMinByggeaar.isEmpty() && !erTall(sKravMinByggeaar)))
+                    		feilmelding += "&bull; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
+                    }
+                    
+                    if (!feilmelding.isEmpty())
+                    {
+                            JOptionPane.showMessageDialog(null, "<html>" + feilmelding + "</html>", "Problem",
+                                    JOptionPane.PLAIN_MESSAGE);
+                            return;
+                    }
+                    
+                    if (bUtleier)
+                    {
+                    	Utleier u;
+                    	
+                    	if (personen == null)
+                    		u = new Utleier(sFornavn, sEtternavn, sAdresse, Integer.parseInt(sPostnr), sPoststed, sEmail, sTelefon);
+                    	else
+                        {
+                            u = (Utleier)personen;
+                            u.setFornavn(sFornavn);
+                            u.setEtternavn(sEtternavn);
+                            u.setAdresse(sAdresse);
+                            u.setPostnr(Integer.parseInt(sPostnr));
+                            u.setPoststed(sPoststed);
+                            u.setTelefon(sTelefon);
+                            u.setEmail(sEmail);
+                        }
+                    	
+                        u.setFirma(sFirma);
+                        
+                        if (personen == null)
+                        	register.settInnPerson(u);
+                        
+                        if (personpanelet != null)
+                        	personpanelet.oppdaterUtleierliste();
+                        
+                        if (boligvinduet != null)
+                        	boligvinduet.oppdaterUtleierliste(u);
+                    }
+                    else if (bBoligsoker)
+                    {
+                        Boligsoker b;
+
+                        if (personen == null)
+                            b = new Boligsoker(sFornavn, sEtternavn, sAdresse, Integer.parseInt(sPostnr), sPoststed, sEmail, sTelefon);
+                        else
+                        {
+                            b = (Boligsoker)personen;
+                            b.setFornavn(sFornavn);
+                            b.setEtternavn(sEtternavn);
+                            b.setAdresse(sAdresse);
+                            b.setPostnr(Integer.parseInt(sPostnr));
+                            b.setPoststed(sPoststed);
+                            b.setTelefon(sTelefon);
+                            b.setEmail(sEmail);
+                        }
+                        
+                        b.setYrke(sYrke);
+                        
+                        if (sAntpersoner.isEmpty())
+                            b.setAntallPersoner(0);
+                        else
+                            b.setAntallPersoner(Integer.parseInt(sAntpersoner));
+                        
+                        b.setHusdyr(bHusdyr);
+                        b.setRoyker(bRoyker);
+                        
+                        if(sivilstatus.getSelectedIndex() == 0)
+                            b.setSivilstatus(null);
+                        else
+                            b.setSivilstatus(sivilstatus.getSelectedItem().toString());
+                        
+                        if(arbeidsforhold.getSelectedIndex() == 0)
+                            b.setArbeidsforhold(null);
+                        else
+                            b.setArbeidsforhold(arbeidsforhold.getSelectedItem().toString());
+                        
+                        b.setKravEnebolig(bKravEnebolig);
+                        b.setKravRekkehus(bKravRekkehus);
+                        b.setKravLeilighet(bKravLeilighet);
+                        
+                        if (sKravFraStr.isEmpty())
+                        	b.setKravArealFra(0);
+                        else
+                        	b.setKravArealFra(Integer.parseInt(sKravFraStr));
+                        
+                        if (sKravTilStr.isEmpty())
+                        	b.setKravArealTil(0);
+                        else
+                        	b.setKravArealTil(Integer.parseInt(sKravTilStr));
+                        
+                        if (sKravMaksPris.isEmpty())
+                        	b.setKravMaksUtleiepris(0);
+                        else
+                        	b.setKravMaksUtleiepris(Integer.parseInt(sKravMaksPris));
+                        
+                        if (sKravMinAntRom.isEmpty())
+                        	b.setKravMinAntRom(0);
+                        else
+                        	b.setKravMinAntRom(Integer.parseInt(sKravMinAntRom));
+                        
+                        if (sKravMinByggeaar.isEmpty())
+                        	b.setKravMinByggeaar(0);
+                        else
+                        	b.setKravMinByggeaar(Integer.parseInt(sKravMinByggeaar));
+                        
+                        if (personen == null)
+                        	register.settInnPerson(b);
+                        
+                        if (personpanelet != null)
+                        	personpanelet.oppdaterBoligsokerliste();
+                        
+                        if (boligpanelet != null)
+                        	boligpanelet.oppdaterBoligsokerliste(b);
+                    }
+                    
+                    String personenEr;
+                    
+                    if (personen == null)
+                    	personenEr = "registrert";
+                    else
+                    	personenEr = "oppdatert";
+                    
+                    visMelding("Personen er " + personenEr + ".", "");
+                    
+                    dispose();
+            	}
             }
         }
     }
