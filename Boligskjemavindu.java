@@ -65,7 +65,7 @@ public class Boligskjemavindu extends JFrame
 		}
 		
 		adresse.setText(b.getAdresse());
-		postnr.setText(Integer.toString(b.getPostnr()));
+		postnr.setText(b.getPostnr());
 		poststed.setText(b.getPoststed());
 		togst.setText(b.getTogst());
 		boareal.setText(Integer.toString(b.getBoareal()));
@@ -177,7 +177,7 @@ public class Boligskjemavindu extends JFrame
         fjernBilde.addActionListener(lytter);
 		/********* DEFINISJON AV KOMPONENTER SLUTT *********/
         
-		JPanel velgBildePanel = new JPanel();
+		JPanel velgBildePanel = new JPanel(new GridBagLayout());
 		velgBildePanel.add(velgBilde);
 		velgBildePanel.add(bildeSti);
 		velgBildePanel.add(fjernBilde);
@@ -523,11 +523,11 @@ public class Boligskjemavindu extends JFrame
 	            	Enebolig b;
 	            	
 	            	if (boligen == null)
-	            		b = new Enebolig(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            		b = new Enebolig(sadresse, spostnr, spoststed, Integer.parseInt(spris));
 	            	else
 	            		b = (Enebolig)boligen;
 	            	
-            		b.setTittel(stittel);
+	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
@@ -579,17 +579,16 @@ public class Boligskjemavindu extends JFrame
 							}
 	            		}
 	            	}
-            		
+	            	
 	            	if (boligen == null)
 	            		registret.settInnBolig(b);
-	            	
 	            }
 	            else if (brekkehus)
 	            {
 	            	Rekkehus b;
 	            	
 	            	if (boligen == null)
-	            		b = new Rekkehus(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            		b = new Rekkehus(sadresse, spostnr, spoststed, Integer.parseInt(spris));
 	            	else
 	            		b = (Rekkehus)boligen;
 	            	
@@ -654,7 +653,7 @@ public class Boligskjemavindu extends JFrame
 	            	Leilighet b;
 	            	
 	            	if (boligen == null)
-	            		b = new Leilighet(sadresse, Integer.parseInt(spostnr), spoststed, Integer.parseInt(spris));
+	            		b = new Leilighet(sadresse, spostnr, spoststed, Integer.parseInt(spris));
 	            	else
 	            		b = (Leilighet)boligen;
 	            	
@@ -729,7 +728,7 @@ public class Boligskjemavindu extends JFrame
             			JOptionPane.PLAIN_MESSAGE);
 	            
     			if (boligpanelet != null)
-    				boligpanelet.utforBlanktSok();
+    				boligpanelet.listBoliger();
     			
     			dispose();
     		}
