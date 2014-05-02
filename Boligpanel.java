@@ -548,7 +548,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
-	private void listBoliger()
+	public void listBoliger()
 	{
 		int antAnnonser = sokeliste.size();
 		
@@ -558,7 +558,7 @@ public class Boligpanel extends JPanel
 				antallresultater.setText("Ingen annonser funnet.");
 				break;
 			case 1:
-				antallresultater.setText("Én annonse funnet.");
+				antallresultater.setText("En annonse funnet.");
 				break;
 			case 2:
 				antallresultater.setText("To annonser funnet.");
@@ -579,7 +579,7 @@ public class Boligpanel extends JPanel
 				antallresultater.setText("Sju annonser funnet.");
 				break;
 			case 8:
-				antallresultater.setText("<html>&Aring; annonser funnet.</html>");
+				antallresultater.setText("<html>&Aring;tte annonser funnet.</html>");
 				break;
 			case 9:
 				antallresultater.setText("Ni annonser funnet.");
@@ -651,19 +651,33 @@ public class Boligpanel extends JPanel
 				}
 			});
 			
-			JButton leiut = new JButton("Lei ut");
-			leiut.setFont(IKKEFET);
-			leiut.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e)
+			
+			boolean erleidut = false;
+			
+			for (Kontrakt k : register.getFungerende())
+				if (k.getBoligNr() == b.getBoligNr())
 				{
-					new Leiut(register, b.getBoligNr());
+					erleidut = true;
+					break;
 				}
-			});
+			
+			
 			
 			JPanel boligknapper = new JPanel();
 			boligknapper.add(detaljer);
-			boligknapper.add(leiut);
+			if (!erleidut)
+			{
+				JButton leiut = new JButton("Lei ut");
+				leiut.setFont(IKKEFET);
+				leiut.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						new Leiutvindu(register, b.getBoligNr(), Boligpanel.this);
+					}
+				});
+				boligknapper.add(leiut);
+			}
 			boligknapper.setBorder(null);
 			
 			Bolig.add(boligknapper, gc4);
