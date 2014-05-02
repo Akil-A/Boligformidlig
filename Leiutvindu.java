@@ -121,7 +121,7 @@ public class Leiutvindu extends JFrame
 					return;
 				}
 					
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault());
 			    
 			    Date testStartDato = null;
 			    Date testSluttDato = null;
