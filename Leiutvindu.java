@@ -7,23 +7,25 @@ import java.util.*;
 import javax.swing.*;
 
 
-public class Leiut extends JFrame
+public class Leiutvindu extends JFrame
 {
 	private JList<Boligsoker> bList;
 	private Lytter lytter;
 	private JButton leiut, avbryt;
 	private Boligregister register;
+	private Boligpanel boligpanel;
 	private DefaultListModel<Boligsoker> bModel;
 	private JTextField startDato, sluttDato;
 	private JLabel lstartDato, lsluttDato,ldato;
 	private int boligNr;
 	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	    
-	public Leiut(Boligregister br, int bnr)
+	public Leiutvindu(Boligregister br, int bnr, Boligpanel bp)
 	{
 		super("Utleie");
 		setSize(600,400);
 		register = br;
+		boligpanel = bp;
 		boligNr = bnr;
 		 /********* DEFINERING AV KOMPONENTER START *********/
         lytter = new Lytter();
@@ -44,18 +46,20 @@ public class Leiut extends JFrame
         bModel = new DefaultListModel<Boligsoker>();
         Iterator<Boligsoker> iterator2 = boligsokere.iterator();
         while(iterator2.hasNext())
-            bModel.addElement(iterator2.next());
+        bModel.addElement(iterator2.next());
         bList = new JList<>(bModel);
         bList.setFont(IKKEFET);
+        
+        
         /********* POPULERING AV LISTER SLUTT *********/
         
+        
+		 /********* LAYOUT START *********/
+		
         JScrollPane bScrollPane = new JScrollPane();
 		bScrollPane.setBorder(BorderFactory.createTitledBorder("<html>BOLIGS&Oslash;KERE</html>"));
 		bScrollPane.setViewportView(bList);
 		bScrollPane.setPreferredSize(new Dimension(450, 200));   
-		 /********* LAYOUT START *********/
-		
-		
 		
         setLayout(new GridBagLayout());
 		
@@ -91,6 +95,8 @@ public class Leiut extends JFrame
 		add(knappepanel, gc);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		/********* LAYOUT SLUTT *********/
 	}
 	
 	private class Lytter implements ActionListener
@@ -127,13 +133,13 @@ public class Leiut extends JFrame
 			    }
 			    catch(ParseException pe)
 			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+			    	JOptionPane.showMessageDialog(null, "Datoformatet er feil");
 			    	return;
 			    }
 			    
 			    if( !sdf.format(testStartDato).equals(startDato.getText()) || !sdf.format(testSluttDato).equals(sluttDato.getText()))
 			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i format");
+			    	JOptionPane.showMessageDialog(null, "Datoformatet er feil");
 			    	return;
 			    }
 			    
@@ -142,12 +148,27 @@ public class Leiut extends JFrame
 					JOptionPane.showMessageDialog(null,"<html>Startdatoen m&aring; v&aelig;re f&oslash;r sluttdatoen!</html>");
 					return;
 				}
+			    
+			    if(testSluttDato.before(new Date()))
+			    {
+					JOptionPane.showMessageDialog(null,"<html>Sluttdatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>"); 
+					return;
+			    }
+			    
+			    if(testStartDato.before(new Date()))
+			    {
+					JOptionPane.showMessageDialog(null,"<html>Startdatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>"); 
+					return;
+			    }
 				
 				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligNr, testStartDato, testSluttDato);
 				register.settInnKontrakt(kontrakten);
-				JOptionPane.showMessageDialog(null,"<html>Test fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
+				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
+				boligpanel.listBoliger();
 				dispose();
 			}
 		}
 	}
 }
+
+
