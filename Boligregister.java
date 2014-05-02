@@ -160,17 +160,6 @@ public class Boligregister implements Serializable
 		return u;
 	}
 	
-	public int getUtleideiAAr()
-	{	
-		int counter = 0;
-		
-		for (Kontrakt k : kontrakter)
-			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
-				counter++;
-		
-		return counter;
-	}
-	
 	public ArrayList<Bolig> getLedige()
 	{
 		ArrayList<Bolig> l = getBoliger();
@@ -250,7 +239,16 @@ public class Boligregister implements Serializable
 		return kontr;
 	}
 	
-	
+	public int getUtleideiAAr()
+	{	
+		int counter = 0;
+		
+		for (Kontrakt k : kontrakter)
+			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
+				counter++;
+		
+		return counter;
+	}
 
 	
 	
