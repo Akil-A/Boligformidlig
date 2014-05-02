@@ -56,7 +56,7 @@ public class Personpanel extends JPanel
 		gc.gridy = 0;
 		
 		JScrollPane bScrollPane = new JScrollPane();
-		bScrollPane.setBorder(BorderFactory.createTitledBorder("<html>BOLIGS&Oslash;KERE</html>"));
+		bScrollPane.setBorder(BorderFactory.createTitledBorder("<html>BOLIGS&Oslash;KERE</html>")); 
 		bScrollPane.setViewportView(boligsokerliste);
 		bScrollPane.setPreferredSize(new Dimension(450, 200));   
         add(bScrollPane, gc);
