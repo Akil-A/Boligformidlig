@@ -6,7 +6,7 @@ public class Leilighet extends Bolig implements Serializable
 	 private Boolean garasje;
 	 private Boolean vaskeri;
 	 
-	 public Leilighet(String adresse, int postnr, String poststed, int utleiepris)
+	 public Leilighet(String adresse, String postnr, String poststed, int utleiepris)
 	 {
 		super(adresse, postnr, poststed, utleiepris);
 	 }
