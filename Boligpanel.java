@@ -782,14 +782,12 @@ public class Boligpanel extends JPanel
 				else
 					boligsokerdetaljer.setEnabled(true);
 			}
-			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 || boligsokere.getSelectedIndex() != 1)
+			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
 				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
-			else if (e.getSource() == sortering)
-			{
-				listBoliger();
-			}
 			else if (e.getSource() == nullstill)
 				nullstill();
+			else if (e.getSource() == sortering)
+				listBoliger();
 		}
 	}
 
