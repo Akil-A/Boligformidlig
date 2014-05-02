@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Boligpanel extends JPanel
@@ -503,7 +505,7 @@ public class Boligpanel extends JPanel
 			for (Bolig b : sokeliste)
 				if ((b.getAdresse().toLowerCase().contains(sAdresse.toLowerCase())) &&
 							(b.getTogst().toLowerCase().contains(sTogst.toLowerCase())) &&
-							(!erTall(sPostnr) || Integer.toString(b.getPostnr()).toLowerCase().contains(sPostnr.toLowerCase())) &&
+							(!erTall(sPostnr) || b.getPostnr().toLowerCase().contains(sPostnr.toLowerCase())) &&
 							(b.getPoststed().toLowerCase().contains(sPoststed.toLowerCase())) &&
 							(sAnnonsedato.equals(ANNONSEDATO_EKS_TEKST) ||
 									sAnnonsedato.isEmpty() || !annonsedatoErDato ||
@@ -544,12 +546,85 @@ public class Boligpanel extends JPanel
 		}
 		else
 		{
+			Boligsoker personen = (Boligsoker) boligsokere.getSelectedItem();
 			
+			if (vismatch.isSelected())
+			{
+				boolean bKravEnebolig = personen.getKravEnebolig();
+				boolean bKravRekkehus = personen.getKravRekkehus();
+				boolean bKravLeilighet = personen.getKravLeilighet();
+				int iKravArealFra = personen.getKravArealFra();
+				int iKravArealTil = personen.getKravArealTil();
+				int iKravMaksPris = personen.getKravMaksUtleiepris();
+				int iMinAntRom = personen.getKravMinAntRom();
+				int iMinByggeaar = personen.getKravMinByggeaar();
+				
+				for (Bolig b : register.getBoliger())
+				{
+					if
+					(
+							(bKravEnebolig && b instanceof Enebolig ||
+							bKravRekkehus && b instanceof Rekkehus ||
+							bKravLeilighet && b instanceof Leilighet ||
+							(!bKravEnebolig && !bKravRekkehus && !bKravRekkehus))
+							&&
+							(iKravArealFra == 0 || iKravArealFra < b.getBoareal())
+							&&
+							(iKravArealTil == 0 || iKravArealTil > b.getBoareal())
+							&&
+							(iKravMaksPris == 0 || iKravMaksPris >= b.getUtleiepris())
+							&&
+							(iMinAntRom == 0 || iMinAntRom <= b.getAntrom())
+							&&
+							(iMinByggeaar == 0 || iMinByggeaar <= b.getByggeaar())
+					)
+						sokeliste.add(b);
+				}
+			}
 		}
 	}
 	
 	public void listBoliger()
 	{
+		switch (sortering.getSelectedIndex())
+		{
+			case 0:
+				Collections.sort(sokeliste, new Comparator<Bolig>() {
+				    public int compare(Bolig b1, Bolig b2) {
+						return b2.getAnnonsedato().compareTo(b1.getAnnonsedato());
+				    }
+				});
+				break;
+			case 1:
+				Collections.sort(sokeliste, new Comparator<Bolig>() {
+				    public int compare(Bolig b1, Bolig b2) {
+						return b1.getUtleiepris() - b2.getUtleiepris();
+				    }
+				});
+				break;
+			case 2:
+				Collections.sort(sokeliste, new Comparator<Bolig>() {
+				    public int compare(Bolig b1, Bolig b2) {
+						return b2.getUtleiepris() - b1.getUtleiepris();
+				    }
+				});
+				break;
+			case 3:
+				Collections.sort(sokeliste, new Comparator<Bolig>() {
+				    public int compare(Bolig b1, Bolig b2) {
+						return b1.getBoareal() - b2.getBoareal();
+				    }
+				});
+				break;
+			case 4:
+				Collections.sort(sokeliste, new Comparator<Bolig>() {
+				    public int compare(Bolig b1, Bolig b2) {
+						return b2.getBoareal() - b1.getBoareal();
+				    }
+				});
+				break;
+		}
+		
 		int antAnnonser = sokeliste.size();
 		
 		switch (antAnnonser)
@@ -558,7 +633,7 @@ public class Boligpanel extends JPanel
 				antallresultater.setText("Ingen annonser funnet.");
 				break;
 			case 1:
-				antallresultater.setText("En annonse funnet.");
+				antallresultater.setText("<html>&Eacute;n annonse funnet.</html>");
 				break;
 			case 2:
 				antallresultater.setText("To annonser funnet.");
@@ -653,7 +728,7 @@ public class Boligpanel extends JPanel
 			
 			
 			boolean erleidut = false;
-			
+
 			for (Kontrakt k : register.getFungerende())
 				if (k.getBoligNr() == b.getBoligNr())
 				{
@@ -662,9 +737,9 @@ public class Boligpanel extends JPanel
 				}
 			
 			
-			
 			JPanel boligknapper = new JPanel();
 			boligknapper.add(detaljer);
+			
 			if (!erleidut)
 			{
 				JButton leiut = new JButton("Lei ut");
@@ -678,6 +753,7 @@ public class Boligpanel extends JPanel
 				});
 				boligknapper.add(leiut);
 			}
+			
 			boligknapper.setBorder(null);
 			
 			Bolig.add(boligknapper, gc4);
@@ -791,7 +867,10 @@ public class Boligpanel extends JPanel
 					boligsokerdetaljer.setEnabled(false);
 					
 					if (boligsokere.getSelectedIndex() == 1)
+					{
 						new Personskjemavindu(register, Boligpanel.this);
+						boligsokere.setSelectedIndex(0);
+					}
 				}
 				else
 					boligsokerdetaljer.setEnabled(true);
@@ -801,7 +880,9 @@ public class Boligpanel extends JPanel
 			else if (e.getSource() == nullstill)
 				nullstill();
 			else if (e.getSource() == sortering)
+			{
 				listBoliger();
+			}
 		}
 	}
 
@@ -831,6 +912,7 @@ public class Boligpanel extends JPanel
 		garasje.setSelected(false);
 		vask.setSelected(false);
 		maaliggeiforste.setSelected(false);
+		velgVenstreFilterPanel();
 	}
 	
 }
