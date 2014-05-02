@@ -241,21 +241,26 @@ public class Kontraktvindu extends JFrame
 		        }
 			    catch(ParseException pe)
 			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+			    	JOptionPane.showMessageDialog(null, "Feil i datoformat!");
 			    	return;
 			    }
 			    
 			    if( !sdf.format(testOppsigelsesdato).equals(oppsigelsesdato.getText()))
 			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i format");
+			    	JOptionPane.showMessageDialog(null, "Feil i datoformat!");
 			    	return;
+			    }
+			    
+			    if(testOppsigelsesdato.before(new Date()))
+			    {
+			    	JOptionPane.showMessageDialog(null, "<html>Oppsigelsedatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>");
 			    }
 			    
 			    if(testOppsigelsesdato.before(testStartdato) || testOppsigelsesdato.after(testSluttdato) || testOppsigelsesdato.equals(testStartdato)
 			    		|| testOppsigelsesdato.equals(testSluttdato))
 				{	
 					
-					JOptionPane.showMessageDialog(null,"Oppsigelsestiden maa vaere mellom start og sluttdato, og ikke lik start eller sluttdato!");
+					JOptionPane.showMessageDialog(null,"<html>Oppsigelsestiden m&aring; v&aelig;re mellom start og sluttdato, og ikke lik start eller sluttdato!</html>");
 					return;
 				}
 				kontrakten.setOppsagtDato(testOppsigelsesdato);
@@ -284,13 +289,19 @@ public class Kontraktvindu extends JFrame
 		        }
 			    catch(ParseException pe)
 			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+			    	JOptionPane.showMessageDialog(null, "Feil i datoformat!");
 			    	return;
 			    }
 			    
 			    if( !sdf.format(testOppsigelsesdato).equals(oppsigelsesdato.getText()))
 			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i format");
+			    	JOptionPane.showMessageDialog(null, "Feil i datoformat!");
+			    	return;
+			    }
+			    
+			    if(testOppsigelsesdato.before(new Date()))
+			    {
+			    	JOptionPane.showMessageDialog(null, "<html>Oppsigelsedatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>");
 			    	return;
 			    }
 			    
