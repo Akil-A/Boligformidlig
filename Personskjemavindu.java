@@ -19,7 +19,7 @@ public class Personskjemavindu extends JFrame
             firmafelt, testfelt, byggeaarfelt;
     private JLabel forNavn, etterNavn, email, adresse, telefon, yrke, poststed, postnr, antPersoner, beliggenhet,
             fraStorrelse, tilStorrelse, antRom, utleiepris, firma, test, byggeaar;
-    private JButton uSlett, bSlett, uRegBolig, uRegPerson, bRegPerson, uLagre, bLagre, avbryt;
+    private JButton uSlett, bSlett, uRegPerson, bRegPerson, uLagre, bLagre, avbryt;
     private JCheckBox husdyr, balkong, royker, hage, heis, parkering, enebolig, leilighet, rekkehus;
     private JRadioButton utleier, boligsoker;
     private JComboBox <String> sivilstatus, arbeidsforhold;
@@ -48,7 +48,6 @@ public class Personskjemavindu extends JFrame
         bLagre.setVisible(false);
         uSlett.setVisible(false);
         bSlett.setVisible(false);
-        uRegBolig.setVisible(false);
         
         utleier.setSelected(true);
         utleier.setEnabled(false);
@@ -67,7 +66,6 @@ public class Personskjemavindu extends JFrame
         bLagre.setVisible(false);
         uSlett.setVisible(false);
         bSlett.setVisible(false);
-        uRegBolig.setVisible(false);
         
         boligsoker.setSelected(true);
         utleier.setEnabled(false);
@@ -255,8 +253,6 @@ public class Personskjemavindu extends JFrame
         uRegPerson.addActionListener(lytter);
         uSlett = new JButton("Slett");
         uSlett.addActionListener(lytter);
-        uRegBolig = new JButton("<html>Registrer ny bolig p&aring; meg</html>");
-        uRegBolig.addActionListener(lytter);
         bSlett = new JButton("Slett");
         bSlett.addActionListener(lytter);
         bRegPerson = new JButton("Registrer ny person");
@@ -358,7 +354,6 @@ public class Personskjemavindu extends JFrame
 
         ulpKnapper.add(uRegPerson);
         ulpKnapper.add(uLagre);
-        ulpKnapper.add(uRegBolig);
         ulpKnapper.add(uSlett);
 
         bspKnapper.add(bRegPerson);
@@ -545,20 +540,14 @@ public class Personskjemavindu extends JFrame
         {
             if (e.getSource() == avbryt)
                 dispose();
-            else if(e.getSource() == uRegBolig)
-            {
-                //Boligskjemavindu bsv = new Boligskjemavindu(register);
-            }
             else if(e.getSource() == uSlett || e.getSource() == bSlett)
             {
             	if (e.getSource() == uSlett)
-    			{
             		if (register.utleierHarBoliger(personen.getPersonNr()))
             		{
-            			visMelding("Kan ikke slette, denne utleier har boliger.", "Problem");
+            			visMelding("Kan ikke slette, denne utleier har boliger.", "");
             			return;
             		}
-    			}
             	
             	
             	///////  kontrollsporsmaal
@@ -567,10 +556,11 @@ public class Personskjemavindu extends JFrame
                 int personNr = personen.getPersonNr();
                 register.slettPerson(personNr);
                 
-                if (e.getSource() == uSlett)
-                	personpanelet.oppdaterUtleierliste();
-                else
-                	personpanelet.oppdaterBoligsokerliste();
+                if (personpanelet != null)
+	                if (e.getSource() == uSlett)
+	                	personpanelet.oppdaterUtleierliste();
+	                else
+	                	personpanelet.oppdaterBoligsokerliste();
                 
                 dispose();
             }
