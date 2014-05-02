@@ -280,3 +280,4 @@ public class Boligregister implements Serializable
 		return inter;
 	}
 }
+
