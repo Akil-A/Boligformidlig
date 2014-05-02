@@ -461,6 +461,8 @@ public class Boligpanel extends JPanel
 	
 	private void lagSok()
 	{
+		sokeliste = new ArrayList<>();
+		
 		if (genereltSok || boligsokere.getSelectedIndex() == 0 || boligsokere.getSelectedIndex() == 1)
 		{
 			boolean bVisledige = visledige.isSelected();
