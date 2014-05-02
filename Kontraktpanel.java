@@ -33,11 +33,13 @@ public class Kontraktpanel extends JPanel
         fungerendemodell = new DefaultListModel<Kontrakt>();
         fungerendeListe = new JList<Kontrakt>(fungerendemodell);
 		fungerendeListe.setFont(IKKEFET);
+		fungerendeListe.setCellRenderer(new fungerendeListeCellRenderer());
         oppdaterFungerendeListe();
 
         utgaattmodell = new DefaultListModel<Kontrakt>();
         utgaatteListe = new JList<Kontrakt>(utgaattmodell);
 		utgaatteListe.setFont(IKKEFET);
+		utgaatteListe.setCellRenderer(new utgaattListeCellRenderer());
         oppdaterUtgaattListe();
         /********* POPULERING AV LISTER SLUTT *********/
 
@@ -113,5 +115,35 @@ public class Kontraktpanel extends JPanel
     		else if (e.getSource() == utgaatteKnapp && utgaatteListe.getSelectedIndex() != -1)
     			new Kontraktvindu(register, Kontraktpanel.this, utgaatteListe.getSelectedValue());
     	}
+    }
+    
+    private class fungerendeListeCellRenderer extends DefaultListCellRenderer {
+        public Component getListCellRendererComponent(JList<?> fungerendeListe,
+                                     Object value,
+                                     int index,
+                                     boolean isSelected,
+                                     boolean cellHasFocus) {
+            super.getListCellRendererComponent(fungerendeListe, value, index, isSelected, cellHasFocus);
+            if (value instanceof Kontrakt) {
+                Kontrakt kontrakt = (Kontrakt)value;
+                setText(register.finnBolig(kontrakt.getBoligNr()).getAdresse() + "Fra:" + register.finnBolig(kontrakt.getBoligNr()));
+            }
+            return this;
+        }
+    }
+    
+    private class utgaattListeCellRenderer extends DefaultListCellRenderer {
+        public Component getListCellRendererComponent(JList<?> utgaattListe,
+                                     Object value,
+                                     int index,
+                                     boolean isSelected,
+                                     boolean cellHasFocus) {
+            super.getListCellRendererComponent(utgaattListe, value, index, isSelected, cellHasFocus);
+            if (value instanceof Kontrakt) {
+                Kontrakt kontrakt = (Kontrakt)value;
+                setText(register.finnBolig(kontrakt.getBoligNr()).getAdresse());
+            }
+            return this;
+        }
     }
 }
