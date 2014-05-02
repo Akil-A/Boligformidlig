@@ -1,43 +1,108 @@
 import java.io.Serializable;
 
-public class Leilighet extends Bolig implements Serializable
+abstract public class Person implements Serializable
 {
-	 private Integer etasje;
-	 private Boolean garasje;
-	 private Boolean vaskeri;
-	 
-	 public Leilighet(String adresse, String postnr, String poststed, int utleiepris)
-	 {
-		super(adresse, postnr, poststed, utleiepris);
-	 }
+	private int personNr;
+	private static int personTeller = 0;
 	
-	public Integer getEtasje()
+	private String fornavn;
+	private String etternavn;
+	private String adresse;
+	private int postnr;
+	private String poststed;
+	private String email;
+	private String telefon;
+	
+	public Person(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
 	{
-		return etasje;
+		personNr = personTeller++;
+		
+		this.fornavn = fornavn;
+		this.etternavn = etternavn;
+		this.adresse = adresse;
+		this.email = email;
+		this.telefon = telefon;
+		this.poststed = poststed;
+		this.postnr = postnr;
 	}
 	
-	public void setEtasje(Integer etasje) 
+	public int getPersonNr()
 	{
-		this.etasje = etasje;
+		return personNr;
 	}
 	
-	public Boolean getGarasje() 
+	public String getFornavn()
 	{
-		return garasje;
+		return fornavn;
 	}
 	
-	public void setGarasje(Boolean g) 
+	public void setFornavn(String fornavn)
 	{
-		garasje = g;
+		this.fornavn = fornavn;
 	}
 	
-	public Boolean getVaskeri() 
+	public String getEtternavn()
 	{
-		return vaskeri;
+		return etternavn;
 	}
 	
-	public void setVaskeri(Boolean v) 
+	public void setEtternavn(String etternavn)
 	{
-		vaskeri = v;
+		this.etternavn = etternavn;
+	}
+	
+	public String getAdresse()
+	{
+		return adresse;
+	}
+	
+	public void setAdresse(String adresse)
+	{
+		this.adresse = adresse;
+	}
+	
+	public String getEmail()
+	{
+		return email;
+	}
+	
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+	
+	public String getTelefon()
+	{
+		return telefon;
+	}
+	
+	public void setTelefon(String telefon)
+	{
+		this.telefon = telefon;
+	}
+	
+	public String getPoststed()
+	{
+		return poststed;
+	}
+	
+	public void setPoststed(String poststed)
+	{
+		this.poststed = poststed;
+	}
+	
+	public int getPostnr()
+	{
+		return postnr;
+	}
+	
+	public void setPostnr(int postnr)
+	{
+		this.postnr = postnr;
+	}
+	
+	public String toString()
+	{
+		return fornavn + " " + etternavn;
 	}
 }
