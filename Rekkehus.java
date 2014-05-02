@@ -6,7 +6,7 @@ public class Rekkehus extends Bolig implements Serializable
 	private Integer antetasjer;
 	private Boolean kjeller;
 	
-	public Rekkehus(String adresse, int postnr, String poststed, int utleiepris)
+	public Rekkehus(String adresse, String postnr, String poststed, int utleiepris)
 	{
 		super(adresse, postnr, poststed, utleiepris);
 	}
