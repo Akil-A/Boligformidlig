@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;
+
 import javax.swing.*;
 
 
@@ -16,6 +17,7 @@ public class Leiut extends JFrame
 	private JTextField startDato, sluttDato;
 	private JLabel lstartDato, lsluttDato,ldato;
 	private int boligNr;
+	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	    
 	public Leiut(Boligregister br, int bnr)
 	{
@@ -44,6 +46,7 @@ public class Leiut extends JFrame
         while(iterator2.hasNext())
             bModel.addElement(iterator2.next());
         bList = new JList<>(bModel);
+        bList.setFont(IKKEFET);
         /********* POPULERING AV LISTER SLUTT *********/
         
         JScrollPane bScrollPane = new JScrollPane();
@@ -111,42 +114,39 @@ public class Leiut extends JFrame
 					JOptionPane.showMessageDialog(null,"<html>Du m&aring; skrive inn en start og slutt dato!</html>");
 					return;
 				}
-				
-				else
-				{		
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				    
-				    Date testStartDato = null;
-				    Date testSluttDato = null;
-				    
-				    try
-				    {
-				    	testStartDato = sdf.parse(startDato.getText());
-				    	testSluttDato = sdf.parse(sluttDato.getText());
-				    }
-				    catch(ParseException pe)
-				    {
-				    	JOptionPane.showMessageDialog(null, "Feil i parsing");
-				    	return;
-				    }
-				    
-				    if( !sdf.format(testStartDato).equals(startDato.getText()) || !sdf.format(testSluttDato).equals(sluttDato.getText()))
-				    {
-				    	JOptionPane.showMessageDialog(null, "Feil i format");
-				    	return;
-				    }
-				    
-				    if(testSluttDato.before(testStartDato) || testSluttDato.equals(testStartDato))
-					{	
-						JOptionPane.showMessageDialog(null,"<html>Startdatoen m&aring; v&aelig;re f&oslash;r sluttdatoen!</html>");
-						return;
-					}
 					
-					Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligNr, testStartDato, testSluttDato);
-					register.settInnKontrakt(kontrakten);
-					JOptionPane.showMessageDialog(null,"<html>Test fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
-					dispose();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			    
+			    Date testStartDato = null;
+			    Date testSluttDato = null;
+			    
+			    try
+			    {
+			    	testStartDato = sdf.parse(startDato.getText());
+			    	testSluttDato = sdf.parse(sluttDato.getText());
+			    }
+			    catch(ParseException pe)
+			    {
+			    	JOptionPane.showMessageDialog(null, "Feil i parsing");
+			    	return;
+			    }
+			    
+			    if( !sdf.format(testStartDato).equals(startDato.getText()) || !sdf.format(testSluttDato).equals(sluttDato.getText()))
+			    {
+			    	JOptionPane.showMessageDialog(null, "Feil i format");
+			    	return;
+			    }
+			    
+			    if(testSluttDato.before(testStartDato) || testSluttDato.equals(testStartDato))
+				{	
+					JOptionPane.showMessageDialog(null,"<html>Startdatoen m&aring; v&aelig;re f&oslash;r sluttdatoen!</html>");
+					return;
 				}
+				
+				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligNr, testStartDato, testSluttDato);
+				register.settInnKontrakt(kontrakten);
+				JOptionPane.showMessageDialog(null,"<html>Test fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
+				dispose();
 			}
 		}
 	}
