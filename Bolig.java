@@ -9,7 +9,7 @@ abstract public class Bolig implements Serializable
 	
 	private int utleierId;
 	private String adresse;
-	private int postnr;
+	private String postnr;
 	private String poststed;
 	private int utleiepris;
 	private String togst;
@@ -19,7 +19,7 @@ abstract public class Bolig implements Serializable
 	private String tittel;
 	private String bildefilnavn;
 	
-	public Bolig(String adresse, int postnr, String poststed, int utleiepris)
+	public Bolig(String adresse, String postnr, String poststed, int utleiepris)
 	{
 		boligNr = boligTeller++;
 		annonsedato = new Date();
@@ -85,12 +85,12 @@ abstract public class Bolig implements Serializable
 		return adresse;
 	}
 	
-	public void setPostnr(int postnr) 
+	public void setPostnr(String postnr) 
 	{
 		this.postnr = postnr;
 	}
 	
-	public int getPostnr() 
+	public String getPostnr() 
 	{
 		return postnr;
 	}
