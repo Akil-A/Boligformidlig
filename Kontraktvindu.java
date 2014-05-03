@@ -113,7 +113,7 @@ public class Kontraktvindu extends JFrame
 		pKnapp.add(avbryt);
 		
         adresse.setText(boligen.getAdresse());
-        postnr.setText(Integer.toString(boligen.getPostnr()));
+        postnr.setText(boligen.getPostnr());
         poststed.setText(boligen.getPoststed());
         utleiepris.setText(Integer.toString(boligen.getUtleiepris()));
         utleier.setText(utleieren.getFornavn() + " " + utleieren.getEtternavn());
