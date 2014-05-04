@@ -28,6 +28,7 @@ public class Boligskjemavindu extends JFrame
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
 	private JButton lagre, avbryt, velgBilde, fjernBilde;
 	private Boligpanel boligpanelet;
+	private Resultatbolk resultatbolken;
 	private Boligregister registret;
 	private Bolig boligen;
 	private File bildet;
@@ -46,12 +47,20 @@ public class Boligskjemavindu extends JFrame
 		boligpanelet = bp;
 		lagVindu();
 	}
+	
+	public Boligskjemavindu(Boligregister br, Resultatbolk rb)
+	{
+		super("Registrer ny bolig");
+		registret = br;
+		resultatbolken = rb;
+		lagVindu();
+	}
 
-	public Boligskjemavindu(Boligregister br, Boligpanel bp, Bolig b)
+	public Boligskjemavindu(Boligregister br, Resultatbolk rb, Bolig b)
 	{
 		super("Oppdater bolig");
 		registret = br;
-		boligpanelet = bp;
+		resultatbolken = rb;
 		boligen = b;
 		lagVindu();
 		
@@ -414,8 +423,8 @@ public class Boligskjemavindu extends JFrame
 		{
 			utleiere.addItem(u);
 		}
-        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", 0, "", "", ""), 0);
-        utleiere.insertItemAt(new Utleier("<Ny utleier ...>", "", "", 0, "", "", ""), 1);
+        utleiere.insertItemAt(new Utleier("<Velg utleier>", "", "", "", "", "", ""), 0);
+        utleiere.insertItemAt(new Utleier("<Ny utleier ...>", "", "", "", "", "", ""), 1);
         
         if (valgtUtleier == null)
         	utleiere.setSelectedIndex(0);
@@ -525,7 +534,13 @@ public class Boligskjemavindu extends JFrame
 	            	if (boligen == null)
 	            		b = new Enebolig(sadresse, spostnr, spoststed, Integer.parseInt(spris));
 	            	else
+	            	{
 	            		b = (Enebolig)boligen;
+	            		b.setAdresse(sadresse);
+	            		b.setPostnr(spostnr);
+	            		b.setPoststed(spoststed);
+	            		b.setUtleiepris(Integer.parseInt(spris));
+	            	}
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
@@ -590,7 +605,13 @@ public class Boligskjemavindu extends JFrame
 	            	if (boligen == null)
 	            		b = new Rekkehus(sadresse, spostnr, spoststed, Integer.parseInt(spris));
 	            	else
+	            	{
 	            		b = (Rekkehus)boligen;
+	            		b.setAdresse(sadresse);
+	            		b.setPostnr(spostnr);
+	            		b.setPoststed(spoststed);
+	            		b.setUtleiepris(Integer.parseInt(spris));
+	            	}
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
@@ -655,7 +676,13 @@ public class Boligskjemavindu extends JFrame
 	            	if (boligen == null)
 	            		b = new Leilighet(sadresse, spostnr, spoststed, Integer.parseInt(spris));
 	            	else
+	            	{
 	            		b = (Leilighet)boligen;
+	            		b.setAdresse(sadresse);
+	            		b.setPostnr(spostnr);
+	            		b.setPoststed(spoststed);
+	            		b.setUtleiepris(Integer.parseInt(spris));
+	            	}
 	            	
 	            	b.setTittel(stittel);
 	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
@@ -727,8 +754,11 @@ public class Boligskjemavindu extends JFrame
 	            JOptionPane.showMessageDialog( null, lagremelding, "",
             			JOptionPane.PLAIN_MESSAGE);
 	            
-    			if (boligpanelet != null)
-    				boligpanelet.listBoliger();
+	            if (boligpanelet != null)
+	            	boligpanelet.listBoliger();
+	            
+    			if (resultatbolken != null)
+    				resultatbolken.oppdater();
     			
     			dispose();
     		}
@@ -749,8 +779,11 @@ public class Boligskjemavindu extends JFrame
     		}
     		else if(e.getSource() == fjernBilde)
     			bildeSti.setText("");
-    		else if(e.getSource() == utleiere && ((JComboBox)e.getSource()).getSelectedIndex() == 1)
+    		else if(e.getSource() == utleiere && utleiere.getSelectedIndex() == 1)
+    		{
+    			utleiere.setSelectedIndex(0);
     			new Personskjemavindu(registret, Boligskjemavindu.this);
+    		}
     		else if(e.getSource() == avbryt)
     			dispose();
     	}
