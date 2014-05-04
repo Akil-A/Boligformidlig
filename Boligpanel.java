@@ -23,14 +23,13 @@ public class Boligpanel extends JPanel
 	private JComboBox<Boligsoker> boligsokere;
 	private JComboBox<String> sortering;
 	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel, venstreFilterPanel;
-	private JScrollPane filterPanel, boligListe;
+	private JScrollPane filterPanel, listePanel;
 	private JButton boligsokerdetaljer = new JButton("Detaljer"), sok, nullstill, registrer;
 	private JLabel antallresultater;
 	private Boligregister register;
 	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/12/2013";
 	private final Font LITENKURSIVFONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
 	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
-	private final Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	private boolean genereltSok;
 	private ArrayList<Bolig> sokeliste;
 	
@@ -93,14 +92,14 @@ public class Boligpanel extends JPanel
 		kjeller = new JCheckBox("Kjeller");
 		garasje = new JCheckBox("Garasje");
 		vask = new JCheckBox("Felles vaskeri");
-		maaliggeiforste = new JCheckBox("Maa ligge i forste etasje");
+		maaliggeiforste = new JCheckBox("<html>M&aring; ligge i f&oslash;rste etasje</html>");
 		
 		JPanel pAdresse = new JPanel();
 		pAdresse.add(new JLabel("Adresse: "));
 		pAdresse.add(adr);
 		
 		JPanel pBeliggenhet = new JPanel();
-		pBeliggenhet.add(new JLabel("Naermeste togstasjon: "));
+		pBeliggenhet.add(new JLabel("<html>N&aelig;rmeste togstasjon: </html>"));
 		pBeliggenhet.add(beliggenhet);
 		
 		JPanel pPost = new JPanel();
@@ -112,7 +111,7 @@ public class Boligpanel extends JPanel
 		JPanel pAnnonsedato = new JPanel();
 		pAnnonsedato.add(new JLabel("Annonsedato fra: "));
 		pAnnonsedato.add(annonsedato);
-		pAnnonsedato.add(new JLabel("Byggeaar fra: "));
+		pAnnonsedato.add(new JLabel("<html>Bygge&aring;r fra: </html>"));
 		pAnnonsedato.add(byggeaar);
 	    
 		JPanel pPrisen = new JPanel();
@@ -138,7 +137,7 @@ public class Boligpanel extends JPanel
 		pType.add(leilighet);
 
 	    JPanel pTomt = new JPanel();
-	    pTomt.add(new JLabel("Tomtestorrelse (kvm)"));
+	    pTomt.add(new JLabel("<html>Tomtest&oslash;rrelse (kvm)</html>"));
 	    pTomt.add(new JLabel("fra:"));
 	    pTomt.add(tomtfra);
 	    pTomt.add(new JLabel("til: "));
@@ -429,8 +428,8 @@ public class Boligpanel extends JPanel
 		boligsokere.removeAllItems();
 		for (Boligsoker b : register.getBoligsokere())
 			boligsokere.addItem(b);
-		boligsokere.insertItemAt(new Boligsoker("<html>&lt;Velg boligs&oslash;ker&gt;</html>", "", "", 0, "", "", ""), 0);
-		boligsokere.insertItemAt(new Boligsoker("<html>&lt;Ny boligs&oslash;ker ...&gt;</html>", "", "", 0, "", "", ""), 1);
+		boligsokere.insertItemAt(new Boligsoker("<html>&lt;Velg boligs&oslash;ker&gt;</html>", "", "", "", "", "", ""), 0);
+		boligsokere.insertItemAt(new Boligsoker("<html>&lt;Ny boligs&oslash;ker ...&gt;</html>", "", "", "", "", "", ""), 1);
         
         if (valgtBoligsoker == null)
         	boligsokere.setSelectedIndex(0);
@@ -673,144 +672,36 @@ public class Boligpanel extends JPanel
 				break;
 		}
 		
-		JPanel innerListePanel = new JPanel(new GridBagLayout());
+		JPanel indreListePanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc3 = new GridBagConstraints();
 		gc3.anchor = GridBagConstraints.NORTHWEST;
 		gc3.gridy = 0;
 		int i = 0;
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		
 		for (final Bolig b : sokeliste)
 		{
-			JPanel Bolig = new JPanel(new GridBagLayout());
+			Resultatbolk rb = new Resultatbolk(register, b);
 			
-			JLabel beskrivelse = new JLabel(b.getBeskrivelse().toUpperCase() + "   ");
-			beskrivelse.setFont(IKKEFET);
-			JLabel dato = new JLabel(sdf.format(b.getAnnonsedato()));
-			dato.setFont(IKKEFET);
-			dato.setForeground(Color.GRAY);
-			JLabel boareal = new JLabel(String.valueOf(b.getBoareal()) + "kvm");
-			boareal.setFont(IKKEFET);
-			JLabel pris = new JLabel(String.valueOf(b.getUtleiepris()) + ",- pr mnd");
-			pris.setFont(IKKEFET);
-			JLabel adresse = new JLabel(b.getAdresse() + ", " + b.getPostnr() + " " + b.getPoststed());
-			adresse.setFont(IKKEFET);
-
-			GridBagConstraints gc4 = new GridBagConstraints();
-			
-			gc4.anchor = GridBagConstraints.NORTHWEST;
-			
-			JPanel boligLinje1 = new JPanel(new GridBagLayout());
-			boligLinje1.add(beskrivelse);
-			boligLinje1.add(dato);
-			
-			gc4.gridx = 1;
-			gc4.gridy = 0;
-			Bolig.add(boligLinje1, gc4);
-			gc4.gridy = 1;
-			Bolig.add(boareal, gc4);
-			gc4.gridy = 2;
-			Bolig.add(pris, gc4);
-			gc4.gridy = 3;
-			Bolig.add(adresse, gc4);
-			gc4.gridy = 4;
-			
-			JButton detaljer = new JButton("Detaljer");
-			detaljer.setFont(IKKEFET);
-			detaljer.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e)
-				{
-					new Boligskjemavindu(register, Boligpanel.this, b);
-				}
-			});
-			
-			
-			boolean erleidut = false;
-
-			for (Kontrakt k : register.getFungerende())
-				if (k.getBoligNr() == b.getBoligNr())
-				{
-					erleidut = true;
-					break;
-				}
-			
-			
-			JPanel boligknapper = new JPanel();
-			boligknapper.add(detaljer);
-			
-			if (!erleidut)
-			{
-				JButton leiut = new JButton("Lei ut");
-				leiut.setFont(IKKEFET);
-				leiut.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						new Leiutvindu(register, b.getBoligNr(), Boligpanel.this);
-					}
-				});
-				boligknapper.add(leiut);
-			}
-			
-			boligknapper.setBorder(null);
-			
-			Bolig.add(boligknapper, gc4);
-			
-			JButton bildeknapp = new JButton();
-			bildeknapp.setPreferredSize(new Dimension(130, 110));
-			bildeknapp.setEnabled(false);
-			bildeknapp.setText("<html><center>-mangler<br>bilde-</center></html>");
-			bildeknapp.setFont(IKKEFET);
-			
-			if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
-			{
-				try
-				{
-					final BufferedImage mittBilde1 = ImageIO.read(new File("bilder" + File.separatorChar + b.getBildefilnavn()));
-					Image skalert = mittBilde1.getScaledInstance(130, 110, BufferedImage.SCALE_FAST);
-					
-					bildeknapp.setText(null);
-					bildeknapp.setEnabled(true);
-					bildeknapp.setIcon(new ImageIcon(skalert));
-					bildeknapp.addActionListener(new ActionListener()
-					{
-						public void actionPerformed(ActionEvent e)
-						{
-							new Bildevindu(mittBilde1);
-						}
-					});
-				}
-				catch(IOException ex)
-				{
-				}
-			}
-
-			gc4.gridheight = 5;
-			gc4.gridx = 0;
-			gc4.gridy = 0;
-			gc4.insets.right = 10;
-	 	   	Bolig.add(bildeknapp, gc4);
-			
+			if (i != antAnnonser - 1)
+				rb.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
 			gc3.gridy = i++;
-			innerListePanel.add(Bolig, gc3);
+			indreListePanel.add(rb, gc3);
 		}
 		
-		
 		JPanel Vest = new JPanel(new BorderLayout());
-		Vest.add(innerListePanel, BorderLayout.WEST);
+		Vest.add(indreListePanel, BorderLayout.WEST);
 		JPanel Nord = new JPanel(new BorderLayout());
 		Nord.add(Vest, BorderLayout.NORTH);
-		JScrollPane listePanel = new JScrollPane(Nord);
+		Nord.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 		
-		if (boligListe != null)
-			remove(boligListe);
 		
-		boligListe = listePanel;
+		if (listePanel != null)
+			remove(listePanel);
+
+		listePanel = new JScrollPane(Nord);
 		
-		add(boligListe, BorderLayout.CENTER);
+		add(listePanel, BorderLayout.CENTER);
 		
 		revalidate();
 	}
