@@ -8,12 +8,12 @@ abstract public class Person implements Serializable
 	private String fornavn;
 	private String etternavn;
 	private String adresse;
-	private int postnr;
+	private String postnr;
 	private String poststed;
 	private String email;
 	private String telefon;
 	
-	public Person(String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
+	public Person(String fornavn, String etternavn, String adresse, String postnr, String poststed, String email, String telefon)
 	{
 		personNr = personTeller++;
 		
@@ -91,12 +91,12 @@ abstract public class Person implements Serializable
 		this.poststed = poststed;
 	}
 	
-	public int getPostnr()
+	public String getPostnr()
 	{
 		return postnr;
 	}
 	
-	public void setPostnr(int postnr)
+	public void setPostnr(String postnr)
 	{
 		this.postnr = postnr;
 	}
