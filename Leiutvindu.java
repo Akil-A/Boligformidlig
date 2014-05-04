@@ -13,19 +13,19 @@ public class Leiutvindu extends JFrame
 	private Lytter lytter;
 	private JButton leiut, avbryt;
 	private Boligregister register;
-	private Boligpanel boligpanel;
+	private Resultatbolk resultatbolken;
 	private DefaultListModel<Boligsoker> bModel;
 	private JTextField startDato, sluttDato;
 	private JLabel lstartDato, lsluttDato,ldato;
 	private int boligNr;
 	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	    
-	public Leiutvindu(Boligregister br, int bnr, Boligpanel bp)
+	public Leiutvindu(Boligregister br, int bnr, Resultatbolk rb)
 	{
 		super("Utleie");
 		setSize(600,400);
 		register = br;
-		boligpanel = bp;
+		resultatbolken = rb;
 		boligNr = bnr;
 		 /********* DEFINERING AV KOMPONENTER START *********/
         lytter = new Lytter();
@@ -164,7 +164,7 @@ public class Leiutvindu extends JFrame
 				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligNr, testStartDato, testSluttDato);
 				register.settInnKontrakt(kontrakten);
 				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
-				boligpanel.listBoliger();
+				resultatbolken.oppdater();
 				dispose();
 			}
 		}
