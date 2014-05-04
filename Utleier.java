@@ -9,7 +9,7 @@ public class Utleier extends Person  implements Serializable
 {
 	private String firma;
 	
-	public Utleier (String fornavn, String etternavn, String adresse, int postnr, String poststed, String email, String telefon)
+	public Utleier (String fornavn, String etternavn, String adresse, String postnr, String poststed, String email, String telefon)
 	{
 		super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
 	}
