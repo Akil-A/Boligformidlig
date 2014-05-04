@@ -70,11 +70,6 @@ abstract public class Bolig implements Serializable
 		this.tittel = tittel;
 	}
 	
-	public String getBeskrivelse()
-	{
-		return tittel;
-	}
-	
 	public void setAdresse(String adresse) 
 	{
 		this.adresse = adresse;
