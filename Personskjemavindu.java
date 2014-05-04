@@ -551,14 +551,14 @@ public class Personskjemavindu extends JFrame
                     	Utleier u;
                     	
                     	if (personen == null)
-                    		u = new Utleier(sFornavn, sEtternavn, sAdresse, Integer.parseInt(sPostnr), sPoststed, sEmail, sTelefon);
+                    		u = new Utleier(sFornavn, sEtternavn, sAdresse, sPostnr, sPoststed, sEmail, sTelefon);
                     	else
                         {
                             u = (Utleier)personen;
                             u.setFornavn(sFornavn);
                             u.setEtternavn(sEtternavn);
                             u.setAdresse(sAdresse);
-                            u.setPostnr(Integer.parseInt(sPostnr));
+                            u.setPostnr(sPostnr);
                             u.setPoststed(sPoststed);
                             u.setTelefon(sTelefon);
                             u.setEmail(sEmail);
@@ -580,14 +580,14 @@ public class Personskjemavindu extends JFrame
                         Boligsoker b;
 
                         if (personen == null)
-                            b = new Boligsoker(sFornavn, sEtternavn, sAdresse, Integer.parseInt(sPostnr), sPoststed, sEmail, sTelefon);
+                            b = new Boligsoker(sFornavn, sEtternavn, sAdresse, sPostnr, sPoststed, sEmail, sTelefon);
                         else
                         {
                             b = (Boligsoker)personen;
                             b.setFornavn(sFornavn);
                             b.setEtternavn(sEtternavn);
                             b.setAdresse(sAdresse);
-                            b.setPostnr(Integer.parseInt(sPostnr));
+                            b.setPostnr(sPostnr);
                             b.setPoststed(sPoststed);
                             b.setTelefon(sTelefon);
                             b.setEmail(sEmail);
