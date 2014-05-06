@@ -39,6 +39,16 @@ public class Personskjemavindu extends JFrame
         boligsoker.setEnabled(false);
     }
     
+    public Personskjemavindu(Boligregister br, Boligskjemavindu bsv, Utleier u)
+    {
+    	super("Registrer utleier");
+    	register = br;
+    	boligvinduet = bsv;
+    	lagVindu();
+    	fyllutfelter(u);
+        
+        personen = u;
+    }
 
     public Personskjemavindu(Boligregister br, Boligpanel bp)
     {
