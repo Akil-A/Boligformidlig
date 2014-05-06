@@ -89,7 +89,8 @@ public class Kontraktvindu extends JFrame
 		sluttdato = new JTextField(15);
 		String sSluttdato = k.getSluttdato().get(k.getSluttdato().DAY_OF_MONTH) + "/" + (k.getSluttdato().get(k.getSluttdato().MONTH) + 1) + "/" + k.getSluttdato().get(k.getSluttdato().YEAR);
 		sluttdato.setText(sSluttdato);
-		sluttdato.setEditable(false);	
+		sluttdato.setEditable(false);
+		
 		siopp = new JButton("Si opp");
 		siopp.addActionListener(lytter);
 		avbryt= new JButton("Avbryt");
@@ -225,6 +226,7 @@ public class Kontraktvindu extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{	
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    
 		    Date testOppsigelsesdato = null;
 		    Date testStartdato = null;
 		    Date testSluttdato = null;
@@ -261,10 +263,10 @@ public class Kontraktvindu extends JFrame
 					
 					JOptionPane.showMessageDialog(null,"<html>Oppsigelsestiden m&aring; v&aelig;re mellom start og sluttdato, og ikke lik start eller sluttdato!</html>");
 					return;
-				} 
-			    Calendar oppsigelsesdato = Calendar.getInstance();			  
+				}
+			    Calendar oppsigelsesdato = Calendar.getInstance();
 			    oppsigelsesdato.setTime(testOppsigelsesdato);
-				kontrakten.setOppsagtDato(oppsigelsesdato);
+			    kontrakten.setOppsagtDato(oppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
 				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
@@ -314,9 +316,9 @@ public class Kontraktvindu extends JFrame
 					return;
 				}
 			    
-			    Calendar oppsigelsesdato = Calendar.getInstance();			  
+			    Calendar oppsigelsesdato = Calendar.getInstance();
 			    oppsigelsesdato.setTime(testOppsigelsesdato);
-				kontrakten.setOppsagtDato(oppsigelsesdato);
+			    kontrakten.setOppsagtDato(oppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
 				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
