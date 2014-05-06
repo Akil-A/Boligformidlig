@@ -84,7 +84,7 @@ public class Resultatbolk extends JPanel
 		boolean erleidut = false;
 
 		for (Kontrakt k : registret.getFungerende())
-			if (k.getBoligNr() == boligen.getBoligNr())
+			if (k.getBolig() == boligen)
 			{
 				erleidut = true;
 				break;
@@ -105,7 +105,7 @@ public class Resultatbolk extends JPanel
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					new Leiutvindu(registret, boligen.getBoligNr(), Resultatbolk.this);
+					new Leiutvindu(registret, boligen, Resultatbolk.this);
 				}
 			});
 			boligknapper.add(leiut, gc66);
