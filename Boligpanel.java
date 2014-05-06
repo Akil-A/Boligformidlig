@@ -455,6 +455,7 @@ public class Boligpanel extends JPanel
 	
 	public void utforBlanktSok()
 	{
+		nullstill();
 		genereltSok = true;
  	   	sokeliste = register.getBoliger();
 		listBoliger();
@@ -769,7 +770,7 @@ public class Boligpanel extends JPanel
 			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
 				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
 			else if (e.getSource() == nullstill)
-				nullstill();
+				utforBlanktSok();
 			else if (e.getSource() == sortering)
 			{
 				listBoliger();
