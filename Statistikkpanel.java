@@ -36,6 +36,5 @@ public class Statistikkpanel extends JPanel
 	{	
 		lantallBoliger.setText("Det er " + register.getBoliger().size() + " ledige boliger for utleie. " + register.getUtleideiAAr() + " boliger er leid ut.");
 		lantallUtleide.setText("Det er " + register.getUtleide().size() + " leiekontrakter formidlet hittil i aar.");
-		repaint();
 	}
 }
