@@ -30,15 +30,6 @@ public class Boligregister implements Serializable
 	// PERSON-METODER
 	// ###############################################################################################
 	
-	public Person finnPerson( int personNr )
-	{
-		for (Person p : personer)
-			if (p.getPersonNr() == personNr)
-				return p;
-		
-		return null;
-	}
-	
 	public void settInnPerson(Person p)
 	{
 		personer.add(p);
@@ -53,15 +44,15 @@ public class Boligregister implements Serializable
 		return false;
 	}
 
-	public Person slettPerson(int personNr)
+	public Person slettPerson(Person personen)
 	{
 		Person pers = null;
 		
 		for (Person p : personer)
-			if (p.getPersonNr() == personNr)
+			if (p == personen)
 			{
 				pers = p;
-				personer.remove(pers);
+				personer.remove(personen);
 				
 				break;
 			}
