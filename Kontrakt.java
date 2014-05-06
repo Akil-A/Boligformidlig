@@ -1,20 +1,18 @@
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Kontrakt implements Serializable
 {
 	private Boligsoker leietaker;
 	private Bolig bolig;
-	private Date startdato;
-	private Date sluttdato;
-	private Date oppsagtDato;
-	private Date skrevetDato;
+	private Calendar startdato;
+	private Calendar sluttdato;
+	private Calendar oppsagtDato;
 	private String oppsigelsesgrunn;
 	
-	public Kontrakt(Boligsoker leietaker, Bolig bolig, Date startdato, Date sluttdato)
+	public Kontrakt(Boligsoker leietaker, Bolig bolig, Calendar startdato, Calendar sluttdato)
 	{
-		skrevetDato = new Date();
-		
 		this.leietaker = leietaker;
 		this.bolig = bolig;
 		this.startdato = startdato;
@@ -23,7 +21,8 @@ public class Kontrakt implements Serializable
 	
 	public boolean getFungerer()
 	{
-		return sluttdato.after(new Date()) && (oppsagtDato == null || oppsagtDato.after(new Date()));
+		Calendar cal = Calendar.getInstance();
+		return sluttdato.after(cal) && (oppsagtDato == null || oppsagtDato.after(cal));
 	}
 
 	public Boligsoker getLeietaker()
@@ -46,32 +45,32 @@ public class Kontrakt implements Serializable
 		this.bolig = bolig;
 	}
 
-	public Date getStartdato()
+	public Calendar getStartdato()
 	{
 		return startdato;
 	}
 
-	public void setStartdato(Date startdato)
+	public void setStartdato(Calendar startdato)
 	{
 		this.startdato = startdato;
 	}
 
-	public Date getSluttdato()
+	public Calendar getSluttdato()
 	{
 		return sluttdato;
 	}
 
-	public void setSluttdato(Date sluttdato)
+	public void setSluttdato(Calendar sluttdato)
 	{
 		this.sluttdato = sluttdato;
 	}
 
-	public Date getOppsagtDato()
+	public Calendar getOppsagtDato()
 	{
 		return oppsagtDato;
 	}
 
-	public void setOppsagtDato(Date oppsagtDato)
+	public void setOppsagtDato(Calendar oppsagtDato)
 	{
 		this.oppsagtDato = oppsagtDato;
 	}
@@ -84,10 +83,5 @@ public class Kontrakt implements Serializable
 	public void setOppsigelsesgrunn(String oppsigelsesgrunn)
 	{
 		this.oppsigelsesgrunn = oppsigelsesgrunn;
-	}
-	
-	public Date getSkrevetDato()
-	{
-		return skrevetDato;
 	}
 }
