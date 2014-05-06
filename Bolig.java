@@ -7,7 +7,7 @@ abstract public class Bolig implements Serializable
 	private static int boligTeller = 0;
 	private Date annonsedato;
 	
-	private int utleierId;
+	private Utleier utleier;
 	private String adresse;
 	private String postnr;
 	private String poststed;
@@ -40,14 +40,14 @@ abstract public class Bolig implements Serializable
 		return annonsedato;
 	}
 	
-	public int getUtleierId()
+	public Utleier getUtleier()
 	{
-		return utleierId;
+		return utleier;
 	}
 	
-	public void setUtleierId(int ui)
+	public void setUtleier(Utleier u)
 	{
-		utleierId = ui;
+		utleier = u;
 	}
 	
 	public String getBildefilnavn()
