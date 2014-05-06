@@ -44,20 +44,16 @@ public class Boligregister implements Serializable
 		return false;
 	}
 
-	public Person slettPerson(Person personen)
+	public boolean slettPerson(Person personen)
 	{
-		Person pers = null;
-		
 		for (Person p : personer)
 			if (p == personen)
 			{
-				pers = p;
 				personer.remove(personen);
-				
-				break;
+				return true;
 			}
 		
-		return pers;
+		return false;
 	}
 	
 	public ArrayList<Person> getPersoner()
@@ -110,20 +106,16 @@ public class Boligregister implements Serializable
 		boliger.add(b);
 	}
 	
-	public Bolig slettBolig(Bolig boligen)
+	public boolean slettBolig(Bolig boligen)
 	{
-		Bolig bol = null;
-		
 		for (Bolig b : boliger)
 			if (b == boligen)
 			{
-				bol = b;
 				boliger.remove(boligen);
-				
-				break;
+				return true;
 			}
 		
-		return bol;
+		return false;
 	}
 	
 	public ArrayList<Bolig> getUtleide()
@@ -159,18 +151,16 @@ public class Boligregister implements Serializable
 		kontrakter.add(k);
 	}	
 	
-	public void oppdaterKontrakt(int kontraktNr, Kontrakt nyKontrakt)
-	{
-		kontrakter.set(kontrakter.indexOf(finnKontrakt(kontraktNr)), nyKontrakt);
-	}
-	
-	public Kontrakt finnKontrakt( int kontraktNr )
+	public boolean oppdaterKontrakt(Kontrakt gammelkontrakt, Kontrakt nykontrakt)
 	{
 		for (Kontrakt k : kontrakter)
-			if (k.getKontraktNr() == kontraktNr)
-				return k;
+			if (k == gammelkontrakt)
+			{
+				k = nykontrakt;
+				return true;
+			}
 		
-		return null;
+		return false;
 	}
 	
 	public ArrayList<Kontrakt> getKontrakter()
@@ -198,22 +188,6 @@ public class Boligregister implements Serializable
 				kl.add(k);
 				
 		return kl;	
-	}
-	
-	public Kontrakt slettKontrakt(int kontraktNr)
-	{
-		Kontrakt kontr = null;
-		
-		for (Kontrakt k : kontrakter)
-			if (k.getKontraktNr() == kontraktNr)
-			{
-				kontr = k;
-				kontrakter.remove(k);
-				
-				break;
-			}
-		
-		return kontr;
 	}
 	
 	public int getUtleideiAAr()
