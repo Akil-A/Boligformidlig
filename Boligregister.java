@@ -44,10 +44,10 @@ public class Boligregister implements Serializable
 		personer.add(p);
 	}
 	
-	public boolean utleierHarBoliger(int personNr)
+	public boolean utleierHarBoliger(Utleier utleier)
 	{
 		for (Bolig b : boliger)
-			if (b.getUtleierId() == personNr)
+			if (b.getUtleier() == utleier)
 				return true;
 		
 		return false;
