@@ -14,13 +14,15 @@ public class Resultatbolk extends JPanel
 	private final Font STOR = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
 	private final Font LITEN = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
 	private Bolig boligen;
+	private Boligpanel boligpanelet;
 	private Boligregister registret;
 	
-	public Resultatbolk(Boligregister br, Bolig b)
+	public Resultatbolk(Boligregister br, Boligpanel bp, Bolig b)
 	{
 		setLayout(new GridBagLayout());
 		
 		boligen = b;
+		boligpanelet = bp;
 		registret = br;
 		
 		oppdater();
@@ -76,7 +78,7 @@ public class Resultatbolk extends JPanel
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				new Boligskjemavindu(registret, Resultatbolk.this, boligen);
+				new Boligskjemavindu(registret, boligpanelet, Resultatbolk.this, boligen);
 			}
 		});
 		
