@@ -103,7 +103,7 @@ public class Boligpanel extends JPanel
 		pBeliggenhet.add(beliggenhet);
 		
 		JPanel pPost = new JPanel();
-		pPost.add(new JLabel("PostNr: "));
+		pPost.add(new JLabel("Postnummer: "));
 		pPost.add(postnr);
 		pPost.add(new JLabel("Poststed: "));
 		pPost.add(poststed);
