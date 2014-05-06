@@ -251,7 +251,7 @@ public class Boligpanel extends JPanel
 		
 		vismatch = new JCheckBox("Vis boliger som matcher krav");
 		vismatch.setSelected(true);
-		visinteresser = new JCheckBox("Vis boliger som denne boligsoker har vist interesse for");
+		visinteresser = new JCheckBox("<html>Vis boliger som denne boligs&oslash;ker har vist interesse for</html>");
 		visinteresser.setSelected(true);
 		
 		GridBagConstraints hfGc = new GridBagConstraints();
