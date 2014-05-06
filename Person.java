@@ -2,9 +2,6 @@ import java.io.Serializable;
 
 abstract public class Person implements Serializable
 {
-	private int personNr;
-	private static int personTeller = 0;
-	
 	private String fornavn;
 	private String etternavn;
 	private String adresse;
@@ -15,8 +12,6 @@ abstract public class Person implements Serializable
 	
 	public Person(String fornavn, String etternavn, String adresse, String postnr, String poststed, String email, String telefon)
 	{
-		personNr = personTeller++;
-		
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
 		this.adresse = adresse;
@@ -24,11 +19,6 @@ abstract public class Person implements Serializable
 		this.telefon = telefon;
 		this.poststed = poststed;
 		this.postnr = postnr;
-	}
-	
-	public int getPersonNr()
-	{
-		return personNr;
 	}
 	
 	public String getFornavn()
