@@ -220,20 +220,16 @@ public class Boligregister implements Serializable
 		return interesser;
 	}
 	
-	public Interesse slettInteresse(int interesseNr)
+	public boolean slettInteresse(Interesse interessen)
 	{
-		Interesse inter = null;
-		
 		for (Interesse i : interesser)
-			if (i.getInteresseNr() == interesseNr)
+			if (i == interessen)
 			{
-				inter = i;
-				interesser.remove(i);
-				
-				break;
+				interesser.remove(interessen);
+				return true;
 			}
 		
-		return inter;
+		return false;
 	}
 }
 
