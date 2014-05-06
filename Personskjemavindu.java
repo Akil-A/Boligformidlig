@@ -490,6 +490,7 @@ public class Personskjemavindu extends JFrame
 	            	///////  kontrollsporsmaal
 	            	
 	            	
+	            	
 	            	register.slettPerson(personen);
 	                
 	                if (personpanelet != null)
@@ -497,6 +498,9 @@ public class Personskjemavindu extends JFrame
 		                	personpanelet.oppdaterUtleierliste();
 		                else
 		                	personpanelet.oppdaterBoligsokerliste();
+                    
+                    if (boligvinduet != null)
+                    	boligvinduet.oppdaterUtleierliste(null);
 	                
                     if (boligpanelet != null)
                     	boligpanelet.oppdaterBoligsokerliste(null);
