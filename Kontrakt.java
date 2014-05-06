@@ -3,9 +3,6 @@ import java.util.Date;
 
 public class Kontrakt implements Serializable
 {
-	private int kontraktNr;
-	private static int kontraktTeller = 0;
-	
 	private Boligsoker leietaker;
 	private Bolig bolig;
 	private Date startdato;
@@ -15,8 +12,6 @@ public class Kontrakt implements Serializable
 	
 	public Kontrakt(Boligsoker leietaker, Bolig bolig, Date startdato, Date sluttdato)
 	{
-		kontraktNr = kontraktTeller++;
-		
 		this.leietaker = leietaker;
 		this.bolig = bolig;
 		this.startdato = startdato;
@@ -26,11 +21,6 @@ public class Kontrakt implements Serializable
 	public boolean getFungerer()
 	{
 		return sluttdato.after(new Date()) && (oppsagtDato == null || oppsagtDato.after(new Date()));
-	}
-
-	public int getKontraktNr()
-	{
-		return kontraktNr;
 	}
 
 	public Boligsoker getLeietaker()
