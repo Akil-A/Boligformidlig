@@ -125,12 +125,15 @@ public class Leiutvindu extends JFrame
 			    
 			    Date testStartDato = null;
 			    Date testSluttDato = null;
+			    
 			    Calendar startdato = Calendar.getInstance();
 			    Calendar sluttdato = Calendar.getInstance();
+			    
 			    try
 			    {
 			    	testStartDato = sdf.parse(startDato.getText());
 			    	testSluttDato = sdf.parse(sluttDato.getText());
+			    	
 			    	startdato.setTime(testStartDato);
 			    	sluttdato.setTime(testSluttDato);
 			    }
