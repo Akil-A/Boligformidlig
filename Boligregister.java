@@ -99,15 +99,6 @@ public class Boligregister implements Serializable
 	// ###############################################################################################
 	
 	
-	public Bolig finnBolig( int boligNr )
-	{
-		for (Bolig b : boliger)
-			if (b.getBoligNr() == boligNr)
-				return b;
-		
-		return null;
-	}
-	
 	public ArrayList<Bolig> getBoliger()
 	{
 		return boliger;
@@ -119,15 +110,15 @@ public class Boligregister implements Serializable
 		boliger.add(b);
 	}
 	
-	public Bolig slettBolig(int boligNr)
+	public Bolig slettBolig(Bolig boligen)
 	{
 		Bolig bol = null;
 		
 		for (Bolig b : boliger)
-			if (b.getBoligNr() == boligNr)
+			if (b == boligen)
 			{
 				bol = b;
-				boliger.remove(bol);
+				boliger.remove(boligen);
 				
 				break;
 			}
@@ -141,7 +132,7 @@ public class Boligregister implements Serializable
 		
 		for (Kontrakt k : kontrakter)
 			if (k.getFungerer())
-				u.add(finnBolig(k.getBoligNr()));
+				u.add(k.getBolig());
 		
 		return u;
 	}
