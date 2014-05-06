@@ -162,6 +162,7 @@ public class Leiutvindu extends JFrame
 			    }
 				
 				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligNr, testStartDato, testSluttDato);
+				
 				register.settInnKontrakt(kontrakten);
 				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
 				resultatbolken.oppdater();
