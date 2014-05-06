@@ -4,10 +4,12 @@ import javax.swing.*;
 public class Statistikkpanel extends JPanel
 {	
 	private Boligregister register;
-	private int antallUtleide, antBoligerTotalt, antUtleide;
+	private JLabel lantallBoliger, lantallUtleide;
 	
 	public Statistikkpanel(Boligregister br)
 	{
+		register = br;
+		
 		setLayout(new GridBagLayout());
 		
 		GridBagConstraints gc = new GridBagConstraints();
@@ -18,23 +20,22 @@ public class Statistikkpanel extends JPanel
 		
 		gc.gridy = 1;
 		
-		antBoligerTotalt = br.getBoliger().size();
-		antUtleide = br.getUtleide().size();
 		
-		add(new JLabel("Det er " + antBoligerTotalt + " ledige boliger for utleie. " + antUtleide + " boliger er leid ut."), gc);
+		lantallBoliger = new JLabel();
+		add(lantallBoliger, gc);
+		
+		
 		
 		gc.gridy = 2;
 		
-		antallUtleide = br.getUtleideiAAr();
-		
-		add(new JLabel("Det er " + antallUtleide + " leiekontrakter formidlet hittil i aar"), gc);
-		
+		lantallUtleide = new JLabel();
+		add(lantallUtleide, gc);		
 	}
 	
 	public void oppdaterStatistikk()
-	{
-		antBoligerTotalt = register.getBoliger().size();
-		antUtleide = register.getUtleide().size();
-		antallUtleide = register.getUtleideiAAr();
+	{	
+		lantallBoliger.setText("Det er " + register.getBoliger().size() + " ledige boliger for utleie. " + register.getUtleideiAAr() + " boliger er leid ut.");
+		lantallUtleide.setText("Det er " + register.getUtleide().size() + " leiekontrakter formidlet hittil i aar.");
+		repaint();
 	}
 }
