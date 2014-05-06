@@ -126,7 +126,7 @@ public class Kontraktpanel extends JPanel
             super.getListCellRendererComponent(fungerendeListe, value, index, isSelected, cellHasFocus);
             if (value instanceof Kontrakt) {
                 Kontrakt kontrakt = (Kontrakt)value;
-                setText(register.finnBolig(kontrakt.getBoligNr()).getAdresse() + "   Fra: " + kontrakt.getStartdato() + "   Til:   " + kontrakt.getStartdato());
+                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato() + "   Til:   " + kontrakt.getStartdato());
             }
             return this;
         }
@@ -141,7 +141,7 @@ public class Kontraktpanel extends JPanel
             super.getListCellRendererComponent(utgaattListe, value, index, isSelected, cellHasFocus);
             if (value instanceof Kontrakt) {
                 Kontrakt kontrakt = (Kontrakt)value;
-                setText(register.finnBolig(kontrakt.getBoligNr()).getAdresse() + "   Fra: " + kontrakt.getStartdato() + "   Til:   " + kontrakt.getStartdato());
+                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato() + "   Til:   " + kontrakt.getStartdato());
             }
             return this;
         }
