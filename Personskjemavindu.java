@@ -470,7 +470,7 @@ public class Personskjemavindu extends JFrame
             	if(e.getSource() == slett)
 	            {
 	            	if (bUtleier)
-	            		if (register.utleierHarBoliger(personen.getPersonNr()))
+	            		if (register.utleierHarBoliger((Utleier)personen))
 	            		{
 	            			visMelding("Kan ikke slette, denne utleier har boliger.", "");
 	            			return;
