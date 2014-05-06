@@ -480,8 +480,7 @@ public class Personskjemavindu extends JFrame
 	            	///////  kontrollsporsmaal
 	            	
 	            	
-	                int personNr = personen.getPersonNr();
-	                register.slettPerson(personNr);
+	            	register.slettPerson(personen);
 	                
 	                if (personpanelet != null)
 		                if (bUtleier)
@@ -537,15 +536,6 @@ public class Personskjemavindu extends JFrame
                     			(!sKravMaksPris.isEmpty() && !erTall(sKravMaksPris)) ||
                     			(!sKravMinByggeaar.isEmpty() && !erTall(sKravMinByggeaar)))
                     		feilmelding += "&bull; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
-                    		
-                    	if(!sKravTilStr.isEmpty() && erTall(sKravTilStr))
-                    	{
-                    		int tilStorrelse = Integer.parseInt(sKravTilStr);
-                    		int fraStorrelse = Integer.parseInt(sKravFraStr);
-                    		
-                    		if(tilStorrelse < fraStorrelse)
-                    		feilmelding += "&bull; Til st&oslash;rrelse i boareal kan ikke v&aelig;e mindre enn fra st&oslash;rrelse.<br>";
-                    	}
                     }
                     
                     if (!feilmelding.isEmpty())
