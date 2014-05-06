@@ -487,27 +487,27 @@ public class Personskjemavindu extends JFrame
 	            		}
 	            	
 	            	
-	            	///////  kontrollsporsmaal
-	            	
-	            	
-	            	
-	            	register.slettPerson(personen);
-	                
-	                if (personpanelet != null)
-		                if (bUtleier)
-		                	personpanelet.oppdaterUtleierliste();
-		                else
-		                	personpanelet.oppdaterBoligsokerliste();
-                    
-                    if (boligvinduet != null)
-                    	boligvinduet.oppdaterUtleierliste(null);
-	                
-                    if (boligpanelet != null)
-                    	boligpanelet.oppdaterBoligsokerliste(null);
+	            	if (JOptionPane.showConfirmDialog( null, "Er du sikker på at du vil slette personen? Dette kan ikke reverseres.",
+	            			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
+	            	{
+		            	register.slettPerson(personen);
+		                
+		                if (personpanelet != null)
+			                if (bUtleier)
+			                	personpanelet.oppdaterUtleierliste();
+			                else
+			                	personpanelet.oppdaterBoligsokerliste();
+	                    
+	                    if (boligvinduet != null)
+	                    	boligvinduet.oppdaterUtleierliste(null);
+		                
+	                    if (boligpanelet != null)
+	                    	boligpanelet.oppdaterBoligsokerliste(null);
 
-                    visMelding("Personen er slettet.", "");
-                    
-	                dispose();
+	                    visMelding("Personen er slettet.", "");
+	                    
+		                dispose();
+	            	}
 	            }
             	else if(e.getSource() == lagre)
             	{
@@ -550,15 +550,15 @@ public class Personskjemavindu extends JFrame
                     			(!sKravMaksPris.isEmpty() && !erTall(sKravMaksPris)) ||
                     			(!sKravMinByggeaar.isEmpty() && !erTall(sKravMinByggeaar)))
                     		feilmelding += "&bull; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
-                    		
-                    	if(!sKravTilStr.isEmpty() && erTall(sKravTilStr))
-                    	{
-                    		int tilStorrelse = Integer.parseInt(sKravTilStr);
-                    		int fraStorrelse = Integer.parseInt(sKravFraStr);
-                    		
-                    		if(tilStorrelse < fraStorrelse)
+                    }
+                    
+                    if(!sKravFraStr.isEmpty() && erTall(sKravFraStr) && !sKravTilStr.isEmpty() && erTall(sKravTilStr))
+                    {
+                    	int tilStorrelse = Integer.parseInt(sKravTilStr);
+                    	int fraStorrelse = Integer.parseInt(sKravFraStr);
+
+                    	if(tilStorrelse < fraStorrelse)
                     		feilmelding += "&bull; Til st&oslash;rrelse i boareal kan ikke v&aelig;e mindre enn fra st&oslash;rrelse.<br>";
-                    	}
                     }
                     
                     if (!feilmelding.isEmpty())
