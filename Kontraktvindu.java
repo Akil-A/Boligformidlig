@@ -20,6 +20,7 @@ public class Kontraktvindu extends JFrame
 	private JLabel lAdresse,lPostNr,lPoststed,lUtleiepris,lUtleier,lLeietaker,lEmail,lEmail1,lTelefon,lTelefon1,lStartdato,lSluttdato,
 	lOppsigelsesdato,lOppsigelsesgrunn;
 	private JPanel pAdresse,pUtleiepris,pUtleier,pLeietaker,pDato,pKnapp,pOppsigelse;
+	private Kontrakt gammelkontrakt;
 	private Kontrakt kontrakten;
 	private Boligregister registret;
 	private Utleier utleieren;
@@ -34,6 +35,7 @@ public class Kontraktvindu extends JFrame
 		registret = br;
 		kontraktpanelet = kp;
 		kontrakten = k;
+		gammelkontrakt = k;
 		lytter = new Lytter();
 		boligen = kontrakten.getBolig();
 		utleieren = boligen.getUtleier();
@@ -265,7 +267,7 @@ public class Kontraktvindu extends JFrame
 				}
 				kontrakten.setOppsagtDato(testOppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
-				registret.oppdaterKontrakt(kontrakten.getKontraktNr(), kontrakten);
+				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
 				kontraktpanelet.oppdaterUtgaattListe();
 				JOptionPane.showMessageDialog(null,"Kontrakten er sagt opp!");
@@ -315,7 +317,7 @@ public class Kontraktvindu extends JFrame
 			    
 				kontrakten.setOppsagtDato(testOppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
-				registret.oppdaterKontrakt(kontrakten.getKontraktNr(), kontrakten);
+				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
 				kontraktpanelet.oppdaterUtgaattListe();
 				JOptionPane.showMessageDialog(null,"Oppsigelsesdetaljer er endret!");
