@@ -6,23 +6,13 @@ import java.io.Serializable;
 
 public class Interesse implements Serializable
 {
-	private int interesseNr;
-	private static int interesseTeller = 0;
-	
 	private Boligsoker boligsokeren;
 	private Bolig boligen;
 	
 	public Interesse(Boligsoker bs, Bolig bl)
 	{
-		interesseNr = interesseTeller++;
-		
 		boligsokeren = bs;
 		boligen = bl;
-	}
-	
-	public int getInteresseNr()
-	{
-		return interesseNr;
 	}
 	
 	public Boligsoker getBoligsokerern()
