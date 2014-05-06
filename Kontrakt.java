@@ -11,16 +11,18 @@ public class Kontrakt implements Serializable
 	private Date startdato;
 	private Date sluttdato;
 	private Date oppsagtDato;
+	private Date skrevetDato;
 	private String oppsigelsesgrunn;
 	
 	public Kontrakt(Boligsoker leietaker, int boligNr, Date startdato, Date sluttdato)
 	{
 		kontraktNr = kontraktTeller++;
-		
+		skrevetDato = new Date();
 		this.leietaker = leietaker;
 		this.boligNr = boligNr;
 		this.startdato = startdato;
 		this.sluttdato = sluttdato;
+		
 	}
 	
 	public boolean getFungerer()
@@ -91,5 +93,9 @@ public class Kontrakt implements Serializable
 	public void setOppsigelsesgrunn(String oppsigelsesgrunn)
 	{
 		this.oppsigelsesgrunn = oppsigelsesgrunn;
+	}
+
+	public Date getSkrevetDato() {
+		return skrevetDato;
 	}
 }
