@@ -681,7 +681,7 @@ public class Boligpanel extends JPanel
 
 		for (final Bolig b : sokeliste)
 		{
-			Resultatbolk rb = new Resultatbolk(register, b);
+			Resultatbolk rb = new Resultatbolk(register, Boligpanel.this, b);
 			
 			if (i != antAnnonser - 1)
 				rb.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
