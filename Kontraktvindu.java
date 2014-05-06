@@ -82,16 +82,14 @@ public class Kontraktvindu extends JFrame
 		telefon1 = new JTextField(10);
 		telefon1.setEditable(false);
 		startdato = new JTextField(15);
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");      
-		String sStartdato = df.format(k.getStartdato());
+		String sStartdato = k.getStartdato().get(k.getStartdato().DAY_OF_MONTH) + "/" + (k.getStartdato().get(k.getStartdato().MONTH) + 1) + "/" + k.getStartdato().get(k.getStartdato().YEAR);
 		startdato.setEditable(false);
 		startdato.setText(sStartdato);
 		startdato.setEditable(false);
 		sluttdato = new JTextField(15);
-		String sSluttdato = df.format(k.getSluttdato());
+		String sSluttdato = k.getSluttdato().get(k.getSluttdato().DAY_OF_MONTH) + "/" + (k.getSluttdato().get(k.getSluttdato().MONTH) + 1) + "/" + k.getSluttdato().get(k.getSluttdato().YEAR);
 		sluttdato.setText(sSluttdato);
-		sluttdato.setEditable(false);
-		
+		sluttdato.setEditable(false);	
 		siopp = new JButton("Si opp");
 		siopp.addActionListener(lytter);
 		avbryt= new JButton("Avbryt");
@@ -200,8 +198,8 @@ public class Kontraktvindu extends JFrame
 		
 	    if(kontrakten.getOppsagtDato() != null)
 	    {
-	    	DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
-	    	String oppsagtdato = f.format(kontrakten.getOppsagtDato());
+	    	DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+	    	String oppsagtdato = f.format(kontrakten.getOppsagtDato().getTime());
 	    	oppsigelsesdato.setText(oppsagtdato);
 	    	oppsigelsesdato.setEditable(false);
 	    	oppsigelsesgrunn.setText(kontrakten.getOppsigelsesgrunn());
@@ -210,8 +208,8 @@ public class Kontraktvindu extends JFrame
 	    	endre.setVisible(true);
 	    }
 	    
-	    if(kontrakten.getSluttdato().before(new Date()) ||
-	    		(kontrakten.getOppsagtDato() != null && kontrakten.getOppsagtDato().before(new Date())))
+	    if(kontrakten.getSluttdato().getTime().before(new Date()) ||
+	    		(kontrakten.getOppsagtDato() != null && kontrakten.getOppsagtDato().getTime().before(new Date())))
 		{
 			oppsigelsesdato.setEditable(false);
 			oppsigelsesgrunn.setEditable(false);
@@ -227,7 +225,6 @@ public class Kontraktvindu extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{	
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		    
 		    Date testOppsigelsesdato = null;
 		    Date testStartdato = null;
 		    Date testSluttdato = null;
@@ -264,8 +261,10 @@ public class Kontraktvindu extends JFrame
 					
 					JOptionPane.showMessageDialog(null,"<html>Oppsigelsestiden m&aring; v&aelig;re mellom start og sluttdato, og ikke lik start eller sluttdato!</html>");
 					return;
-				}
-				kontrakten.setOppsagtDato(testOppsigelsesdato);
+				} 
+			    Calendar oppsigelsesdato = Calendar.getInstance();			  
+			    oppsigelsesdato.setTime(testOppsigelsesdato);
+				kontrakten.setOppsagtDato(oppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
 				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
@@ -315,7 +314,9 @@ public class Kontraktvindu extends JFrame
 					return;
 				}
 			    
-				kontrakten.setOppsagtDato(testOppsigelsesdato);
+			    Calendar oppsigelsesdato = Calendar.getInstance();			  
+			    oppsigelsesdato.setTime(testOppsigelsesdato);
+				kontrakten.setOppsagtDato(oppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
 				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
