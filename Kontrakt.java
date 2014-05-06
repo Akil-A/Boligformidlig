@@ -9,10 +9,13 @@ public class Kontrakt implements Serializable
 	private Calendar startdato;
 	private Calendar sluttdato;
 	private Calendar oppsagtDato;
+	private Date skrevetDato;
 	private String oppsigelsesgrunn;
 	
 	public Kontrakt(Boligsoker leietaker, Bolig bolig, Calendar startdato, Calendar sluttdato)
 	{
+		skrevetDato = new Date();
+		
 		this.leietaker = leietaker;
 		this.bolig = bolig;
 		this.startdato = startdato;
@@ -83,5 +86,10 @@ public class Kontrakt implements Serializable
 	public void setOppsigelsesgrunn(String oppsigelsesgrunn)
 	{
 		this.oppsigelsesgrunn = oppsigelsesgrunn;
+	}
+	
+	public Date getSkrevetDato()
+	{
+		return skrevetDato;
 	}
 }
