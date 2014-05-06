@@ -26,7 +26,7 @@ public class Boligskjemavindu extends JFrame
 	private CLytter clytter;
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
-	private JButton lagre, avbryt, utleierdetaljer, velgBilde, fjernBilde;
+	private JButton lagre, slett, avbryt, utleierdetaljer, velgBilde, fjernBilde;
 	private Boligpanel boligpanelet;
 	private Resultatbolk resultatbolken;
 	private Boligregister registret;
@@ -47,19 +47,12 @@ public class Boligskjemavindu extends JFrame
 		boligpanelet = bp;
 		lagVindu();
 	}
-	
-	public Boligskjemavindu(Boligregister br, Resultatbolk rb)
-	{
-		super("Registrer ny bolig");
-		registret = br;
-		resultatbolken = rb;
-		lagVindu();
-	}
 
-	public Boligskjemavindu(Boligregister br, Resultatbolk rb, Bolig b)
+	public Boligskjemavindu(Boligregister br, Boligpanel bp, Resultatbolk rb, Bolig b)
 	{
 		super("Oppdater bolig");
 		registret = br;
+		boligpanelet = bp;
 		resultatbolken = rb;
 		boligen = b;
 		lagVindu();
@@ -86,6 +79,8 @@ public class Boligskjemavindu extends JFrame
 		enebolig.setEnabled(false);
 		rekkehus.setEnabled(false);
 		leilighet.setEnabled(false);
+		
+		slett.setVisible(true);
 		
 		if (b instanceof Enebolig)
 		{
@@ -177,6 +172,9 @@ public class Boligskjemavindu extends JFrame
         boligtype.add(leilighet);
         lagre = new JButton("Lagre");
         lagre.addActionListener(lytter);
+        slett = new JButton("Slett");
+        slett.addActionListener(lytter);
+        slett.setVisible(false);
         avbryt = new JButton("Avbryt");
         avbryt.addActionListener(lytter);
         utleierdetaljer = new JButton("Detaljer");
@@ -415,9 +413,15 @@ public class Boligskjemavindu extends JFrame
 		gc.gridy = 3;
 		gc.insets.top = 20;
 		
+		JPanel venstreknapper = new JPanel(new GridBagLayout());
+		venstreknapper.add(lagre);
+        GridBagConstraints gck = new GridBagConstraints();
+        gck.insets.left = 5;
+        venstreknapper.add(slett, gck);
+		
 		JPanel knappepanel = new JPanel(new BorderLayout());
-		knappepanel.add(lagre, BorderLayout.WEST);
-		knappepanel.add(new JLabel("     **Felter markert med stjerne er obligatoriske**"), BorderLayout.CENTER);
+		knappepanel.add(venstreknapper, BorderLayout.WEST);
+		knappepanel.add(new JLabel("   **Felter markert med stjerne er obligatoriske**"), BorderLayout.CENTER);
 		knappepanel.add(avbryt, BorderLayout.EAST);
 		
 		gc.fill = GridBagConstraints.HORIZONTAL;
@@ -775,6 +779,21 @@ public class Boligskjemavindu extends JFrame
     				resultatbolken.oppdater();
     			
     			dispose();
+    		}
+    		else if (e.getSource() == slett)
+    		{
+            	if (JOptionPane.showConfirmDialog( null, "Er du sikker på at du vil slette boligen? Dette kan ikke reverseres.",
+            			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
+            	{
+            		registret.slettBolig(boligen);
+
+                    visMelding("Boligen er slettet.", "");
+    	            
+    	            if (boligpanelet != null)
+    	            	boligpanelet.listBoliger();
+                    
+	                dispose();
+            	}
     		}
     		else if(e.getSource() == velgBilde)
     		{
