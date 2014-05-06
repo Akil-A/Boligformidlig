@@ -20,21 +20,21 @@ public class Statistikkpanel extends JPanel
 		
 		gc.gridy = 1;
 		
-		
 		lantallBoliger = new JLabel();
 		add(lantallBoliger, gc);
-		
-		
 		
 		gc.gridy = 2;
 		
 		lantallUtleide = new JLabel();
-		add(lantallUtleide, gc);		
+		add(lantallUtleide, gc);
+		
+		oppdaterStatistikk();
 	}
 	
 	public void oppdaterStatistikk()
 	{	
-		lantallBoliger.setText("Det er " + register.getBoliger().size() + " ledige boliger for utleie. " + register.getUtleideiAAr() + " boliger er leid ut.");
-		lantallUtleide.setText("Det er " + register.getUtleide().size() + " leiekontrakter formidlet hittil i aar.");
+		lantallBoliger.setText("Det er " + register.getBoliger().size() + " ledige boliger for utleie. " + register.getLedige().size() + " boliger er leid ut.");
+		lantallUtleide.setText("Det er " + register.getUtleideiAAr() + " leiekontrakter formidlet hittil i aar.");
 	}
 }
+
