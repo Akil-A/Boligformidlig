@@ -195,7 +195,7 @@ public class Boligregister implements Serializable
 		int counter = 0;
 		
 		for (Kontrakt k : kontrakter)
-			if ( (k.getStartdato().getYear()) + 1900 == Calendar.getInstance().get(Calendar.YEAR) )
+			if ( (k.getStartdato().get(k.getStartdato().YEAR))  == Calendar.getInstance().get(Calendar.YEAR) )
 				counter++;
 		
 		return counter;
@@ -220,16 +220,20 @@ public class Boligregister implements Serializable
 		return interesser;
 	}
 	
-	public boolean slettInteresse(Interesse interessen)
+	public Interesse slettInteresse(int interesseNr)
 	{
+		Interesse inter = null;
+		
 		for (Interesse i : interesser)
-			if (i == interessen)
+			if (i.getInteresseNr() == interesseNr)
 			{
-				interesser.remove(interessen);
-				return true;
+				inter = i;
+				interesser.remove(i);
+				
+				break;
 			}
 		
-		return false;
+		return inter;
 	}
 }
 
