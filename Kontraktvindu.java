@@ -35,8 +35,8 @@ public class Kontraktvindu extends JFrame
 		kontraktpanelet = kp;
 		kontrakten = k;
 		lytter = new Lytter();
-		boligen = registret.finnBolig(kontrakten.getBoligNr());
-		utleieren = (Utleier) registret.finnPerson(boligen.getUtleierId());
+		boligen = kontrakten.getBolig();
+		utleieren = boligen.getUtleier();
 		boligsokeren = kontrakten.getLeietaker();
 		
 		/********* LAYOUT START *********/
