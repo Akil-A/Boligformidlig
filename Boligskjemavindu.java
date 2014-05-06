@@ -65,7 +65,7 @@ public class Boligskjemavindu extends JFrame
 		lagVindu();
 		
 		tittel.setText(b.getTittel());
-		utleiere.setSelectedItem(registret.finnPerson(b.getUtleierId()));
+		utleiere.setSelectedItem(b.getUtleier());
 		
 		if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 		{
@@ -543,7 +543,7 @@ public class Boligskjemavindu extends JFrame
 	            	}
 	            	
 	            	b.setTittel(stittel);
-	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
+	            	b.setUtleier((Utleier) utleiere.getSelectedItem());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
 	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
@@ -614,7 +614,7 @@ public class Boligskjemavindu extends JFrame
 	            	}
 	            	
 	            	b.setTittel(stittel);
-	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
+	            	b.setUtleier((Utleier) utleiere.getSelectedItem());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
 	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
@@ -685,7 +685,7 @@ public class Boligskjemavindu extends JFrame
 	            	}
 	            	
 	            	b.setTittel(stittel);
-	            	b.setUtleierId(((Utleier) utleiere.getSelectedItem()).getPersonNr());
+	            	b.setUtleier((Utleier) utleiere.getSelectedItem());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
 	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
