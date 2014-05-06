@@ -125,11 +125,14 @@ public class Leiutvindu extends JFrame
 			    
 			    Date testStartDato = null;
 			    Date testSluttDato = null;
-			    
+			    Calendar startdato = Calendar.getInstance();
+			    Calendar sluttdato = Calendar.getInstance();
 			    try
 			    {
 			    	testStartDato = sdf.parse(startDato.getText());
 			    	testSluttDato = sdf.parse(sluttDato.getText());
+			    	startdato.setTime(testStartDato);
+			    	sluttdato.setTime(testSluttDato);
 			    }
 			    catch(ParseException pe)
 			    {
@@ -161,9 +164,9 @@ public class Leiutvindu extends JFrame
 					return;
 			    }
 				
-				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligen, testStartDato, testSluttDato);
+				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligen, startdato, sluttdato);
 				register.settInnKontrakt(kontrakten);
-				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>startdato:" + testStartDato + "<br>sluttdato:" + testSluttDato + "</html>");
+				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>startdato: " + startdato.get(startdato.DAY_OF_MONTH)+ " / "+ (startdato.get(startdato.MONTH) + 1) + " / " + startdato.get(startdato.YEAR) + "<br>sluttdato: " + sluttdato.get(sluttdato.DAY_OF_MONTH)+ " / "+ (sluttdato.get(startdato.MONTH) + 1) + " / " + sluttdato.get(sluttdato.YEAR) + "</html>");
 				resultatbolken.oppdater();
 				dispose();
 			}
