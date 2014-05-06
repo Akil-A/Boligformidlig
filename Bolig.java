@@ -3,8 +3,6 @@ import java.util.Date;
 
 abstract public class Bolig implements Serializable
 {
-	private int boligNr;
-	private static int boligTeller = 0;
 	private Date annonsedato;
 	
 	private Utleier utleier;
@@ -21,18 +19,12 @@ abstract public class Bolig implements Serializable
 	
 	public Bolig(String adresse, String postnr, String poststed, int utleiepris)
 	{
-		boligNr = boligTeller++;
 		annonsedato = new Date();
 		
 		this.adresse = adresse;
 		this.postnr = postnr;
 		this.poststed = poststed;
 		this.utleiepris = utleiepris;
-	}
-	
-	public int getBoligNr()
-	{
-		return boligNr;
 	}
 	
 	public Date getAnnonsedato()
