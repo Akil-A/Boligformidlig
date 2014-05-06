@@ -9,15 +9,15 @@ public class Interesse implements Serializable
 	private int interesseNr;
 	private static int interesseTeller = 0;
 	
-	private int boligsokerNr;
-	private int boligNr;
+	private Boligsoker boligsokeren;
+	private Bolig boligen;
 	
-	public Interesse(int boligsokerNr, int boligNr)
+	public Interesse(Boligsoker bs, Bolig bl)
 	{
 		interesseNr = interesseTeller++;
 		
-		this.boligsokerNr = boligsokerNr;
-		this.boligNr = boligNr;
+		boligsokeren = bs;
+		boligen = bl;
 	}
 	
 	public int getInteresseNr()
@@ -25,13 +25,13 @@ public class Interesse implements Serializable
 		return interesseNr;
 	}
 	
-	public int getBoligsokerNr()
+	public Boligsoker getBoligsokerern()
 	{
-		return boligsokerNr;
+		return boligsokeren;
 	}
 	
-	public int getBoligNr()
+	public Bolig getBolig()
 	{
-		return boligNr;
+		return boligen;
 	}
 }
