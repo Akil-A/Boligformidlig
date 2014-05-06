@@ -126,7 +126,7 @@ public class Kontraktpanel extends JPanel
             super.getListCellRendererComponent(fungerendeListe, value, index, isSelected, cellHasFocus);
             if (value instanceof Kontrakt) {
                 Kontrakt kontrakt = (Kontrakt)value;
-                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato() + "   Til:   " + kontrakt.getStartdato());
+                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato().get(kontrakt.getStartdato().DAY_OF_MONTH) + "/" + (kontrakt.getStartdato().get(kontrakt.getStartdato().MONTH) + 1) + "/" + kontrakt.getStartdato().get(kontrakt.getStartdato().YEAR) + "   Til:   " + kontrakt.getSluttdato().get(kontrakt.getSluttdato().DAY_OF_MONTH) + "/" + (kontrakt.getSluttdato().get(kontrakt.getSluttdato().MONTH) + 1) + "/" + kontrakt.getSluttdato().get(kontrakt.getSluttdato().YEAR));
             }
             return this;
         }
@@ -141,7 +141,7 @@ public class Kontraktpanel extends JPanel
             super.getListCellRendererComponent(utgaattListe, value, index, isSelected, cellHasFocus);
             if (value instanceof Kontrakt) {
                 Kontrakt kontrakt = (Kontrakt)value;
-                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato() + "   Til:   " + kontrakt.getStartdato());
+                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato().get(kontrakt.getStartdato().DAY_OF_MONTH) + "/" + (kontrakt.getStartdato().get(kontrakt.getStartdato().MONTH) + 1) + "/" + kontrakt.getStartdato().get(kontrakt.getStartdato().YEAR) + "   Til:   " + kontrakt.getSluttdato().get(kontrakt.getSluttdato().DAY_OF_MONTH) + "/" + (kontrakt.getSluttdato().get(kontrakt.getSluttdato().MONTH) + 1) + "/" + kontrakt.getSluttdato().get(kontrakt.getSluttdato().YEAR));
             }
             return this;
         }
