@@ -26,7 +26,7 @@ public class Boligskjemavindu extends JFrame
 	private CLytter clytter;
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
-	private JButton lagre, avbryt, velgBilde, fjernBilde;
+	private JButton lagre, avbryt, utleierdetaljer, velgBilde, fjernBilde;
 	private Boligpanel boligpanelet;
 	private Resultatbolk resultatbolken;
 	private Boligregister registret;
@@ -66,6 +66,7 @@ public class Boligskjemavindu extends JFrame
 		
 		tittel.setText(b.getTittel());
 		utleiere.setSelectedItem(b.getUtleier());
+        utleierdetaljer.setEnabled(true);
 		
 		if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 		{
@@ -178,6 +179,9 @@ public class Boligskjemavindu extends JFrame
         lagre.addActionListener(lytter);
         avbryt = new JButton("Avbryt");
         avbryt.addActionListener(lytter);
+        utleierdetaljer = new JButton("Detaljer");
+        utleierdetaljer.addActionListener(lytter);
+        utleierdetaljer.setEnabled(false);
         velgBilde = new JButton("Velg bilde");
         velgBilde.addActionListener(lytter);
         bildeSti = new JTextField(15);
@@ -186,21 +190,31 @@ public class Boligskjemavindu extends JFrame
         fjernBilde.addActionListener(lytter);
 		/********* DEFINISJON AV KOMPONENTER SLUTT *********/
         
+		
+		
+		
+        
+        /******************** UTLEIERPANEL START ********************/
+		utleiere = new JComboBox<>();
+		utleiere.addActionListener(lytter);
+		oppdaterUtleierliste(null);		
+		
+		JPanel utleierpanel = new JPanel(new GridBagLayout());
+		utleierpanel.add(utleiere);
+		GridBagConstraints gc666 = new GridBagConstraints();
+		gc666.insets.left = 4;
+		utleierpanel.add(utleierdetaljer, gc666);
+        /******************** UTLEIERPANEL SLUTT ********************/
+        
+		
+		
+		
+		
 		JPanel velgBildePanel = new JPanel(new GridBagLayout());
 		velgBildePanel.add(velgBilde);
 		velgBildePanel.add(bildeSti);
 		velgBildePanel.add(fjernBilde);
-        
 		
-		
-		
-		/***** UTFYLLING AV UTLEIERBOKS START *****/
-		utleiere = new JComboBox<>();
-		utleiere.addActionListener(lytter);
-		oppdaterUtleierliste(null);
-		/***** UTFYLLING AV UTLEIERBOKS SLUTT *****/
-		
-        
         
         
 		
@@ -233,7 +247,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.WEST;
 		gc.gridwidth = 3;
-		toppanel.add(utleiere, gc);
+		toppanel.add(utleierpanel, gc);
 		gc.gridwidth = 1;
 		
 		gc.gridy = 2;
@@ -779,10 +793,20 @@ public class Boligskjemavindu extends JFrame
     		}
     		else if(e.getSource() == fjernBilde)
     			bildeSti.setText("");
-    		else if(e.getSource() == utleiere && utleiere.getSelectedIndex() == 1)
+    		else if(e.getSource() == utleierdetaljer)
+    			new Personskjemavindu(registret, Boligskjemavindu.this, (Utleier) utleiere.getSelectedItem());
+    		else if(e.getSource() == utleiere)
     		{
-    			utleiere.setSelectedIndex(0);
-    			new Personskjemavindu(registret, Boligskjemavindu.this);
+    			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1)
+    				utleierdetaljer.setEnabled(false);
+    			else
+    				utleierdetaljer.setEnabled(true);
+    			
+    			if (utleiere.getSelectedIndex() == 1)
+    			{
+	    			utleiere.setSelectedIndex(0);
+	    			new Personskjemavindu(registret, Boligskjemavindu.this);
+    			}
     		}
     		else if(e.getSource() == avbryt)
     			dispose();
