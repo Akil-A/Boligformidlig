@@ -773,7 +773,7 @@ public class Boligskjemavindu extends JFrame
             			JOptionPane.PLAIN_MESSAGE);
 	            
 	            if (boligpanelet != null)
-	            	boligpanelet.listBoliger();
+	            	boligpanelet.utforSok();
 	            
     			if (resultatbolken != null)
     				resultatbolken.oppdater();
@@ -790,7 +790,7 @@ public class Boligskjemavindu extends JFrame
                     visMelding("Boligen er slettet.", "");
     	            
     	            if (boligpanelet != null)
-    	            	boligpanelet.listBoliger();
+    	            	boligpanelet.utforSok();
                     
 	                dispose();
             	}
