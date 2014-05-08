@@ -34,7 +34,6 @@ public class Resultatbolk extends JPanel
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		
-		
 		JLabel tittel = new JLabel(boligen.getTittel() + "   ");
 		tittel.setFont(STOR);
 		JLabel dato = new JLabel(sdf.format(boligen.getAnnonsedato()));
@@ -83,6 +82,15 @@ public class Resultatbolk extends JPanel
 		});
 		
 		
+	
+		
+		JPanel boligknapper = new JPanel(new GridBagLayout());
+		GridBagConstraints gc66 = new GridBagConstraints();
+		gc66.insets.right = 5;
+		gc66.insets.top = 2;
+		boligknapper.add(detaljer, gc66);
+		
+		
 		boolean erleidut = false;
 
 		for (Kontrakt k : registret.getFungerende())
@@ -92,13 +100,6 @@ public class Resultatbolk extends JPanel
 				break;
 			}
 		
-		
-		JPanel boligknapper = new JPanel(new GridBagLayout());
-		GridBagConstraints gc66 = new GridBagConstraints();
-		gc66.insets.right = 5;
-		gc66.insets.top = 2;
-		boligknapper.add(detaljer, gc66);
-		
 		if (!erleidut)
 		{
 			JButton leiut = new JButton("Utleie");
@@ -107,7 +108,7 @@ public class Resultatbolk extends JPanel
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					new Leiutvindu(registret, boligen, Resultatbolk.this);
+					new Utleievindu(registret, boligen, Resultatbolk.this);
 				}
 			});
 			boligknapper.add(leiut, gc66);
