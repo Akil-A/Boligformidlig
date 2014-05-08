@@ -1,9 +1,11 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 abstract public class Bolig implements Serializable
 {
 	private Date annonsedato;
+	private ArrayList<Boligsoker> interesserte;
 	
 	private Utleier utleier;
 	private String adresse;
@@ -31,6 +33,20 @@ abstract public class Bolig implements Serializable
 	{
 		return annonsedato;
 	}
+	
+	public ArrayList<Boligsoker> getInteresserte()
+	{
+		return interesserte;
+	}
+	
+	public void leggtilInteressert(Boligsoker b)
+	{
+		interesserte.add(b);
+	}
+	
+	
+	///// slett-metode
+	
 	
 	public Utleier getUtleier()
 	{
