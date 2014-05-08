@@ -28,7 +28,8 @@ public class Hovedvindu extends JFrame
 		
 		final JTabbedPane tabbedPane = new JTabbedPane();
 		
-		JComponent boligpanel = new Boligpanel(br);
+		final JComponent boligpanel = new Boligpanel(br);
+		boligpanel.setName("boligpanelet");
 		tabbedPane.addTab("Boliger", boligpanel);
 		final JComponent personpanel = new Personpanel(br);
 		personpanel.setName("personpanelet");
@@ -43,8 +44,12 @@ public class Hovedvindu extends JFrame
 		tabbedPane.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent e)
-			{	
-				if (tabbedPane.getSelectedComponent().getName() == "personpanelet")
+			{
+				if (tabbedPane.getSelectedComponent().getName() == "boligpanelet")
+				{
+					((Boligpanel)boligpanel).oppdaterBoligsokerliste(null);
+				}
+				else if (tabbedPane.getSelectedComponent().getName() == "personpanelet")
 				{
 					((Personpanel)personpanel).oppdaterBoligsokerliste();
 					((Personpanel)personpanel).oppdaterUtleierliste();
@@ -262,3 +267,4 @@ public class Hovedvindu extends JFrame
 		});
 	}
 }
+
