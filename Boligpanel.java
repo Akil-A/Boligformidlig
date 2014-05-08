@@ -472,7 +472,7 @@ public class Boligpanel extends JPanel
 			
 			if (bVisledige && !bVisutleide)
 				sokeliste = register.getLedige();
-			else if (bVisutleide && !bVisledige)
+			else if (!bVisledige && bVisutleide)
 				sokeliste = register.getUtleide();
 			else
 				sokeliste = register.getBoliger();
