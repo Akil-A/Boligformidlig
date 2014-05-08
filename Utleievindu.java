@@ -40,7 +40,7 @@ public class Utleievindu extends JFrame
         avbryt.addActionListener(lytter);
         lstartDato = new JLabel("Start dato: ");
         lsluttDato = new JLabel("Slutt dato: ");
-        ldato = new JLabel("<html>Dato format: dd/MM/yyyy<br>eks: 21/06/2010</html>");
+        ldato = new JLabel("<html>Dato format: dd/mm/yyyy<br>eks: 21/06/2010</html>");
         startDato = new JTextField(9);
         startDato.setEditable(false);
         startDato.setText(tilStandardDatostreng(Calendar.getInstance()));
@@ -166,7 +166,7 @@ public class Utleievindu extends JFrame
 				
 				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligen, sluttdato);
 				register.settInnKontrakt(kontrakten);
-				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>Sluttdato: " + sluttdato.get(Calendar.DATE)+ "/"+ (sluttdato.get(Calendar.MONTH) + 1) + "/" + sluttdato.get(Calendar.YEAR) + "</html>");
+				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt!<br>Sluttdato: " + sluttdato.get(Calendar.DATE)+ "/"+ (sluttdato.get(Calendar.MONTH) + 1) + "/" + sluttdato.get(Calendar.YEAR) + "</html>");
 				resultatbolken.oppdater();
 				dispose();
 			}
