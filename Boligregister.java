@@ -14,14 +14,12 @@ public class Boligregister implements Serializable
 	private ArrayList<Person> personer;
 	private ArrayList<Bolig> boliger;
 	private ArrayList<Kontrakt> kontrakter;
-	private ArrayList<Interesse> interesser;
 	
-	public Boligregister(ArrayList<Person> p, ArrayList<Bolig> b, ArrayList<Kontrakt> k, ArrayList<Interesse> i)
+	public Boligregister(ArrayList<Person> p, ArrayList<Bolig> b, ArrayList<Kontrakt> k)
 	{
 		personer = p;
 		boliger = b;
 		kontrakter = k;
-		interesser = i;
 	}
 	
 	
@@ -44,16 +42,9 @@ public class Boligregister implements Serializable
 		return false;
 	}
 
-	public boolean slettPerson(Person personen)
+	public boolean slettPerson(Person p)
 	{
-		for (Person p : personer)
-			if (p == personen)
-			{
-				personer.remove(personen);
-				return true;
-			}
-		
-		return false;
+		return personer.remove(p);
 	}
 	
 	public ArrayList<Person> getPersoner()
@@ -106,16 +97,9 @@ public class Boligregister implements Serializable
 		boliger.add(b);
 	}
 	
-	public boolean slettBolig(Bolig boligen)
+	public boolean slettBolig(Bolig b)
 	{
-		for (Bolig b : boliger)
-			if (b == boligen)
-			{
-				boliger.remove(boligen);
-				return true;
-			}
-		
-		return false;
+		return boliger.remove(b);
 	}
 	
 	public ArrayList<Bolig> getUtleide()
@@ -199,37 +183,6 @@ public class Boligregister implements Serializable
 				counter++;
 		
 		return counter;
-	}
-
-	
-	
-	
-	
-	
-	// ###############################################################################################
-	// INTERESSE-METODER
-	// ###############################################################################################
-		
-	public void settInnInteresse(Interesse i)
-	{
-		interesser.add(i);
-	}	
-	
-	public ArrayList<Interesse> getInteresser()
-	{
-		return interesser;
-	}
-	
-	public boolean slettInteresse(Interesse interessen)
-	{
-		for (Interesse i : interesser)
-			if (i == interessen)
-			{
-				interesser.remove(interessen);
-				return true;
-			}
-		
-		return false;
 	}
 }
 
