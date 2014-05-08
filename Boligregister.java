@@ -111,7 +111,8 @@ public class Boligregister implements Serializable
 	
 	public ArrayList<Bolig> getLedige()
 	{
-		ArrayList<Bolig> l = getBoliger();
+		ArrayList<Bolig> l = new ArrayList<>();
+		l.addAll(getBoliger());
 		l.removeAll(getUtleide());
 		
 		return l;
@@ -175,7 +176,7 @@ public class Boligregister implements Serializable
 		int counter = 0;
 		
 		for (Kontrakt k : kontrakter)
-			if ( (k.getStartdato().get(k.getStartdato().YEAR))  == Calendar.getInstance().get(Calendar.YEAR) )
+			if ( (k.getStartdato().get(Calendar.YEAR))  == Calendar.getInstance().get(Calendar.YEAR) )
 				counter++;
 		
 		return counter;
