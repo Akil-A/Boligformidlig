@@ -372,8 +372,10 @@ public class Boligpanel extends JPanel
 
         leggtilFokuslyttere(venstreFilterPanel, new VenstreFilterFokuslytter());
         leggtilFokuslyttere(hoyreFilterPanel, new HoyreFilterFokuslytter());
-        velgVenstreFilterPanel();
 
+		sokeliste = new ArrayList<>();
+ 	   	sokeliste.addAll(register.getBoliger());
+        
         utforBlanktSok();
 	}
 	
@@ -456,8 +458,6 @@ public class Boligpanel extends JPanel
 	public void utforBlanktSok()
 	{
 		nullstill();
-		genereltSok = true;
- 	   	sokeliste = register.getBoliger();
 		listBoliger();
 	}
 	
@@ -471,13 +471,11 @@ public class Boligpanel extends JPanel
 			boolean bVisutleide = visutleide.isSelected();
 			
 			if (bVisledige && !bVisutleide)
-				sokeliste = register.getLedige();
+				sokeliste.addAll(register.getLedige());
 			else if (!bVisledige && bVisutleide)
-				sokeliste = register.getUtleide();
+				sokeliste.addAll(register.getUtleide());
 			else
-				sokeliste = register.getBoliger();
-			
-			ArrayList<Bolig> sokeliste1 = new ArrayList<>();
+				sokeliste.addAll(register.getBoliger());
 			
 			String sAdresse = adr.getText();
 			String sTogst = beliggenhet.getText();
@@ -501,6 +499,8 @@ public class Boligpanel extends JPanel
 			boolean bGarasje = garasje.isSelected();
 			boolean bVaskeri = vask.isSelected();
 			boolean bMaaliggeiforste = maaliggeiforste.isSelected();
+			
+			ArrayList<Bolig> sokeliste1 = new ArrayList<>();
 			
 			for (Bolig b : sokeliste)
 				if ((b.getAdresse().toLowerCase().contains(sAdresse.toLowerCase())) &&
