@@ -40,7 +40,7 @@ public class Utleievindu extends JFrame
         avbryt.addActionListener(lytter);
         lstartDato = new JLabel("Start dato: ");
         lsluttDato = new JLabel("Slutt dato: ");
-        ldato = new JLabel("<html>Dato format: dd/mm/yyyy<br>eks: 21/06/2010</html>");
+        ldato = new JLabel("<html>Dato format: dd/MM/yyyy<br>eks: 21/06/2010</html>");
         startDato = new JTextField(9);
         startDato.setEditable(false);
         startDato.setText(tilStandardDatostreng(Calendar.getInstance()));
@@ -49,7 +49,8 @@ public class Utleievindu extends JFrame
         /********* DEFINERING AV KOMPONENTER SLUTT *********/
         
         /********* POPULERING AV LISTER START *********/
-        ArrayList<Boligsoker> boligsokere = register.getBoligsokere();
+        ArrayList<Boligsoker> boligsokere = new ArrayList<>();
+        boligsokere.addAll(register.getBoligsokere());
         bModel = new DefaultListModel<Boligsoker>();
         Iterator<Boligsoker> iterator2 = boligsokere.iterator();
         while(iterator2.hasNext())
@@ -109,9 +110,7 @@ public class Utleievindu extends JFrame
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
-		{	
-            String feilmelding = "";
-
+		{
 			if(e.getSource() == avbryt)
 			{
     			dispose();
@@ -120,14 +119,14 @@ public class Utleievindu extends JFrame
 			{
 				if(bList.isSelectionEmpty())
 				{
-					feilmelding += "&bull; Du m&aring; velge en boligs&oslash;ker fra listen<br>";
-					
+					JOptionPane.showMessageDialog(null,"<html>Du m&aring; velge en fra listen!</html>");
+					return;
 				}
 				
 				if(sluttDato.getText().equals(""))
 				{
-					feilmelding += "&bull;Du m&aring; skrive inn en sluttdato<br>";
-					
+					JOptionPane.showMessageDialog(null,"<html>Du m&aring; skrive inn en sluttdato!</html>");
+					return;
 				}
 					
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault());
@@ -144,29 +143,25 @@ public class Utleievindu extends JFrame
 			    }
 			    catch(ParseException pe)
 			    {
-			    	feilmelding += "&bull; Datoformatet er feil<br>";
+			    	JOptionPane.showMessageDialog(null, "Datoformatet er feil");
+			    	return;
 			    }
 			    
-			    
-			    if( !sdf.format(testSluttDato).equals(sluttDato.getText()))			    
-			    	feilmelding += "&bull; Datoformatet er feil<br>";
-
-			    
+			    if( !sdf.format(testSluttDato).equals(sluttDato.getText()))
+			    {
+			    	JOptionPane.showMessageDialog(null, "Datoformatet er feil");
+			    	return;
+			    }
 			    
 			    if(testSluttDato.before(new Date()))
-					feilmelding += "&bull; Sluttdatoen kan ikke v&aelig;re f&oslash;r dagens dato!"; 
-			    
-			    if (!feilmelding.isEmpty())
-                {
-                        JOptionPane.showMessageDialog(null, "<html>" + feilmelding + "</html>", "Problem",
-                                JOptionPane.PLAIN_MESSAGE);
-                        return;
-                }
-
+			    {
+					JOptionPane.showMessageDialog(null,"<html>Sluttdatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>"); 
+					return;
+			    }
 				
 				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligen, sluttdato);
 				register.settInnKontrakt(kontrakten);
-				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt!<br>Sluttdato: " + sluttdato.get(Calendar.DATE)+ "/"+ (sluttdato.get(Calendar.MONTH) + 1) + "/" + sluttdato.get(Calendar.YEAR) + "</html>");
+				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>sluttdato: " + sluttdato.get(Calendar.DATE)+ " / "+ (sluttdato.get(Calendar.MONTH) + 1) + " / " + sluttdato.get(Calendar.YEAR) + "</html>");
 				resultatbolken.oppdater();
 				dispose();
 			}
