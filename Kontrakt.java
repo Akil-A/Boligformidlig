@@ -8,24 +8,21 @@ public class Kontrakt implements Serializable
 	private Bolig bolig;
 	private Calendar startdato;
 	private Calendar sluttdato;
-	private Calendar oppsagtDato;
-	private Date skrevetDato;
+	private Calendar oppsigelsesdato;
 	private String oppsigelsesgrunn;
 	
-	public Kontrakt(Boligsoker leietaker, Bolig bolig, Calendar startdato, Calendar sluttdato)
+	public Kontrakt(Boligsoker leietaker, Bolig bolig, Calendar sluttdato)
 	{
-		skrevetDato = new Date();
-		
 		this.leietaker = leietaker;
 		this.bolig = bolig;
-		this.startdato = startdato;
+		this.startdato = Calendar.getInstance();
 		this.sluttdato = sluttdato;
 	}
 	
 	public boolean getFungerer()
 	{
 		Calendar cal = Calendar.getInstance();
-		return sluttdato.after(cal) && (oppsagtDato == null || oppsagtDato.after(cal));
+		return sluttdato.after(cal) && (oppsigelsesdato == null || oppsigelsesdato.after(cal));
 	}
 
 	public Boligsoker getLeietaker()
@@ -33,19 +30,9 @@ public class Kontrakt implements Serializable
 		return leietaker;
 	}
 
-	public void setLeietaker(Boligsoker b)
-	{
-		this.leietaker = b;
-	}
-
 	public Bolig getBolig()
 	{
 		return bolig;
-	}
-
-	public void setBolig(Bolig bolig)
-	{
-		this.bolig = bolig;
 	}
 
 	public Calendar getStartdato()
@@ -63,19 +50,14 @@ public class Kontrakt implements Serializable
 		return sluttdato;
 	}
 
-	public void setSluttdato(Calendar sluttdato)
+	public Calendar getOppsigelsesdato()
 	{
-		this.sluttdato = sluttdato;
+		return oppsigelsesdato;
 	}
 
-	public Calendar getOppsagtDato()
+	public void setOppsigelsesdato(Calendar oppsigelsesdato)
 	{
-		return oppsagtDato;
-	}
-
-	public void setOppsagtDato(Calendar oppsagtDato)
-	{
-		this.oppsagtDato = oppsagtDato;
+		this.oppsigelsesdato = oppsigelsesdato;
 	}
 
 	public String getOppsigelsesgrunn()
@@ -86,10 +68,5 @@ public class Kontrakt implements Serializable
 	public void setOppsigelsesgrunn(String oppsigelsesgrunn)
 	{
 		this.oppsigelsesgrunn = oppsigelsesgrunn;
-	}
-	
-	public Date getSkrevetDato()
-	{
-		return skrevetDato;
 	}
 }
