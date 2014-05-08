@@ -197,10 +197,10 @@ public class Kontraktvindu extends JFrame
 		add(pKnapp, gc);
 		/********* LAYOUT SLUTT *********/
 		
-	    if(kontrakten.getOppsagtDato() != null)
+	    if(kontrakten.getOppsigelsesdato() != null)
 	    {
 	    	DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-	    	String oppsagtdato = f.format(kontrakten.getOppsagtDato().getTime());
+	    	String oppsagtdato = f.format(kontrakten.getOppsigelsesdato().getTime());
 	    	oppsigelsesdato.setText(oppsagtdato);
 	    	oppsigelsesdato.setEditable(false);
 	    	oppsigelsesgrunn.setText(kontrakten.getOppsigelsesgrunn());
@@ -210,7 +210,7 @@ public class Kontraktvindu extends JFrame
 	    }
 	    
 	    if(kontrakten.getSluttdato().getTime().before(new Date()) ||
-	    		(kontrakten.getOppsagtDato() != null && kontrakten.getOppsagtDato().getTime().before(new Date())))
+	    		(kontrakten.getOppsigelsesdato() != null && kontrakten.getOppsigelsesdato().getTime().before(new Date())))
 		{
 			oppsigelsesdato.setEditable(false);
 			oppsigelsesgrunn.setEditable(false);
@@ -231,11 +231,10 @@ public class Kontraktvindu extends JFrame
 		    Date testStartdato = null;
 		    Date testSluttdato = null;
 		    
-			if(e.getSource() == siopp)
+			if(e.getSource() == siopp || e.getSource() == lagre)
 			{
 			    try
 		        {
-		    
 		    		testOppsigelsesdato = sdf.parse(oppsigelsesdato.getText());
 		    		testStartdato = sdf.parse(startdato.getText());
 		    		testSluttdato = sdf.parse(sluttdato.getText());
@@ -264,14 +263,24 @@ public class Kontraktvindu extends JFrame
 					JOptionPane.showMessageDialog(null,"<html>Oppsigelsestiden m&aring; v&aelig;re mellom start og sluttdato, og ikke lik start eller sluttdato!</html>");
 					return;
 				}
+			    
 			    Calendar oppsigelsesdato = Calendar.getInstance();
 			    oppsigelsesdato.setTime(testOppsigelsesdato);
-			    kontrakten.setOppsagtDato(oppsigelsesdato);
+			    kontrakten.setOppsigelsesdato(oppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
 				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
 				kontraktpanelet.oppdaterFungerendeListe();
 				kontraktpanelet.oppdaterUtgaattListe();
-				JOptionPane.showMessageDialog(null,"Kontrakten er sagt opp!");
+				
+				String melding = "";
+				
+				if (e.getSource() == siopp)
+					melding = "Kontrakten er sagt opp!";
+				else
+					melding = "Oppsigelsesdetaljer er endret!";
+				
+				JOptionPane.showMessageDialog(null,melding);
+				
 				dispose();
 			}
 			else if(e.getSource() == endre)
@@ -281,51 +290,6 @@ public class Kontraktvindu extends JFrame
 				endre.setVisible(false);
 				siopp.setVisible(false);
 				lagre.setVisible(true);			
-			}
-			else if(e.getSource() == lagre)
-			{
-				try
-		        {
-		    		testOppsigelsesdato = sdf.parse(oppsigelsesdato.getText());
-		    		testStartdato = sdf.parse(startdato.getText());
-		    		testSluttdato = sdf.parse(sluttdato.getText());
-		        }
-			    catch(ParseException pe)
-			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i datoformat!");
-			    	return;
-			    }
-			    
-			    if( !sdf.format(testOppsigelsesdato).equals(oppsigelsesdato.getText()))
-			    {
-			    	JOptionPane.showMessageDialog(null, "Feil i datoformat!");
-			    	return;
-			    }
-			    
-			    if(testOppsigelsesdato.before(new Date()))
-			    {
-			    	JOptionPane.showMessageDialog(null, "<html>Oppsigelsedatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>");
-			    	return;
-			    }
-			    
-			    if(testOppsigelsesdato.before(testStartdato) || testOppsigelsesdato.after(testSluttdato) || testOppsigelsesdato.equals(testStartdato)
-			    		|| testOppsigelsesdato.equals(testSluttdato))
-				{	
-					
-					JOptionPane.showMessageDialog(null, "<html>Oppsigelsestiden m&aring; v&aelig;re mellom start og sluttdato, og ikke lik start eller sluttdato!</html>");
-					return;
-				}
-			    
-			    Calendar oppsigelsesdato = Calendar.getInstance();
-			    oppsigelsesdato.setTime(testOppsigelsesdato);
-			    kontrakten.setOppsagtDato(oppsigelsesdato);
-				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
-				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
-				kontraktpanelet.oppdaterFungerendeListe();
-				kontraktpanelet.oppdaterUtgaattListe();
-				JOptionPane.showMessageDialog(null,"Oppsigelsesdetaljer er endret!");
-				
-				dispose();
 			}
 			else if(e.getSource() == avbryt)
 			{
