@@ -372,9 +372,6 @@ public class Boligpanel extends JPanel
 
         leggtilFokuslyttere(venstreFilterPanel, new VenstreFilterFokuslytter());
         leggtilFokuslyttere(hoyreFilterPanel, new HoyreFilterFokuslytter());
-
-		sokeliste = new ArrayList<>();
- 	   	sokeliste.addAll(register.getBoliger());
         
         utforBlanktSok();
 	}
@@ -455,9 +452,17 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
-	public void utforBlanktSok()
+	private void utforBlanktSok()
 	{
 		nullstill();
+		sokeliste = new ArrayList<>();
+		sokeliste.addAll(register.getBoliger());
+		listBoliger();
+	}
+	
+	public void utforSok()
+	{
+		lagSok();
 		listBoliger();
 	}
 	
@@ -584,7 +589,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
-	public void listBoliger()
+	private void listBoliger()
 	{
 		switch (sortering.getSelectedIndex())
 		{
