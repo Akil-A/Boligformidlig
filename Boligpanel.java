@@ -568,9 +568,9 @@ public class Boligpanel extends JPanel
 							bKravLeilighet && b instanceof Leilighet ||
 							(!bKravEnebolig && !bKravRekkehus && !bKravRekkehus))
 							&&
-							(iKravArealFra == 0 || iKravArealFra < b.getBoareal())
+							(iKravArealFra == 0 || iKravArealFra <= b.getBoareal())
 							&&
-							(iKravArealTil == 0 || iKravArealTil > b.getBoareal())
+							(iKravArealTil == 0 || iKravArealTil >= b.getBoareal())
 							&&
 							(iKravMaksPris == 0 || iKravMaksPris >= b.getUtleiepris())
 							&&
