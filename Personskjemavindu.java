@@ -218,9 +218,9 @@ public class Personskjemavindu extends JFrame
         gc.gridx = 1;
         personopplysninger.add(adresse, gc);
         gc.gridx = 2;
-        personopplysninger.add(new JLabel("* Telefon: "), gc);
+        personopplysninger.add(new JLabel("* Poststed: "), gc);
         gc.gridx = 3;
-        personopplysninger.add(telefon, gc);
+        personopplysninger.add(poststed, gc);
         
         gc.gridy = 2;
         gc.gridx = 0;
@@ -228,9 +228,9 @@ public class Personskjemavindu extends JFrame
         gc.gridx = 1;
         personopplysninger.add(postnr, gc);
         gc.gridx = 2;
-        personopplysninger.add(new JLabel("* Poststed: "), gc);
+        personopplysninger.add(new JLabel("* Telefon: "), gc);
         gc.gridx = 3;
-        personopplysninger.add(poststed, gc);
+        personopplysninger.add(telefon, gc);
         
         gc.gridy = 3;
         gc.gridx = 0;
@@ -487,7 +487,7 @@ public class Personskjemavindu extends JFrame
 	            		}
 	            	
 	            	
-	            	if (JOptionPane.showConfirmDialog( null, "Er du sikker på at du vil slette personen? Dette kan ikke reverseres.",
+	            	if (JOptionPane.showConfirmDialog( null, "Er du sikker p�� at du vil slette personen? Dette kan ikke reverseres.",
 	            			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
 	            	{
 		            	register.slettPerson(personen);
