@@ -243,6 +243,7 @@ public class Hovedvindu extends JFrame
 				hv.setSize(900, 700);
 				hv.setVisible(true);
 				hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
+				hv.setExtendedState(Frame.MAXIMIZED_BOTH);
 				
 				hv.addWindowListener(new WindowAdapter()
 				{
