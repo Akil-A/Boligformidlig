@@ -44,9 +44,10 @@ abstract public class Bolig implements Serializable
 		interesserte.add(b);
 	}
 	
-	
-	///// slett-metode
-	
+	public boolean fjernInteressert(Boligsoker b)
+	{
+		return interesserte.remove(b);
+	}
 	
 	public Utleier getUtleier()
 	{
