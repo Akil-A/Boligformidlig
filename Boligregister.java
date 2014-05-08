@@ -5,9 +5,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import javax.swing.JOptionPane;
 
 public class Boligregister implements Serializable
 {
@@ -106,9 +103,8 @@ public class Boligregister implements Serializable
 	{
 		ArrayList<Bolig> u = new ArrayList<>();
 		
-		for (Kontrakt k : kontrakter)
-			if (k.getFungerer())
-				u.add(k.getBolig());
+		for (Kontrakt k : getFungerende())
+			u.add(k.getBolig());
 		
 		return u;
 	}
