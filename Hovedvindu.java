@@ -14,7 +14,6 @@ public class Hovedvindu extends JFrame
 	public Boligregister br;
 	private String DATAFIL = "register.dta";
 	private JButton lagre;
-	private TimerHandling timerHandling;
 	private Timer timer;
 	private Color standardKnappebakgrunn;
 	
@@ -103,20 +102,16 @@ public class Hovedvindu extends JFrame
 					Calendar c = Calendar.getInstance();
 					c.add(Calendar.SECOND, 2);
 					
-					timerHandling = new TimerHandling();
 					timer = new Timer();
-					timer.schedule(timerHandling, c.getTime());
+					timer.schedule(new TimerTask() {
+							public void run()
+							{
+								lagre.setBackground(standardKnappebakgrunn);
+								lagre.setText("LAGRE");
+							}
+						}, c.getTime());
 				}
 			}
-		}
-	}
-	
-	private class TimerHandling extends TimerTask
-	{
-		public void run()
-		{
-			lagre.setBackground(standardKnappebakgrunn);
-			lagre.setText("LAGRE");
 		}
 	}
 	
@@ -257,7 +252,9 @@ public class Hovedvindu extends JFrame
 							System.exit( 0 );
 						else
 						{
-							int i = JOptionPane.showConfirmDialog(null, "Data kan ikke lagres til fil. Vil du avslutte?", "asdf", JOptionPane.YES_NO_OPTION);
+							int i = JOptionPane.showConfirmDialog(null, "<html>Data kan ikke lagres p&aring; fil. Vil du avslutte?</html>",
+									"Bekreft", JOptionPane.YES_NO_OPTION);
+							
 							if (i == JOptionPane.YES_OPTION)
 								System.exit(0);
 						}
