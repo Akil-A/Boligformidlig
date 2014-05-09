@@ -517,10 +517,10 @@ public class Boligskjemavindu extends JFrame
     			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || stittel.isEmpty() ||
     					sadresse.isEmpty() || spoststed.isEmpty() || sboareal.isEmpty() ||
     					sbyggeaar.isEmpty() || spris.isEmpty())
-    				feilmelding += "&bull; Du m&aring; fylle inn alle obligatoriske felter.<br>";
+    				feilmelding += "&#8594; Du m&aring; fylle inn alle obligatoriske felter.<br>";
     			
     			if (!erTall(spostnr) || spostnr.length() != 4)
-    				feilmelding += "&bull; Postnummer m&aring; ha fire siffer.<br>";
+    				feilmelding += "&#8594; Postnummer m&aring; ha fire siffer.<br>";
     			
     			if (!erTall(sboareal) || !erTall(santrom) || !erTall(sbyggeaar) || !erTall(spris) || 
     					(
@@ -533,10 +533,10 @@ public class Boligskjemavindu extends JFrame
     							!erTall(sliggerietasje)
     					)
     				)
-    				feilmelding += "&bull; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
+    				feilmelding += "&#8594; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
     			
     			if (!benebolig && !brekkehus && !bleilighet)
-    				feilmelding += "&bull; Du m&aring; velge en boligtype (enebolig, rekkehus, leilighet)<br>";
+    				feilmelding += "&#8594; Du m&aring; velge en boligtype (enebolig, rekkehus, leilighet)<br>";
     			
 	            if (!feilmelding.isEmpty())
 	            {	            	
@@ -782,7 +782,7 @@ public class Boligskjemavindu extends JFrame
     		}
     		else if (e.getSource() == slett)
     		{
-            	if (JOptionPane.showConfirmDialog( null, "Er du sikker på at du vil slette boligen? Dette kan ikke reverseres.",
+            	if (JOptionPane.showConfirmDialog( null, "Er du sikker pÃ¥ at du vil slette boligen? Dette kan ikke reverseres.",
             			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
             	{
             		registret.slettBolig(boligen);
