@@ -22,12 +22,12 @@ public class Boligpanel extends JPanel
 							vismatch, visinteresser;
 	private JComboBox<Boligsoker> boligsokere;
 	private JComboBox<String> sortering;
-	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel, venstreFilterPanel;
-	private JScrollPane filterPanel, listePanel;
+	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel;
+	private JScrollPane venstreFilterPanel, listePanel;
 	private JButton boligsokerdetaljer = new JButton("Detaljer"), sok, nullstill, registrer;
 	private JLabel antallresultater;
 	private Boligregister register;
-	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/12/2013";
+	private final String ANNONSEDATO_EKS_TEKST = "eks: 21/06/2013";
 	private final Font LITENKURSIVFONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
 	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
 	private boolean genereltSok;
@@ -179,7 +179,7 @@ public class Boligpanel extends JPanel
 		pLeilighet.setVisible(false);
 		
 		
-		venstreFilterPanel = new JPanel(new GridBagLayout());
+		final JPanel venstreIndreFilterPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
         gc.anchor = GridBagConstraints.CENTER;
         
@@ -189,34 +189,34 @@ public class Boligpanel extends JPanel
         						 "La feltene st&aring; tomme for &aring; vise alle.</center></html>");
         tips.setFont(LITENKURSIVFONT);
         gc.insets.bottom = 5;
-        venstreFilterPanel.add(tips, gc);
+        venstreIndreFilterPanel.add(tips, gc);
         gc.insets.bottom = 0;
         
         gc.gridy = 1;
-        venstreFilterPanel.add(pAdresse, gc);
+        venstreIndreFilterPanel.add(pAdresse, gc);
         
         gc.gridy = 2;
-        venstreFilterPanel.add(pBeliggenhet, gc);
+        venstreIndreFilterPanel.add(pBeliggenhet, gc);
         
         gc.gridy = 3;
-        venstreFilterPanel.add(pPost, gc);
+        venstreIndreFilterPanel.add(pPost, gc);
       
         gc.gridy = 4;
-        venstreFilterPanel.add(pAnnonsedato,gc);
+        venstreIndreFilterPanel.add(pAnnonsedato,gc);
         
         gc.gridy = 5;
-        venstreFilterPanel.add(pPrisen, gc);
+        venstreIndreFilterPanel.add(pPrisen, gc);
         
         gc.gridy = 6;
-        venstreFilterPanel.add(pBoareal, gc);
+        venstreIndreFilterPanel.add(pBoareal, gc);
        
         gc.gridy = 7;
-        venstreFilterPanel.add(pType, gc);
+        venstreIndreFilterPanel.add(pType, gc);
        
         gc.gridy = 8;
-        venstreFilterPanel.add(pEneRekke, gc);
-        venstreFilterPanel.add(pLeilighet, gc);
-        venstreFilterPanel.addMouseListener(new MouseListener() {
+        venstreIndreFilterPanel.add(pEneRekke, gc);
+        venstreIndreFilterPanel.add(pLeilighet, gc);
+        venstreIndreFilterPanel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e)
 			{
 			}
@@ -229,12 +229,14 @@ public class Boligpanel extends JPanel
 			public void mousePressed(MouseEvent e)
 			{
 				velgVenstreFilterPanel();
-				venstreFilterPanel.requestFocus();
+				venstreIndreFilterPanel.requestFocus();
 			}
 			public void mouseReleased(MouseEvent e)
 			{
 			}
         });
+        
+        venstreFilterPanel = new JScrollPane(venstreIndreFilterPanel);
 		
 		// #####################################################
 		// VENSTRE FILTERPANEL SLUTT
@@ -251,7 +253,7 @@ public class Boligpanel extends JPanel
 		
 		vismatch = new JCheckBox("Vis boliger som matcher krav");
 		vismatch.setSelected(true);
-		visinteresser = new JCheckBox("<html>Vis boliger som denne boligs&oslash;ker har vist interesse for</html>");
+		visinteresser = new JCheckBox("<html>Vis boliger som denne boligs&oslash;ker er interessert i</html>");
 		visinteresser.setSelected(true);
 		
 		GridBagConstraints hfGc = new GridBagConstraints();
@@ -299,23 +301,21 @@ public class Boligpanel extends JPanel
 		// #####################################################
         
         
-        JComponent innerFilterPanel = new JPanel(new GridBagLayout());
+        JPanel filterPanel = new JPanel(new GridBagLayout());
+		filterPanel.setBorder(BorderFactory.createTitledBorder("<html>S&oslash;kefilter</html>"));
+		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300));
         GridBagConstraints gc1 = new GridBagConstraints();
         gc1.anchor = GridBagConstraints.NORTH;
         gc1.gridx = 1;
-        innerFilterPanel.add(new JLabel(" -eller- "), gc1);
+        filterPanel.add(new JLabel(" -eller- "), gc1);
         gc1.weightx = 1.0;
         gc1.weighty = 1.0;
         gc1.fill = GridBagConstraints.BOTH;
         gc1.gridx = 0;
-        innerFilterPanel.add(venstreFilterPanel, gc1);
+        filterPanel.add(venstreFilterPanel, gc1);
         gc1.gridx = 2;
-        innerFilterPanel.add(hoyreFilterPanel, gc1);
-        
-        
-		filterPanel = new JScrollPane(innerFilterPanel);
-        filterPanel.setBorder(BorderFactory.createTitledBorder("<html>S&oslash;kefilter</html>"));
-		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300)); // (bredde, hoyde)
+        filterPanel.add(hoyreFilterPanel, gc1);
+
 		
 		// #####################################################
 		// KNAPPEPANEL START
@@ -370,7 +370,7 @@ public class Boligpanel extends JPanel
 		add(nordPanel, BorderLayout.NORTH);
 
 
-        leggtilFokuslyttere(venstreFilterPanel, new VenstreFilterFokuslytter());
+        leggtilFokuslyttere(venstreIndreFilterPanel, new VenstreFilterFokuslytter());
         leggtilFokuslyttere(hoyreFilterPanel, new HoyreFilterFokuslytter());
         
         utforBlanktSok();
@@ -712,6 +712,46 @@ public class Boligpanel extends JPanel
 		revalidate();
 	}
 	
+	public void velgEnebolig()
+	{
+		enebolig.setSelected(true);
+		rekkehus.setSelected(false);
+		leilighet.setSelected(false);
+		
+		pEneRekke.setVisible(true);
+		pLeilighet.setVisible(false);
+	}
+	
+	public void velgRekkehus()
+	{
+		enebolig.setSelected(false);
+		rekkehus.setSelected(true);
+		leilighet.setSelected(false);
+		
+		pEneRekke.setVisible(true);
+		pLeilighet.setVisible(false);
+	}
+	
+	public void velgLeilighet()
+	{
+		enebolig.setSelected(false);
+		rekkehus.setSelected(false);
+		leilighet.setSelected(true);
+		
+		pEneRekke.setVisible(false);
+		pLeilighet.setVisible(true);
+	}
+	
+	public void velgIngentype()
+	{
+		enebolig.setSelected(false);
+		rekkehus.setSelected(false);
+		leilighet.setSelected(false);
+		
+		pEneRekke.setVisible(false);
+		pLeilighet.setVisible(false);
+	}
+	
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -719,36 +759,13 @@ public class Boligpanel extends JPanel
 			if (e.getSource() == enebolig || e.getSource() == leilighet || e.getSource() == rekkehus)
 			{
 	        	if (e.getSource() == enebolig && enebolig.isSelected())
-	        	{
-	        		leilighet.setSelected(false);
-	        		rekkehus.setSelected(false);
-	        	}
-	        	else if (e.getSource() == leilighet && leilighet.isSelected())
-	        	{
-	        		enebolig.setSelected(false);
-	        		rekkehus.setSelected(false);
-	        	}
+	        		velgEnebolig();
 	        	else if (e.getSource() == rekkehus && rekkehus.isSelected())
-	        	{
-	        		enebolig.setSelected(false);
-	        		leilighet.setSelected(false);
-	        	}
-	        	
-	        	if (enebolig.isSelected() || rekkehus.isSelected())
-	        	{
-	        		pEneRekke.setVisible(true);
-	        		pLeilighet.setVisible(false);
-	        	}
-	        	else if (leilighet.isSelected())
-	        	{
-	        		pEneRekke.setVisible(false);
-	        		pLeilighet.setVisible(true);
-	        	}
+	        		velgRekkehus();
+	        	else if (e.getSource() == leilighet && leilighet.isSelected())
+	        		velgLeilighet();
 	        	else
-	        	{
-	        		pEneRekke.setVisible(false);
-	        		pLeilighet.setVisible(false);
-	        	}
+	        		velgIngentype();
 			}
 			else if (e.getSource() == registrer)
 				new Boligskjemavindu(register, Boligpanel.this);
@@ -810,6 +827,7 @@ public class Boligpanel extends JPanel
 		vask.setSelected(false);
 		maaliggeiforste.setSelected(false);
 		velgVenstreFilterPanel();
+		velgIngentype();
 	}
 	
 }
