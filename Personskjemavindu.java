@@ -487,7 +487,7 @@ public class Personskjemavindu extends JFrame
 	            		}
 	            	
 	            	
-	            	if (JOptionPane.showConfirmDialog( null, "Er du sikker p�� at du vil slette personen? Dette kan ikke reverseres.",
+	            	if (JOptionPane.showConfirmDialog( null, "Er du sikker pï¿½ï¿½ at du vil slette personen? Dette kan ikke reverseres.",
 	            			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
 	            	{
 		            	register.slettPerson(personen);
@@ -536,10 +536,10 @@ public class Personskjemavindu extends JFrame
                     
                     if (sFornavn.isEmpty() || sEtternavn.isEmpty() || sAdresse.isEmpty() || sPostnr.isEmpty() ||
                     		sPoststed.isEmpty() || sTelefon.isEmpty())
-                        feilmelding += "&bull; Du m&aring; fylle inn alle felter som er merket med stjerne.<br>";
+                        feilmelding += "&#8594; Du m&aring; fylle inn alle felter som er merket med stjerne.<br>";
                     
                     if (!erTall(sPostnr) || sPostnr.length() != 4)
-                    	feilmelding += "&bull; Postnummer m&aring; v&aelig;re et tall p&aring; 4 siffer.<br>";
+                    	feilmelding += "&#8594; Postnummer m&aring; v&aelig;re et tall p&aring; 4 siffer.<br>";
                     
                     if (bBoligsoker)
                     {
@@ -549,7 +549,7 @@ public class Personskjemavindu extends JFrame
                     			(!sKravMinAntRom.isEmpty() && !erTall(sKravMinAntRom)) ||
                     			(!sKravMaksPris.isEmpty() && !erTall(sKravMaksPris)) ||
                     			(!sKravMinByggeaar.isEmpty() && !erTall(sKravMinByggeaar)))
-                    		feilmelding += "&bull; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
+                    		feilmelding += "&#8594; Feil i tallformat. Felter som skal v&aelig;re tall m&aring; v&aelig;re tall.<br>";
                     }
                     
                     if(!sKravFraStr.isEmpty() && erTall(sKravFraStr) && !sKravTilStr.isEmpty() && erTall(sKravTilStr))
@@ -558,7 +558,7 @@ public class Personskjemavindu extends JFrame
                     	int fraStorrelse = Integer.parseInt(sKravFraStr);
 
                     	if(tilStorrelse < fraStorrelse)
-                    		feilmelding += "&bull; Til st&oslash;rrelse i boareal kan ikke v&aelig;e mindre enn fra st&oslash;rrelse.<br>";
+                    		feilmelding += "&#8594; Til st&oslash;rrelse i boareal kan ikke v&aelig;e mindre enn fra st&oslash;rrelse.<br>";
                     }
                     
                     if (!feilmelding.isEmpty())
