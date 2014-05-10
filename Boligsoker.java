@@ -1,7 +1,10 @@
+// Klasse for person som er boligsøker
 
 public class Boligsoker extends Person
 {
-    private int antallPersoner;
+	private static final long serialVersionUID = 1L;
+	
+	private int antallPersoner;
     private String sivilstatus;
     private String yrke;
     private String arbeidsforhold;
