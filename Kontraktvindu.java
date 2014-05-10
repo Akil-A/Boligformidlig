@@ -255,6 +255,12 @@ public class Kontraktvindu extends JFrame
 		    
 			if(e.getSource() == siopp || e.getSource() == lagre)
 			{
+				if (oppsigelsesgrunn.getText().isEmpty())
+				{
+			    	JOptionPane.showMessageDialog(null, "Du må skrive en oppsigelsesgrunn.");
+			    	return;
+				}
+				
 			    try
 		        {
 		    		testOppsigelsesdato = sdf.parse(oppsigelsesdato.getText());
