@@ -1,9 +1,13 @@
+// Superklasse for alle boligtyper.
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 abstract public class Bolig implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private Date annonsedato;
 	private ArrayList<Boligsoker> interesserte;
 	
@@ -22,6 +26,7 @@ abstract public class Bolig implements Serializable
 	public Bolig(String adresse, String postnr, String poststed, int utleiepris)
 	{
 		annonsedato = new Date();
+		//interesserte = new ArrayList<>();
 		
 		this.adresse = adresse;
 		this.postnr = postnr;
