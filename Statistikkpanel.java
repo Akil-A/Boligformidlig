@@ -1,10 +1,12 @@
+// Vinduskomponent som viser statistikk.
+
 import java.awt.*;
 import javax.swing.*;
 
 public class Statistikkpanel extends JPanel
 {	
 	private Boligregister register;
-	private JLabel lantallBoliger, lantallUtleide;
+	private JLabel statistikken;
 	
 	public Statistikkpanel(Boligregister br)
 	{
@@ -16,25 +18,20 @@ public class Statistikkpanel extends JPanel
 		gc.gridx = 0;
 		gc.gridy = 0;
 		
-		add(new JLabel("Her kommer statistikk:"), gc);
-		
-		gc.gridy = 1;
-		
-		lantallBoliger = new JLabel();
-		add(lantallBoliger, gc);
-		
-		gc.gridy = 2;
-		
-		lantallUtleide = new JLabel();
-		add(lantallUtleide, gc);
-		
+		statistikken = new JLabel();
 		oppdaterStatistikk();
+		
+		add(statistikken, gc);
 	}
 	
 	public void oppdaterStatistikk()
 	{	
-		lantallBoliger.setText("Det er " + register.getBoliger().size() + " ledige boliger for utleie. " + register.getUtleide().size() + " boliger er leid ut.");
-		lantallUtleide.setText("<html>Det er " + register.getUtleideiAAr() + " leiekontrakter formidlet hittil i &aring;r.</html>");
+		String teksten = "<html>Det er " + register.getBoliger().size() + " bolig(er) registrert i systemet.<br>";
+		teksten += register.getLedige().size() + " bolig(er) er ledige.<br>";
+		teksten += register.getUtleide().size() + " bolig(er) er leid ut.<br>";
+		teksten += "Det er formidlet " + register.getUtleideiAAr() + " leiekontrakt(er) hittil i &aring;r.</html>";
+		
+		statistikken.setText(teksten);
 	}
 }
 
