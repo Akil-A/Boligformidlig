@@ -1,4 +1,4 @@
-//Denne klassen tar seg av opplisting og soking av bolig.
+// Vinduskomponent hvor man søker og lister opp boliger.
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,7 +31,8 @@ public class Boligpanel extends JPanel
 	private final Font LITENKURSIVFONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
 	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
 	private boolean genereltSok;
-	private ArrayList<Bolig> sokeliste;
+	
+	private ArrayList<Bolig> sokeliste; // denne listen inneholder søkeresultatet
 	
 	public Boligpanel(Boligregister br)
 	{
@@ -42,7 +43,7 @@ public class Boligpanel extends JPanel
 
 		
 		// #####################################################
-		// VENSTRE FILTERPANEL START
+		// VENSTRE TOPP FILTERPANEL START
 		// #####################################################
 		adr = new JTextField(20);
 		postnr = new JTextField(4);
@@ -239,12 +240,12 @@ public class Boligpanel extends JPanel
         venstreFilterPanel = new JScrollPane(venstreIndreFilterPanel);
 		
 		// #####################################################
-		// VENSTRE FILTERPANEL SLUTT
+		// VENSTRE TOPP FILTERPANEL SLUTT
 		// #####################################################
         
 
 		// #####################################################
-		// HOYRE FILTERPANEL START
+		// HOYRE TOPP FILTERPANEL START
 		// #####################################################
 
         boligsokere = new JComboBox<>();
@@ -297,13 +298,13 @@ public class Boligpanel extends JPanel
         });
 
 		// #####################################################
-		// HOYRE FILTERPANEL SLUTT
+		// HOYRE TOPP FILTERPANEL SLUTT
 		// #####################################################
         
         
         JPanel filterPanel = new JPanel(new GridBagLayout());
 		filterPanel.setBorder(BorderFactory.createTitledBorder("<html>S&oslash;kefilter</html>"));
-		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 300));
+		filterPanel.setPreferredSize(new Dimension(filterPanel.getWidth(), 320));
         GridBagConstraints gc1 = new GridBagConstraints();
         gc1.anchor = GridBagConstraints.NORTH;
         gc1.gridx = 1;
@@ -376,6 +377,7 @@ public class Boligpanel extends JPanel
         utforBlanktSok();
 	}
 	
+	// metode som legger til angitt fokuslytter til alle komponenter i angitt panel
 	private void leggtilFokuslyttere(JPanel panelet, FocusListener lytteren)
 	{
 		for (Component c : panelet.getComponents())
@@ -385,6 +387,7 @@ public class Boligpanel extends JPanel
 				c.addFocusListener(lytteren);
 	}
 	
+	// fokuslytter for venstre topp filterpanel
 	private class VenstreFilterFokuslytter implements FocusListener
 	{
 		public void focusGained(FocusEvent e)
@@ -395,7 +398,8 @@ public class Boligpanel extends JPanel
 		{
 		}
 	}
-	
+
+	// fokuslytter for høyre topp filterpanel
 	private class HoyreFilterFokuslytter implements FocusListener
 	{
 		public void focusGained(FocusEvent e)
@@ -407,13 +411,15 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
+	// marker venstre topp filter
 	private void velgVenstreFilterPanel()
 	{
 		genereltSok = true;
 		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 		hoyreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
 	}
-	
+
+	// marker høyre topp filter
 	private void velgHoyreFilterPanel()
 	{
 		genereltSok = false;
@@ -421,7 +427,7 @@ public class Boligpanel extends JPanel
 		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
 	}
 	
-	// FYLLER UT BOLIGSOKERBOKSEN
+	// FYLLER UT BOLIGSØKERBOKSEN
 	public void oppdaterBoligsokerliste(Object valgtBoligsoker)
 	{
 		boligsokere.removeAllItems();
@@ -439,6 +445,7 @@ public class Boligpanel extends JPanel
         }
 	}
 	
+	// sjekk om input-streng kan parses som int
 	public boolean erTall( String s )
 	{
 		try
@@ -452,6 +459,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
+	// nullstill alle felter og utfør et blankt søk. typisk når man starter programmet for første gang.
 	private void utforBlanktSok()
 	{
 		nullstill();
@@ -460,12 +468,14 @@ public class Boligpanel extends JPanel
 		listBoliger();
 	}
 	
+	// utfør et søk utfra hva man har søkt på.
 	public void utforSok()
 	{
 		lagSok();
 		listBoliger();
 	}
 	
+	// oppretter en liste med boliger som matcher det man har søkt på.
 	private void lagSok()
 	{
 		sokeliste = new ArrayList<>();
@@ -564,6 +574,7 @@ public class Boligpanel extends JPanel
 				int iMinAntRom = personen.getKravMinAntRom();
 				int iMinByggeaar = personen.getKravMinByggeaar();
 				
+				// finner boliger som matcher kravene til valgt boligsøker
 				for (Bolig b : register.getBoliger())
 				{
 					if
@@ -586,9 +597,20 @@ public class Boligpanel extends JPanel
 						sokeliste.add(b);
 				}
 			}
+			
+			if (visinteresser.isSelected())
+			{
+				// finner boliger som valgt boligsøker er interessert i
+				for (Bolig b : register.getBoliger())
+					if (!sokeliste.contains(b))
+						for (Boligsoker bs : b.getInteresserte())
+							if (bs == personen)
+								sokeliste.add(b);
+			}
 		}
-	}
+	} // slutt på metoden lagSok()
 	
+	// definer vinduskomponenter og list opp alle boliger som ligger i arraylisten sokeliste.
 	private void listBoliger()
 	{
 		switch (sortering.getSelectedIndex())
@@ -712,6 +734,7 @@ public class Boligpanel extends JPanel
 		revalidate();
 	}
 	
+	// velg Enebolig i søkefilter
 	public void velgEnebolig()
 	{
 		enebolig.setSelected(true);
@@ -752,6 +775,7 @@ public class Boligpanel extends JPanel
 		pLeilighet.setVisible(false);
 	}
 	
+	// lytteklasse for alt som kan klikkes på
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -791,7 +815,7 @@ public class Boligpanel extends JPanel
 			}
 			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
 				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
-			else if (e.getSource() == nullstill)
+			else if (e.getSource() == nullstill) // når man trykker på nullstill, tøm alle felter og gjør et blankt søk 
 				utforBlanktSok();
 			else if (e.getSource() == sortering)
 			{
@@ -800,6 +824,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 
+	// nullstill alle felter
 	public void nullstill()
 	{
 		adr.setText("");
