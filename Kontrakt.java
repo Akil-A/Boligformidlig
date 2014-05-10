@@ -1,15 +1,19 @@
+// Kontraktdata. Hvem som har leid hvilken bolig og når.
+
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Kontrakt implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private Boligsoker leietaker;
 	private Bolig bolig;
 	private Calendar startdato;
 	private Calendar sluttdato;
 	private Calendar oppsigelsesdato;
 	private String oppsigelsesgrunn;
+	private boolean feilinntasting;
 	
 	public Kontrakt(Boligsoker leietaker, Bolig bolig, Calendar sluttdato)
 	{
@@ -17,6 +21,7 @@ public class Kontrakt implements Serializable
 		this.bolig = bolig;
 		this.startdato = Calendar.getInstance();
 		this.sluttdato = sluttdato;
+		this.feilinntasting = false;
 	}
 	
 	public boolean getFungerer()
@@ -68,5 +73,15 @@ public class Kontrakt implements Serializable
 	public void setOppsigelsesgrunn(String oppsigelsesgrunn)
 	{
 		this.oppsigelsesgrunn = oppsigelsesgrunn;
+	}
+
+	public boolean getFeilinntasting()
+	{
+		return feilinntasting;
+	}
+
+	public void setFeilinntasting(boolean feilinntasting)
+	{
+		this.feilinntasting = feilinntasting;
 	}
 }
