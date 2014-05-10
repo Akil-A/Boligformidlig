@@ -1,14 +1,12 @@
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+// Vindu som viser stort bilde.
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 public class Bildevindu extends JFrame
 {
+	// parameteren er bildet som skal vises.
 	public Bildevindu(BufferedImage original) 
 	{
 		super("Stort bilde");
