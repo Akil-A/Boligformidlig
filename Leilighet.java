@@ -1,15 +1,19 @@
-import java.io.Serializable;
+// Klasse for bolig av typen leilighet
 
-public class Leilighet extends Bolig implements Serializable
+public class Leilighet extends Bolig
 {
-	 private Integer etasje;
-	 private Boolean garasje;
-	 private Boolean vaskeri;
+	private static final long serialVersionUID = 1L;
+	
+	private Integer etasje;
+	private Boolean heis;
+	private Boolean balkong;
+	private Boolean garasje;
+	private Boolean vaskeri;
 	 
-	 public Leilighet(String adresse, String postnr, String poststed, int utleiepris)
-	 {
+	public Leilighet(String adresse, String postnr, String poststed, int utleiepris)
+	{
 		super(adresse, postnr, poststed, utleiepris);
-	 }
+	}
 	
 	public Integer getEtasje()
 	{
@@ -19,6 +23,26 @@ public class Leilighet extends Bolig implements Serializable
 	public void setEtasje(Integer etasje) 
 	{
 		this.etasje = etasje;
+	}
+	
+	public Boolean getHeis() 
+	{
+		return heis;
+	}
+	
+	public void setHeis(Boolean h) 
+	{
+		heis = h;
+	}
+	
+	public Boolean getBalkong() 
+	{
+		return balkong;
+	}
+	
+	public void setBalkong(Boolean b) 
+	{
+		balkong = b;
 	}
 	
 	public Boolean getGarasje() 
