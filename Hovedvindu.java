@@ -1,3 +1,5 @@
+// Klassen inneholder main-metode og hovedvindu.
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -47,6 +49,7 @@ public class Hovedvindu extends JFrame
 				if (tabbedPane.getSelectedComponent().getName() == "boligpanelet")
 				{
 					((Boligpanel)boligpanel).oppdaterBoligsokerliste(null);
+					((Boligpanel)boligpanel).utforSok();
 				}
 				else if (tabbedPane.getSelectedComponent().getName() == "personpanelet")
 				{
@@ -55,8 +58,7 @@ public class Hovedvindu extends JFrame
 				}
 				else if (tabbedPane.getSelectedComponent().getName() == "kontraktpanelet")
 				{
-					((Kontraktpanel)kontraktpanel).oppdaterFungerendeListe();
-					((Kontraktpanel)kontraktpanel).oppdaterUtgaattListe();
+					((Kontraktpanel)kontraktpanel).utforsok();
 				}
 				else if (tabbedPane.getSelectedComponent().getName() == "statistikkpanelet")
 				{
@@ -88,6 +90,9 @@ public class Hovedvindu extends JFrame
 		c.add(bunnlinje, BorderLayout.SOUTH);
 	}
 	
+	
+	// Lytterklasse for Lagre-knappen. Gjør Lagre-knappen gul når man trykker, så defineres en timer som
+	// endrer knappen tilbake etter få sekunder.
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -115,6 +120,7 @@ public class Hovedvindu extends JFrame
 		}
 	}
 	
+	// Sjekk om input-streng kan parses til Long.
 	private boolean erLong(String s)
 	{
 		try
@@ -129,6 +135,9 @@ public class Hovedvindu extends JFrame
 		return true;
 	}
 	
+	// Regner ut navn på datafil. Datafilen starter med 'register_' etterfulgt av
+	// antall millisekunder siden 1/1/1970. Hvis parameter ny=false skal den siste
+	// opprettede datafil benyttes.
 	private String datafil(boolean ny)
 	{
 		long timestamp = 0;
@@ -165,6 +174,8 @@ public class Hovedvindu extends JFrame
 		return "register_" + timestamp + ".dta";
 	}
 
+	
+	// Leser objekt fra fil. Gjør passende feilbehandling hvis det ikke fungerer.
 	private void lesFil()
 	{
 		DATAFIL = datafil(false);
@@ -196,12 +207,15 @@ public class Hovedvindu extends JFrame
 		}
 	}
 	
+	
+	// Oppretter tomt register.
 	private void tomtRegister()
 	{
 		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Bolig>(), new ArrayList<Kontrakt>());
 	}
-
 	
+	
+	// Skriver hele registret til fil. Gjør passende feilbehandling hvis det ikke fungerer.
 	private boolean skrivTilFil(boolean visMelding)
 	{
 		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( DATAFIL ) ) )
@@ -243,7 +257,7 @@ public class Hovedvindu extends JFrame
 				hv.setSize(1000, 700);
 				hv.setVisible(true);
 				hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
-				hv.setExtendedState(Frame.MAXIMIZED_BOTH);
+				hv.setExtendedState(Frame.MAXIMIZED_BOTH); // Vinduet starter maksimert.
 				
 				hv.addWindowListener(new WindowAdapter()
 				{
