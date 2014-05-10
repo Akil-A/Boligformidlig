@@ -1,7 +1,9 @@
-import java.io.Serializable;
+// Klasse for bolig av typen rekkehus
 
-public class Rekkehus extends Bolig implements Serializable
+public class Rekkehus extends Bolig
 {
+	private static final long serialVersionUID = 1L;
+	
 	private Integer tomtestr;
 	private Integer antetasjer;
 	private Boolean kjeller;
