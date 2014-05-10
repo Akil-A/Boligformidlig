@@ -1,6 +1,4 @@
-/*
- * Klassen som holder rede paa lister av Personer, Boliger og Kontrakter. 
- */
+// Klassen som holder rede på lister og operasjoner mot listene.
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +6,8 @@ import java.util.Calendar;
 
 public class Boligregister implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private ArrayList<Person> personer;
 	private ArrayList<Bolig> boliger;
 	private ArrayList<Kontrakt> kontrakter;
@@ -30,6 +30,7 @@ public class Boligregister implements Serializable
 		personer.add(p);
 	}
 	
+	// returnerer true hvis det finnes boliger som er registrert på angitt utleier
 	public boolean utleierHarBoliger(Utleier utleier)
 	{
 		for (Bolig b : boliger)
@@ -86,8 +87,7 @@ public class Boligregister implements Serializable
 	public ArrayList<Bolig> getBoliger()
 	{
 		return boliger;
-	}
-	
+	}	
 	
 	public void settInnBolig(Bolig b)
 	{
@@ -132,6 +132,7 @@ public class Boligregister implements Serializable
 		kontrakter.add(k);
 	}	
 	
+	// oppdaterer kontrakt med ny data. gammelkontrakt er kontrakten som allerede eksisterer i systemet.
 	public boolean oppdaterKontrakt(Kontrakt gammelkontrakt, Kontrakt nykontrakt)
 	{
 		for (Kontrakt k : kontrakter)
@@ -147,6 +148,16 @@ public class Boligregister implements Serializable
 	public ArrayList<Kontrakt> getKontrakter()
 	{
 		return kontrakter;
+	}
+	
+	// undersøker om angitt bolig er leid ut for øyeblikket. er den det returneres den aktuelle kontrakten.
+	public Kontrakt finnFungerende(Bolig b)
+	{
+		for (Kontrakt k : getFungerende())
+			if (k.getBolig() == b)
+				return k;
+		
+		return null;
 	}
 	
 	public ArrayList<Kontrakt> getFungerende()
@@ -171,12 +182,13 @@ public class Boligregister implements Serializable
 		return kl;	
 	}
 	
+	// returnerer antall boliger som er utleid dette kalenderåret
 	public int getUtleideiAAr()
 	{	
 		int counter = 0;
 		
 		for (Kontrakt k : kontrakter)
-			if ( (k.getStartdato().get(Calendar.YEAR))  == Calendar.getInstance().get(Calendar.YEAR) )
+			if (!k.getFeilinntasting() && (k.getStartdato().get(Calendar.YEAR)) == Calendar.getInstance().get(Calendar.YEAR))
 				counter++;
 		
 		return counter;
