@@ -1,3 +1,5 @@
+// En JPanel-extension som viser info om enkelt bolig. Vises på søkesiden. 
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -80,8 +82,6 @@ public class Resultatbolk extends JPanel
 				new Boligskjemavindu(registret, boligpanelet, Resultatbolk.this, boligen);
 			}
 		});
-		
-		
 	
 		
 		JPanel boligknapper = new JPanel(new GridBagLayout());
@@ -91,16 +91,51 @@ public class Resultatbolk extends JPanel
 		boligknapper.add(detaljer, gc66);
 		
 		
-		boolean erleidut = false;
+		if (registret.getUtleide().contains(boligen))
+		{
+			
+			JPanel ettpanel = new JPanel(new GridBagLayout());
+			ettpanel.add(new JLabel("Utleid"));
 
-		for (Kontrakt k : registret.getFungerende())
-			if (k.getBolig() == boligen)
+			final Kontrakt kontrakten = registret.finnFungerende(boligen);
+			
+			if (kontrakten != null)
 			{
-				erleidut = true;
-				break;
+				ettpanel.add(new JLabel("<html>&mdash;</html>"));
+				
+				JLabel sekontrakten = new JLabel("<html><u><b>Se kontrakten</b></u></html>");
+				sekontrakten.setForeground(Color.BLUE);
+				sekontrakten.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseClicked(MouseEvent arg0)
+					{
+					}
+					@Override
+					public void mouseEntered(MouseEvent arg0)
+					{
+						arg0.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					}
+					@Override
+					public void mouseExited(MouseEvent arg0)
+					{
+					}
+					@Override
+					public void mousePressed(MouseEvent arg0)
+					{
+						new Kontraktvindu(registret, Resultatbolk.this, kontrakten);
+					}
+					@Override
+					public void mouseReleased(MouseEvent arg0)
+					{	
+					}
+				});
+				ettpanel.add(sekontrakten);
 			}
-		
-		if (!erleidut)
+			
+			boligknapper.add(ettpanel, gc66);
+			
+		}
+		else
 		{
 			JButton leiut = new JButton("Utleie");
 			leiut.setFont(IKKEFET);
