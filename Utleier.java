@@ -1,12 +1,9 @@
-/* Klasse for Utleier-objektet.
- * laget av Ali
- */
+// Klasse for person som er utleier
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-public class Utleier extends Person  implements Serializable
+public class Utleier extends Person
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String firma;
 	
 	public Utleier (String fornavn, String etternavn, String adresse, String postnr, String poststed, String email, String telefon)
