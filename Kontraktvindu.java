@@ -1,3 +1,5 @@
+// Vindu som viser detaljer for enkelt kontrakt.
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -26,16 +28,37 @@ public class Kontraktvindu extends JFrame
 	private Utleier utleieren;
 	private Boligsoker boligsokeren;
 	private Kontraktpanel kontraktpanelet;
+	private Resultatbolk resultatbolken;
+	
+	public Kontraktvindu(Boligregister br, Resultatbolk rb, Kontrakt k)
+	{
+		super("Kontrakt");
+		registret = br;
+		resultatbolken = rb;
+		kontrakten = k;
+		gammelkontrakt = k;
+		lagvindu();
+	}
 	
 	public Kontraktvindu(Boligregister br, Kontraktpanel kp, Kontrakt k)
 	{
 		super("Kontrakt");
-		setSize(750,450);
-
 		registret = br;
 		kontraktpanelet = kp;
 		kontrakten = k;
 		gammelkontrakt = k;
+		lagvindu();
+	}
+	
+	private String tilStandardDatostreng(Calendar c)
+	{
+		return c.get(Calendar.DATE) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR);
+	}
+	
+	private void lagvindu()
+	{
+		setSize(750,450);
+		
 		lytter = new Lytter();
 		boligen = kontrakten.getBolig();
 		utleieren = boligen.getUtleier();
@@ -56,7 +79,7 @@ public class Kontraktvindu extends JFrame
 		lTelefon1 = new JLabel("Tlf: ");
 		lStartdato = new JLabel("Startdato: ");
 		lSluttdato = new JLabel("Sluttdato: ");
-		lOppsigelsesdato = new JLabel("Oppsigelsesdato: ");
+		lOppsigelsesdato = new JLabel("Oppsigelses dato: ");
 		oppsigelsesdato = new JTextField(10);
 		lOppsigelsesgrunn = new JLabel("Oppsigelses grunn: ");
 		oppsigelsesgrunn = new JTextField(30);
@@ -82,12 +105,12 @@ public class Kontraktvindu extends JFrame
 		telefon1 = new JTextField(10);
 		telefon1.setEditable(false);
 		startdato = new JTextField(15);
-		String sStartdato = k.getStartdato().get(k.getStartdato().DAY_OF_MONTH) + "/" + (k.getStartdato().get(k.getStartdato().MONTH) + 1) + "/" + k.getStartdato().get(k.getStartdato().YEAR);
+		String sStartdato = tilStandardDatostreng(kontrakten.getStartdato());
 		startdato.setEditable(false);
 		startdato.setText(sStartdato);
 		startdato.setEditable(false);
 		sluttdato = new JTextField(15);
-		String sSluttdato = k.getSluttdato().get(k.getSluttdato().DAY_OF_MONTH) + "/" + (k.getSluttdato().get(k.getSluttdato().MONTH) + 1) + "/" + k.getSluttdato().get(k.getSluttdato().YEAR);
+		String sSluttdato = tilStandardDatostreng(kontrakten.getSluttdato());
 		sluttdato.setText(sSluttdato);
 		sluttdato.setEditable(false);
 		
@@ -221,6 +244,7 @@ public class Kontraktvindu extends JFrame
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -228,16 +252,12 @@ public class Kontraktvindu extends JFrame
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		    
 		    Date testOppsigelsesdato = null;
-		    Date testStartdato = null;
-		    Date testSluttdato = null;
 		    
 			if(e.getSource() == siopp || e.getSource() == lagre)
 			{
 			    try
 		        {
 		    		testOppsigelsesdato = sdf.parse(oppsigelsesdato.getText());
-		    		testStartdato = sdf.parse(startdato.getText());
-		    		testSluttdato = sdf.parse(sluttdato.getText());
 		        }
 			    catch(ParseException pe)
 			    {
@@ -251,26 +271,10 @@ public class Kontraktvindu extends JFrame
 			    	return;
 			    }
 			    
-			    if(testOppsigelsesdato.before(new Date()))
-			    {
-			    	JOptionPane.showMessageDialog(null, "<html>Oppsigelsedatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>");
-			    }
-			    
-			    if(testOppsigelsesdato.before(testStartdato) || testOppsigelsesdato.after(testSluttdato) || testOppsigelsesdato.equals(testStartdato)
-			    		|| testOppsigelsesdato.equals(testSluttdato))
-				{	
-					
-					JOptionPane.showMessageDialog(null,"<html>Oppsigelsestiden m&aring; v&aelig;re mellom start og sluttdato, og ikke lik start eller sluttdato!</html>");
-					return;
-				}
-			    
 			    Calendar oppsigelsesdato = Calendar.getInstance();
 			    oppsigelsesdato.setTime(testOppsigelsesdato);
 			    kontrakten.setOppsigelsesdato(oppsigelsesdato);
 				kontrakten.setOppsigelsesgrunn(oppsigelsesgrunn.getText());
-				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
-				kontraktpanelet.oppdaterFungerendeListe();
-				kontraktpanelet.oppdaterUtgaattListe();
 				
 				String melding = "";
 				
@@ -280,6 +284,14 @@ public class Kontraktvindu extends JFrame
 					melding = "Oppsigelsesdetaljer er endret!";
 				
 				JOptionPane.showMessageDialog(null,melding);
+				
+				registret.oppdaterKontrakt(gammelkontrakt, kontrakten);
+				
+				if (resultatbolken != null)
+					resultatbolken.oppdater();
+				
+				if (kontraktpanelet != null)
+					kontraktpanelet.utforsok();
 				
 				dispose();
 			}
