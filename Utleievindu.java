@@ -1,3 +1,4 @@
+// Vindusklasse hvor man leier ut boligen til en person.
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,7 +12,7 @@ public class Utleievindu extends JFrame
 {
 	private JList<Boligsoker> bList;
 	private Lytter lytter;
-	private JButton leiut, avbryt;
+	private JButton ny, detaljer, leiut, avbryt;
 	private Boligregister register;
 	private Resultatbolk resultatbolken;
 	private DefaultListModel<Boligsoker> bModel;
@@ -19,19 +20,26 @@ public class Utleievindu extends JFrame
 	private JLabel lstartDato, lsluttDato,ldato;
 	private Bolig boligen;
 	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
-	
+
+	// formaterer input til streng på formen dd/MM/yyyy
 	private String tilStandardDatostreng(Calendar c)
 	{
 		return c.get(Calendar.DATE) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR);
 	}
-	    
+	
+	// PARAMETRE FOR KONSTRUKTØR:
+	// ==========================
+	// Boligergister br = registerklassen
+	// Bolig blg = boligen som skal leies ut
+	// Resultatbolk rb = resultatbolken i søkelista som man har klikket på for å åpne vinduet
 	public Utleievindu(Boligregister br, Bolig blg, Resultatbolk rb)
 	{
 		super("Utleie");
-		setSize(600,400);
+		setSize(700,400);
 		register = br;
 		resultatbolken = rb;
 		boligen = blg;
+		
 		 /********* DEFINERING AV KOMPONENTER START *********/
         lytter = new Lytter();
         leiut = new JButton("Lei ut");
@@ -49,16 +57,10 @@ public class Utleievindu extends JFrame
         /********* DEFINERING AV KOMPONENTER SLUTT *********/
         
         /********* POPULERING AV LISTER START *********/
-        ArrayList<Boligsoker> boligsokere = new ArrayList<>();
-        boligsokere.addAll(register.getBoligsokere());
         bModel = new DefaultListModel<Boligsoker>();
-        Iterator<Boligsoker> iterator2 = boligsokere.iterator();
-        while(iterator2.hasNext())
-        bModel.addElement(iterator2.next());
         bList = new JList<>(bModel);
         bList.setFont(IKKEFET);
-        
-        
+        oppdaterJliste();
         /********* POPULERING AV LISTER SLUTT *********/
         
         
@@ -69,6 +71,27 @@ public class Utleievindu extends JFrame
 		bScrollPane.setViewportView(bList);
 		bScrollPane.setPreferredSize(new Dimension(450, 200));   
 		
+		
+		JPanel sokere = new JPanel(new BorderLayout());
+		sokere.add(bScrollPane, BorderLayout.CENTER);
+		JPanel sokerknapper = new JPanel(new BorderLayout());
+		JPanel innerknappepanel = new JPanel(new GridBagLayout());
+		GridBagConstraints gc666 = new GridBagConstraints();
+		gc666.fill = GridBagConstraints.HORIZONTAL;
+		gc666.gridy = 0;
+		gc666.insets.bottom = 5;
+		gc666.insets.left = 2;
+		ny = new JButton("Ny...");
+		ny.addActionListener(lytter);
+		ny.setPreferredSize(new Dimension(ny.getWidth(), 18));
+		detaljer = new JButton("Detaljer");
+		detaljer.addActionListener(lytter);
+		innerknappepanel.add(ny, gc666);
+		gc666.gridy = 1;
+		innerknappepanel.add(detaljer, gc666);
+		sokerknapper.add(innerknappepanel, BorderLayout.NORTH);
+		sokere.add(sokerknapper, BorderLayout.EAST);
+		
         setLayout(new GridBagLayout());
 		
 		GridBagConstraints gc = new GridBagConstraints();
@@ -78,7 +101,7 @@ public class Utleievindu extends JFrame
 		gc.gridy = 0;
 		
 		gc.insets.left = 2;
-		add(bScrollPane, gc);
+		add(sokere, gc);
 		
 		gc.anchor = GridBagConstraints.CENTER;
 		gc.gridy = 1;
@@ -107,6 +130,18 @@ public class Utleievindu extends JFrame
 		/********* LAYOUT SLUTT *********/
 	}
 	
+	// metode for å oppdatere lista over boligsøkere
+	public void oppdaterJliste()
+    {
+		bModel.clear();
+    	
+    	Iterator<Boligsoker> iterator = register.getBoligsokere().iterator();
+    	
+        while(iterator.hasNext())
+        	bModel.addElement(iterator.next());
+    }
+	
+	// lytterklasse for alt som er klikkbart
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -119,7 +154,7 @@ public class Utleievindu extends JFrame
 			{
 				if(bList.isSelectionEmpty())
 				{
-					JOptionPane.showMessageDialog(null,"<html>Du m&aring; velge en fra listen!</html>");
+					JOptionPane.showMessageDialog(null,"<html>Du m&aring; velge en boligs&oslash;ker fra listen!</html>");
 					return;
 				}
 				
@@ -155,16 +190,21 @@ public class Utleievindu extends JFrame
 			    
 			    if(testSluttDato.before(new Date()))
 			    {
-					JOptionPane.showMessageDialog(null,"<html>Sluttdatoen kan ikke v&aelig;re f&oslash;r dagens dato!</html>"); 
+					JOptionPane.showMessageDialog(null,"<html>Sluttdatoen m&aring; v&aelig;re etter dagens dato.</html>"); 
 					return;
 			    }
 				
 				Kontrakt kontrakten = new Kontrakt(bList.getSelectedValue(), boligen, sluttdato);
 				register.settInnKontrakt(kontrakten);
-				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt<br>sluttdato: " + sluttdato.get(Calendar.DATE)+ " / "+ (sluttdato.get(Calendar.MONTH) + 1) + " / " + sluttdato.get(Calendar.YEAR) + "</html>");
+				JOptionPane.showMessageDialog(null,"<html>Registrering fullf&oslash;rt</html>");
 				resultatbolken.oppdater();
 				dispose();
 			}
+			else if (e.getSource() == ny)
+				new Personskjemavindu(register, Utleievindu.this);
+			else if (e.getSource() == detaljer && bList.getSelectedIndex() != -1)
+				new Personskjemavindu(register, Utleievindu.this, bList.getSelectedValue());
+				
 		}
 	}
 }
