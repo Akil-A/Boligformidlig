@@ -1,5 +1,4 @@
-/* Vindusklasse med felter. Her kan man registrere ny bolig eller oppdatere bolig.
- */
+// Vindu som viser detaljer for enkelt bolig.
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Boligskjemavindu extends JFrame
 {
 	final private String BILDEMAPPE = "bilder" + File.separator;
-	private JComboBox<String> harKjeller, harGarasje, harVaskeri;
+	private JComboBox<String> harKjeller, harHeis, harBalkong, harGarasje, harVaskeri;
 	private String[] combovalg = { "Ikke oppgitt", "Ja", "Nei" };
 	private JComboBox<Utleier> utleiere;
 	private JRadioButton enebolig, rekkehus, leilighet;
@@ -27,11 +26,22 @@ public class Boligskjemavindu extends JFrame
 	private Lytter lytter;
 	private JPanel eneboligrekkehusfelt, leilighetfelt;
 	private JButton lagre, slett, avbryt, utleierdetaljer, velgBilde, fjernBilde;
-	private Boligpanel boligpanelet;
-	private Resultatbolk resultatbolken;
-	private Boligregister registret;
-	private Bolig boligen;
+	
+	private Boligpanel boligpanelet; // se parametre under
+	private Resultatbolk resultatbolken; // se parametre under
+	private Boligregister registret; // se parametre under
+	private Bolig boligen; // boligen som skal endres
+	
 	private File bildet;
+	
+	// ##############
+	// mulige parametre for konstruktører:
+	//
+	// Boligregister br = registerklassen
+	//    Boligpanel bp = boligpanelet man har klikket på for å åpne dette vinduet
+	//  Resultatbolk rb = resultatbolken man har klikket på for å åpne dette vinduet
+	//         Bolig  b = boligen man skal endre på
+	// ##############
 	
 	public Boligskjemavindu(Boligregister br)
 	{
@@ -80,7 +90,7 @@ public class Boligskjemavindu extends JFrame
 		rekkehus.setEnabled(false);
 		leilighet.setEnabled(false);
 		
-		slett.setVisible(true);
+		slett.setVisible(!registret.getUtleide().contains(boligen));
 		
 		if (b instanceof Enebolig)
 		{
@@ -129,13 +139,26 @@ public class Boligskjemavindu extends JFrame
 			if (c.getEtasje() != null)
 				liggerietasje.setText(c.getEtasje() + "");
 			
+			if (c.getHeis() == null)
+				harHeis.setSelectedIndex(0);
+			else if (c.getHeis())
+				harHeis.setSelectedIndex(1);
+			else if (!c.getHeis())
+				harHeis.setSelectedIndex(2);
+			
+			if (c.getBalkong() == null)
+				harBalkong.setSelectedIndex(0);
+			else if (c.getBalkong())
+				harBalkong.setSelectedIndex(1);
+			else if (!c.getBalkong())
+				harBalkong.setSelectedIndex(2);
+			
 			if (c.getGarasje() == null)
 				harGarasje.setSelectedIndex(0);
 			else if (c.getGarasje())
 				harGarasje.setSelectedIndex(1);
 			else if (!c.getGarasje())
 				harGarasje.setSelectedIndex(2);
-			
 			
 			if (c.getVaskeri() == null)
 				harVaskeri.setSelectedIndex(0);
@@ -144,8 +167,10 @@ public class Boligskjemavindu extends JFrame
 			else if (!c.getVaskeri())
 				harVaskeri.setSelectedIndex(2);
 		}
-	}
+	} /************* KONSTRUKTØR SLUTT ****************/
 	
+	
+	// Metode som initialiserer alle visuelle komponenter.
 	private void lagVindu()
 	{
 		/********* DEFINISJON AV KOMPONENTER START *********/
@@ -381,8 +406,19 @@ public class Boligskjemavindu extends JFrame
 
 		leilighetfelt.add(llinje1, lhGc);
 
+		JPanel llinje3 = new JPanel();
+		harHeis = new JComboBox<>(combovalg);
+		harBalkong = new JComboBox<>(combovalg);
+
+		llinje3.add(new JLabel("Heis: "));
+		llinje3.add(harHeis);
+		llinje3.add(new JLabel("Balkong: "));
+		llinje3.add(harBalkong);
+
+		lhGc.gridy = 1;
+		leilighetfelt.add(llinje3, lhGc);
+
 		JPanel llinje2 = new JPanel();
-		
 		harGarasje = new JComboBox<>(combovalg);
 		harVaskeri = new JComboBox<>(combovalg);
 
@@ -391,7 +427,7 @@ public class Boligskjemavindu extends JFrame
 		llinje2.add(new JLabel("Vaskeri: "));
 		llinje2.add(harVaskeri);
 
-		lhGc.gridy = 1;
+		lhGc.gridy = 2;
 		leilighetfelt.add(llinje2, lhGc);
 		/********* LEILIGHETFELT SLUTT *********/
 				
@@ -430,7 +466,7 @@ public class Boligskjemavindu extends JFrame
 		setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible( true );
-	}
+	} /********* SLUTT PÅ METODEN lagVindu() *********/
 
 
 	// FYLLER UT UTLEIERBOKSEN
@@ -450,6 +486,7 @@ public class Boligskjemavindu extends JFrame
         	utleiere.setSelectedItem(valgtUtleier);
 	}
 	
+	// sjekker om angitt streng kan parses som int.
 	public boolean erTall( String s )
 	{
 		if (s.isEmpty())
@@ -471,6 +508,7 @@ public class Boligskjemavindu extends JFrame
 		JOptionPane.showMessageDialog( null, meldingen, tittel, JOptionPane.PLAIN_MESSAGE);
 	}
     
+	// Lytterklasse for enebolig-rekkehus-leilighet sjekkbokser.
     private class CLytter implements ChangeListener
 	{
 	    public void stateChanged(ChangeEvent e)
@@ -490,6 +528,7 @@ public class Boligskjemavindu extends JFrame
 	    }
 	}
 
+    // ActionListener for alt som kan klikkes
 	private class Lytter implements ActionListener
     {
     	public void actionPerformed(ActionEvent e)
@@ -545,7 +584,7 @@ public class Boligskjemavindu extends JFrame
 	            	return;
 	            }
 	            
-	            if (benebolig)
+	            if (benebolig) // HVIS ENEBOLIG
 	            {
 	            	Enebolig b;
 	            	
@@ -614,9 +653,17 @@ public class Boligskjemavindu extends JFrame
 	            	}
 	            	
 	            	if (boligen == null)
+	            	{
+	            		if (registret.getBoliger().contains(b))
+	            		{
+	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, boligen finnes fra f&oslash;r.</html>");
+	    	            	return;
+	            		}
+	            		
 	            		registret.settInnBolig(b);
+	            	}
 	            }
-	            else if (brekkehus)
+	            else if (brekkehus) // HVIS REKKEHUS
 	            {
 	            	Rekkehus b;
 	            	
@@ -685,9 +732,17 @@ public class Boligskjemavindu extends JFrame
 	            	}
 	            	
 	            	if (boligen == null)
+	            	{
+	            		if (registret.getBoliger().contains(b))
+	            		{
+	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, boligen finnes fra f&oslash;r.</html>");
+	    	            	return;
+	            		}
+	            		
 	            		registret.settInnBolig(b);
+	            	}
 	            }
-	            else if (bleilighet)
+	            else if (bleilighet) // HVIS LEILIGHET
 	            {
 	            	Leilighet b;
 	            	
@@ -715,6 +770,22 @@ public class Boligskjemavindu extends JFrame
 	            		b.setEtasje(null);
 	            	else
 	            		b.setEtasje(Integer.parseInt(sliggerietasje));
+	            	
+	            	
+	            	if (harHeis.getSelectedIndex() == 0)
+	            		b.setHeis(null);
+	            	else if (harHeis.getSelectedIndex() == 1)
+	            		b.setHeis(true);
+	            	else if (harHeis.getSelectedIndex() == 2)
+	            		b.setHeis(false);
+	            	
+	            	
+	            	if (harBalkong.getSelectedIndex() == 0)
+	            		b.setBalkong(null);
+	            	else if (harBalkong.getSelectedIndex() == 1)
+	            		b.setBalkong(true);
+	            	else if (harBalkong.getSelectedIndex() == 2)
+	            		b.setBalkong(false);
 	            	
 	            	
 	            	if (harGarasje.getSelectedIndex() == 0)
@@ -759,7 +830,15 @@ public class Boligskjemavindu extends JFrame
 	            	}
 	            	
 	            	if (boligen == null)
+	            	{
+	            		if (registret.getBoliger().contains(b))
+	            		{
+	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, boligen finnes fra f&oslash;r.</html>");
+	    	            	return;
+	            		}
+	            		
 	            		registret.settInnBolig(b);
+	            	}
 	            }
 	            
 	            String lagremelding;
@@ -782,7 +861,7 @@ public class Boligskjemavindu extends JFrame
     		}
     		else if (e.getSource() == slett)
     		{
-            	if (JOptionPane.showConfirmDialog( null, "Er du sikker pÃ¥ at du vil slette boligen? Dette kan ikke reverseres.",
+            	if (JOptionPane.showConfirmDialog( null, "<html>Er du sikker p&aring; at du vil slette boligen? Dette kan ikke reverseres.</html>",
             			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
             	{
             		registret.slettBolig(boligen);
