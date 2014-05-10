@@ -1,10 +1,8 @@
-
-/* Vindu som tar seg av registrering av utleiere og boligsokere.
- * Laget av Akil
- */
+// Vindu som viser detaljer for enkeltperson.
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -20,12 +18,50 @@ public class Personskjemavindu extends JFrame
     private SjekkboksLytter sjekkboksLytter;
     private JPanel utleierpanel, boligsokerpanel;
     private Lytter lytter;
-    private Boligregister register;
-    private Personpanel personpanelet;
-    private Person personen;
-    private Boligskjemavindu boligvinduet;
-    private Boligpanel boligpanelet;
 	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+
+    private Person personen; // personen som skal endres
+    private Boligregister register; // se parametre under
+    private Personpanel personpanelet; // se parametre under
+    private Boligskjemavindu boligvinduet; // se parametre under
+    private Boligpanel boligpanelet; // se parametre under
+    private Utleievindu utleievinduet; // se parametre under
+    
+	// ##############
+	// mulige parametre for konstruktører:
+	//
+	//    Boligregister  br = registerklassen
+	//      Utleievindu  uv = utleievinduet hvor man har klikket på en knapp for å åpne dette vinduet
+	// Boligskjemavindu bsv = vindu for boligdetaljer hvor man har klikket på en knapp for å åpne dette vinduet
+	//           Person   p = personen man skal endre på
+	//          Utleier   p = samme som over
+	//       Boligpanel  bp = boligpanel hvor man har klikket for å åpne dette vinduet
+	//      Personpanel  pl = personpanel hvor man har klikket for å åpne dette vinduet
+	// ##############
+	
+    public Personskjemavindu(Boligregister br, Utleievindu uv)
+    {
+    	super("Registrer ny boligsoker");
+    	register = br;
+    	utleievinduet = uv;
+    	lagVindu();
+        
+        boligsoker.setSelected(true);
+        utleier.setEnabled(false);
+        boligsoker.setEnabled(false);
+    }
+    
+
+    public Personskjemavindu(Boligregister br, Utleievindu uv, Person p)
+    {
+    	super("Oppdater boligsoker");
+    	register = br;
+    	utleievinduet = uv;
+    	lagVindu();
+    	fyllutfelter(p);
+        
+        personen = p;
+    }
     
     public Personskjemavindu(Boligregister br, Boligskjemavindu bsv)
     {
@@ -95,6 +131,7 @@ public class Personskjemavindu extends JFrame
     }
     
     
+    // fyller ut felter med informasjon om angitt person
     public void fyllutfelter(Person p)
     {
     	fornavn.setText(p.getFornavn());
@@ -151,6 +188,8 @@ public class Personskjemavindu extends JFrame
         }
     }
 
+    
+    // initialiserer visuelle komponenter
     public void lagVindu()
     {
         lytter = new Lytter();
@@ -427,6 +466,7 @@ public class Personskjemavindu extends JFrame
         setVisible( true);
     }
 
+    // lytterklasse for utleier-boligsøker sjekkbokser.
     private class SjekkboksLytter implements ChangeListener
     {
         public void stateChanged(ChangeEvent e)
@@ -448,6 +488,7 @@ public class Personskjemavindu extends JFrame
         }
     }
 
+    // sjekk om input-streng kan parses som int
     public boolean erTall( String s )
     {
         try
@@ -466,6 +507,7 @@ public class Personskjemavindu extends JFrame
     	JOptionPane.showMessageDialog(null,  meldingen, tittel, JOptionPane.PLAIN_MESSAGE);
     }
 
+    // lytterklasse for alt som kan klikkes
     private class Lytter implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
@@ -487,7 +529,7 @@ public class Personskjemavindu extends JFrame
 	            		}
 	            	
 	            	
-	            	if (JOptionPane.showConfirmDialog( null, "Er du sikker pï¿½ï¿½ at du vil slette personen? Dette kan ikke reverseres.",
+	            	if (JOptionPane.showConfirmDialog( null, "<html>Er du sikker p&aring; at du vil slette personen? Dette kan ikke reverseres.</html>",
 	            			"Bekreft", JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION)
 	            	{
 		            	register.slettPerson(personen);
@@ -503,6 +545,9 @@ public class Personskjemavindu extends JFrame
 		                
 	                    if (boligpanelet != null)
 	                    	boligpanelet.oppdaterBoligsokerliste(null);
+                        
+                        if (utleievinduet != null)
+                        	utleievinduet.oppdaterJliste();
 
 	                    visMelding("Personen er slettet.", "");
 	                    
@@ -532,6 +577,7 @@ public class Personskjemavindu extends JFrame
                     String sKravMaksPris = kravMaksPris.getText();
                     String sKravMinByggeaar = kravMinByggeaar.getText();
                     
+                    // ################# FEILSJEKKING START
                     String feilmelding = "";
                     
                     if (sFornavn.isEmpty() || sEtternavn.isEmpty() || sAdresse.isEmpty() || sPostnr.isEmpty() ||
@@ -567,8 +613,9 @@ public class Personskjemavindu extends JFrame
                                     JOptionPane.PLAIN_MESSAGE);
                             return;
                     }
+                    // ################# FEILSJEKKING SLUTT
                     
-                    if (bUtleier)
+                    if (bUtleier) // HVIS UTLEIER
                     {
                     	Utleier u;
                     	
@@ -589,15 +636,26 @@ public class Personskjemavindu extends JFrame
                         u.setFirma(sFirma);
                         
                         if (personen == null)
+                        {
+    	            		if (register.getPersoner().contains(u))
+    	            		{
+    	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, personen finnes fra f&oslash;r.</html>");
+    	    	            	return;
+    	            		}
+    	            		
                         	register.settInnPerson(u);
+                        }
                         
                         if (personpanelet != null)
                         	personpanelet.oppdaterUtleierliste();
                         
                         if (boligvinduet != null)
                         	boligvinduet.oppdaterUtleierliste(u);
+                        
+                        if (utleievinduet != null)
+                        	utleievinduet.oppdaterJliste();
                     }
-                    else if (bBoligsoker)
+                    else if (bBoligsoker) // HVIS BOLIGSØKER
                     {
                         Boligsoker b;
 
@@ -663,15 +721,26 @@ public class Personskjemavindu extends JFrame
                         	b.setKravMinByggeaar(0);
                         else
                         	b.setKravMinByggeaar(Integer.parseInt(sKravMinByggeaar));
-                        
+
                         if (personen == null)
+                        {
+    	            		if (register.getPersoner().contains(b))
+    	            		{
+    	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, personen finnes fra f&oslash;r.</html>");
+    	    	            	return;
+    	            		}
+    	            		
                         	register.settInnPerson(b);
+                        }
                         
                         if (personpanelet != null)
                         	personpanelet.oppdaterBoligsokerliste();
                         
                         if (boligpanelet != null)
                         	boligpanelet.oppdaterBoligsokerliste(b);
+                        
+                        if (utleievinduet != null)
+                        	utleievinduet.oppdaterJliste();
                     }
                     
                     String personenEr;
