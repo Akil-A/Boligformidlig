@@ -1,8 +1,11 @@
-/* Panel som viser liste over alle utgaatte og fungerende kontrakter.
- */
+// Vinduskomponent med opplisting av kontrakter.
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import javax.swing.*;
@@ -11,46 +14,29 @@ import javax.swing.border.Border;
 
 public class Kontraktpanel extends JPanel
 {
-	private JButton fungerendeKnapp, utgaatteKnapp;
-	private JList<Kontrakt> fungerendeListe, utgaatteListe;
-    private DefaultListModel<Kontrakt> fungerendemodell, utgaattmodell;
+	private ArrayList<Kontrakt> kontraktliste;
+	private JLabel lBunntekst;
+	private JButton detaljer;
+	private JComboBox<String> sortering;
+	private JList<Kontrakt> kontraktJliste;
+    private DefaultListModel<Kontrakt> listemodell;
+    private JCheckBox visFungerende, visUtgaatte;
 	private Lytter lytter;
     private Boligregister register;
 	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 		
 	public Kontraktpanel(Boligregister br)
-	{	
+	{
 		register = br;
-		
 		lytter = new Lytter();
-		
-		fungerendeListe = new JList<>();
-		utgaatteListe = new JList<>();
-		
-		
-		
-		/********* POPULERING AV LISTER START *********/
-        fungerendemodell = new DefaultListModel<Kontrakt>();
-        fungerendeListe = new JList<Kontrakt>(fungerendemodell);
-		fungerendeListe.setFont(IKKEFET);
-		fungerendeListe.setCellRenderer(new fungerendeListeCellRenderer());
-        oppdaterFungerendeListe();
 
-        utgaattmodell = new DefaultListModel<Kontrakt>();
-        utgaatteListe = new JList<Kontrakt>(utgaattmodell);
-		utgaatteListe.setFont(IKKEFET);
-		utgaatteListe.setCellRenderer(new utgaattListeCellRenderer());
-        oppdaterUtgaattListe();
-        /********* POPULERING AV LISTER SLUTT *********/
-
-		fungerendeKnapp = new JButton("Detaljer");
-		fungerendeKnapp.addActionListener(lytter);
+		detaljer = new JButton("Detaljer");
+		detaljer.addActionListener(lytter);
 		
-		utgaatteKnapp = new JButton("Detaljer");
-		utgaatteKnapp.addActionListener(lytter);
+		lBunntekst = new JLabel();
+		lBunntekst.setFont(IKKEFET);
 		
-		
-		 /********* LAYOUT START *********/
+		/********* LAYOUT START *********/
         setLayout(new GridBagLayout());
 		
 		GridBagConstraints gc = new GridBagConstraints();
@@ -58,91 +44,186 @@ public class Kontraktpanel extends JPanel
 		
 		gc.gridx = 0;
 		gc.gridy = 0;
+				
+		visFungerende = new JCheckBox("Vis fungerende");
+		visFungerende.addActionListener(lytter);
+		visFungerende.setFont(IKKEFET);
+		visFungerende.setSelected(true);
+		visUtgaatte = new JCheckBox("<html>Vis utg&aring;tte</html>");
+		visUtgaatte.addActionListener(lytter);	
+		visUtgaatte.setFont(IKKEFET);
+		
+		JPanel toppanel = new JPanel(new GridBagLayout());
+		toppanel.add(visFungerende);
+		toppanel.add(visUtgaatte);
+		
+		String [] combovalg = { "<html>Dato inng&aring;tt</html>", "<html>Dato utg&aring;r/tt</html>", "Adresse" };
+		sortering = new JComboBox<>(combovalg);
+		sortering.addActionListener(lytter);
+		sortering.setFont(IKKEFET);
+
+		JLabel lSortering = new JLabel("           Sortering: ");
+		lSortering.setFont(IKKEFET);
+		toppanel.add(lSortering);
+		toppanel.add(sortering);
+		
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		add(toppanel, gc);
+		gc.fill = GridBagConstraints.NONE;
+		
+		gc.gridy = 1;
+		
+		/********* POPULERING AV LISTE START *********/
+		listemodell = new DefaultListModel<Kontrakt>();
+		kontraktJliste = new JList<Kontrakt>(listemodell);
+		kontraktJliste.setFont(IKKEFET);
+		kontraktJliste.setCellRenderer(new listeCellRenderer());
+		kontraktliste = new ArrayList<>();
+		utforsok();
+        /********* POPULERING AV LISTE SLUTT *********/
 		
 		JScrollPane bScrollPane = new JScrollPane();
-		bScrollPane.setBorder(BorderFactory.createTitledBorder("FUNGERENDE KONTRAKTER"));
-		bScrollPane.setViewportView(fungerendeListe);
-		bScrollPane.setPreferredSize(new Dimension(450, 200));   
+		bScrollPane.setViewportView(kontraktJliste);
+		bScrollPane.setPreferredSize(new Dimension(500, 400));
         add(bScrollPane, gc);
 		
 		gc.gridx = 1;
 		gc.insets.left = 10;
-		add(fungerendeKnapp, gc);
-	
-		gc.insets.top = 20;
-		gc.gridx = 0;
-		gc.gridy = 1;
+		add(detaljer, gc);
 		gc.insets.left = 0;
 		
-		JScrollPane uScrollPane = new JScrollPane();
-		uScrollPane.setBorder(BorderFactory.createTitledBorder("<html>UTG&Aring;TTE KONTRAKTER</html>"));
-		uScrollPane.setViewportView(utgaatteListe); 
-		uScrollPane.setPreferredSize(new Dimension(450, 200));   
-        add(uScrollPane, gc);
+		gc.gridx = 0;
+		gc.gridy = 2;
 
-		gc.gridx = 1;
-		gc.insets.left = 10;
-		add(utgaatteKnapp, gc);
+		JPanel bunnpanel = new JPanel(new GridBagLayout());
+		bunnpanel.add(lBunntekst);
+		
+		add(bunnpanel, gc);
         /********* LAYOUT SLUTT *********/
 	}
 	
-	public void oppdaterFungerendeListe()
+	public void utforsok()
+	{
+		lagliste();
+		oppdater();
+	}
+	
+	public void oppdater()
     {
-    	fungerendemodell.clear();
+		listemodell.clear();
     	
-    	Iterator<Kontrakt> iterator = register.getFungerende().iterator();
+    	Iterator<Kontrakt> iterator = kontraktliste.iterator();
     	
         while(iterator.hasNext())
-        	fungerendemodell.addElement(iterator.next());
+        	listemodell.addElement(iterator.next());
+        
+        String bunntekst = "<html>Antall kontrakter totalt: " + register.getKontrakter().size() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+        		"Fungerende: " + register.getFungerende().size() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+        		"Utg&aring;tte: " + register.getUtgaatte().size() + "</html>";
+        
+        lBunntekst.setText(bunntekst);
     }
 	
-	public void oppdaterUtgaattListe()
+	public void lagliste()
 	{
-		utgaattmodell.clear();
-    	
-    	Iterator<Kontrakt> iterator = register.getUtgaatte().iterator();
-    	
-        while(iterator.hasNext())
-        	utgaattmodell.addElement(iterator.next());
-	 }
+		boolean bFungerende = visFungerende.isSelected();
+		boolean bUtgtte = visUtgaatte.isSelected();
+		
+		kontraktliste.clear();
+		
+		if (bFungerende && !bUtgtte)
+			kontraktliste.addAll(register.getFungerende());
+		else if (!bFungerende && bUtgtte)
+			kontraktliste.addAll(register.getUtgaatte());
+		else
+			kontraktliste.addAll(register.getKontrakter());
+		
+		switch (sortering.getSelectedIndex())
+		{
+			case 0:
+				Collections.sort(kontraktliste, new Comparator<Kontrakt>() {
+				    public int compare(Kontrakt k1, Kontrakt k2) {
+						return k2.getStartdato().compareTo(k1.getStartdato());
+				    }
+				});
+				break;
+			case 1:
+				Collections.sort(kontraktliste, new Comparator<Kontrakt>() {
+				    public int compare(Kontrakt k1, Kontrakt k2) {
+				    	Calendar k1dato;
+				    	Calendar k2dato;
+				    	
+				    	if (k1.getOppsigelsesdato() == null)
+				    		k1dato = k1.getSluttdato();
+				    	else
+				    		k1dato = k1.getOppsigelsesdato();
+				    	
+				    	if (k2.getOppsigelsesdato() == null)
+				    		k2dato = k2.getSluttdato();
+				    	else
+				    		k2dato = k2.getOppsigelsesdato();
+				    	
+				    	return k2dato.compareTo(k1dato);
+				    		
+				    }
+				});
+				break;
+			case 2:
+				Collections.sort(kontraktliste, new Comparator<Kontrakt>() {
+				    public int compare(Kontrakt k2, Kontrakt k1) {
+						return k2.getBolig().getAdresse().compareTo(k1.getBolig().getAdresse());
+				    }
+				});
+				break;
+		}
+	}
 	
     private class Lytter implements ActionListener
     {
     	public void actionPerformed(ActionEvent e)
     	{
-    		if (e.getSource() == fungerendeKnapp && fungerendeListe.getSelectedIndex() != -1)  		
-    			new Kontraktvindu(register, Kontraktpanel.this, fungerendeListe.getSelectedValue());
-    		else if (e.getSource() == utgaatteKnapp && utgaatteListe.getSelectedIndex() != -1)
-    			new Kontraktvindu(register, Kontraktpanel.this, utgaatteListe.getSelectedValue());
+    		if (e.getSource() == detaljer && kontraktJliste.getSelectedIndex() != -1)  		
+    			new Kontraktvindu(register, Kontraktpanel.this, kontraktJliste.getSelectedValue());
+    		else if (e.getSource() == visFungerende || e.getSource() == visUtgaatte || e.getSource() == sortering)
+    			utforsok();
     	}
     }
+	
+	private String tilStandardDatostreng(Calendar c)
+	{
+		return c.get(Calendar.DATE) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR);
+	}
     
-    private class fungerendeListeCellRenderer extends DefaultListCellRenderer {
+    private class listeCellRenderer extends DefaultListCellRenderer {
         public Component getListCellRendererComponent(JList<?> fungerendeListe,
                                      Object value,
                                      int index,
                                      boolean isSelected,
-                                     boolean cellHasFocus) {
+                                     boolean cellHasFocus)
+        {
             super.getListCellRendererComponent(fungerendeListe, value, index, isSelected, cellHasFocus);
-            if (value instanceof Kontrakt) {
-                Kontrakt kontrakt = (Kontrakt)value;
-                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato().get(kontrakt.getStartdato().DAY_OF_MONTH) + "/" + (kontrakt.getStartdato().get(kontrakt.getStartdato().MONTH) + 1) + "/" + kontrakt.getStartdato().get(kontrakt.getStartdato().YEAR) + "   Til:   " + kontrakt.getSluttdato().get(kontrakt.getSluttdato().DAY_OF_MONTH) + "/" + (kontrakt.getSluttdato().get(kontrakt.getSluttdato().MONTH) + 1) + "/" + kontrakt.getSluttdato().get(kontrakt.getSluttdato().YEAR));
+            
+            if (value instanceof Kontrakt)
+            {
+                Kontrakt kontrakten = (Kontrakt)value;
+                
+                String teksten = "<html>" + kontrakten.getBolig().getAdresse() +
+                		"&nbsp;&nbsp;&nbsp;Fra: " + tilStandardDatostreng(kontrakten.getStartdato()) +
+                		"&nbsp;&nbsp;&nbsp;Til: ";
+                
+                if (kontrakten.getOppsigelsesdato() != null)
+                	teksten += tilStandardDatostreng(kontrakten.getOppsigelsesdato()) + " &ndash; OPPSAGT";
+                else
+                	teksten += tilStandardDatostreng(kontrakten.getSluttdato());
+                
+                if (!kontrakten.getFungerer())
+                	teksten += " &ndash; UTG&Aring;TT";
+                
+                teksten += "</html>";
+                
+                setText(teksten);
             }
-            return this;
-        }
-    }
-    
-    private class utgaattListeCellRenderer extends DefaultListCellRenderer {
-        public Component getListCellRendererComponent(JList<?> utgaattListe,
-                                     Object value,
-                                     int index,
-                                     boolean isSelected,
-                                     boolean cellHasFocus) {
-            super.getListCellRendererComponent(utgaattListe, value, index, isSelected, cellHasFocus);
-            if (value instanceof Kontrakt) {
-                Kontrakt kontrakt = (Kontrakt)value;
-                setText(kontrakt.getBolig().getAdresse() + "   Fra: " + kontrakt.getStartdato().get(kontrakt.getStartdato().DAY_OF_MONTH) + "/" + (kontrakt.getStartdato().get(kontrakt.getStartdato().MONTH) + 1) + "/" + kontrakt.getStartdato().get(kontrakt.getStartdato().YEAR) + "   Til:   " + kontrakt.getSluttdato().get(kontrakt.getSluttdato().DAY_OF_MONTH) + "/" + (kontrakt.getSluttdato().get(kontrakt.getSluttdato().MONTH) + 1) + "/" + kontrakt.getSluttdato().get(kontrakt.getSluttdato().YEAR));
-            }
+            
             return this;
         }
     }
