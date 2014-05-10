@@ -1,5 +1,4 @@
-/* Panel som viser liste over alle utleiere og boligsokere.
- */
+// Vinduskomponent som viser liste over alle personer.
 
 import java.awt.*;
 import java.awt.event.*;
