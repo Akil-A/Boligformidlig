@@ -89,6 +89,7 @@ public class Personpanel extends JPanel
         /********* LAYOUT SLUTT *********/
     }
 
+    // Oppdater listen over utleiere. 
     public void oppdaterUtleierliste()
     {
     	utleiermodell.clear();
@@ -99,6 +100,7 @@ public class Personpanel extends JPanel
         	utleiermodell.addElement(iterator.next());
     }
     
+    // Oppdater listen over boligsøkere.
     public void oppdaterBoligsokerliste()
     {
     	boligsokermodell.clear();
