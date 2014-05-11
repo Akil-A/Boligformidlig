@@ -40,7 +40,7 @@ public class Utleievindu extends JFrame
 		resultatbolken = rb;
 		boligen = blg;
 		
-		 /********* DEFINERING AV KOMPONENTER START *********/
+		/********* DEFINERING AV KOMPONENTER START *********/
         lytter = new Lytter();
         leiut = new JButton("Lei ut");
         leiut.addActionListener(lytter);
@@ -53,7 +53,6 @@ public class Utleievindu extends JFrame
         startDato.setEditable(false);
         startDato.setText(tilStandardDatostreng(Calendar.getInstance()));
         sluttDato = new JTextField(9);
-       
         /********* DEFINERING AV KOMPONENTER SLUTT *********/
         
         /********* POPULERING AV LISTER START *********/
@@ -65,7 +64,6 @@ public class Utleievindu extends JFrame
         
         
 		/********* LAYOUT START *********/
-		
         JScrollPane bScrollPane = new JScrollPane();
 		bScrollPane.setBorder(BorderFactory.createTitledBorder("<html>BOLIGS&Oslash;KERE</html>"));
 		bScrollPane.setViewportView(bList);
@@ -126,7 +124,6 @@ public class Utleievindu extends JFrame
 		add(knappepanel, gc);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
 		/********* LAYOUT SLUTT *********/
 	}
 	
