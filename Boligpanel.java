@@ -21,6 +21,7 @@ public class Boligpanel extends JPanel
 	private JCheckBox visledige, visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask, maaliggeiforste,
 							vismatch, visinteresser;
 	private JComboBox<Boligsoker> boligsokere;
+	private JComboBox<Utleier> utleiere; ///////////////////////////////////////////////////////!!!!!!!!!!!!!###########¤¤¤¤¤¤
 	private JComboBox<String> sortering;
 	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel;
 	private JScrollPane venstreFilterPanel, listePanel;
@@ -254,8 +255,9 @@ public class Boligpanel extends JPanel
 		
 		vismatch = new JCheckBox("Vis boliger som matcher krav");
 		vismatch.setSelected(true);
-		visinteresser = new JCheckBox("<html>Vis boliger som denne boligs&oslash;ker er interessert i</html>");
+		visinteresser = new JCheckBox("<html>Vis boliger som denne boligs&oslash;ker er interessert i<br>(ikke implementert)</html>");
 		visinteresser.setSelected(true);
+		visinteresser.setEnabled(false);
 		
 		GridBagConstraints hfGc = new GridBagConstraints();
 		hoyreFilterPanel = new JPanel(new GridBagLayout());
@@ -330,15 +332,21 @@ public class Boligpanel extends JPanel
 		antallresultater.setFont(LITENFONT);
 		String [] combovalg = { "Publisert", "<html>Pris lav-h&oslash;y</html>", "<html>Pris h&oslash;y-lav</html>",
 								"<html>Boareal lav-h&oslash;y</html>", "<html>Boareal h&oslash;y-lav</html>"};
+		utleiere = new JComboBox<>();
+		utleiere.addActionListener(lytter);
+		oppdaterUtleierliste(null); // populere comboboxen
 		sortering = new JComboBox<>(combovalg);
 		sortering.addActionListener(lytter);
 		registrer = new JButton("REGISTRER NY");
 		registrer.addActionListener(lytter);
 		
 		JPanel venstreknapper = new JPanel(new GridBagLayout());
-		venstreknapper.add(sok);
 		GridBagConstraints gcsk = new GridBagConstraints();
 		gcsk.insets.left = 5;
+		venstreknapper.add(new JLabel("Utleier:"));
+		venstreknapper.add(utleiere, gcsk);
+		venstreknapper.add(new JLabel("    "));
+		venstreknapper.add(sok);
 		venstreknapper.add(nullstill, gcsk);
 		venstreknapper.add(antallresultater, gcsk);
 		
@@ -427,7 +435,21 @@ public class Boligpanel extends JPanel
 		venstreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
 	}
 	
-	// FYLLER UT BOLIGSØKERBOKSEN
+	// POPULERER UTLEIER ComboBox
+	public void oppdaterUtleierliste(Object valgtUtleier)
+	{
+		utleiere.removeAllItems();
+		for (Utleier b : register.getUtleiereMedBolig())
+			utleiere.addItem(b);
+		utleiere.insertItemAt(new Utleier("<Vis alle>", "", "", "", "", "", ""), 0);
+        
+        if (valgtUtleier == null)
+        	utleiere.setSelectedIndex(0);
+        else
+        	utleiere.setSelectedItem(valgtUtleier);
+	}
+	
+	// POPULERER BOLIGSØKER ComboBox
 	public void oppdaterBoligsokerliste(Object valgtBoligsoker)
 	{
 		boligsokere.removeAllItems();
@@ -518,7 +540,8 @@ public class Boligpanel extends JPanel
 			ArrayList<Bolig> sokeliste1 = new ArrayList<>();
 			
 			for (Bolig b : sokeliste)
-				if ((b.getAdresse().toLowerCase().contains(sAdresse.toLowerCase())) &&
+				if ((utleiere.getSelectedIndex() == 0 || b.getUtleier() == utleiere.getSelectedItem()) &&
+							(b.getAdresse().toLowerCase().contains(sAdresse.toLowerCase())) &&
 							(b.getTogst().toLowerCase().contains(sTogst.toLowerCase())) &&
 							(!erTall(sPostnr) || b.getPostnr().toLowerCase().contains(sPostnr.toLowerCase())) &&
 							(b.getPoststed().toLowerCase().contains(sPoststed.toLowerCase())) &&
@@ -579,7 +602,8 @@ public class Boligpanel extends JPanel
 				{
 					if
 					(
-							(bKravEnebolig && b instanceof Enebolig ||
+							((utleiere.getSelectedIndex() == 0 || b.getUtleier() == utleiere.getSelectedItem()) &&
+							bKravEnebolig && b instanceof Enebolig ||
 							bKravRekkehus && b instanceof Rekkehus ||
 							bKravLeilighet && b instanceof Leilighet ||
 							(!bKravEnebolig && !bKravRekkehus && !bKravRekkehus))
@@ -602,12 +626,22 @@ public class Boligpanel extends JPanel
 			{
 				// finner boliger som valgt boligsøker er interessert i
 				for (Bolig b : register.getBoliger())
-					if (!sokeliste.contains(b))
+					if
+					(
+							(utleiere.getSelectedIndex() == 0 || b.getUtleier() == utleiere.getSelectedItem())
+							&&
+							!sokeliste.contains(b)
+					)
 						for (Boligsoker bs : b.getInteresserte())
 							if (bs == personen)
 								sokeliste.add(b);
 			}
 		}
+		
+		if (utleiere.getSelectedIndex() != 0) // hvis man har valgt å vise kun en viss utleier så skal alle andre boliger fjernes
+			for (Bolig b : sokeliste)
+				if (b.getUtleier() != utleiere.getSelectedItem())
+					sokeliste.remove(b);
 	} // slutt på metoden lagSok()
 	
 	// definer vinduskomponenter og list opp alle boliger som ligger i arraylisten sokeliste.
@@ -816,11 +850,12 @@ public class Boligpanel extends JPanel
 			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
 				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
 			else if (e.getSource() == nullstill) // når man trykker på nullstill, tøm alle felter og gjør et blankt søk 
-				utforBlanktSok();
-			else if (e.getSource() == sortering)
 			{
-				listBoliger();
+				sortering.setSelectedIndex(0);
+				utforBlanktSok();
 			}
+			else if (e.getSource() == sortering)
+				listBoliger();
 		}
 	}
 
@@ -853,6 +888,7 @@ public class Boligpanel extends JPanel
 		maaliggeiforste.setSelected(false);
 		velgVenstreFilterPanel();
 		velgIngentype();
+		utleiere.setSelectedIndex(0);
 	}
 	
 }
