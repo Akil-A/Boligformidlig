@@ -72,7 +72,16 @@ public class Boligregister implements Serializable
 		return pl;
 	}
 	
-	
+	public ArrayList<Utleier> getUtleiereMedBolig()
+	{
+		ArrayList<Utleier> pl = new ArrayList<>();
+		
+		for (Bolig b : boliger)
+			if (!pl.contains(b.getUtleier()))
+				pl.add(b.getUtleier());
+				
+		return pl;
+	}
 	
 	
 	
