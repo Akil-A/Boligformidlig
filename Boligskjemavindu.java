@@ -852,7 +852,10 @@ public class Boligskjemavindu extends JFrame
             			JOptionPane.PLAIN_MESSAGE);
 	            
 	            if (boligpanelet != null)
+	            {
+	            	boligpanelet.oppdaterUtleierliste(null);
 	            	boligpanelet.utforSok();
+	            }
 	            
     			if (resultatbolken != null)
     				resultatbolken.oppdater();
