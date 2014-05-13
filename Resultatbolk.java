@@ -1,4 +1,4 @@
-// En JPanel-extension som viser info om enkelt bolig. Vises på søkesiden. 
+// En JPanel-utvidelse som viser info om enkelt bolig. Vises på søkesiden. 
 
 import java.awt.*;
 import java.awt.event.*;
@@ -93,7 +93,6 @@ public class Resultatbolk extends JPanel
 		
 		if (registret.getUtleide().contains(boligen))
 		{
-			
 			JPanel ettpanel = new JPanel(new GridBagLayout());
 			ettpanel.add(new JLabel("Utleid"));
 
