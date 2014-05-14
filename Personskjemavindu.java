@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 
+@SuppressWarnings("serial")
 public class Personskjemavindu extends JFrame
 {
     private JTextField fornavn, etternavn, adresse, poststed, postnr, telefon, email, firma, yrke, 
@@ -30,15 +31,15 @@ public class Personskjemavindu extends JFrame
     private Utleievindu utleievinduet; // se parametre under
     
 	// ##############
-	// mulige parametre for konstruktører:
+	// mulige parametre for konstruktOrer:
 	//
 	//    Boligregister  br = registerklassen
-	//      Utleievindu  uv = utleievinduet hvor man har klikket på en knapp for å åpne dette vinduet
-	// Boligskjemavindu bsv = vindu for boligdetaljer hvor man har klikket på en knapp for å åpne dette vinduet
-	//           Person   p = personen man skal endre på
+	//      Utleievindu  uv = utleievinduet hvor man har klikket paa en knapp for aa aapne dette vinduet
+	// Boligskjemavindu bsv = vindu for boligdetaljer hvor man har klikket paa en knapp for aa aapne dette vinduet
+	//           Person   p = personen man skal endre paa
 	//          Utleier   p = samme som over
-	//       Boligpanel  bp = boligpanel hvor man har klikket for å åpne dette vinduet
-	//      Personpanel  pl = personpanel hvor man har klikket for å åpne dette vinduet
+	//       Boligpanel  bp = boligpanel hvor man har klikket for aa aapne dette vinduet
+	//      Personpanel  pl = personpanel hvor man har klikket for aa aapne dette vinduet
 	// ##############
 	
     public Personskjemavindu(Boligregister br, Utleievindu uv)
@@ -468,7 +469,7 @@ public class Personskjemavindu extends JFrame
         setVisible( true);
     }
 
-    // lytterklasse for utleier-boligsøker sjekkbokser.
+    // lytterklasse for utleier-boligsOker sjekkbokser.
     private class SjekkboksLytter implements ChangeListener
     {
         public void stateChanged(ChangeEvent e)
@@ -657,7 +658,7 @@ public class Personskjemavindu extends JFrame
                         if (utleievinduet != null)
                         	utleievinduet.oppdaterJliste();
                     }
-                    else if (bBoligsoker) // HVIS BOLIGSØKER
+                    else if (bBoligsoker) // HVIS BOLIGSOKER
                     {
                         Boligsoker b;
 
