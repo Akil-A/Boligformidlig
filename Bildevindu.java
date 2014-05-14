@@ -1,4 +1,6 @@
 // Vindu som viser stort bilde.
+// Laget av Ali
+// Sist oppdatert april
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
