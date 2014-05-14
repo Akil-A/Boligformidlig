@@ -11,9 +11,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 
+@SuppressWarnings("serial")
 public class Kontraktpanel extends JPanel
 {
 	private ArrayList<Kontrakt> kontraktliste;
