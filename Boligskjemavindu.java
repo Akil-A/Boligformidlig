@@ -1,4 +1,6 @@
 // Vindu som viser detaljer for enkelt bolig.
+// Laget av Ali
+// Sist oppdatert 13/5
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
