@@ -1,4 +1,6 @@
 // Klasse for bolig av typen enebolig
+// Laget av Ali
+// Sist oppdatert 10/5
 
 public class Enebolig extends Bolig
 {
