@@ -1,4 +1,4 @@
-// En JPanel-utvidelse som viser info om enkelt bolig. Vises i søkevinduet.
+// En JPanel-utvidelse som viser info om enkelt bolig. Vises i sOkevinduet.
 // Laget av Joakim
 // Sist oppdatert 10/5
 
@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class Resultatbolk extends JPanel
 {
 	private final Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
