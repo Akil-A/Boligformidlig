@@ -28,7 +28,7 @@ abstract public class Bolig implements Serializable
 	public Bolig(String adresse, String postnr, String poststed, int utleiepris)
 	{
 		annonsedato = new Date();
-		//interesserte = new ArrayList<>();
+		interesserte = new ArrayList<>();
 		
 		this.adresse = adresse;
 		this.postnr = postnr;
