@@ -1,4 +1,6 @@
 // Klasse for person som er boligsøker
+// Laget av Akil
+// Sist oppdatert 10/5
 
 public class Boligsoker extends Person
 {
