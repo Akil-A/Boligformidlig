@@ -1,4 +1,6 @@
 // Vindusklasse hvor man leier ut boligen til en person.
+// Laget av Akil og Ali
+// Sist oppdatert begynnelsen av mai
 
 import java.awt.*;
 import java.awt.event.*;
