@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class Boligpanel extends JPanel
 {
 	private JTextField adr, postnr, poststed, beliggenhet, prisfra, pristil, boarealfra, boarealtil, byggeaar, annonsedato,
@@ -480,7 +481,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
-	// nullstill alle felter og utfOr et blankt sOk. typisk nÃ¥r man starter programmet for fOrste gang.
+	// nullstill alle felter og utfOr et blankt sOk. typisk naar man starter programmet for fOrste gang.
 	private void utforBlanktSok()
 	{
 		nullstill();
@@ -489,14 +490,14 @@ public class Boligpanel extends JPanel
 		listBoliger();
 	}
 	
-	// utfOr et sOk utfra hva man har sOkt pÃ¥.
+	// utfOr et sOk utfra hva man har sOkt paa.
 	public void utforSok()
 	{
 		lagSok();
 		listBoliger();
 	}
 	
-	// oppretter en liste med boliger som matcher det man har sOkt pÃ¥.
+	// oppretter en liste med boliger som matcher det man har sOkt paa.
 	private void lagSok()
 	{
 		sokeliste = new ArrayList<>();
@@ -803,7 +804,7 @@ public class Boligpanel extends JPanel
 		pLeilighet.setVisible(false);
 	}
 	
-	// lytteklasse for alt som kan klikkes pÃ¥
+	// lytteklasse for alt som kan klikkes paa
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -843,7 +844,7 @@ public class Boligpanel extends JPanel
 			}
 			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
 				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
-			else if (e.getSource() == nullstill) // nÃ¥r man trykker pÃ¥ nullstill, tOm alle felter og gjOr et blankt sOk 
+			else if (e.getSource() == nullstill) // naar man trykker paa nullstill, tOm alle felter og gjOr et blankt sOk 
 			{
 				sortering.setSelectedIndex(0);
 				utforBlanktSok();
