@@ -5,6 +5,7 @@
 import java.awt.*;
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class Statistikkpanel extends JPanel
 {	
 	private Boligregister register;
