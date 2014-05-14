@@ -1,4 +1,6 @@
 // Klassen inneholder main-metode og hovedvindu.
+// Laget av Joakim
+// Sist oppdatert 13/5
 
 import java.awt.*;
 import java.awt.event.*;
