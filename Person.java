@@ -1,4 +1,6 @@
 // Superklasse for alle personer.
+// Laget av Akil
+// Sist oppdatert 10/5
 
 import java.io.Serializable;
 
