@@ -1,4 +1,6 @@
 // Vinduskomponent som viser liste over alle personer.
+// Laget av Akil
+// Sist oppdatert slutten av april
 
 import java.awt.*;
 import java.awt.event.*;
