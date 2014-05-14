@@ -1,4 +1,4 @@
-// Vinduskomponent hvor man sÃ¸ker og lister opp boliger.
+// Vinduskomponent hvor man sOker og lister opp boliger.
 // Laget av Ali og Joakim
 // Sist oppdater 14/5
 
@@ -30,7 +30,7 @@ public class Boligpanel extends JPanel
 	private final Font LITENFONT = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
 	private boolean genereltSok;
 	
-	private ArrayList<Bolig> sokeliste; // denne listen inneholder sÃ¸keresultatet
+	private ArrayList<Bolig> sokeliste; // denne listen inneholder sOkeresultatet
 	
 	public Boligpanel(Boligregister br)
 	{
@@ -406,7 +406,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 
-	// fokuslytter for hÃ¸yre topp filterpanel
+	// fokuslytter for hOyre topp filterpanel
 	private class HoyreFilterFokuslytter implements FocusListener
 	{
 		public void focusGained(FocusEvent e)
@@ -426,7 +426,7 @@ public class Boligpanel extends JPanel
 		hoyreFilterPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
 	}
 
-	// marker hÃ¸yre topp filter
+	// marker hOyre topp filter
 	private void velgHoyreFilterPanel()
 	{
 		genereltSok = false;
@@ -448,7 +448,7 @@ public class Boligpanel extends JPanel
         	utleiere.setSelectedItem(valgtUtleier);
 	}
 	
-	// POPULERER BOLIGSÃ˜KER ComboBox
+	// POPULERER BOLIGSOKER ComboBox
 	public void oppdaterBoligsokerliste(Object valgtBoligsoker)
 	{
 		boligsokere.removeAllItems();
@@ -480,7 +480,7 @@ public class Boligpanel extends JPanel
 		}
 	}
 	
-	// nullstill alle felter og utfÃ¸r et blankt sÃ¸k. typisk nÃ¥r man starter programmet for fÃ¸rste gang.
+	// nullstill alle felter og utfOr et blankt sOk. typisk nÃ¥r man starter programmet for fOrste gang.
 	private void utforBlanktSok()
 	{
 		nullstill();
@@ -489,14 +489,14 @@ public class Boligpanel extends JPanel
 		listBoliger();
 	}
 	
-	// utfÃ¸r et sÃ¸k utfra hva man har sÃ¸kt pÃ¥.
+	// utfOr et sOk utfra hva man har sOkt pÃ¥.
 	public void utforSok()
 	{
 		lagSok();
 		listBoliger();
 	}
 	
-	// oppretter en liste med boliger som matcher det man har sÃ¸kt pÃ¥.
+	// oppretter en liste med boliger som matcher det man har sOkt pÃ¥.
 	private void lagSok()
 	{
 		sokeliste = new ArrayList<>();
@@ -596,13 +596,13 @@ public class Boligpanel extends JPanel
 				int iMinAntRom = personen.getKravMinAntRom();
 				int iMinByggeaar = personen.getKravMinByggeaar();
 				
-				// finner boliger som matcher kravene til valgt boligsÃ¸ker
+				// finner boliger som matcher kravene til valgt boligsOker
 				for (Bolig b : register.getLedige())
 				{
 					if
 					(
-							((utleiere.getSelectedIndex() == 0 || b.getUtleier() == utleiere.getSelectedItem()) &&
-							bKravEnebolig && b instanceof Enebolig ||
+							(utleiere.getSelectedIndex() == 0 || b.getUtleier() == utleiere.getSelectedItem()) &&
+							(bKravEnebolig && b instanceof Enebolig ||
 							bKravRekkehus && b instanceof Rekkehus ||
 							bKravLeilighet && b instanceof Leilighet ||
 							(!bKravEnebolig && !bKravRekkehus && !bKravRekkehus))
@@ -623,7 +623,7 @@ public class Boligpanel extends JPanel
 			
 			if (visinteresser.isSelected())
 			{
-				// finner boliger som valgt boligsÃ¸ker er interessert i
+				// finner boliger som valgt boligsOker er interessert i
 				for (Bolig b : register.getLedige())
 					if
 					(
@@ -636,12 +636,7 @@ public class Boligpanel extends JPanel
 								sokeliste.add(b);
 			}
 		}
-		
-		if (utleiere.getSelectedIndex() != 0) // hvis man har valgt Ã¥ vise kun en viss utleier sÃ¥ skal alle andre boliger fjernes
-			for (Bolig b : sokeliste)
-				if (b.getUtleier() != utleiere.getSelectedItem())
-					sokeliste.remove(b);
-	} // slutt pÃ¥ metoden lagSok()
+	} // slutt paa metoden lagSok()
 	
 	// definer vinduskomponenter og list opp alle boliger som ligger i arraylisten sokeliste.
 	private void listBoliger()
@@ -767,7 +762,7 @@ public class Boligpanel extends JPanel
 		revalidate();
 	}
 	
-	// velg Enebolig i sÃ¸kefilter
+	// velg Enebolig i sOkefilter
 	public void velgEnebolig()
 	{
 		enebolig.setSelected(true);
@@ -848,7 +843,7 @@ public class Boligpanel extends JPanel
 			}
 			else if (e.getSource() == boligsokerdetaljer && boligsokere.getSelectedIndex() != 0 && boligsokere.getSelectedIndex() != 1)
 				new Personskjemavindu(register, Boligpanel.this, (Person)boligsokere.getSelectedItem());
-			else if (e.getSource() == nullstill) // nÃ¥r man trykker pÃ¥ nullstill, tÃ¸m alle felter og gjÃ¸r et blankt sÃ¸k 
+			else if (e.getSource() == nullstill) // nÃ¥r man trykker pÃ¥ nullstill, tOm alle felter og gjOr et blankt sOk 
 			{
 				sortering.setSelectedIndex(0);
 				utforBlanktSok();
