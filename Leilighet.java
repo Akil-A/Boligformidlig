@@ -1,4 +1,6 @@
 // Klasse for bolig av typen leilighet
+// Laget av Ali
+// Sist oppdatert 11/5
 
 public class Leilighet extends Bolig
 {
