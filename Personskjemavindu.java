@@ -1,4 +1,6 @@
 // Vindu som viser detaljer for enkeltperson.
+// Laget av Akil
+// Sist oppdatert 11/5
 
 import java.awt.*;
 import java.awt.event.*;
