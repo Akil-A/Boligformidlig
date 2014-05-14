@@ -1,4 +1,6 @@
 // Vinduskomponent hvor man søker og lister opp boliger.
+// Laget av Ali og Joakim
+// Sist oppdater 13/5
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +23,7 @@ public class Boligpanel extends JPanel
 	private JCheckBox visledige, visutleide, enebolig, rekkehus, leilighet, kjeller, garasje, vask, maaliggeiforste,
 							vismatch, visinteresser;
 	private JComboBox<Boligsoker> boligsokere;
-	private JComboBox<Utleier> utleiere; ///////////////////////////////////////////////////////!!!!!!!!!!!!!###########¤¤¤¤¤¤
+	private JComboBox<Utleier> utleiere;
 	private JComboBox<String> sortering;
 	private JPanel pEneRekke, pLeilighet, hoyreFilterPanel;
 	private JScrollPane venstreFilterPanel, listePanel;
