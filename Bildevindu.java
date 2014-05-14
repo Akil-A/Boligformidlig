@@ -4,8 +4,10 @@
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class Bildevindu extends JFrame
 {
 	// parameteren er bildet som skal vises.
