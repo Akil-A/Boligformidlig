@@ -10,6 +10,7 @@ import java.util.*;
 import javax.swing.*;
 
 
+@SuppressWarnings("serial")
 public class Utleievindu extends JFrame
 {
 	private JList<Boligsoker> bList;
@@ -23,17 +24,17 @@ public class Utleievindu extends JFrame
 	private Bolig boligen;
 	private Font IKKEFET = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
-	// formaterer input til streng på formen dd/MM/yyyy
+	// formaterer input til streng paa formen dd/MM/yyyy
 	private String tilStandardDatostreng(Calendar c)
 	{
 		return c.get(Calendar.DATE) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR);
 	}
 	
-	// PARAMETRE FOR KONSTRUKTØR:
+	// PARAMETRE FOR KONSTRUKTOR:
 	// ==========================
 	// Boligergister br = registerklassen
 	// Bolig blg = boligen som skal leies ut
-	// Resultatbolk rb = resultatbolken i søkelista som man har klikket på for å åpne vinduet
+	// Resultatbolk rb = resultatbolken i sOkelista som man har klikket paa for aa aapne vinduet
 	public Utleievindu(Boligregister br, Bolig blg, Resultatbolk rb)
 	{
 		super("Utleie");
@@ -129,7 +130,7 @@ public class Utleievindu extends JFrame
 		/********* LAYOUT SLUTT *********/
 	}
 	
-	// metode for å oppdatere lista over boligsøkere
+	// metode for aa oppdatere lista over boligsOkere
 	public void oppdaterJliste()
     {
 		bModel.clear();
