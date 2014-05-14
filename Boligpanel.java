@@ -2,16 +2,10 @@
 // Laget av Ali og Joakim
 // Sist oppdater 14/5
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.RenderingHints.Key;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -603,7 +597,7 @@ public class Boligpanel extends JPanel
 				int iMinByggeaar = personen.getKravMinByggeaar();
 				
 				// finner boliger som matcher kravene til valgt boligsÃ¸ker
-				for (Bolig b : register.getBoliger())
+				for (Bolig b : register.getLedige())
 				{
 					if
 					(
@@ -630,7 +624,7 @@ public class Boligpanel extends JPanel
 			if (visinteresser.isSelected())
 			{
 				// finner boliger som valgt boligsÃ¸ker er interessert i
-				for (Bolig b : register.getBoliger())
+				for (Bolig b : register.getLedige())
 					if
 					(
 							(utleiere.getSelectedIndex() == 0 || b.getUtleier() == utleiere.getSelectedItem())
