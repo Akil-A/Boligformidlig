@@ -1,4 +1,6 @@
-En JPanel-utvidelse som viser info om enkelt bolig. Vises i søkevinduet.
+// En JPanel-utvidelse som viser info om enkelt bolig. Vises i søkevinduet.
+// Laget av Joakim
+// Sist oppdatert 10/5
 
 import java.awt.*;
 import java.awt.event.*;
