@@ -1,4 +1,6 @@
 // Klasse for person som er utleier
+// Laget av Akil
+// Sist oppdatert 10/5
 
 public class Utleier extends Person
 {
