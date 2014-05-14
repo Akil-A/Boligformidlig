@@ -1,47 +1,168 @@
-// Klasse for bolig av typen enebolig
-// Laget av Ali
+// Klasse for person som er boligsOker
+// Laget av Akil
 // Sist oppdatert 10/5
 
-public class Enebolig extends Bolig
+public class Boligsoker extends Person
 {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer tomtestr;
-	private Integer antetasjer;
-	private Boolean kjeller;
+	private int antallPersoner;
+    private String sivilstatus;
+    private String yrke;
+    private String arbeidsforhold;
+    private boolean royker;
+    private boolean husdyr;
+    private boolean kravEnebolig;
+    private boolean kravRekkehus;
+    private boolean kravLeilighet;
+    private int kravArealFra;
+    private int kravArealTil;
+    private int kravMinAntRom;
+    private int kravMinByggeaar;
+    private int kravMaksPris;
+    
+    public Boligsoker(String fornavn, String etternavn, String adresse, String postnr, String poststed, String email, String telefon)
+    {
+        super(fornavn, etternavn, adresse, postnr, poststed, email, telefon);
+    }
 
-	public Enebolig(String adresse, String postnr, String poststed, int utleiepris)
+    public int getAntallPersoner()
+    {
+        return antallPersoner;
+    }
+
+    public void setAntallPersoner(int antallPersoner)
+    {
+        this.antallPersoner = antallPersoner;
+    }
+
+    public String getSivilstatus()
+    {
+        return sivilstatus;
+    }
+
+    public void setSivilstatus(String sivilstatus)
+    {
+        this.sivilstatus = sivilstatus;
+    }
+
+    public String getYrke()
+    {
+        return yrke;
+    }
+
+    public void setYrke(String yrke)
+    {
+        this.yrke = yrke;
+    }
+
+    public String getArbeidsforhold()
+    {
+        return arbeidsforhold;
+    }
+
+    public void setArbeidsforhold(String arbeidsforhold)
+    {
+        this.arbeidsforhold = arbeidsforhold;
+    }
+
+    public boolean getRoyker()
+    {
+        return royker;
+    }
+
+    public void setRoyker(boolean royker)
+    {
+        this.royker = royker;
+    }
+
+    public boolean getHusdyr()
+    {
+        return husdyr;
+    }
+
+    public void setHusdyr(boolean husdyr)
+    {
+        this.husdyr = husdyr;
+    }
+
+	public boolean getKravEnebolig()
 	{
-		super(adresse, postnr, poststed, utleiepris);
+		return kravEnebolig;
 	}
-	
-	public void setTomtestr(Integer tomtestr)
+
+	public void setKravEnebolig(boolean kravEnebolig)
 	{
-		this.tomtestr = tomtestr;
+		this.kravEnebolig = kravEnebolig;
 	}
-	
-	public Integer getTomtestr() 
+
+	public boolean getKravRekkehus()
 	{
-		return tomtestr;
+		return kravRekkehus;
 	}
-	
-	public void setAntetasjer(Integer antetasjer)
+
+	public void setKravRekkehus(boolean kravRekkehus)
 	{
-		this.antetasjer = antetasjer;
+		this.kravRekkehus = kravRekkehus;
 	}
-	public Integer getAntetasjer()
+
+	public boolean getKravLeilighet()
 	{
-		return antetasjer;
+		return kravLeilighet;
 	}
-	
-	public void setKjeller(Boolean kjeller)
+
+	public void setKravLeilighet(boolean kravLeilighet)
 	{
-		this.kjeller = kjeller;
+		this.kravLeilighet = kravLeilighet;
 	}
-	
-	public Boolean isKjeller() 
+
+	public int getKravArealFra()
 	{
-		return kjeller;
+		return kravArealFra;
+	}
+
+	public void setKravArealFra(int kravArealFra)
+	{
+		this.kravArealFra = kravArealFra;
+	}
+
+	public int getKravArealTil()
+	{
+		return kravArealTil;
+	}
+
+	public void setKravArealTil(int kravArealTil)
+	{
+		this.kravArealTil = kravArealTil;
+	}
+
+	public int getKravMinAntRom()
+	{
+		return kravMinAntRom;
+	}
+
+	public void setKravMinAntRom(int kravMinAntRom)
+	{
+		this.kravMinAntRom = kravMinAntRom;
+	}
+
+	public int getKravMinByggeaar()
+	{
+		return kravMinByggeaar;
+	}
+
+	public void setKravMinByggeaar(int kravMinByggeaar)
+	{
+		this.kravMinByggeaar = kravMinByggeaar;
+	}
+
+	public int getKravMaksUtleiepris()
+	{
+		return kravMaksPris;
+	}
+
+	public void setKravMaksUtleiepris(int kravMaksPris)
+	{
+		this.kravMaksPris = kravMaksPris;
 	}
 }
-
