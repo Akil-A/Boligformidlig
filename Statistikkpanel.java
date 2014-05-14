@@ -1,4 +1,6 @@
 // Vinduskomponent som viser statistikk.
+// Laget av Joakim
+// Sist oppdatert 10/5
 
 import java.awt.*;
 import javax.swing.*;
