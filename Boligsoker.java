@@ -1,4 +1,4 @@
-// Klasse for person som er boligsøker
+// Klasse for person som er boligsOker
 // Laget av Akil
 // Sist oppdatert 10/5
 
