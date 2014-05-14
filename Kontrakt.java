@@ -1,4 +1,4 @@
-// Kontraktdata. Hvem som har leid hvilken bolig og når.
+// Kontraktdata. Hvem som har leid hvilken bolig og naar.
 // Laget av Joakim
 // Sist oppdatert 10/5
 
@@ -17,7 +17,7 @@ public class Kontrakt implements Serializable
 	private String oppsigelsesgrunn;
 	private boolean feilinntasting; 
 	/* boolean feilinntasting er ikke i bruk. kan settes til True hvis kontrakten sies opp fordi brukeren har tastet feil.
-	 * da kan man la være å regne den med i statistikken */
+	 * da kan man la vÃ¦re aa regne den med i statistikken */
 	
 	public Kontrakt(Boligsoker leietaker, Bolig bolig, Calendar sluttdato)
 	{
