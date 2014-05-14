@@ -1,4 +1,6 @@
 // Vinduskomponent med opplisting av kontrakter.
+// Laget av Ali, Akil og Joakim
+// Sist oppdatert 10/5
 
 import java.awt.*;
 import java.awt.event.*;
