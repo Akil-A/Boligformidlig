@@ -1,4 +1,6 @@
 // Klassen som holder rede på lister og operasjoner mot listene.
+// Laget av Joakim og Akil
+// Sist oppdatert 13/5
 
 import java.io.Serializable;
 import java.util.ArrayList;
