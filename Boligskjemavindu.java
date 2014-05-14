@@ -15,6 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+@SuppressWarnings("serial")
 public class Boligskjemavindu extends JFrame
 {
 	final private String BILDEMAPPE = "bilder" + File.separator;
@@ -37,12 +38,12 @@ public class Boligskjemavindu extends JFrame
 	private File bildet;
 	
 	// ##############
-	// mulige parametre for konstruktÃ¸rer:
+	// mulige parametre for konstruktOrer:
 	//
 	// Boligregister br = registerklassen
-	//    Boligpanel bp = boligpanelet man har klikket pÃ¥ for Ã¥ Ã¥pne dette vinduet
-	//  Resultatbolk rb = resultatbolken man har klikket pÃ¥ for Ã¥ Ã¥pne dette vinduet
-	//         Bolig  b = boligen man skal endre pÃ¥
+	//    Boligpanel bp = boligpanelet man har klikket paa for aa aapne dette vinduet
+	//  Resultatbolk rb = resultatbolken man har klikket paa for aa aapne dette vinduet
+	//         Bolig  b = boligen man skal endre paa
 	// ##############
 	
 	public Boligskjemavindu(Boligregister br)
@@ -169,7 +170,7 @@ public class Boligskjemavindu extends JFrame
 			else if (!c.getVaskeri())
 				harVaskeri.setSelectedIndex(2);
 		}
-	} /************* KONSTRUKTÃ˜R SLUTT ****************/
+	} /************* KONSTRUKTOR SLUTT ****************/
 	
 	
 	// Metode som initialiserer alle visuelle komponenter.
