@@ -14,6 +14,7 @@ import java.util.Date;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class Kontraktvindu extends JFrame
 {
 	private Bolig boligen;
@@ -259,7 +260,7 @@ public class Kontraktvindu extends JFrame
 			{
 				if (oppsigelsesgrunn.getText().isEmpty())
 				{
-			    	JOptionPane.showMessageDialog(null, "Du må skrive en oppsigelsesgrunn.");
+			    	JOptionPane.showMessageDialog(null, "Du maa skrive en oppsigelsesgrunn.");
 			    	return;
 				}
 				
