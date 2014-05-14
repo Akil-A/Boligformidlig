@@ -1,6 +1,6 @@
 // Vindu som viser detaljer for enkelt bolig.
 // Laget av Ali
-// Sist oppdatert 13/5
+// Sist oppdatert 14/5
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -586,6 +586,11 @@ public class Boligskjemavindu extends JFrame
 	            			+ feilmelding + "</html>", "Problem", JOptionPane.PLAIN_MESSAGE);
 	            	return;
 	            }
+	            
+	            // lag bildemappen hvis den ikke finnes
+	            File bildemappe = new File(BILDEMAPPE);
+	            if (!bildemappe.exists())
+	            	bildemappe.mkdir();
 	            
 	            if (benebolig) // HVIS ENEBOLIG
 	            {
