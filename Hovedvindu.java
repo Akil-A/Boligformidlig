@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.Timer;
 import java.io.*;
 
+@SuppressWarnings("serial")
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
@@ -34,12 +35,15 @@ public class Hovedvindu extends JFrame
 		final JComponent boligpanel = new Boligpanel(br);
 		boligpanel.setName("boligpanelet");
 		tabbedPane.addTab("Boliger", boligpanel);
+		
 		final JComponent personpanel = new Personpanel(br);
 		personpanel.setName("personpanelet");
 		tabbedPane.addTab("Personer", personpanel);
+		
 		final JComponent kontraktpanel = new Kontraktpanel(br);
 		kontraktpanel.setName("kontraktpanelet");
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
+		
 		final JComponent statistikkpanel = new Statistikkpanel(br);
 		statistikkpanel.setName("statistikkpanelet");
 		tabbedPane.addTab("Statistikk", statistikkpanel);
@@ -94,8 +98,8 @@ public class Hovedvindu extends JFrame
 	}
 	
 	
-	// Lytterklasse for Lagre-knappen. Gjør Lagre-knappen gul når man trykker, så defineres en timer som
-	// endrer knappen tilbake etter få sekunder.
+	// Lytterklasse for Lagre-knappen. GjOr Lagre-knappen gul naar man trykker, saa defineres en timer som
+	// endrer knappen tilbake etter faa sekunder.
 	private class Lytter implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -138,7 +142,7 @@ public class Hovedvindu extends JFrame
 		return true;
 	}
 	
-	// Regner ut navn på datafil. Datafilen starter med 'register_' etterfulgt av
+	// Regner ut navn paa datafil. Datafilen starter med 'register_' etterfulgt av
 	// antall millisekunder siden 1/1/1970. Hvis parameter ny=false skal den siste
 	// opprettede datafil benyttes.
 	private String datafil(boolean ny)
@@ -178,7 +182,7 @@ public class Hovedvindu extends JFrame
 	}
 
 	
-	// Leser objekt fra fil. Gjør passende feilbehandling hvis det ikke fungerer.
+	// Leser objekt fra fil. GjOr passende feilbehandling hvis det ikke fungerer.
 	private void lesFil()
 	{
 		DATAFIL = datafil(false);
@@ -218,7 +222,7 @@ public class Hovedvindu extends JFrame
 	}
 	
 	
-	// Skriver hele registret til fil. Gjør passende feilbehandling hvis det ikke fungerer.
+	// Skriver hele registret til fil. GjOr passende feilbehandling hvis det ikke fungerer.
 	private boolean skrivTilFil(boolean visMelding)
 	{
 		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( DATAFIL ) ) )
