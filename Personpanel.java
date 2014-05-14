@@ -7,8 +7,8 @@ import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
+@SuppressWarnings("serial")
 public class Personpanel extends JPanel
 {
     private JList<Person> boligsokerliste, utleierliste;
@@ -102,7 +102,7 @@ public class Personpanel extends JPanel
         	utleiermodell.addElement(iterator.next());
     }
     
-    // Oppdater listen over boligsøkere.
+    // Oppdater listen over boligsOkere.
     public void oppdaterBoligsokerliste()
     {
     	boligsokermodell.clear();
