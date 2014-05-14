@@ -1,4 +1,6 @@
 // Superklasse for alle boligtyper.
+// Laget av Ali
+// Sist oppdatert 10/5
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ abstract public class Bolig implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private Date annonsedato;
-	private ArrayList<Boligsoker> interesserte;
+	private ArrayList<Boligsoker> interesserte; // ikke i bruk, se dokumentasjon
 	
 	private Utleier utleier;
 	private String adresse;
