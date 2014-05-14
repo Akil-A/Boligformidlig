@@ -1,4 +1,6 @@
 // Klasse for bolig av typen rekkehus
+// Laget av Ali
+// Sist oppdatert 10/5
 
 public class Rekkehus extends Bolig
 {
