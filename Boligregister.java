@@ -1,6 +1,6 @@
-// Klassen som holder rede på lister og operasjoner mot listene.
+// Klassen som holder rede pÃ¥ lister og operasjoner mot listene.
 // Laget av Joakim og Akil
-// Sist oppdatert 13/5
+// Sist oppdatert 14/5
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class Boligregister implements Serializable
 		personer.add(p);
 	}
 	
-	// returnerer true hvis det finnes boliger som er registrert på angitt utleier
+	// returnerer true hvis det finnes boliger som er registrert pÃ¥ angitt utleier
 	public boolean utleierHarBoliger(Utleier utleier)
 	{
 		for (Bolig b : boliger)
@@ -59,6 +59,28 @@ public class Boligregister implements Serializable
 		for (Person p : personer)
 			if (p instanceof Boligsoker)
 				pl.add((Boligsoker) p);
+		
+		return pl;
+	}
+	
+	public ArrayList<Boligsoker> getBoligsokereMedBolig()
+	{
+		ArrayList<Boligsoker> pl = new ArrayList<>();
+		
+		for (Kontrakt k : getFungerende())
+			if (!pl.contains(k.getLeietaker()))
+				pl.add(k.getLeietaker());
+		
+		return pl;
+	}
+	
+	public ArrayList<Boligsoker> getBoligsokereUtenBolig()
+	{
+		ArrayList<Boligsoker> pl = new ArrayList<>();
+		
+		for (Boligsoker p : getBoligsokere())
+			if (!getBoligsokereMedBolig().contains(p))
+				pl.add(p);
 		
 		return pl;
 	}
@@ -161,7 +183,7 @@ public class Boligregister implements Serializable
 		return kontrakter;
 	}
 	
-	// undersøker om angitt bolig er leid ut for øyeblikket. er den det returneres den aktuelle kontrakten.
+	// undersÃ¸ker om angitt bolig er leid ut for Ã¸yeblikket. er den det returneres den aktuelle kontrakten.
 	public Kontrakt finnFungerende(Bolig b)
 	{
 		for (Kontrakt k : getFungerende())
@@ -193,7 +215,7 @@ public class Boligregister implements Serializable
 		return kl;	
 	}
 	
-	// returnerer antall boliger som er utleid dette kalenderåret
+	// returnerer antall boliger som er utleid dette kalenderÃ¥ret
 	public int getUtleideiAAr()
 	{	
 		int counter = 0;
