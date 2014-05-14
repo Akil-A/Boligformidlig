@@ -1,4 +1,4 @@
-// Klassen som holder rede pÃ¥ lister og operasjoner mot listene.
+// Klassen som holder rede paa lister og operasjoner mot listene.
 // Laget av Joakim og Akil
 // Sist oppdatert 14/5
 
@@ -32,7 +32,7 @@ public class Boligregister implements Serializable
 		personer.add(p);
 	}
 	
-	// returnerer true hvis det finnes boliger som er registrert pÃ¥ angitt utleier
+	// returnerer true hvis det finnes boliger som er registrert paa angitt utleier
 	public boolean utleierHarBoliger(Utleier utleier)
 	{
 		for (Bolig b : boliger)
@@ -183,7 +183,7 @@ public class Boligregister implements Serializable
 		return kontrakter;
 	}
 	
-	// undersÃ¸ker om angitt bolig er leid ut for Ã¸yeblikket. er den det returneres den aktuelle kontrakten.
+	// undersOker om angitt bolig er leid ut for Oyeblikket. er den det returneres den aktuelle kontrakten.
 	public Kontrakt finnFungerende(Bolig b)
 	{
 		for (Kontrakt k : getFungerende())
@@ -215,7 +215,7 @@ public class Boligregister implements Serializable
 		return kl;	
 	}
 	
-	// returnerer antall boliger som er utleid dette kalenderÃ¥ret
+	// returnerer antall boliger som er utleid dette kalenderaaret
 	public int getUtleideiAAr()
 	{	
 		int counter = 0;
