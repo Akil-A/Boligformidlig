@@ -37,12 +37,12 @@ public class Boligskjemavindu extends JFrame
 	private File bildet;
 	
 	// ##############
-	// mulige parametre for konstruktører:
+	// mulige parametre for konstruktÃ¸rer:
 	//
 	// Boligregister br = registerklassen
-	//    Boligpanel bp = boligpanelet man har klikket på for å åpne dette vinduet
-	//  Resultatbolk rb = resultatbolken man har klikket på for å åpne dette vinduet
-	//         Bolig  b = boligen man skal endre på
+	//    Boligpanel bp = boligpanelet man har klikket pÃ¥ for Ã¥ Ã¥pne dette vinduet
+	//  Resultatbolk rb = resultatbolken man har klikket pÃ¥ for Ã¥ Ã¥pne dette vinduet
+	//         Bolig  b = boligen man skal endre pÃ¥
 	// ##############
 	
 	public Boligskjemavindu(Boligregister br)
@@ -169,7 +169,7 @@ public class Boligskjemavindu extends JFrame
 			else if (!c.getVaskeri())
 				harVaskeri.setSelectedIndex(2);
 		}
-	} /************* KONSTRUKTØR SLUTT ****************/
+	} /************* KONSTRUKTÃ˜R SLUTT ****************/
 	
 	
 	// Metode som initialiserer alle visuelle komponenter.
@@ -322,7 +322,7 @@ public class Boligskjemavindu extends JFrame
 		gc.gridx = 1;
 		toppanel.add(poststed, gc);
 		gc.gridx = 2;
-		toppanel.add(new JLabel("<html>* Bygge&aring;r</html>"), gc);
+		toppanel.add(new JLabel("<html>Bygge&aring;r</html>"), gc);
 		gc.gridx = 3;
 		gc.anchor = GridBagConstraints.WEST;
 		toppanel.add(byggeaar, gc);
@@ -468,7 +468,7 @@ public class Boligskjemavindu extends JFrame
 		setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible( true );
-	} /********* SLUTT PÅ METODEN lagVindu() *********/
+	} /********* SLUTT PÃ… METODEN lagVindu() *********/
 
 
 	// FYLLER UT UTLEIERBOKSEN
@@ -557,13 +557,14 @@ public class Boligskjemavindu extends JFrame
     			
     			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || stittel.isEmpty() ||
     					sadresse.isEmpty() || spoststed.isEmpty() || sboareal.isEmpty() ||
-    					sbyggeaar.isEmpty() || spris.isEmpty())
+    					spris.isEmpty())
     				feilmelding += "&#8594; Du m&aring; fylle inn alle obligatoriske felter.<br>";
     			
     			if (!erTall(spostnr) || spostnr.length() != 4)
     				feilmelding += "&#8594; Postnummer m&aring; ha fire siffer.<br>";
     			
-    			if (!erTall(sboareal) || !erTall(santrom) || !erTall(sbyggeaar) || !erTall(spris) || 
+    			if (!erTall(sboareal) || !erTall(santrom) || (!sbyggeaar.isEmpty() && !erTall(sbyggeaar)) ||
+    					!erTall(spris) || 
     					(
     							(benebolig || brekkehus) &&
     							(!erTall(stomtestr) || !erTall(santetasjer))
@@ -605,8 +606,10 @@ public class Boligskjemavindu extends JFrame
 	            	b.setUtleier((Utleier) utleiere.getSelectedItem());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
-	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	b.setTogst(stogst);
+	            	
+	            	if (!sbyggeaar.isEmpty())
+		            	b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
 	            	// Under: enebolig-spesifikke felt
 	            	
@@ -684,8 +687,10 @@ public class Boligskjemavindu extends JFrame
 	            	b.setUtleier((Utleier) utleiere.getSelectedItem());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
-	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	b.setTogst(stogst);
+	            	
+	            	if (!sbyggeaar.isEmpty())
+		            	b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
 	            	// Under: enebolig-spesifikke felt
 	            	
@@ -763,8 +768,10 @@ public class Boligskjemavindu extends JFrame
 	            	b.setUtleier((Utleier) utleiere.getSelectedItem());
 	            	b.setAntrom(Integer.parseInt(santrom));
 	            	b.setBoareal(Integer.parseInt(sboareal));
-	            	b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	b.setTogst(stogst);
+	            	
+	            	if (!sbyggeaar.isEmpty())
+		            	b.setByggeaar(Integer.parseInt(sbyggeaar));
 	            	
 	            	// Under: leilighet-spesifikke felt
 	            	
