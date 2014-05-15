@@ -186,10 +186,10 @@ public class Boligskjemavindu extends JFrame
         clytter = new CLytter();
         lytter = new Lytter();
         tittel = new JTextField(25);
-		adresse = new JTextField(10);
-		postnr = new JTextField(10);
-		poststed = new JTextField(10);
-		togst = new JTextField(10);
+		adresse = new JTextField(15);
+		postnr = new JTextField(15);
+		poststed = new JTextField(15);
+		togst = new JTextField(15);
 		boareal = new JTextField(10);
 		antrom = new JTextField(10);
 		byggeaar = new JTextField(10);
@@ -472,7 +472,7 @@ public class Boligskjemavindu extends JFrame
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		c.add(knappepanel, gc);
 
-		setSize(600, 400);
+		setSize(620, 400);
         setLocationRelativeTo(null);
         setVisible( true );
 	} /********* SLUTT PAA METODEN lagVindu() *********/
@@ -526,13 +526,13 @@ public class Boligskjemavindu extends JFrame
 	        {
 	        	eneboligrekkehusfelt.setVisible(true);
 	        	leilighetfelt.setVisible(false);
-	    		setSize(600, 450);
+	    		setSize(620, 450);
 	        }
 	        else if (leilighet.isSelected())
 	        {
 	        	eneboligrekkehusfelt.setVisible(false);
 	        	leilighetfelt.setVisible(true);
-	    		setSize(600, 450);
+	    		setSize(620, 450);
 	        }
 	    }
 	}
