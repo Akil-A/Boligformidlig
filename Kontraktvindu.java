@@ -1,6 +1,6 @@
 // Vindu som viser detaljer for enkelt kontrakt.
 // Laget av Ali og Akil
-// Sist oppdatert 10/5
+// Sist oppdatert 15/5
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
