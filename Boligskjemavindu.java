@@ -1,6 +1,6 @@
 // Vindu som viser detaljer for enkelt bolig.
 // Laget av Ali
-// Sist oppdatert 14/5
+// Sist oppdatert 15/5
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -35,7 +36,8 @@ public class Boligskjemavindu extends JFrame
 	private Boligregister registret; // se parametre under
 	private Bolig boligen; // boligen som skal endres
 	
-	private File bildet;
+	private File gammeltbilde;
+	private File nyttbilde;
 	
 	// ##############
 	// mulige parametre for konstruktOrer:
@@ -76,8 +78,12 @@ public class Boligskjemavindu extends JFrame
 		
 		if (b.getBildefilnavn() != null && !b.getBildefilnavn().isEmpty())
 		{
-			bildet = new File(BILDEMAPPE + b.getBildefilnavn());
-			bildeSti.setText(b.getBildefilnavn());
+			gammeltbilde = new File(BILDEMAPPE + b.getBildefilnavn());
+			
+			if (gammeltbilde.exists())
+				bildeSti.setText(b.getBildefilnavn());
+			else
+				gammeltbilde = null;
 		}
 		
 		adresse.setText(b.getAdresse());
@@ -469,7 +475,7 @@ public class Boligskjemavindu extends JFrame
 		setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible( true );
-	} /********* SLUTT PÃ… METODEN lagVindu() *********/
+	} /********* SLUTT PAA METODEN lagVindu() *********/
 
 
 	// FYLLER UT UTLEIERBOKSEN
@@ -555,6 +561,7 @@ public class Boligskjemavindu extends JFrame
     			String stomtestr = tomtestr.getText();
     			String santetasjer = antetasjer.getText();
     			String sliggerietasje = liggerietasje.getText();
+    			String sBildenavn = bildeSti.getText();
     			
     			if (utleiere.getSelectedIndex() == 0 || utleiere.getSelectedIndex() == 1 || stittel.isEmpty() ||
     					sadresse.isEmpty() || spoststed.isEmpty() || sboareal.isEmpty() ||
@@ -592,6 +599,7 @@ public class Boligskjemavindu extends JFrame
 	            File bildemappe = new File(BILDEMAPPE);
 	            if (!bildemappe.exists())
 	            	bildemappe.mkdir();
+	            
 	            
 	            if (benebolig) // HVIS ENEBOLIG
 	            {
@@ -637,31 +645,38 @@ public class Boligskjemavindu extends JFrame
 	            	else if (harKjeller.getSelectedIndex() == 2)
 	            		b.setKjeller(false);
 	            	
-	            	
-	            	if (bildet != null)
+	            	// sett bilde start
+	            	if (sBildenavn.isEmpty())
 	            	{
-	            		if (bildeSti.getText().isEmpty())
-	            			bildet.delete();
-	            		else
-	            		{
-		            		try
-							{
-								BufferedImage utbilde = ImageIO.read(bildet);
-								
-								File utfil = new File(BILDEMAPPE + bildet.getName());
-								
-								String filnavn = bildet.getName();
-								String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
-								
-								ImageIO.write(utbilde, format, utfil);
-								b.setBildefilnavn(filnavn);
-							}
-							catch (IOException e1)
-							{
-								visMelding(e1.getMessage(), "Feil");
-							}
-	            		}
+	            		b.setBildefilnavn(null);
+	            		
+	            		if (gammeltbilde != null && gammeltbilde.exists())
+	            			gammeltbilde.delete();
 	            	}
+	            	else if (gammeltbilde == null || !sBildenavn.equals(gammeltbilde.getName()))
+	            	{
+	            		try
+						{
+	            			// slett gammelt bilde
+            				if (gammeltbilde != null && gammeltbilde.exists())
+            					gammeltbilde.delete();
+	            			
+							String valgtfilnavn = nyttbilde.getName();
+							String format = valgtfilnavn.substring(valgtfilnavn.lastIndexOf(".") + 1);
+							String nyttfilnavn = new Date().getTime() + "." + format; // filnavn paa bildet blir timestamp
+							
+							File utfil = new File(BILDEMAPPE + nyttfilnavn);
+							BufferedImage utbilde = ImageIO.read(nyttbilde);
+							
+							ImageIO.write(utbilde, format, utfil);
+							b.setBildefilnavn(nyttfilnavn);
+						}
+						catch (IOException e1)
+						{
+							visMelding(e1.getMessage(), "Feil ved bildeopplasting");
+						}
+	            	}
+	            	// sett bilde slutt
 	            	
 	            	if (boligen == null)
 	            	{
@@ -718,37 +733,44 @@ public class Boligskjemavindu extends JFrame
 	            	else if (harKjeller.getSelectedIndex() == 2)
 	            		b.setKjeller(false);
 	            	
-	            	
-	            	if (bildet != null)
+	            	// sett bilde start
+	            	if (sBildenavn.isEmpty())
 	            	{
-	            		if (bildeSti.getText().isEmpty())
-	            			bildet.delete();
-	            		else
-	            		{
-		            		try
-							{
-								BufferedImage utbilde = ImageIO.read(bildet);
-								
-								File utfil = new File(BILDEMAPPE + bildet.getName());
-								
-								String filnavn = bildet.getName();
-								String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
-								
-								ImageIO.write(utbilde, format, utfil);
-								b.setBildefilnavn(filnavn);
-							}
-							catch (IOException e1)
-							{
-								visMelding(e1.getMessage(), "Feil");
-							}
-	            		}
+	            		b.setBildefilnavn(null);
+	            		
+	            		if (gammeltbilde != null && gammeltbilde.exists())
+	            			gammeltbilde.delete();
 	            	}
+	            	else if (gammeltbilde == null || !sBildenavn.equals(gammeltbilde.getName()))
+	            	{
+	            		try
+						{
+	            			// slett gammelt bilde
+            				if (gammeltbilde != null && gammeltbilde.exists())
+            					gammeltbilde.delete();
+	            			
+							String valgtfilnavn = nyttbilde.getName();
+							String format = valgtfilnavn.substring(valgtfilnavn.lastIndexOf(".") + 1);
+							String nyttfilnavn = new Date().getTime() + "." + format; // filnavn paa bildet blir timestamp
+							
+							File utfil = new File(BILDEMAPPE + nyttfilnavn);
+							BufferedImage utbilde = ImageIO.read(nyttbilde);
+							
+							ImageIO.write(utbilde, format, utfil);
+							b.setBildefilnavn(nyttfilnavn);
+						}
+						catch (IOException e1)
+						{
+							visMelding(e1.getMessage(), "Feil ved bildeopplasting");
+						}
+	            	}
+	            	// sett bilde slutt
 	            	
 	            	if (boligen == null)
 	            	{
 	            		if (registret.getBoliger().contains(b))
 	            		{
-	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, boligen finnes fra f&oslash;r.</html>");
+	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, maken bolig finnes fra f&oslash;r.</html>");
 	    	            	return;
 	            		}
 	            		
@@ -818,37 +840,44 @@ public class Boligskjemavindu extends JFrame
 	            	else if (harVaskeri.getSelectedIndex() == 2)
 	            		b.setVaskeri(false);
 	            	
-	            	
-	            	if (bildet != null)
+	            	// sett bilde start
+	            	if (sBildenavn.isEmpty())
 	            	{
-	            		if (bildeSti.getText().isEmpty())
-	            			bildet.delete();
-	            		else
-	            		{
-		            		try
-							{
-								BufferedImage utbilde = ImageIO.read(bildet);
-								
-								File utfil = new File(BILDEMAPPE + bildet.getName());
-								
-								String filnavn = bildet.getName();
-								String format = filnavn.substring(filnavn.lastIndexOf(".") + 1);
-								
-								ImageIO.write(utbilde, format, utfil);
-								b.setBildefilnavn(filnavn);
-							}
-							catch (IOException e1)
-							{
-								visMelding(e1.getMessage(), "Feil");
-							}
-	            		}
+	            		b.setBildefilnavn(null);
+	            		
+	            		if (gammeltbilde != null && gammeltbilde.exists())
+	            			gammeltbilde.delete();
 	            	}
+	            	else if (gammeltbilde == null || !sBildenavn.equals(gammeltbilde.getName()))
+	            	{
+	            		try
+						{
+	            			// slett gammelt bilde
+            				if (gammeltbilde != null && gammeltbilde.exists())
+            					gammeltbilde.delete();
+	            			
+							String valgtfilnavn = nyttbilde.getName();
+							String format = valgtfilnavn.substring(valgtfilnavn.lastIndexOf(".") + 1);
+							String nyttfilnavn = new Date().getTime() + "." + format; // filnavn paa bildet blir timestamp
+							
+							File utfil = new File(BILDEMAPPE + nyttfilnavn);
+							BufferedImage utbilde = ImageIO.read(nyttbilde);
+							
+							ImageIO.write(utbilde, format, utfil);
+							b.setBildefilnavn(nyttfilnavn);
+						}
+						catch (IOException e1)
+						{
+							visMelding(e1.getMessage(), "Feil ved bildeopplasting");
+						}
+	            	}
+	            	// sett bilde slutt
 	            	
 	            	if (boligen == null)
 	            	{
 	            		if (registret.getBoliger().contains(b))
 	            		{
-	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, boligen finnes fra f&oslash;r.</html>");
+	    	            	JOptionPane.showMessageDialog( null, "<html>Kan ikke registrere, maken bolig finnes fra f&oslash;r.</html>");
 	    	            	return;
 	            		}
 	            		
@@ -903,12 +932,15 @@ public class Boligskjemavindu extends JFrame
     			
     			if (resultat == JFileChooser.APPROVE_OPTION)
     			{
-    				bildet = filvelger.getSelectedFile();
-    				bildeSti.setText(bildet.getName());
+    				nyttbilde = filvelger.getSelectedFile();
+    				bildeSti.setText(nyttbilde.getName());
     			}
     		}
     		else if(e.getSource() == fjernBilde)
+    		{
+    			nyttbilde = null;
     			bildeSti.setText("");
+    		}
     		else if(e.getSource() == utleierdetaljer)
     			new Personskjemavindu(registret, Boligskjemavindu.this, (Utleier) utleiere.getSelectedItem());
     		else if(e.getSource() == utleiere)
