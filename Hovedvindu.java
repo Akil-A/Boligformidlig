@@ -147,14 +147,17 @@ public class Hovedvindu extends JFrame
 	// opprettede datafil benyttes.
 	private String datafil(boolean ny)
 	{
+		File mappen = new File("./data");
+		
+		if (!mappen.exists())
+			mappen.mkdir();
+		
 		long timestamp = 0;
 		
 		if (ny)
 			timestamp = new Date().getTime();
 		else
-		{
-			File mappen = new File("./data");
-			
+		{			
 			for (String s : mappen.list())
 			{
 				// for hver fil i mappen
