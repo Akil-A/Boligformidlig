@@ -60,7 +60,7 @@ public class Kontraktvindu extends JFrame
 	
 	private void lagvindu()
 	{
-		setSize(780,450);
+		setSize(950,450);
 		
 		lytter = new Lytter();
 		boligen = kontrakten.getBolig();
@@ -87,7 +87,7 @@ public class Kontraktvindu extends JFrame
 		lOppsigelsesgrunn = new JLabel("Oppsigelses grunn: ");
 		oppsigelsesgrunn = new JTextField(30);
 		
-		adresse = new JTextField(15);
+		adresse = new JTextField(20);
 		adresse.setEditable(false);
 		postnr = new JTextField(4);
 		postnr.setEditable(false);
@@ -95,19 +95,19 @@ public class Kontraktvindu extends JFrame
 		poststed.setEditable(false);
 		utleiepris = new JTextField(10);
 		utleiepris.setEditable(false);
-		utleier = new JTextField(15);
+		utleier = new JTextField(20);
 		utleier.setEditable(false);
-		leietaker = new JTextField(15);
+		leietaker = new JTextField(20);
 		leietaker.setEditable(false);
-		email = new JTextField(15);
+		email = new JTextField(20);
 		email.setEditable(false);
-		email1 = new JTextField(15);
+		email1 = new JTextField(20);
 		email1.setEditable(false);
-		telefon = new JTextField(15);
+		telefon = new JTextField(20);
 		telefon.setEditable(false);
-		telefon1 = new JTextField(15);
+		telefon1 = new JTextField(20);
 		telefon1.setEditable(false);
-		startdato = new JTextField(15);
+		startdato = new JTextField(20);
 		String sStartdato = tilStandardDatostreng(kontrakten.getStartdato());
 		startdato.setEditable(false);
 		startdato.setText(sStartdato);
