@@ -464,7 +464,7 @@ public class Personskjemavindu extends JFrame
         gc0.fill = GridBagConstraints.HORIZONTAL;
         c.add(knappepanel, gc0);
 
-        setSize(660, 300);
+        setSize(690, 300);
         setLocationRelativeTo(null);
         setVisible( true);
     }
@@ -476,14 +476,14 @@ public class Personskjemavindu extends JFrame
         {
             if(utleier.isSelected())
             {
-                setSize(660, 400);
+                setSize(700, 400);
                 setLocationRelativeTo(null);
                 utleierpanel.setVisible(true);
                 boligsokerpanel.setVisible(false);
             }
             else if(boligsoker.isSelected())
             {
-                setSize(660, 600);
+                setSize(700, 600);
                 setLocationRelativeTo(null);
                 utleierpanel.setVisible(false);
                 boligsokerpanel.setVisible(true);
