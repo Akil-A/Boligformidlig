@@ -80,7 +80,7 @@ public class Hovedvindu extends JFrame
 		
 		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
 		
-		JLabel lDatafil = new JLabel("Gjeldende datafil: " + DATAFIL);
+		JLabel lDatafil = new JLabel("Gjeldende datafil: " + DATAFIL.substring(7));
 		lDatafil.setFont(font);
 		
 		lagre = new JButton("LAGRE");
@@ -278,7 +278,7 @@ public class Hovedvindu extends JFrame
 							System.exit( 0 );
 						else
 						{
-							int i = JOptionPane.showConfirmDialog(null, "<html>Data kan ikke lagres p&aring; fil. Vil du avslutte?</html>",
+							int i = JOptionPane.showConfirmDialog(null, "<html>Data kan ikke lagres p&aring; fil. Kontakt leverand&oslash;r Vil du avslutte?</html>",
 									"Bekreft", JOptionPane.YES_NO_OPTION);
 							
 							if (i == JOptionPane.YES_OPTION)
