@@ -17,37 +17,37 @@ import java.io.*;
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
-	private String DATAFIL = "./data/register.dta";
+	private String DATAFIL = "data" + File.separator + "register.dta";
 	private JButton lagre;
 	private Timer timer;
 	private Color standardKnappebakgrunn;
-	
+
 	public Hovedvindu()
 	{
 		super("Boligformidling AS");
-		
+
 		//tomtRegister();
-		
+
 		lesFil();
-		
+
 		final JTabbedPane tabbedPane = new JTabbedPane();
-		
+
 		final JComponent boligpanel = new Boligpanel(br);
 		boligpanel.setName("boligpanelet");
 		tabbedPane.addTab("Boliger", boligpanel);
-		
+
 		final JComponent personpanel = new Personpanel(br);
 		personpanel.setName("personpanelet");
 		tabbedPane.addTab("Personer", personpanel);
-		
+
 		final JComponent kontraktpanel = new Kontraktpanel(br);
 		kontraktpanel.setName("kontraktpanelet");
 		tabbedPane.addTab("Kontrakter", kontraktpanel);
-		
+
 		final JComponent statistikkpanel = new Statistikkpanel(br);
 		statistikkpanel.setName("statistikkpanelet");
 		tabbedPane.addTab("Statistikk", statistikkpanel);
-		
+
 		tabbedPane.addChangeListener(new ChangeListener()
 		{
 			public void stateChanged(ChangeEvent e)
@@ -73,31 +73,31 @@ public class Hovedvindu extends JFrame
 				}
 			}
 		});
-		
+
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
 		c.add(tabbedPane, BorderLayout.CENTER);
-		
+
 		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
-		
+
 		JLabel lDatafil = new JLabel("Gjeldende datafil: " + DATAFIL.substring(7));
 		lDatafil.setFont(font);
-		
+
 		lagre = new JButton("LAGRE");
 		lagre.addActionListener(new Lytter());
 		lagre.setFont(font);
 		lagre.setFocusPainted(false);
-		
+
 		standardKnappebakgrunn = lagre.getBackground();
-		
+
 		JPanel bunnlinje = new JPanel(new BorderLayout());
 		bunnlinje.add(lDatafil, BorderLayout.WEST);
 		bunnlinje.add(lagre, BorderLayout.EAST);
-		
+
 		c.add(bunnlinje, BorderLayout.SOUTH);
 	}
-	
-	
+
+
 	// Lytterklasse for Lagre-knappen. GjOr Lagre-knappen gul naar man trykker, saa defineres en timer som
 	// endrer knappen tilbake etter faa sekunder.
 	private class Lytter implements ActionListener
@@ -110,10 +110,10 @@ public class Hovedvindu extends JFrame
 				{
 					lagre.setBackground(Color.YELLOW);
 					lagre.setText("LAGRET");
-					
+
 					Calendar c = Calendar.getInstance();
 					c.add(Calendar.SECOND, 2);
-					
+
 					timer = new Timer();
 					timer.schedule(new TimerTask() {
 							public void run()
@@ -126,7 +126,7 @@ public class Hovedvindu extends JFrame
 			}
 		}
 	}
-	
+
 	// Sjekk om input-streng kan parses til Long.
 	private boolean erLong(String s)
 	{
@@ -138,27 +138,27 @@ public class Hovedvindu extends JFrame
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	// Regner ut navn paa datafil. Datafilen starter med 'register_' etterfulgt av
 	// antall millisekunder siden 1/1/1970. Hvis parameter ny=false skal den siste
 	// opprettede datafil benyttes.
 	private String datafil(boolean ny)
 	{
-		File mappen = new File("./data");
+		File mappen = new File("data");
 		long timestamp = 0;
-		
+
 		if (ny || !mappen.exists())
 		{
 			timestamp = new Date().getTime();
-			
+
 			if (!mappen.exists())
 				mappen.mkdir();
 		}
 		else
-		{			
+		{
 			for (String s : mappen.list())
 			{
 				// for hver fil i mappen
@@ -172,7 +172,7 @@ public class Hovedvindu extends JFrame
 						erLong(s.substring(9, s.length() - 4)))
 				{
 					long j = Long.parseLong(s.substring(9, s.length() - 4));
-					
+
 					if (j > timestamp)
 						timestamp = j;
 				}
@@ -181,16 +181,16 @@ public class Hovedvindu extends JFrame
 			if (timestamp == 0)
 				timestamp = new Date().getTime();
 		}
-		
-		return "./data/register_" + timestamp + ".dta";
+
+		return "data" + File.separator + "register_" + timestamp + ".dta";
 	}
 
-	
+
 	// Leser objekt fra fil. GjOr passende feilbehandling hvis det ikke fungerer.
 	private void lesFil()
 	{
 		DATAFIL = datafil(false);
-		
+
 		try ( ObjectInputStream innfil = new ObjectInputStream( new FileInputStream( DATAFIL ) ) )
 		{
 			br = (Boligregister) innfil.readObject();
@@ -217,37 +217,37 @@ public class Hovedvindu extends JFrame
 			skrivTilFil(false);
 		}
 	}
-	
-	
+
+
 	// Oppretter tomt register.
 	private void tomtRegister()
 	{
 		br = new Boligregister(new ArrayList<Person>(), new ArrayList<Bolig>(), new ArrayList<Kontrakt>());
 	}
-	
-	
+
+
 	// Skriver hele registret til fil. GjOr passende feilbehandling hvis det ikke fungerer.
 	private boolean skrivTilFil(boolean visMelding)
 	{
 		try ( ObjectOutputStream utfil = new ObjectOutputStream( new FileOutputStream( DATAFIL ) ) )
 		{
 			utfil.writeObject( br );
-			
+
 			if (visMelding)
 				visMelding("<html>Data er lagret.</html>");
-			
+
 			return true;
 		}
 		catch( NotSerializableException nse )
 		{
 			visMelding("Objektet er ikke serialisert!");
-			
+
 			return false;
 		}
 		catch( IOException ioe )
 		{
 			visMelding("<html>Problem med &aring; skrive til fil.</html>");
-			
+
 			return false;
 		}
 	}
@@ -256,8 +256,8 @@ public class Hovedvindu extends JFrame
 	{
 		JOptionPane.showMessageDialog( null, melding, "", JOptionPane.PLAIN_MESSAGE );
 	}
-	
-	
+
+
 	public static void main( String[] args )
 	{
 		EventQueue.invokeLater(new Runnable()
@@ -269,7 +269,7 @@ public class Hovedvindu extends JFrame
 				hv.setVisible(true);
 				hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
 				hv.setExtendedState(Frame.MAXIMIZED_BOTH); // Vinduet starter maksimert.
-				
+
 				hv.addWindowListener(new WindowAdapter()
 				{
 					public void windowClosing( WindowEvent e )
@@ -280,7 +280,7 @@ public class Hovedvindu extends JFrame
 						{
 							int i = JOptionPane.showConfirmDialog(null, "<html>Data kan ikke lagres p&aring; fil. Kontakt leverand&oslash;r Vil du avslutte?</html>",
 									"Bekreft", JOptionPane.YES_NO_OPTION);
-							
+
 							if (i == JOptionPane.YES_OPTION)
 								System.exit(0);
 						}
