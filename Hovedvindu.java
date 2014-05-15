@@ -17,7 +17,7 @@ import java.io.*;
 public class Hovedvindu extends JFrame
 {
 	public Boligregister br;
-	private String DATAFIL = "register.dta";
+	private String DATAFIL = "data/register.dta";
 	private JButton lagre;
 	private Timer timer;
 	private Color standardKnappebakgrunn;
@@ -153,7 +153,7 @@ public class Hovedvindu extends JFrame
 			timestamp = new Date().getTime();
 		else
 		{
-			File mappen = new File(".");
+			File mappen = new File("./data");
 			
 			for (String s : mappen.list())
 			{
@@ -178,7 +178,7 @@ public class Hovedvindu extends JFrame
 				timestamp = new Date().getTime();
 		}
 		
-		return "register_" + timestamp + ".dta";
+		return "data/register_" + timestamp + ".dta";
 	}
 
 	
