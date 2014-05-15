@@ -472,7 +472,7 @@ public class Boligskjemavindu extends JFrame
 		gc.fill = GridBagConstraints.HORIZONTAL;
 		c.add(knappepanel, gc);
 
-		setSize(650, 400);
+		setSize(690, 400);
         setLocationRelativeTo(null);
         setVisible( true );
 	} /********* SLUTT PAA METODEN lagVindu() *********/
@@ -526,13 +526,13 @@ public class Boligskjemavindu extends JFrame
 	        {
 	        	eneboligrekkehusfelt.setVisible(true);
 	        	leilighetfelt.setVisible(false);
-	    		setSize(650, 450);
+	    		setSize(690, 450);
 	        }
 	        else if (leilighet.isSelected())
 	        {
 	        	eneboligrekkehusfelt.setVisible(false);
 	        	leilighetfelt.setVisible(true);
-	    		setSize(650, 450);
+	    		setSize(690, 450);
 	        }
 	    }
 	}
