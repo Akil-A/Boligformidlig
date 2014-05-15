@@ -53,7 +53,7 @@ public class Kontraktvindu extends JFrame
 
     private void lagvindu()
     {
-        setSize(750,450);
+        setSize(760,460);
 
         Lytter lytter = new Lytter();
         Bolig boligen = kontrakten.getBolig();
