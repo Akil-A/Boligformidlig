@@ -256,34 +256,30 @@ public class Hovedvindu extends JFrame
 
 
     public static void main( String[] args )
-	{
-        		EventQueue.invokeLater(new Runnable()
-        		{
-        			public void run()
-        			{
-        				final Hovedvindu hv = new Hovedvindu();
-        				hv.setSize(1000, 700);
-        				hv.setVisible(true);
-        				hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
-        				hv.setExtendedState(Frame.MAXIMIZED_BOTH); // Vinduet starter maksimert.
-        
-        				hv.addWindowListener(new WindowAdapter()
-        				{
-        					public void windowClosing( WindowEvent e )
-        					{
-        						if (hv.skrivTilFil(true))
-        							System.exit( 0 );
-        						else
-        						{
-        							int i = JOptionPane.showConfirmDialog(null, "<html>Data kan ikke lagres p&aring; fil. Vil du avslutte?</html>",
-        									"Bekreft", JOptionPane.YES_NO_OPTION);
-        
-        							if (i == JOptionPane.YES_OPTION)
-        								System.exit(0);
-        						}
-        					}
-        				} );
-        			}
-        		});
-        	}
-        }
+    {
+        EventQueue.invokeLater(() -> {
+            final Hovedvindu hv = new Hovedvindu();
+            hv.setSize(1000, 700);
+            hv.setVisible(true);
+            hv.setLocationRelativeTo( null ); // Vinduet starter paa midten av skjermen.
+            hv.setExtendedState(Frame.MAXIMIZED_BOTH); // Vinduet starter maksimert.
+
+            hv.addWindowListener(new WindowAdapter()
+            {
+                public void windowClosing( WindowEvent e )
+                {
+                    if (hv.skrivTilFil(true))
+                        System.exit( 0 );
+                    else
+                    {
+                        int i = JOptionPane.showConfirmDialog(null, "<html>Data kan ikke lagres p&aring; fil. Vil du avslutte?</html>",
+                                "Bekreft", JOptionPane.YES_NO_OPTION);
+
+                        if (i == JOptionPane.YES_OPTION)
+                            System.exit(0);
+                    }
+                }
+            } );
+        });
+    }
+}
