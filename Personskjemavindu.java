@@ -201,13 +201,13 @@ public class Personskjemavindu extends JFrame
         Container c = getContentPane();
         c.setLayout(new GridBagLayout());
 
-        fornavn = new JTextField(15);
-        etternavn = new JTextField(15);
-        adresse = new JTextField(15);
-        postnr = new JTextField(15);
-        poststed = new JTextField(15);
-        telefon = new JTextField(15);
-        email = new JTextField(15);
+        fornavn = new JTextField(20);
+        etternavn = new JTextField(20);
+        adresse = new JTextField(20);
+        postnr = new JTextField(20);
+        poststed = new JTextField(20);
+        telefon = new JTextField(20);
+        email = new JTextField(20);
 
         firma = new JTextField(15);
 
@@ -464,7 +464,7 @@ public class Personskjemavindu extends JFrame
         gc0.fill = GridBagConstraints.HORIZONTAL;
         c.add(knappepanel, gc0);
 
-        setSize(620, 300);
+        setSize(660, 300);
         setLocationRelativeTo(null);
         setVisible( true);
     }
@@ -476,14 +476,14 @@ public class Personskjemavindu extends JFrame
         {
             if(utleier.isSelected())
             {
-                setSize(620, 400);
+                setSize(660, 400);
                 setLocationRelativeTo(null);
                 utleierpanel.setVisible(true);
                 boligsokerpanel.setVisible(false);
             }
             else if(boligsoker.isSelected())
             {
-                setSize(620, 600);
+                setSize(660, 600);
                 setLocationRelativeTo(null);
                 utleierpanel.setVisible(false);
                 boligsokerpanel.setVisible(true);
